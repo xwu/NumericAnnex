@@ -4,6 +4,15 @@
 //
 //  Created by Xiaodi Wu on 4/2/17.
 //
+//  Note
+//  ====
+//
+//  For maximum consistency with corresponding functions in C/C++, checks for
+//  special values in `squareRoot()`, trigonometric functions, and hyperbolic
+//  functions are adapted and/or ported from LLVM/libc++.
+//
+//  Code in LLVM/libc++ is dual-licensed under the MIT and UIUC/NCSA licenses.
+//  Copyright © 2009-2017 contributors to the LLVM/libc++ project.
 
 extension Complex /* : Numeric */ {
   @_transparent // @_inlineable
