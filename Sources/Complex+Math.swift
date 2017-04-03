@@ -96,6 +96,22 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public func squareRoot() -> Complex {
+    if imaginary.isInfinite {
+      return Complex(real: .infinity, imaginary: imaginary)
+    }
+    if real.isInfinite {
+      if real > 0 {
+        return Complex(
+          real: real,
+          imaginary: imaginary.isNaN ? imaginary :
+                                       T(signOf: imaginary, magnitudeOf: 0)
+        )
+      }
+      return Complex(
+        real: imaginary.isNaN ? imaginary : 0,
+        imaginary: T(signOf: imaginary, magnitudeOf: real)
+      )
+    }
     // Guard intermediate results and enforce a branch cut; see Numerical
     // Recipes.
     if real == 0 && imaginary == 0 { return 0 }

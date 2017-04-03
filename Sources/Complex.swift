@@ -204,8 +204,7 @@ extension Complex {
   /// The principal argument (phase angle) of this value.
   ///
   /// Special cases are handled as if calling `T.atan2(imaginary, real)`. The
-  /// result lies in the range [-π, π]. One branch cut along the negative real
-  /// axis, continuous from above.
+  /// result lies in the range [-π, π].
   @_transparent // @_inlineable
   public var argument: T {
     return T.atan2(imaginary, real)
@@ -368,6 +367,9 @@ extension Complex : Hashable {
     return _fnv1a(real, imaginary)
   }
 }
+
+public typealias Complex64 = Complex<Float>
+public typealias Complex128 = Complex<Double>
 
 /// Returns the absolute value (magnitude, modulus) of `z`.
 @_transparent
