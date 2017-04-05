@@ -7,10 +7,25 @@ class NumericAnnexTests: XCTestCase {
   let nzpz = Complex(real: -0.0, imaginary: +0.0)
   let nznz = Complex(real: -0.0, imaginary: -0.0)
 
+  let pipi = Complex(real: Double.infinity, imaginary: .infinity)
+  let pini = Complex(real: Double.infinity, imaginary: -.infinity)
+  let nipi = Complex(real: -Double.infinity, imaginary: .infinity)
+  let nini = Complex(real: -Double.infinity, imaginary: -.infinity)
+
+  let pipz = Complex(real: .infinity, imaginary: +0.0)
+  let nipz = Complex(real: -.infinity, imaginary: +0.0)
+  let pinz = Complex(real: .infinity, imaginary: -0.0)
+  let ninz = Complex(real: -.infinity, imaginary: -0.0)
+
   let pxpi = Complex(real: +2.0, imaginary: .infinity)
   let pxni = Complex(real: +2.0, imaginary: -.infinity)
   let pipy = Complex(real: .infinity, imaginary: +2.0)
   let nipy = Complex(real: -.infinity, imaginary: +2.0)
+
+  let pzpn = Complex(real: +0.0, imaginary: .nan)
+  let nzpn = Complex(real: -0.0, imaginary: .nan)
+  let pnpz = Complex(real: .nan, imaginary: +0.0)
+  let pnnz = Complex(real: .nan, imaginary: -0.0)
 
   let pxpn = Complex(real: +2.0, imaginary: .nan)
   let nxpn = Complex(real: -2.0, imaginary: .nan)
@@ -86,7 +101,7 @@ class NumericAnnexTests: XCTestCase {
     result = Complex.sqrt(nipn)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isInfinite)
-    // The sign of the imaginary part is unspecified
+    // The sign of the imaginary part is unspecified.
 
     result = Complex.sqrt(pipn)
     XCTAssertEqual(result.real, .infinity)
@@ -102,11 +117,79 @@ class NumericAnnexTests: XCTestCase {
   }
 
   func testComplexExponentiation() {
+    let a = Complex(real: Double.log(42))
+    let b = Complex.exp(a)
+    XCTAssertEqualWithAccuracy(b.real, 42, accuracy: 0.00000000000001)
+
     let i: Complex128 = .i
     let actual = i.power(of: i)
     let expected = Double.exp(-Double.pi / 2)
     XCTAssertEqual(actual.real, expected)
     XCTAssertEqual(actual.imaginary, 0)
+
+    // Test special values.
+    var result: Complex128
+    result = Complex.exp(pzpz)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertEqual(result.imaginary, 0)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = Complex.exp(nzpz)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertEqual(result.imaginary, 0)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = Complex.exp(pxpi)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+    // In C++, FE_INVALID is raised.
+
+    result = Complex.exp(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.exp(pipz)
+    XCTAssertTrue(result == pipz)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = Complex.exp(nipy)
+    XCTAssertEqual(result.real, 0)
+    // TODO: ...
+     
+    result = Complex.exp(pipy)
+    XCTAssertTrue(result.real.isInfinite)
+    // TODO: ...
+
+    result = Complex.exp(nipi)
+    XCTAssertTrue(result.isZero)
+    // The signs of zero are unspecified.
+
+    result = Complex.exp(pipi)
+    XCTAssertTrue(result.real.isInfinite)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+    // In C++, FE_INVALID is raised.
+
+    result = Complex.exp(nipn)
+    XCTAssertTrue(result.isZero)
+    // The signs of zero are unspecified.
+
+    result = Complex.exp(pipn)
+    XCTAssertTrue(result.real.isInfinite)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.exp(pnpz)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertEqual(result.imaginary, pnpz.imaginary)
+
+    result = Complex.exp(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.exp(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
   }
 
   static var allTests = [

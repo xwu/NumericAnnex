@@ -8,10 +8,10 @@
 //  ====
 //
 //  For maximum consistency with corresponding functions in C/C++, checks for
-//  special values in `squareRoot()`, trigonometric functions, and hyperbolic
-//  functions are adapted and/or ported from LLVM/libc++.
+//  special values in `naturalExponential()`, `squareRoot()`, trigonometric
+//  functions, and hyperbolic functions are adapted and/or ported from libc++.
 //
-//  Code in LLVM/libc++ is dual-licensed under the MIT and UIUC/NCSA licenses.
+//  Code in libc++ is dual-licensed under the MIT and UIUC/NCSA licenses.
 //  Copyright © 2009-2017 contributors to the LLVM/libc++ project.
 
 extension Complex /* : Numeric */ {
@@ -95,12 +95,27 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public func naturalExponential() -> Complex {
-    return Complex(r: T.exp(real), theta: imaginary)
+    if real.isNaN && imaginary == 0 { return self }
+    var im = imaginary
+    if real.isInfinite {
+      if real < 0 && !im.isFinite {
+        im = 1
+      } else if im == 0 || !im.isFinite {
+        if im.isInfinite { im = .nan }
+        return Complex(real: real, imaginary: im)
+      }
+    }
+    return Complex(r: T.exp(real), theta: im)
   }
 
   @_transparent // @_inlineable
   public func naturalLogarithm() -> Complex {
     return Complex(real: T.log(magnitude), imaginary: argument)
+  }
+
+  @_transparent // @_inlineable
+  public func commonLogarithm() -> Complex {
+    return self.naturalLogarithm() / (10 as Complex).naturalLogarithm()
   }
 
   @_transparent // @_inlineable
@@ -146,15 +161,21 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public func cubeRoot() -> Complex {
+    return (1 / 3 as Complex).power(of: self)
+    /*
     return Complex(r: T.cbrt(magnitude), theta: argument / 3)
+    */
   }
 
   @_transparent // @_inlineable
   public func power(of base: Complex) -> Complex {
+    return Complex.exp(self * Complex.log(base))
+    /*
     let mag = base.magnitude, arg = base.argument
     let r = T.pow(mag, real) * T.exp(-imaginary * arg)
     let theta = real * arg + imaginary * T.log(mag)
     return Complex(r: r, theta: theta)
+    */
   }
 
   @_transparent // @_inlineable

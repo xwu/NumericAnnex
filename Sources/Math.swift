@@ -203,6 +203,10 @@ extension Math {
     return Self.log(self + (1 as Self))
   }
 
+  public func cubeRoot() -> Self {
+    return Self.pow(self, 1 / 3 as Self)
+  }
+
   public func tangent() -> Self {
     return sine() / cosine()
   }
