@@ -44,10 +44,10 @@ class NumericAnnexTests: XCTestCase {
     let bar: Complex128 = 2 + 4 * .i
     XCTAssertEqual(foo + bar, 3 + 6 * .i)
 
-    /*
-    let baz: Complex<Float> = 2 + 4 * .i
-    let boo = 3 + (6 as Float).i
-    */
+    let baz: Complex64 = 1 + 2 * .i
+    let boo: Complex64 = 2.0 + 4.0 * .i
+    XCTAssertEqual((foo + bar).real, Double((baz + boo).real))
+    XCTAssertEqual((foo + bar).imaginary, Double((baz + boo).imaginary))
   }
 
   func testComplexDivision() {
@@ -114,6 +114,27 @@ class NumericAnnexTests: XCTestCase {
     result = Complex.sqrt(pnpn)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isNaN)
+  }
+
+  func testComplexCubeRoot() {
+    // Note that the principal cube root is not necessarily the real-valued
+    // cube root.
+    let a: Complex64 = -8
+    XCTAssertEqualWithAccuracy(Complex.cbrt(a).real, 1, accuracy: 0.000001)
+    XCTAssertEqualWithAccuracy(Complex.cbrt(a).imaginary,
+                               2 * Float.sin(.pi / 3), accuracy: 0.000001)
+
+    let b: Complex64 = 8
+    XCTAssertEqual(Complex.cbrt(b), 2)
+
+    let c: Complex64 = -27 * .i
+    XCTAssertEqualWithAccuracy(Complex.cbrt(c).real,
+                               3 * Float.cos(-.pi / 6), accuracy: 0.000001)
+    XCTAssertEqualWithAccuracy(Complex.cbrt(c).imaginary,
+                               -1.5, accuracy: 0.000001)
+
+    let d: Complex64 = 27 * .i
+    XCTAssertEqual(Complex.cbrt(d), Complex.cbrt(c).conjugate())
   }
 
   func testComplexExponentiation() {
@@ -192,10 +213,43 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
   }
 
+  func testComplexTrigonometry() {
+    let a: Complex128 = 1
+    XCTAssertEqual(Complex.sin(a).real, Double.sin(1))
+    XCTAssertTrue(Complex.sin(a).imaginary.isZero)
+    XCTAssertEqual(Complex.cos(a).real, Double.cos(1))
+    XCTAssertTrue(Complex.cos(a).imaginary.isZero)
+    XCTAssertEqual(Complex.tan(a).real, Double.tan(1))
+    XCTAssertTrue(Complex.tan(a).imaginary.isZero)
+
+    let b: Complex128 = a * .i
+    XCTAssertTrue(Complex.sin(b).real.isZero)
+    XCTAssertEqual(Complex.sin(b).imaginary, Double.sinh(1))
+    XCTAssertEqual(Complex.cos(b).real, Double.cosh(1))
+    XCTAssertTrue(Complex.cos(b).imaginary.isZero)
+    XCTAssertTrue(Complex.tan(b).real.isZero)
+    XCTAssertEqual(Complex.tan(b).imaginary, Double.tanh(1))
+
+    let c: Complex128 = -2
+    let d: Complex128 =
+      Complex(real: .pi / 2) - .i * Complex.log(2 + Complex.sqrt(3))
+    XCTAssertTrue(Complex.asin(c).real.sign == .minus)
+    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).real), abs(d.real),
+                               accuracy: 0.00000000000001)
+    XCTAssertTrue(Complex.asin(c).imaginary.sign == .plus)
+    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).imaginary), abs(d.imaginary),
+                               accuracy: 0.00000000000001)
+
+    let e: Complex128 = c.conjugate()
+    XCTAssertEqual(Complex.asin(e), Complex.asin(c).conjugate())
+  }
+
   static var allTests = [
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
     ("testComplexSquareRoot", testComplexSquareRoot),
+    ("testComplexCubeRoot", testComplexCubeRoot),
     ("testComplexExponentiation", testComplexExponentiation),
+    ("testComplexTrigonometry", testComplexTrigonometry),
   ]
 }
