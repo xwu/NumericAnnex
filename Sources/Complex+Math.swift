@@ -115,7 +115,7 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public func commonLogarithm() -> Complex {
-    return self.naturalLogarithm() / (10 as Complex).naturalLogarithm()
+    return Complex.log(self) / Complex.log(10 as Complex)
   }
 
   @_transparent // @_inlineable
@@ -161,7 +161,7 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public func cubeRoot() -> Complex {
-    return (1 / 3 as Complex).power(of: self)
+    return Complex.exp(Complex.log(self) / 3)
     /*
     return Complex(r: T.cbrt(magnitude), theta: argument / 3)
     */
