@@ -58,6 +58,85 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertEqual(c.imaginary, 17/25)
   }
 
+  func testComplexLogarithm() {
+    let a = Complex128(r: 1, theta: .pi / 4)
+    XCTAssertEqual(Complex.log(a).real, 0)
+    XCTAssertEqual(Complex.log(a).imaginary, a.argument)
+
+    let b = Complex128(r: 1, theta: .pi / 2)
+    XCTAssertEqual(Complex.log(b).real, 0)
+    XCTAssertEqual(Complex.log(b).imaginary, b.argument)
+
+    let c = Complex128(r: 1, theta: .pi)
+    XCTAssertEqual(Complex.log(c).real, 0)
+    XCTAssertEqual(Complex.log(c).imaginary, c.argument)
+
+    let d = Complex128(real: -1, imaginary: 0)
+    XCTAssertEqual(Complex.log(d).real, 0)
+    XCTAssertEqual(Complex.log(d).imaginary, d.argument)
+
+    let e = d.conjugate()
+    XCTAssertEqual(Complex.log(e), Complex.log(d).conjugate())
+
+    // Test special values.
+    var result: Complex128
+    result = Complex.log(nzpz)
+    XCTAssertEqual(result.real, -.infinity)
+    XCTAssertEqual(result.imaginary, .pi)
+    // In C++, FE_DIVBYZERO is raised.
+
+    result = Complex.log(pzpz)
+    XCTAssertEqual(result.real, -.infinity)
+    XCTAssertTrue(result.imaginary.isZero)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    // In C++, FE_DIVBYZERO is raised.
+
+    result = Complex.log(pxpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.log(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.log(nipy)
+    // TODO: XCTAssertEqual(result.real, -.infinity)
+    XCTAssertEqual(result.imaginary, .pi)
+
+    result = Complex.log(pipy)
+    // TODO: XCTAssertEqual(result.real, -.infinity)
+    XCTAssertTrue(result.imaginary.isZero)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = Complex.log(nipi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi * 3 / 4)
+
+    result = Complex.log(pipi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi / 4)
+
+    result = Complex.log(pipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.log(nipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.log(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.log(pnpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.log(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+  }
+
   func testComplexSquareRoot() {
     let a: Complex128 = -4
     XCTAssertEqual(Complex.sqrt(a), 2 * .i)
@@ -247,6 +326,7 @@ class NumericAnnexTests: XCTestCase {
   static var allTests = [
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
+    ("testComplexLogarithm", testComplexLogarithm),
     ("testComplexSquareRoot", testComplexSquareRoot),
     ("testComplexCubeRoot", testComplexCubeRoot),
     ("testComplexExponentiation", testComplexExponentiation),
