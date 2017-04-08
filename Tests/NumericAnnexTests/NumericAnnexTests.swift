@@ -83,13 +83,13 @@ class NumericAnnexTests: XCTestCase {
     result = Complex.log(nzpz)
     XCTAssertEqual(result.real, -.infinity)
     XCTAssertEqual(result.imaginary, .pi)
-    // In C++, FE_DIVBYZERO is raised.
+    // Divide-by-zero flag should be raised.
 
     result = Complex.log(pzpz)
     XCTAssertEqual(result.real, -.infinity)
     XCTAssertTrue(result.imaginary.isZero)
     XCTAssertTrue(result.imaginary.sign == .plus)
-    // In C++, FE_DIVBYZERO is raised.
+    // Divide-by-zero flag should be raised.
 
     result = Complex.log(pxpi)
     XCTAssertEqual(result.real, .infinity)
@@ -100,11 +100,11 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
 
     result = Complex.log(nipy)
-    // TODO: XCTAssertEqual(result.real, -.infinity)
+    XCTAssertEqual(result.real, .infinity)
     XCTAssertEqual(result.imaginary, .pi)
 
     result = Complex.log(pipy)
-    // TODO: XCTAssertEqual(result.real, -.infinity)
+    XCTAssertEqual(result.real, .infinity)
     XCTAssertTrue(result.imaginary.isZero)
     XCTAssertTrue(result.imaginary.sign == .plus)
 
@@ -223,12 +223,13 @@ class NumericAnnexTests: XCTestCase {
 
     let i: Complex128 = .i
     let actual = i.power(of: i)
-    let expected = Double.exp(-Double.pi / 2)
-    XCTAssertEqual(actual.real, expected)
+    XCTAssertEqual(actual.real, Double.exp(-Double.pi / 2))
     XCTAssertEqual(actual.imaginary, 0)
 
     // Test special values.
     var result: Complex128
+    var expected: Complex128
+
     result = Complex.exp(pzpz)
     XCTAssertEqual(result.real, 1)
     XCTAssertEqual(result.imaginary, 0)
@@ -242,7 +243,7 @@ class NumericAnnexTests: XCTestCase {
     result = Complex.exp(pxpi)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isNaN)
-    // In C++, FE_INVALID is raised.
+    // Invalid flag should be raised.
 
     result = Complex.exp(pxpn)
     XCTAssertTrue(result.real.isNaN)
@@ -253,12 +254,14 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertTrue(result.imaginary.sign == .plus)
 
     result = Complex.exp(nipy)
-    XCTAssertEqual(result.real, 0)
-    // TODO: ...
-     
+    expected = Complex(r: 0, theta: nipy.imaginary)
+    XCTAssertEqual(result.real, expected.real)
+    XCTAssertEqual(result.imaginary, expected.imaginary)
+
     result = Complex.exp(pipy)
-    XCTAssertTrue(result.real.isInfinite)
-    // TODO: ...
+    expected = Complex(r: .infinity, theta: pipy.imaginary)
+    XCTAssertEqual(result.real, expected.real)
+    XCTAssertEqual(result.imaginary, expected.imaginary)
 
     result = Complex.exp(nipi)
     XCTAssertTrue(result.isZero)
@@ -268,7 +271,7 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertTrue(result.real.isInfinite)
     // The sign of the real part is unspecified.
     XCTAssertTrue(result.imaginary.isNaN)
-    // In C++, FE_INVALID is raised.
+    // Invalid flag should be raised.
 
     result = Complex.exp(nipn)
     XCTAssertTrue(result.isZero)
@@ -311,16 +314,106 @@ class NumericAnnexTests: XCTestCase {
 
     let c: Complex128 = -2
     let d: Complex128 =
+      Complex(real: .pi) + .i * Complex.log(2 - Complex.sqrt(3))
+    let e: Complex128 =
       Complex(real: .pi / 2) - .i * Complex.log(2 + Complex.sqrt(3))
-    XCTAssertTrue(Complex.asin(c).real.sign == .minus)
-    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).real), abs(d.real),
+
+    XCTAssertTrue(Complex.acos(c).real.sign == .plus)
+    XCTAssertEqualWithAccuracy(abs(Complex.acos(c).real), abs(d.real),
                                accuracy: 0.00000000000001)
-    XCTAssertTrue(Complex.asin(c).imaginary.sign == .plus)
-    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).imaginary), abs(d.imaginary),
+    XCTAssertTrue(Complex.acos(c).imaginary.sign == .minus)
+    XCTAssertEqualWithAccuracy(abs(Complex.acos(c).imaginary), abs(d.imaginary),
                                accuracy: 0.00000000000001)
 
-    let e: Complex128 = c.conjugate()
-    XCTAssertEqual(Complex.asin(e), Complex.asin(c).conjugate())
+    XCTAssertTrue(Complex.asin(c).real.sign == .minus)
+    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).real), abs(e.real),
+                               accuracy: 0.00000000000001)
+    XCTAssertTrue(Complex.asin(c).imaginary.sign == .plus)
+    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).imaginary), abs(e.imaginary),
+                               accuracy: 0.00000000000001)
+
+    let f: Complex128 = c.conjugate()
+    XCTAssertEqual(Complex.acos(f), Complex.acos(c).conjugate())
+    XCTAssertEqual(Complex.asin(f), Complex.asin(c).conjugate())
+
+    let g: Complex128 = Complex(real: +0.0, imaginary: 2.0)
+    let h: Complex128 = Complex(real: -0.0, imaginary: 2.0)
+    let i: Complex128 = Complex(real: .pi / 2) + .i * Complex.log(3) / 2
+
+    XCTAssertTrue(Complex.atan(g).real.sign == .plus)
+    XCTAssertEqualWithAccuracy(abs(Complex.atan(g).real), abs(i.real),
+                               accuracy: 0.00000000000001)
+    XCTAssertTrue(Complex.atan(g).imaginary.sign == .plus)
+    XCTAssertEqualWithAccuracy(abs(Complex.atan(g).imaginary), abs(i.imaginary),
+                               accuracy: 0.00000000000001)
+    XCTAssertEqual(.i * Complex.atan(h), (.i * Complex.atan(g)).conjugate())
+
+    // Test special values.
+    var result: Complex128
+    result = Complex.acos(pzpz)
+    XCTAssertEqual(result.real, .pi / 2)
+    XCTAssertTrue(result.imaginary.isZero)
+    XCTAssertTrue(result.imaginary.sign == .minus)
+
+    result = Complex.acos(nzpz)
+    XCTAssertEqual(result.real, .pi / 2)
+    XCTAssertTrue(result.imaginary.isZero)
+    XCTAssertTrue(result.imaginary.sign == .minus)
+
+    result = Complex.acos(pzpn)
+    XCTAssertEqual(result.real, .pi / 2)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acos(nzpn)
+    XCTAssertEqual(result.real, .pi / 2)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acos(pxpi)
+    XCTAssertEqual(result.real, .pi / 2)
+    XCTAssertEqual(result.imaginary, -.infinity)
+
+    result = Complex.acos(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acos(nipy)
+    XCTAssertEqual(result.real, .pi)
+    XCTAssertEqual(result.imaginary, -.infinity)
+
+    result = Complex.acos(pipy)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertEqual(result.imaginary, -.infinity)
+
+    result = Complex.acos(nipi)
+    XCTAssertEqual(result.real, .pi * 3 / 4)
+    XCTAssertEqual(result.imaginary, -.infinity)
+
+    result = Complex.acos(pipi)
+    XCTAssertEqual(result.real, .pi / 4)
+    XCTAssertEqual(result.imaginary, -.infinity)
+
+    result = Complex.acos(pipn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isInfinite)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.acos(nipn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isInfinite)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.acos(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acos(pnpi)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertEqual(result.imaginary, -.infinity)
+
+    result = Complex.acos(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
   }
 
   static var allTests = [

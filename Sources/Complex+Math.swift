@@ -243,6 +243,8 @@ extension Complex : Math {
           imaginary: -imaginary
         )
       }
+      return real < 0 ?
+        Complex(real: .pi, imaginary: real) : Complex(real: 0, imaginary: -real)
     }
     if real == 0 && (imaginary.isNaN || imaginary == 0) {
       return Complex(real: .pi / 2, imaginary: -imaginary)
