@@ -216,7 +216,7 @@ extension Complex : Math {
   }
 
   @_transparent // @_inlineable
-  public func arcsine() -> Complex {
+  public func inverseSine() -> Complex {
     let asinh = Complex.asinh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: asinh.imaginary, imaginary: -asinh.real)
     /*
@@ -226,7 +226,7 @@ extension Complex : Math {
   }
 
   @_transparent // @_inlineable
-  public func arccosine() -> Complex {
+  public func inverseCosine() -> Complex {
     if real.isNaN {
       if imaginary.isInfinite {
         return Complex(real: real, imaginary: -imaginary)
@@ -261,7 +261,7 @@ extension Complex : Math {
   }
 
   @_transparent // @_inlineable
-  public func arctangent() -> Complex {
+  public func inverseTangent() -> Complex {
     let atanh = Complex.atanh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: atanh.imaginary, imaginary: -atanh.real)
   }

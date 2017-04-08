@@ -31,7 +31,7 @@ public protocol FloatingPointMath : Math, FloatingPoint, Hashable {
   ///   - other: The divisor by which to divide `self`.
   ///
   /// - SeeAlso: `atan2(_:_:)`
-  func arctangent(dividingBy other: Self) -> Self
+  func inverseTangent(dividingBy other: Self) -> Self
 
   /// Returns the value of the [error function][dfn] of `self`.
   ///
@@ -72,7 +72,7 @@ extension FloatingPointMath {
     return x * sqrt(1 + ratio * ratio)
   }
 
-  public func arctangent(dividingBy other: Self) -> Self {
+  public func inverseTangent(dividingBy other: Self) -> Self {
     let y = self, x = other
     if y.isInfinite {
       if x.isInfinite {
@@ -102,7 +102,7 @@ extension FloatingPointMath {
 extension FloatingPointMath {
   @_transparent // @_inlineable
   public static func atan2(_ y: Self, _ x: Self) -> Self {
-    return y.arctangent(dividingBy: x)
+    return y.inverseTangent(dividingBy: x)
   }
 
   @_transparent // @_inlineable
@@ -197,17 +197,17 @@ extension Float : FloatingPointMath {
   }
 
   @_transparent
-  public func arcsine() -> Float {
+  public func inverseSine() -> Float {
     return asinf(self)
   }
 
   @_transparent
-  public func arccosine() -> Float {
+  public func inverseCosine() -> Float {
     return acosf(self)
   }
 
   @_transparent
-  public func arctangent() -> Float {
+  public func inverseTangent() -> Float {
     return atanf(self)
   }
 
@@ -247,7 +247,7 @@ extension Float : FloatingPointMath {
   }
 
   @_transparent
-  public func arctangent(dividingBy other: Float) -> Float {
+  public func inverseTangent(dividingBy other: Float) -> Float {
     return atan2f(self, other)
   }
 
@@ -343,17 +343,17 @@ extension Double : FloatingPointMath {
   }
 
   @_transparent
-  public func arcsine() -> Double {
+  public func inverseSine() -> Double {
     return asin(self)
   }
 
   @_transparent
-  public func arccosine() -> Double {
+  public func inverseCosine() -> Double {
     return acos(self)
   }
 
   @_transparent
-  public func arctangent() -> Double {
+  public func inverseTangent() -> Double {
     return atan(self)
   }
 
@@ -397,7 +397,7 @@ extension Double : FloatingPointMath {
   }
 
   @_transparent
-  public func arctangent(dividingBy other: Double) -> Double {
+  public func inverseTangent(dividingBy other: Double) -> Double {
     return atan2(self, other)
   }
 

@@ -127,19 +127,19 @@ public protocol Math
   /// representable value.
   ///
   /// - SeeAlso: `asin(_:)`
-  func arcsine() -> Self
+  func inverseSine() -> Self
 
   /// Returns the principal value of the inverse cosine of the value, rounded to
   /// a representable value.
   ///
   /// - SeeAlso: `acos(_:)`
-  func arccosine() -> Self
+  func inverseCosine() -> Self
 
   /// Returns the principal value of the inverse tangent of the value, rounded
   /// to a representable value.
   ///
   /// - SeeAlso: `atan(_:)`
-  func arctangent() -> Self
+  func inverseTangent() -> Self
 
   /// Returns the hyperbolic sine of the value, rounded to a representable
   /// value.
@@ -289,17 +289,17 @@ extension Math {
 
   @_transparent // @_inlineable
   public static func asin(_ x: Self) -> Self {
-    return x.arcsine()
+    return x.inverseSine()
   }
 
   @_transparent // @_inlineable
   public static func acos(_ x: Self) -> Self {
-    return x.arccosine()
+    return x.inverseCosine()
   }
 
   @_transparent // @_inlineable
   public static func atan(_ x: Self) -> Self {
-    return x.arctangent()
+    return x.inverseTangent()
   }
 
   @_transparent // @_inlineable
