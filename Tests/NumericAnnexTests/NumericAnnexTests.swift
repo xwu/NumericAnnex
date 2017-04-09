@@ -416,6 +416,28 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
   }
 
+  func testComplexHyperbolicFunctions() {
+    let a: Complex128 = Complex(real: 0.0, imaginary: -2.0)
+    XCTAssertEqualWithAccuracy(Complex.asinh(a).real,
+                               Double.log(2 + Double.sqrt(3)),
+                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.asinh(a).imaginary, -.pi / 2)
+
+    let b: Complex128 = Complex(real: -0.0, imaginary: -2.0)
+    XCTAssertEqualWithAccuracy(Complex.asinh(b).real,
+                               -Double.log(2 + Double.sqrt(3)),
+                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.asinh(b).imaginary, -.pi / 2)
+
+    let c: Complex128 = 1 + 2 * .i
+    let d: Complex128 = Complex.log(c + Complex.sqrt(-2 + 4 * .i))
+    print(Complex.pow(c, 2))
+    XCTAssertEqualWithAccuracy(Complex.asinh(c).real, d.real,
+                               accuracy: 0.00000000000001)
+    XCTAssertEqualWithAccuracy(Complex.asinh(c).imaginary, d.imaginary,
+                               accuracy: 0.00000000000001)
+  }
+
   static var allTests = [
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
@@ -424,5 +446,6 @@ class NumericAnnexTests: XCTestCase {
     ("testComplexCubeRoot", testComplexCubeRoot),
     ("testComplexExponentiation", testComplexExponentiation),
     ("testComplexTrigonometry", testComplexTrigonometry),
+    ("testComplexHyperbolicFunctions", testComplexHyperbolicFunctions),
   ]
 }

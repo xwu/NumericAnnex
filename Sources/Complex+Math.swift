@@ -128,7 +128,7 @@ extension Complex : Math {
         return Complex(
           real: real,
           imaginary: imaginary.isNaN ? imaginary :
-                                       T(signOf: imaginary, magnitudeOf: 0)
+            T(signOf: imaginary, magnitudeOf: 0)
         )
       }
       return Complex(
@@ -214,10 +214,9 @@ extension Complex : Math {
           imaginary: -imaginary
         )
       }
-      if imaginary > 0 {
-        return real < 0 ? Complex(real: .pi, imaginary: real) :
-                          Complex(real: 0, imaginary: -real)
-      }
+      return real < 0 ?
+        Complex(real: .pi, imaginary: imaginary.sign == .minus ? -real : real) :
+        Complex(real: 0, imaginary: imaginary.sign == .minus ? real : -real)
     }
     if real == 0 && (imaginary.isNaN || imaginary == 0) {
       return Complex(real: .pi / 2, imaginary: -imaginary)
@@ -225,7 +224,7 @@ extension Complex : Math {
     if imaginary.isInfinite {
       return Complex(real: .pi / 2, imaginary: -imaginary)
     }
-    let a = Complex(real: real * real - imaginary * imaginary - 1)
+    let a = Complex.pow(self, 2) - 1
     let b = Complex.log(self + Complex.sqrt(a))
     return Complex(
       real: abs(b.imaginary),
@@ -275,13 +274,13 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public func hyperbolicTangent() -> Complex {
+    if real.isNaN && imaginary == 0 { return self }
     if real.isInfinite {
       if !imaginary.isFinite { return 1 }
       return Complex(
         real: 1, imaginary: T(signOf: T.sin(2 * imaginary), magnitudeOf: 0)
       )
     }
-    if real.isNaN && imaginary == 0 { return self }
     // See AMS55 4.5.51
     let twiceReal = 2 * real, twiceImaginary = 2 * imaginary
     let denominator = T.cosh(twiceReal) + T.cos(twiceImaginary)
@@ -324,7 +323,7 @@ extension Complex : Math {
         imaginary: T(signOf: imaginary, magnitudeOf: .pi / 2)
       )
     }
-    let a = Complex(real: real * real - imaginary * imaginary + 1)
+    let a = Complex.pow(self, 2) + 1
     let b = Complex.log(self + Complex.sqrt(a))
     return Complex(
       real: T(signOf: real, magnitudeOf: b.real),
@@ -372,7 +371,7 @@ extension Complex : Math {
         real: .infinity, imaginary: T(signOf: imaginary, magnitudeOf: .pi / 2)
       )
     }
-    let a = Complex(real: real * real - imaginary * imaginary - 1)
+    let a = Complex.pow(self, 2) - 1
     let b = Complex.log(self + Complex.sqrt(a))
     return Complex(
       real: T(signOf: 0, magnitudeOf: b.real),
