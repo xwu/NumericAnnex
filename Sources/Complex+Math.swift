@@ -346,13 +346,13 @@ extension Complex : Math {
       if imaginary.isInfinite {
         switch (real.sign, imaginary.sign) {
         case (.plus, .plus):
-          return Complex(real: .infinity, imaginary: 1 / 4)
+          return Complex(real: .infinity, imaginary: .pi / 4)
         case (.plus, .minus):
-          return Complex(real: .infinity, imaginary: -1 / 4)
+          return Complex(real: .infinity, imaginary: -.pi / 4)
         case (.minus, .plus):
-          return Complex(real: .infinity, imaginary: 3 / 4)
+          return Complex(real: .infinity, imaginary: .pi * 3 / 4)
         case (.minus, .minus):
-          return Complex(real: .infinity, imaginary: -3 / 4)
+          return Complex(real: .infinity, imaginary: -.pi * 3 / 4)
         }
       }
       switch (real.sign, imaginary.sign) {
@@ -365,6 +365,13 @@ extension Complex : Math {
       case (.minus, .minus):
         return Complex(real: .infinity, imaginary: -.pi)
       }
+    }
+    if imaginary.isNaN {
+      // See C11 DR 471.
+      return Complex(
+        real: imaginary,
+        imaginary: real == 0 ? .pi / 2 : imaginary
+      )
     }
     if imaginary.isInfinite {
       return Complex(

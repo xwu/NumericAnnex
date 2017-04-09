@@ -431,11 +431,207 @@ class NumericAnnexTests: XCTestCase {
 
     let c: Complex128 = 1 + 2 * .i
     let d: Complex128 = Complex.log(c + Complex.sqrt(-2 + 4 * .i))
-    print(Complex.pow(c, 2))
     XCTAssertEqualWithAccuracy(Complex.asinh(c).real, d.real,
                                accuracy: 0.00000000000001)
     XCTAssertEqualWithAccuracy(Complex.asinh(c).imaginary, d.imaginary,
                                accuracy: 0.00000000000001)
+    XCTAssertEqualWithAccuracy(Complex.atanh(c).real,
+                               Double.log(8) / 4 - Double.log(2) / 2,
+                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.atanh(c).imaginary, .pi * 3 / 8)
+
+    let e: Complex128 = 0.5
+    XCTAssertEqual(Complex.acosh(e).real, 0)
+    XCTAssertEqualWithAccuracy(Complex.acosh(e).imaginary, 1.047197551196597746,
+                               accuracy: 0.00000000000001)
+
+    let f: Complex128 = e.conjugate()
+    XCTAssertTrue(Complex.acosh(f).real.sign == Complex.acosh(e).real.sign)
+    XCTAssertEqual(Complex.acosh(f).real, 0)
+    XCTAssertEqual(Complex.acosh(f).imaginary, -Complex.acosh(e).imaginary)
+
+    let g: Complex128 = 1 + .i
+    let h: Complex128 =
+      Complex.log(g + Complex.pow(-1, 1 / 4) * Complex.sqrt(2 + .i))
+    XCTAssertEqual(Complex.acosh(g).real, h.real)
+    XCTAssertEqual(Complex.acosh(g).imaginary, h.imaginary)
+
+    let i: Complex128 = .i * Complex.acos(g)
+    XCTAssertEqual(Complex.acosh(g), i)
+
+    let j: Complex128 = 2
+    XCTAssertEqual(Complex.atanh(j).real, Double.log(3) / 2)
+    XCTAssertEqual(Complex.atanh(j).imaginary, .pi / 2)
+
+    let k: Complex128 = j.conjugate()
+    XCTAssertEqual(Complex.atanh(k).real, Double.log(3) / 2)
+    XCTAssertEqual(Complex.atanh(k).imaginary, -.pi / 2)
+
+    // -------------------------------------------------------------------------
+    // TODO: Test sinh, cosh, tanh.
+    //
+    // Per C11 DR 471:
+    // ctanh(0, +inf) = (0, NaN) and raises the invalid flag
+    // ctanh(0, NaN) = (0, NaN) and does not raise the invalid flag
+    // -------------------------------------------------------------------------
+
+    // Test special values.
+    var result: Complex128
+    result = Complex.asinh(pzpz)
+    XCTAssertEqual(result, pzpz)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = Complex.asinh(pxpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.asinh(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.asinh(pipy)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.asinh(pipi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi / 4)
+
+    result = Complex.asinh(pipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.asinh(pnpz)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.asinh(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.asinh(pnpi)
+    XCTAssertTrue(result.real.isInfinite)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.asinh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acosh(pzpz)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.acosh(nzpz)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.acosh(pxpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.acosh(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acosh(pzpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertEqual(result.imaginary, .pi / 2) // See C11 DR 471.
+
+    result = Complex.acosh(nipy)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi)
+
+    result = Complex.acosh(pipy)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.acosh(nipi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi * 3 / 4)
+
+    result = Complex.acosh(pipi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .pi / 4)
+
+    result = Complex.acosh(pipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acosh(nipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acosh(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acosh(pnpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.acosh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.atanh(pzpz)
+    XCTAssertEqual(result, pzpz)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = Complex.atanh(pzpn)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.atanh(1)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+    // Divide-by-zero flag should be raised.
+
+    result = Complex.atanh(pxpi)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.atanh(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.atanh(pipy)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.atanh(pipi)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.atanh(pipn)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.atanh(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.atanh(pnpi)
+    XCTAssertTrue(result.real.isZero)
+    // The sign of the real part is unspecified.
+    XCTAssertEqual(result.imaginary, .pi / 2)
+
+    result = Complex.atanh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
   }
 
   static var allTests = [
