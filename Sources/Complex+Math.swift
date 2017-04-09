@@ -9,7 +9,7 @@
 //
 //  For maximum consistency with corresponding functions in C/C++, checks for
 //  special values in `naturalExponential()`, `squareRoot()`, trigonometric
-//  functions, and hyperbolic functions are adapted and/or ported from libc++.
+//  functions, and hyperbolic functions are adapted from libc++.
 //
 //  Code in libc++ is dual-licensed under the MIT and UIUC/NCSA licenses.
 //  Copyright © 2009-2017 contributors to the LLVM/libc++ project.
@@ -162,6 +162,7 @@ extension Complex : Math {
   @_transparent // @_inlineable
   public func cubeRoot() -> Complex {
     return Complex.exp(Complex.log(self) / 3)
+
     /*
     return Complex(r: T.cbrt(magnitude), theta: argument / 3)
     */
@@ -170,59 +171,29 @@ extension Complex : Math {
   @_transparent // @_inlineable
   public func power(of base: Complex) -> Complex {
     return Complex.exp(self * Complex.log(base))
-    /*
-    let mag = base.magnitude, arg = base.argument
-    let r = T.pow(mag, real) * T.exp(-imaginary * arg)
-    let theta = real * arg + imaginary * T.log(mag)
-    return Complex(r: r, theta: theta)
-    */
   }
 
   @_transparent // @_inlineable
   public func sine() -> Complex {
     let sinh = Complex.sinh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: sinh.imaginary, imaginary: -sinh.real)
-    /*
-    return Complex(
-      real: T.sin(real) * T.cosh(imaginary),
-      imaginary: T.cos(real) * T.sinh(imaginary)
-    )
-    */
   }
 
   @_transparent // @_inlineable
   public func cosine() -> Complex {
     return Complex.cosh(Complex(real: -imaginary, imaginary: real))
-    /*
-    return Complex(
-      real: T.cos(real) * T.cosh(imaginary),
-      imaginary: -T.sin(real) * T.sinh(imaginary)
-    )
-    */
   }
 
   @_transparent // @_inlineable
   public func tangent() -> Complex {
     let tanh = Complex.tanh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: tanh.imaginary, imaginary: -tanh.real)
-    /*
-    // See AMS55 4.3.57
-    let denominator = T.cos(2 * real) + T.cosh(2 * imaginary)
-    return Complex(
-      real: T.sin(2 * real) / denominator,
-      imaginary: T.sinh(2 * imaginary) / denominator
-    )
-    */
   }
 
   @_transparent // @_inlineable
   public func inverseSine() -> Complex {
     let asinh = Complex.asinh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: asinh.imaginary, imaginary: -asinh.real)
-    /*
-    let temporary = Complex(real: 1 - (real * real - imaginary * imaginary))
-    return -.i * Complex.log(.i * self + Complex.sqrt(temporary))
-    */
   }
 
   @_transparent // @_inlineable
