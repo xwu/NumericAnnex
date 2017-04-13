@@ -128,6 +128,16 @@ extension FloatingPointMath {
 
 extension Float : FloatingPointMath {
   @_transparent
+  public static var e: Float {
+    return Float(0x1.5bf0a8p1)
+  }
+
+  @_transparent
+  public static var phi: Float {
+    return Float(0x1.9e377ap0)
+  }
+
+  @_transparent
   public func naturalExponential() -> Float {
     return expf(self)
   }
@@ -273,6 +283,16 @@ extension Float : FloatingPointMath {
 }
 
 extension Double : FloatingPointMath {
+  @_transparent
+  public static var e: Double {
+    return Double(0x1.5bf0a8b145769p1)
+  }
+
+  @_transparent
+  public static var phi: Double {
+    return Double(0x1.9e3779b97f4a8p0)
+  }
+
   @_transparent
   public func naturalExponential() -> Double {
     return exp(self)

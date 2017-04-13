@@ -65,6 +65,21 @@ extension Complex /* : SignedNumeric */ {
 
 extension Complex : Math {
   @_transparent // @_inlineable
+  public static var pi: Complex {
+    return Complex(real: .pi)
+  }
+
+  @_transparent // @_inlineable
+  public static var e: Complex {
+    return Complex(real: .e)
+  }
+
+  @_transparent // @_inlineable
+  public static var phi: Complex {
+    return Complex(real: .phi)
+  }
+
+  @_transparent // @_inlineable
   public static func / (lhs: Complex, rhs: Complex) -> Complex {
     // Prevent avoidable overflow; see Numerical Recipes.
     if abs(rhs.real) >= abs(rhs.imaginary) {

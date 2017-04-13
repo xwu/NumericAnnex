@@ -7,6 +7,19 @@
 
 public protocol Math
   : Equatable, ExpressibleByIntegerLiteral/*, SignedNumeric */ {
+  /// The mathematical constant pi (_π_).
+  ///
+  /// This value should be rounded toward zero to keep user computations with
+  /// angles from inadvertently ending up in the wrong quadrant. A type that
+  /// conforms to the `Math` protocol provides the value for `pi` at its best
+  /// possible precision.
+  static var pi: Self { get }
+
+  /// The mathematical constant _e_, or Euler's number.
+  static var e: Self { get }
+
+  /// The mathematical constant phi (_φ_), or golden ratio.
+  static var phi: Self { get }
 
   // ---------------------------------------------------------------------------
   // FIXME: Remove the following three requirements after Numeric conformance
@@ -179,6 +192,16 @@ public protocol Math
 }
 
 extension Math {
+  @_transparent
+  public static var e: Self {
+    return Self.exp(1 as Self)
+  }
+
+  @_transparent
+  public static var phi: Self {
+    return Self.sqrt(((1 as Self) + Self.sqrt(5 as Self)) / (2 as Self))
+  }
+
   public func binaryExponential() -> Self {
     return Self.exp(self * Self.log(2 as Self))
   }

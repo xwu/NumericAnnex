@@ -313,10 +313,8 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertEqual(Complex.tan(b).imaginary, Double.tanh(1))
 
     let c: Complex128 = -2
-    let d: Complex128 =
-      Complex(real: .pi) + .i * Complex.log(2 - Complex.sqrt(3))
-    let e: Complex128 =
-      Complex(real: .pi / 2) - .i * Complex.log(2 + Complex.sqrt(3))
+    let d: Complex128 = .pi + .i * Complex.log(2 - Complex.sqrt(3))
+    let e: Complex128 = .pi / 2 - .i * Complex.log(2 + Complex.sqrt(3))
 
     XCTAssertTrue(Complex.acos(c).real.sign == .plus)
     XCTAssertEqualWithAccuracy(abs(Complex.acos(c).real), abs(d.real),
@@ -338,7 +336,7 @@ class NumericAnnexTests: XCTestCase {
 
     let g: Complex128 = Complex(real: +0.0, imaginary: 2.0)
     let h: Complex128 = Complex(real: -0.0, imaginary: 2.0)
-    let i: Complex128 = Complex(real: .pi / 2) + .i * Complex.log(3) / 2
+    let i: Complex128 = .pi / 2 + .i * Complex.log(3) / 2
 
     XCTAssertTrue(Complex.atan(g).real.sign == .plus)
     XCTAssertEqualWithAccuracy(abs(Complex.atan(g).real), abs(i.real),
