@@ -17,6 +17,8 @@ class NumericAnnexTests: XCTestCase {
   let pinz = Complex(real: .infinity, imaginary: -0.0)
   let ninz = Complex(real: -.infinity, imaginary: -0.0)
 
+  let pzpi = Complex(real: +0.0, imaginary: .infinity)
+
   let pxpi = Complex(real: +2.0, imaginary: .infinity)
   let pxni = Complex(real: +2.0, imaginary: -.infinity)
   let pipy = Complex(real: .infinity, imaginary: +2.0)
@@ -475,6 +477,8 @@ class NumericAnnexTests: XCTestCase {
 
     // Test special values.
     var result: Complex128
+    var expected: Complex128
+
     result = Complex.asinh(pzpz)
     XCTAssertEqual(result, pzpz)
     XCTAssertTrue(result.real.sign == .plus)
@@ -628,6 +632,66 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertEqual(result.imaginary, .pi / 2)
 
     result = Complex.atanh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.sinh(pzpz)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.sinh(pzpi)
+    XCTAssertTrue(result.real.isZero)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.sinh(pzpn)
+    XCTAssertTrue(result.real.isZero)
+    // The sign of the real part is unspecified (?).
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.sinh(pxpi)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.sinh(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.sinh(pipz)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.sinh(pipy)
+    expected = Complex(r: .infinity, theta: pipy.imaginary)
+    XCTAssertEqual(result.real, expected.real)
+    XCTAssertEqual(result.imaginary, expected.imaginary)
+
+    result = Complex.sinh(pipi)
+    XCTAssertTrue(result.real.isInfinite)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.sinh(pipn)
+    XCTAssertTrue(result.real.isInfinite)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.sinh(pnpz)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.sinh(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.sinh(pnpn)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isNaN)
   }
