@@ -696,6 +696,21 @@ class NumericAnnexTests: XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
   }
 
+  func testRational() {
+    let a = 6 / 4 as Rational<Int>
+    XCTAssertEqual(a.description, "3/2")
+    XCTAssertEqual(a, 3 / 2 as Rational<Int>)
+
+    let b = 5 / 3 as Rational<Int>
+    XCTAssertEqual(b.description, "5/3")
+
+    let product = a * b
+    XCTAssertEqual(product, 5 / 2 as Rational<Int>)
+    
+    let quotient = a / b
+    XCTAssertEqual(quotient, 9 / 10 as Rational<Int>)
+  }
+
   static var allTests = [
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
@@ -705,5 +720,6 @@ class NumericAnnexTests: XCTestCase {
     ("testComplexExponentiation", testComplexExponentiation),
     ("testComplexTrigonometry", testComplexTrigonometry),
     ("testComplexHyperbolicFunctions", testComplexHyperbolicFunctions),
+    ("testRational", testRational),
   ]
 }
