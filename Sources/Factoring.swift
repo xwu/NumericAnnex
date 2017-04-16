@@ -5,19 +5,18 @@
 //  Created by Xiaodi Wu on 4/15/17.
 //
 
-extension _Integer where Magnitude : _UnsignedInteger {
+extension _UnsignedInteger {
   /// The greatest common denominator of `a` and `b`.
   public static func gcd(_ a: Self, _ b: Self) -> Self {
-    var a = a.magnitude, b = b.magnitude
+    if a == 0 { return b } // gcd(0, b) == b
+    if b == 0 { return a } // gcd(a, 0) == a
 
-    if a == 0 { return Self(b) } // gcd(0, b) == b
-    if b == 0 { return Self(a) } // gcd(a, 0) == a
+    var a = a, b = b, shift = 0 as Self
 
-    var shift = 0 as Magnitude
     while ((a | b) & 1) == 0 {
       a >>= 1
       b >>= 1
-      shift += 1 as Magnitude
+      shift += 1 as Self
     }
     // Now, shift is equal to log2(k), where k is the greatest power of 2
     // dividing a and b.
@@ -30,7 +29,13 @@ extension _Integer where Magnitude : _UnsignedInteger {
     } while b != 0
 
     // Restore common factors of 2.
-    return Self(a << shift)
+    return a << shift
+  }
+
+  /// The lowest common multiple of `a` and `b`.
+  public static func lcm(_ a: Self, _ b: Self) -> Self {
+    if a == 0 || b == 0 { return 0 }
+    return a / Self.gcd(a, b) * b
   }
 }
 

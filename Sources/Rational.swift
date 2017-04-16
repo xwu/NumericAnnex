@@ -64,7 +64,7 @@ extension Rational {
   /// reduced to lowest terms).
   @_transparent // @_inlineable
   public var isIrreducible: Bool {
-    return T.gcd(numerator, denominator) == 1
+    return T.Magnitude.gcd(numerator.magnitude, denominator.magnitude) == 1
   }
 
   /// A Boolean value indicating whether the instance is NaN ("not a number").
@@ -75,6 +75,14 @@ extension Rational {
   @_transparent // @_inlineable
   public var isNaN: Bool {
     return denominator == 0 && numerator == 0
+  }
+
+  /// A Boolean value indicating whether the instance is a proper fraction.
+  ///
+  /// A fraction `p / q` is proper iff `p > 0`, `q > 0`, and `p < q`.
+  @_transparent // @_inlineable
+  public var isProperFraction: Bool {
+    return numerator > 0 && denominator > 0 && numerator < denominator
   }
 
   /// A Boolean value indicating whether the instance is equal to zero.
@@ -94,13 +102,19 @@ extension Rational {
   /// The canonicalized representation of this value.
   @_transparent // @_inlineable
   internal func _canonicalized() -> Rational {
-    let gcd = T.gcd(numerator, denominator)
+    let nm = numerator.magnitude, dm = denominator.magnitude
+
+    // Note that if `T` is a signed fixed-width integer type, `gcd(nm, dm)`
+    // could be equal to `-T.min`, which is not representable as a `T`. This is
+    // why the following arithmetic is performed with values of type
+    // `T.Magnitude`.
+    let gcd = T.Magnitude.gcd(nm, dm)
     guard gcd != 0 else { return self }
-    let divisor = denominator < 0 ? -gcd : gcd
-    return Rational(
-      numerator: numerator / divisor,
-      denominator: denominator / divisor
-    )
+
+    if sign == .plus {
+      return Rational(numerator: T(nm / gcd), denominator: T(dm / gcd))
+    }
+    return Rational(numerator: -T(nm / gcd), denominator: T(dm / gcd))
   }
 
   /// The reciprocal (multiplicative inverse) of this value.
