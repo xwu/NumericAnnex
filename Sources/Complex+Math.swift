@@ -14,7 +14,14 @@
 //  Code in libc++ is dual-licensed under the MIT and UIUC/NCSA licenses.
 //  Copyright © 2009-2017 contributors to the LLVM/libc++ project.
 
-extension Complex /* : Numeric */ {
+extension Complex : Numeric {
+  @_transparent // @_inlineable
+  public init?<U>(exactly source: U) where U : BinaryInteger {
+    guard let t = T(exactly: source) else { return nil }
+    self.real = t
+    self.imaginary = 0
+  }
+
   @_transparent // @_inlineable
   public static func + (lhs: Complex, rhs: Complex) -> Complex {
     return Complex(
@@ -48,9 +55,18 @@ extension Complex /* : Numeric */ {
       imaginary: lhs.real * rhs.imaginary + lhs.imaginary * rhs.real
     )
   }
+
+  @_transparent // @_inlineable
+  public static func *= (lhs: inout Complex, rhs: Complex) {
+    let t = lhs.real
+    lhs.real *= rhs.real
+    lhs.real -= lhs.imaginary * rhs.imaginary
+    lhs.imaginary *= rhs.real
+    lhs.imaginary += t * rhs.imaginary
+  }
 }
 
-extension Complex /* : SignedNumeric */ {
+extension Complex : SignedNumeric {
   @_transparent // @_inlineable
   public static prefix func - (operand: Complex) -> Complex {
     return Complex(real: -operand.real, imaginary: -operand.imaginary)
@@ -82,7 +98,7 @@ extension Complex : Math {
   @_transparent // @_inlineable
   public static func / (lhs: Complex, rhs: Complex) -> Complex {
     // Prevent avoidable overflow; see Numerical Recipes.
-    if abs(rhs.real) >= abs(rhs.imaginary) {
+    if rhs.real.magnitude >= rhs.imaginary.magnitude {
       let ratio = rhs.imaginary / rhs.real
       let denominator = rhs.real + rhs.imaginary * ratio
       return Complex(

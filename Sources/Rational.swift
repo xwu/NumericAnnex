@@ -7,7 +7,9 @@
 
 /// A type to represent a rational value in canonical form.
 // @_fixed_layout
-public struct Rational<T : _SignedInteger> where T.Magnitude : _UnsignedInteger {
+public struct Rational<
+  T : SignedInteger & _ExpressibleByBuiltinIntegerLiteral
+> where T.Magnitude : UnsignedInteger {
   /// The numerator of the rational value.
   public var numerator: T
 

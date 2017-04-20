@@ -5,7 +5,7 @@
 //  Created by Xiaodi Wu on 4/15/17.
 //
 
-extension _UnsignedInteger {
+extension UnsignedInteger {
   /// The greatest common denominator of `a` and `b`.
   public static func gcd(_ a: Self, _ b: Self) -> Self {
     if a == 0 { return b } // gcd(0, b) == b
@@ -14,22 +14,22 @@ extension _UnsignedInteger {
     var a = a, b = b, shift = 0 as Self
 
     while ((a | b) & 1) == 0 {
-      a >>= 1
-      b >>= 1
-      shift += 1 as Self
+      a &>>= 1
+      b &>>= 1
+      shift += 1
     }
     // Now, shift is equal to log2(k), where k is the greatest power of 2
     // dividing a and b.
 
-    while (a & 1) == 0 { a >>= 1 } // Now, a is odd.
+    while (a & 1) == 0 { a &>>= 1 } // Now, a is odd.
     repeat {
-      while (b & 1) == 0 { b >>= 1 } // Now, b is odd.
+      while (b & 1) == 0 { b &>>= 1 } // Now, b is odd.
       if a > b { swap(&a, &b) } // Now, a < b.
       b -= a
     } while b != 0
 
     // Restore common factors of 2.
-    return a << shift
+    return a &<< shift
   }
 
   /// The lowest common multiple of `a` and `b`.
@@ -38,7 +38,7 @@ extension _UnsignedInteger {
     return a / Self.gcd(a, b) * b
   }
 }
-
+/*
 // -----------------------------------------------------------------------------
 // FIXME: Remove the following protocols after new integer protocols are landed
 // -----------------------------------------------------------------------------
@@ -119,3 +119,4 @@ extension Int64 : _SignedInteger {
     return self < 0 ? ~base + 1 : base
   }
 }
+*/

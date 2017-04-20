@@ -11,7 +11,7 @@ import Glibc
 import Darwin
 #endif
 
-public protocol FloatingPointMath : Math, FloatingPoint, Hashable {
+public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
   /// underflow. The return value is the square root of the sum of squares of
