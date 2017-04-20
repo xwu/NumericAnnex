@@ -38,6 +38,16 @@ extension UnsignedInteger {
     return a / Self.gcd(a, b) * b
   }
 }
+
+extension UnsignedInteger where Self : FixedWidthInteger {
+  /// The high and low parts of the lowest common multiple of `a` and `b`.
+  public static func lcmFullWidth(_ a: Self, _ b: Self)
+    -> (high: Self, low: Self.Magnitude) {
+    if a == 0 || b == 0 { return (0, 0) }
+    return (a / Self.gcd(a, b)).multipliedFullWidth(by: b)
+  }
+}
+
 /*
 // -----------------------------------------------------------------------------
 // FIXME: Remove the following protocols after new integer protocols are landed

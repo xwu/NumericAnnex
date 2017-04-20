@@ -9,7 +9,7 @@
 // @_fixed_layout
 public struct Rational<
   T : SignedInteger & _ExpressibleByBuiltinIntegerLiteral
-> where T.Magnitude : UnsignedInteger {
+> where T.Magnitude : UnsignedInteger, T.Magnitude.Magnitude == T.Magnitude {
   /// The numerator of the rational value.
   public var numerator: T
 
@@ -113,10 +113,12 @@ extension Rational {
     let gcd = T.Magnitude.gcd(nm, dm)
     guard gcd != 0 else { return self }
 
-    if sign == .plus {
-      return Rational(numerator: T(nm / gcd), denominator: T(dm / gcd))
+    let n = nm / gcd
+    let d = dm / gcd
+    if !T.isSigned || sign == .plus {
+      return Rational(numerator: T(n), denominator: T(d))
     }
-    return Rational(numerator: -T(nm / gcd), denominator: T(dm / gcd))
+    return Rational(numerator: -T(n), denominator: T(d))
   }
 
   /// The reciprocal (multiplicative inverse) of this value.
@@ -156,7 +158,25 @@ extension Rational : Equatable {
   }
 }
 
-// TODO: `extension Rational : Comparable`
+extension Rational : Comparable {
+  @_transparent // @_inlineable
+  public static func < (lhs: Rational, rhs: Rational) -> Bool {
+    if lhs.isNaN || rhs.isNaN { return false }
+    if rhs == -.infinity { return false }
+    if lhs == -.infinity { return true }
+
+    // FIXME: This could use some improvement and needs testing.
+    let ld = lhs.denominator
+    let rd = rhs.denominator
+    let lcm = T(T.Magnitude.lcm(ld.magnitude, rd.magnitude))
+    let a = lcm / (ld < 0 ? -ld : ld)
+    let b = lcm / (rd < 0 ? -rd : rd)
+    return a * lhs.numerator < b * rhs.numerator
+  }
+}
+
+// TODO: `extension Rational where T.Magnitude : FixedWidthInteger`
+// if full-width division might improve the user experience of comparing values.
 
 extension Rational : Hashable {
   @_transparent // @_inlineable
