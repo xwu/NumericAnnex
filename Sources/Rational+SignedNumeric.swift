@@ -20,8 +20,7 @@ extension Rational : Numeric {
 
   @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
-    if lhs.isNaN { return .nan }
-    if rhs.isNaN { return .nan }
+    if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {
       return rhs.isInfinite && lhs.sign != rhs.sign ? .nan : lhs
     }
@@ -46,6 +45,20 @@ extension Rational : Numeric {
 
   @_transparent // @_inlineable
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
+    if lhs.isNaN || rhs.isNaN { return .nan }
+    if lhs.isInfinite {
+      if rhs.isZero { return .nan }
+      return lhs.sign != rhs.sign
+        ? lhs.numerator < 0 ? lhs : -lhs
+        : lhs.numerator < 0 ? -lhs : lhs
+    }
+    if rhs.isInfinite {
+      if lhs.isZero { return .nan }
+      return lhs.sign != rhs.sign
+        ? rhs.numerator < 0 ? rhs : -rhs
+        : rhs.numerator < 0 ? -rhs : rhs
+    }
+    
     let lnm = lhs.numerator.magnitude, ldm = lhs.denominator.magnitude
     let rnm = rhs.numerator.magnitude, rdm = rhs.denominator.magnitude
 
@@ -60,15 +73,11 @@ extension Rational : Numeric {
 
     if lhs.sign == rhs.sign {
       return Rational(
-        numerator: T(lnm / a) * T(rnm / b), denominator: T(ldm / b) * T(rdm / a)
+        numerator: T(lnm / a * (rnm / b)), denominator: T(ldm / b * (rdm / a))
       )
     }
     return Rational(
-      // Note that computing `-T(lnm / a) * T(rnm / b)` permits the numerator to
-      // be equal to `T.min` if `T` is a signed fixed-width integer type, but
-      // computing `-T((lnm / a) * (rnm / b))` does not, as `-T.min` is not
-      // representable as a `T`.
-      numerator: -T(lnm / a) * T(rnm / b), denominator: T(ldm / b) * T(rdm / a)
+      numerator: -T(lnm / a * (rnm / b)), denominator: T(ldm / b * (rdm / a))
     )
   }
 
