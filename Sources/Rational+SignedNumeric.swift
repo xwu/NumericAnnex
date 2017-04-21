@@ -14,11 +14,6 @@ extension Rational : Numeric {
   }
 
   @_transparent // @_inlineable
-  public var magnitude: Rational {
-    return sign == .minus ? -self : self
-  }
-
-  @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {
@@ -26,16 +21,31 @@ extension Rational : Numeric {
     }
     if rhs.isInfinite { return rhs }
 
-    // FIXME: This could use some improvement and needs testing.
-    let ld = lhs.denominator
-    let rd = rhs.denominator
-    let lcm = T(T.Magnitude.lcm(ld.magnitude, rd.magnitude))
-    let a = lcm / (ld < 0 ? -ld : ld)
-    let b = lcm / (rd < 0 ? -rd : rd)
-    return Rational(
-      numerator: a * lhs.numerator + b * rhs.numerator,
-      denominator: lcm
-    )._canonicalized()
+    let ldm = lhs.denominator.magnitude
+    let rdm = rhs.denominator.magnitude
+    let gcd = T.Magnitude.gcd(ldm, rdm)
+    let a = ldm / gcd
+    let b = rdm / gcd
+
+    let n: T
+    let d = T(ldm / gcd * rdm)
+    switch (lhs.sign, rhs.sign) {
+    case (.plus, .plus):
+      n = T(a * lhs.numerator.magnitude) + T(b * rhs.numerator.magnitude)
+    case (.plus, .minus):
+      n = T(a * lhs.numerator.magnitude) - T(b * rhs.numerator.magnitude)
+    case (.minus, .plus):
+      n = T(b * rhs.numerator.magnitude) - T(a * lhs.numerator.magnitude)
+    case (.minus, .minus):
+      n = -T(a * lhs.numerator.magnitude) - T(b * rhs.numerator.magnitude)
+    }
+    return Rational(numerator: n, denominator: d)._canonicalized()
+  }
+
+  // @_transparent // @_inlineable
+  public static func += (lhs: inout Rational, rhs: Rational) {
+    // FIXME: Implement something better.
+    lhs = lhs + rhs
   }
 
   @_transparent // @_inlineable
@@ -43,6 +53,12 @@ extension Rational : Numeric {
     return lhs + (-rhs)
   }
 
+  // @_transparent // @_inlineable
+  public static func -= (lhs: inout Rational, rhs: Rational) {
+    // FIXME: Implement something better.
+    lhs = lhs + (-rhs)
+  }
+  
   @_transparent // @_inlineable
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.isNaN || rhs.isNaN { return .nan }
@@ -82,18 +98,6 @@ extension Rational : Numeric {
   }
 
   // @_transparent // @_inlineable
-  public static func += (lhs: inout Rational, rhs: Rational) {
-    // FIXME: Implement something better.
-    lhs = lhs + rhs
-  }
-
-  // @_transparent // @_inlineable
-  public static func -= (lhs: inout Rational, rhs: Rational) {
-    // FIXME: Implement something better.
-    lhs = lhs - rhs
-  }
-
-  // @_transparent // @_inlineable
   public static func *= (lhs: inout Rational, rhs: Rational) {
     // FIXME: Implement something better.
     lhs = lhs * rhs
@@ -104,8 +108,7 @@ extension Rational where T.Magnitude : FixedWidthInteger {
   /*
   @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
-    if lhs.isNaN { return .nan }
-    if rhs.isNaN { return .nan }
+    if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {
       return rhs.isInfinite && lhs.sign != rhs.sign ? .nan : lhs
     }
@@ -117,8 +120,7 @@ extension Rational where T.Magnitude : FixedWidthInteger {
     let lcm = T.Magnitude.lcmFullWidth(ldm, rdm)
     let a = ldm.magnitude.dividingFullWidth(lcm)
     let b = rdm.magnitude.dividingFullWidth(lcm)
-    // FIXME: complete the rest of this algorithm, keeping in mind that it is
-    // necessary to change the sign of `a` and `b` before using them as factors.
+    // FIXME: Complete the rest of this algorithm.
   }
   */
 }
@@ -137,11 +139,89 @@ extension Rational : SignedNumeric {
   }
 }
 
+public typealias RationalRoundingRule = FloatingPointRoundingRule
+
 extension Rational {
   @_transparent // @_inlineable
   public static func / (lhs: Rational, rhs: Rational) -> Rational {
     return lhs * rhs.reciprocal()
   }
 
-  // TODO: `%`, `rounded(_:)`
+  // @_transparent // @_inlineable
+  public static func /= (lhs: inout Rational, rhs: Rational) {
+    // FIXME: Implement something better.
+    lhs = lhs * rhs.reciprocal()
+  }
+
+  // TODO: `%`
+
+  @_transparent // @_inlineable
+  public func rounded(
+    _ rule: RationalRoundingRule = .toNearestOrAwayFromZero
+  ) -> Rational {
+    var t = self
+    t.round(rule)
+    return t
+  }
+
+  @_transparent // @_inlineable
+  public mutating func round(
+    _ rule: RationalRoundingRule = .toNearestOrAwayFromZero
+  ) {
+    if denominator == 0 { return }
+
+    let f: T
+    (numerator, f) = numerator.quotientAndRemainder(dividingBy: denominator)
+    // Rounding rules only come into play if the fractional part is non-zero.
+    if f != 0 {
+      switch rule {
+      case .toNearestOrAwayFromZero:
+        fallthrough
+      case .toNearestOrEven:
+        switch denominator.magnitude.quotientAndRemainder(
+          dividingBy: f.magnitude
+        ) {
+        // Tie.
+        case (2, 0):
+          if rule == .toNearestOrEven && numerator % 2 == 0 { break }
+          fallthrough
+        // Nearest is away from zero.
+        case (1, _):
+          if f > 0 { numerator += 1 } else { numerator -= 1 }
+        // Nearest is toward zero.
+        default:
+          break
+        }
+      case .up:
+        if f > 0 { numerator += 1 }
+      case .down:
+        if f < 0 { numerator -= 1 }
+      case .towardZero:
+        break
+      case .awayFromZero:
+        if f > 0 { numerator += 1 } else { numerator -= 1 }
+      }
+    }
+    denominator = 1
+  }
+}
+
+@_transparent
+public func ceil<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded(.up)
+}
+
+@_transparent
+public func floor<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded(.down)
+}
+
+@_transparent
+public func round<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded()
+}
+
+@_transparent
+public func trunc<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded(.towardZero)
 }

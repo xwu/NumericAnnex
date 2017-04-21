@@ -40,7 +40,9 @@ extension Rational {
   /// canonical form.
   @_transparent // @_inlineable
   public var isCanonical: Bool {
-    if denominator > 0 { return isIrreducible }
+    if denominator > 0 {
+      return T.Magnitude.gcd(numerator.magnitude, denominator.magnitude) == 1
+    }
     return denominator == 0 &&
       (numerator == -1 || numerator == 0 || numerator == 1)
   }
@@ -60,13 +62,6 @@ extension Rational {
   @_transparent // @_inlineable
   public var isInfinite: Bool {
     return denominator == 0 && numerator != 0
-  }
-
-  /// A Boolean value indicating whether the instance is irreducible (that is,
-  /// reduced to lowest terms).
-  @_transparent // @_inlineable
-  public var isIrreducible: Bool {
-    return T.Magnitude.gcd(numerator.magnitude, denominator.magnitude) == 1
   }
 
   /// A Boolean value indicating whether the instance is NaN ("not a number").
@@ -93,7 +88,11 @@ extension Rational {
     return denominator != 0 && numerator == 0
   }
 
-  // TODO: `magnitude`
+  /// The magnitude (absolute value) of this value.
+  @_transparent // @_inlineable
+  public var magnitude: Rational {
+    return sign == .minus ? -self : self
+  }
 
   /// The sign of this value.
   @_transparent // @_inlineable
@@ -129,8 +128,6 @@ extension Rational {
       Rational(numerator: denominator, denominator: numerator)
   }
 }
-
-// TODO: `init<U : SignedInteger>(_: Rational<U>) where U.Magnitude : UnsignedInteger` and related
 
 extension Rational : ExpressibleByIntegerLiteral {
   @_transparent // @_inlineable

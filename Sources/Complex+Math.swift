@@ -59,10 +59,8 @@ extension Complex : Numeric {
   @_transparent // @_inlineable
   public static func *= (lhs: inout Complex, rhs: Complex) {
     let t = lhs.real
-    lhs.real *= rhs.real
-    lhs.real -= lhs.imaginary * rhs.imaginary
-    lhs.imaginary *= rhs.real
-    lhs.imaginary += t * rhs.imaginary
+    lhs.real = lhs.real * rhs.real - lhs.imaginary * rhs.imaginary
+    lhs.imaginary = t * rhs.imaginary + lhs.imaginary * rhs.real
   }
 }
 
@@ -122,6 +120,23 @@ extension Complex : Math {
         (lhs.imaginary * rhs.real - lhs.real * rhs.imaginary) / denominator
     )
     */
+  }
+
+  @_transparent // @_inlineable
+  public static func /= (lhs: inout Complex, rhs: Complex) {
+    // Prevent avoidable overflow; see Numerical Recipes.
+    let t = lhs.real
+    if rhs.real.magnitude >= rhs.imaginary.magnitude {
+      let ratio = rhs.imaginary / rhs.real
+      let denominator = rhs.real + rhs.imaginary * ratio
+      lhs.real = (lhs.real + lhs.imaginary * ratio) / denominator
+      lhs.imaginary = (lhs.imaginary - t * ratio) / denominator
+    } else {
+      let ratio = rhs.real / rhs.imaginary
+      let denominator = rhs.real * ratio + rhs.imaginary
+      lhs.real = (lhs.real * ratio + lhs.imaginary) / denominator
+      lhs.imaginary = (lhs.imaginary * ratio - t) / denominator
+    }
   }
 
   @_transparent // @_inlineable

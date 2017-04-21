@@ -7,6 +7,7 @@
 
 extension UnsignedInteger {
   /// The greatest common denominator of `a` and `b`.
+  // @_transparent // @_inlineable
   public static func gcd(_ a: Self, _ b: Self) -> Self {
     if a == 0 { return b } // gcd(0, b) == b
     if b == 0 { return a } // gcd(a, 0) == a
@@ -33,6 +34,7 @@ extension UnsignedInteger {
   }
 
   /// The lowest common multiple of `a` and `b`.
+  // @_transparent // @_inlineable
   public static func lcm(_ a: Self, _ b: Self) -> Self {
     if a == 0 || b == 0 { return 0 }
     return a / Self.gcd(a, b) * b
@@ -41,92 +43,10 @@ extension UnsignedInteger {
 
 extension UnsignedInteger where Self : FixedWidthInteger {
   /// The high and low parts of the lowest common multiple of `a` and `b`.
+  // @_transparent // @_inlineable
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {
     if a == 0 || b == 0 { return (0, 0) }
     return (a / Self.gcd(a, b)).multipliedFullWidth(by: b)
   }
 }
-
-/*
-// -----------------------------------------------------------------------------
-// FIXME: Remove the following protocols after new integer protocols are landed
-// -----------------------------------------------------------------------------
-public protocol _Integer : Integer {
-  associatedtype Magnitude : Equatable, ExpressibleByIntegerLiteral, Comparable
-  var magnitude: Magnitude { get }
-  init(_: Magnitude)
-
-  static func >> (_: Self, _: Self) -> Self
-  static func << (_: Self, _: Self) -> Self
-  static func >>= (_: inout Self, _: Self)
-  static func <<= (_: inout Self, _: Self)
-}
-
-public protocol _UnsignedInteger : _Integer, UnsignedInteger { }
-
-extension UInt : _UnsignedInteger {
-  public var magnitude: UInt { return self }
-}
-
-extension UInt8 : _UnsignedInteger {
-  public var magnitude: UInt8 { return self }
-}
-
-extension UInt16 : _UnsignedInteger {
-  public var magnitude: UInt16 { return self }
-}
-
-extension UInt32 : _UnsignedInteger {
-  public var magnitude: UInt32 { return self }
-}
-
-extension UInt64 : _UnsignedInteger {
-  public var magnitude: UInt64 { return self }
-}
-
-public protocol _SignedInteger : _Integer, SignedInteger {
-  mutating func negate()
-}
-
-extension _SignedInteger {
-  public mutating func negate() {
-    self = 0 - self
-  }
-}
-
-extension Int : _SignedInteger {
-  public var magnitude: UInt {
-    let base = UInt(bitPattern: self)
-    return self < 0 ? ~base + 1 : base
-  }
-}
-
-extension Int8 : _SignedInteger {
-  public var magnitude: UInt8 {
-    let base = UInt8(bitPattern: self)
-    return self < 0 ? ~base + 1 : base
-  }
-}
-
-extension Int16 : _SignedInteger {
-  public var magnitude: UInt16 {
-    let base = UInt16(bitPattern: self)
-    return self < 0 ? ~base + 1 : base
-  }
-}
-
-extension Int32 : _SignedInteger {
-  public var magnitude: UInt32 {
-    let base = UInt32(bitPattern: self)
-    return self < 0 ? ~base + 1 : base
-  }
-}
-
-extension Int64 : _SignedInteger {
-  public var magnitude: UInt64 {
-    let base = UInt64(bitPattern: self)
-    return self < 0 ? ~base + 1 : base
-  }
-}
-*/
