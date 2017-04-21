@@ -39,7 +39,7 @@ extension Rational : Numeric {
     case (.minus, .minus):
       n = -T(a * lhs.numerator.magnitude) - T(b * rhs.numerator.magnitude)
     }
-    return Rational(numerator: n, denominator: d)._canonicalized()
+    return Rational(numerator: n, denominator: d).canonical
   }
 
   // @_transparent // @_inlineable
@@ -120,7 +120,7 @@ extension Rational where T.Magnitude : FixedWidthInteger {
     let lcm = T.Magnitude.lcmFullWidth(ldm, rdm)
     let a = ldm.magnitude.dividingFullWidth(lcm)
     let b = rdm.magnitude.dividingFullWidth(lcm)
-    // FIXME: Complete the rest of this algorithm.
+    // TODO: Complete the rest of this algorithm.
   }
   */
 }
@@ -155,6 +155,24 @@ extension Rational {
 
   // TODO: `%`
 
+  /// Returns this value rounded to an integral value using the specified
+  /// rounding rule.
+  ///
+  /// ```swift
+  /// let x = 7 / 2 as Rational<Int>
+  /// print(x.rounded()) // Prints "4"
+  /// print(x.rounded(.towardZero)) // Prints "3"
+  /// print(x.rounded(.up)) // Prints "4"
+  /// print(x.rounded(.down)) // Prints "3"
+  /// ```
+  ///
+  /// See the `FloatingPointRoundingRule` enumeration for more information about
+  /// the available rounding rules.
+  ///
+  /// - Parameters:
+  ///   - rule: The rounding rule to use.
+  ///
+  /// - SeeAlso: `round(_:)`, `FloatingPointRoundingRule`
   @_transparent // @_inlineable
   public func rounded(
     _ rule: RationalRoundingRule = .toNearestOrAwayFromZero
@@ -164,6 +182,29 @@ extension Rational {
     return t
   }
 
+  /// Rounds the value to an integral value using the specified rounding rule.
+  ///
+  /// ```swift
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round() // x == 4
+  ///
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round(.towardZero) // x == 3
+  ///
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round(.up) // x == 4
+  ///
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round(.down) // x == 3
+  /// ```
+  ///
+  /// See the `FloatingPointRoundingRule` enumeration for more information about
+  /// the available rounding rules.
+  ///
+  /// - Parameters:
+  ///   - rule: The rounding rule to use.
+  ///
+  /// - SeeAlso: `round(_:)`, `FloatingPointRoundingRule`
   @_transparent // @_inlineable
   public mutating func round(
     _ rule: RationalRoundingRule = .toNearestOrAwayFromZero
@@ -206,21 +247,32 @@ extension Rational {
   }
 }
 
+/// Returns the absolute value (magnitude) of `x`.
+@_transparent
+public func abs<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.magnitude
+}
+
+/// Returns the closest integral value greater than or equal to `x`.
 @_transparent
 public func ceil<T>(_ x: Rational<T>) -> Rational<T> {
   return x.rounded(.up)
 }
 
+/// Returns the closest integral value less than or equal to `x`.
 @_transparent
 public func floor<T>(_ x: Rational<T>) -> Rational<T> {
   return x.rounded(.down)
 }
 
+/// Returns the closest integral value; if two values are equally close, returns
+/// the one with greater magnitude.
 @_transparent
 public func round<T>(_ x: Rational<T>) -> Rational<T> {
   return x.rounded()
 }
 
+/// Returns the closest integral value with magnitude less than or equal to `x`.
 @_transparent
 public func trunc<T>(_ x: Rational<T>) -> Rational<T> {
   return x.rounded(.towardZero)

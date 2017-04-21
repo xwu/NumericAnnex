@@ -471,6 +471,12 @@ extension Complex : Math {
   }
 }
 
+/// Returns the absolute value (magnitude, modulus) of `z`.
+@_transparent
+public func abs<T>(_ z: Complex<T>) -> Complex<T> {
+  return Complex(real: z.magnitude)
+}
+
 /// Returns the square root of `z`.
 @_transparent
 public func sqrt<T>(_ z: Complex<T>) -> Complex<T> {

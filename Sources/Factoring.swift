@@ -6,7 +6,7 @@
 //
 
 extension UnsignedInteger {
-  /// The greatest common denominator of `a` and `b`.
+  /// Returns the greatest common denominator of `a` and `b`.
   // @_transparent // @_inlineable
   public static func gcd(_ a: Self, _ b: Self) -> Self {
     if a == 0 { return b } // gcd(0, b) == b
@@ -33,7 +33,7 @@ extension UnsignedInteger {
     return a &<< shift
   }
 
-  /// The lowest common multiple of `a` and `b`.
+  /// Returns the lowest common multiple of `a` and `b`.
   // @_transparent // @_inlineable
   public static func lcm(_ a: Self, _ b: Self) -> Self {
     if a == 0 || b == 0 { return 0 }
@@ -42,7 +42,8 @@ extension UnsignedInteger {
 }
 
 extension UnsignedInteger where Self : FixedWidthInteger {
-  /// The high and low parts of the lowest common multiple of `a` and `b`.
+  /// Returns the high and low parts of the lowest common multiple of `a` and
+  /// `b` computed using full-width operations.
   // @_transparent // @_inlineable
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {

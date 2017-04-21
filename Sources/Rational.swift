@@ -5,7 +5,7 @@
 //  Created by Xiaodi Wu on 4/15/17.
 //
 
-/// A type to represent a rational value in canonical form.
+/// A type to represent a rational value.
 // @_fixed_layout
 public struct Rational<
   T : SignedInteger & _ExpressibleByBuiltinIntegerLiteral
@@ -36,6 +36,26 @@ public struct Rational<
 public typealias RationalSign = FloatingPointSign
 
 extension Rational {
+  /// The canonical representation of this value.
+  @_transparent // @_inlineable
+  public var canonical: Rational {
+    let nm = numerator.magnitude, dm = denominator.magnitude
+
+    // Note that if `T` is a signed fixed-width integer type, `gcd(nm, dm)`
+    // could be equal to `-T.min`, which is not representable as a `T`. This is
+    // why the following arithmetic is performed with values of type
+    // `T.Magnitude`.
+    let gcd = T.Magnitude.gcd(nm, dm)
+    guard gcd != 0 else { return self }
+
+    let n = nm / gcd
+    let d = dm / gcd
+    if sign == .plus {
+      return Rational(numerator: T(n), denominator: T(d))
+    }
+    return Rational(numerator: -T(n), denominator: T(d))
+  }
+
   /// A Boolean value indicating whether the instance's representation is in
   /// canonical form.
   @_transparent // @_inlineable
@@ -100,27 +120,7 @@ extension Rational {
     return (denominator < 0) == (numerator < 0) ? .plus : .minus
   }
 
-  /// The canonicalized representation of this value.
-  @_transparent // @_inlineable
-  internal func _canonicalized() -> Rational {
-    let nm = numerator.magnitude, dm = denominator.magnitude
-
-    // Note that if `T` is a signed fixed-width integer type, `gcd(nm, dm)`
-    // could be equal to `-T.min`, which is not representable as a `T`. This is
-    // why the following arithmetic is performed with values of type
-    // `T.Magnitude`.
-    let gcd = T.Magnitude.gcd(nm, dm)
-    guard gcd != 0 else { return self }
-
-    let n = nm / gcd
-    let d = dm / gcd
-    if sign == .plus {
-      return Rational(numerator: T(n), denominator: T(d))
-    }
-    return Rational(numerator: -T(n), denominator: T(d))
-  }
-
-  /// The reciprocal (multiplicative inverse) of this value.
+  /// Returns the reciprocal (multiplicative inverse) of this value.
   @_transparent // @_inlineable
   public func reciprocal() -> Rational {
     return (numerator < 0) ?
@@ -180,8 +180,7 @@ extension Rational : Equatable {
 extension Rational : Hashable {
   // @_transparent // @_inlineable
   public var hashValue: Int {
-    let t = self._canonicalized()
-    return _fnv1a(t.numerator, t.denominator)
+    return _fnv1a(canonical.numerator, canonical.denominator)
   }
 }
 

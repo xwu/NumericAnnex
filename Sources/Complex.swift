@@ -297,6 +297,13 @@ extension Complex {
     return T.hypot(real, imaginary)
   }
 
+  /// The polar coordinates representing this value, equivalent to
+  /// `(r: magnitude, theta: argument)`.
+  @_transparent // @_inlineable
+  public var polar: (r: T, theta: T) {
+    return (r: magnitude, theta: argument)
+  }
+
   /// The squared magnitude (field norm, absolute square) of this value.
   ///
   /// This is less costly to compute than `magnitude` and, in some cases, can be
@@ -309,21 +316,14 @@ extension Complex {
     return real * real + imaginary * imaginary
   }
 
-  /// The complex conjugate of this value, obtained by reversing the sign of the
-  /// imaginary component.
+  /// Returns the complex conjugate of this value, obtained by reversing the
+  /// sign of the imaginary component.
   @_transparent // @_inlineable
   public func conjugate() -> Complex {
     return Complex(real: real, imaginary: -imaginary)
   }
 
-  /// The polar coordinates representing this value, equivalent to
-  /// `(magnitude, argument)`.
-  @_transparent // @_inlineable
-  public func polar() -> (r: T, theta: T) {
-    return (magnitude, argument)
-  }
-
-  /// The projection of this value onto the Riemann sphere.
+  /// Returns the projection of this value onto the Riemann sphere.
   ///
   /// For most values `z`, `z.projection() == z`. The projection of any complex
   /// infinity is positive real infinity. The sign of the imaginary component is
@@ -339,7 +339,7 @@ extension Complex {
     return self
   }
 
-  /// The reciprocal (multiplicative inverse) of this value.
+  /// Returns the reciprocal (multiplicative inverse) of this value.
   @_transparent // @_inlineable
   public func reciprocal() -> Complex {
     let denominator = squaredMagnitude
@@ -388,9 +388,3 @@ extension Complex : Hashable {
 
 public typealias Complex64 = Complex<Float>
 public typealias Complex128 = Complex<Double>
-
-/// Returns the absolute value (magnitude, modulus) of `z`.
-@_transparent
-public func abs<T>(_ z: Complex<T>) -> Complex<T> {
-  return Complex(real: z.magnitude)
-}
