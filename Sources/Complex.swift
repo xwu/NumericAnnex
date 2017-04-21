@@ -35,16 +35,6 @@ public struct Complex<
 }
 
 extension Complex {
-  /// Creates a new value from the given real component.
-  ///
-  /// - Parameters:
-  ///   - real: The new value's real component.
-  @_transparent // @_inlineable
-  init(_ real: T) {
-    self.real = real
-    self.imaginary = 0
-  }
-
   /// Creates a new value from the given real component, rounded to the closest
   /// possible representation.
   ///
@@ -185,8 +175,36 @@ extension Complex {
     self.imaginary = 0
   }
 
-  // FIXME: If protocol requirements are added to FloatingPoint
-  // add init(_: Float) and friends, as well as init?(exactly:).
+  // FIXME: If corresponding requirements are added to FloatingPoint
+  // add init<U : Integer>(_: U) as well as init?<U : Integer>(exactly: U).
+}
+
+extension Complex where T : BinaryFloatingPoint {
+  /// Creates a new value from the given real component, rounded to the closest
+  /// possible representation.
+  ///
+  /// - Parameters:
+  ///   - real: The value to convert to a real component of type `T`.
+  @_transparent // @_inlineable
+  public init(_ real: Float) {
+    self.real = T(real)
+    self.imaginary = 0
+  }
+
+  /// Creates a new value from the given real component, rounded to the closest
+  /// possible representation.
+  ///
+  /// - Parameters:
+  ///   - real: The value to convert to a real component of type `T`.
+  @_transparent // @_inlineable
+  public init(_ real: Double) {
+    self.real = T(real)
+    self.imaginary = 0
+  }
+
+  // FIXME: If corresponding requirements are added to BinaryFloatingPoint
+  // add init<U : BinaryFloatingPoint>(_: U) as well as
+  // init?<U : BinaryFloatingPoint>(exactly: U).
 }
 
 extension Complex {
@@ -362,7 +380,7 @@ extension Complex : Equatable {
 }
 
 extension Complex : Hashable {
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public var hashValue: Int {
     return _fnv1a(real, imaginary)
   }

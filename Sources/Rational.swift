@@ -177,6 +177,14 @@ extension Rational : Equatable {
   }
 }
 
+extension Rational : Hashable {
+  // @_transparent // @_inlineable
+  public var hashValue: Int {
+    let t = self._canonicalized()
+    return _fnv1a(t.numerator, t.denominator)
+  }
+}
+
 extension Rational : Comparable {
   @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
@@ -238,10 +246,12 @@ extension Rational where T.Magnitude : FixedWidthInteger {
   }
 }
 
-extension Rational : Hashable {
-  @_transparent // @_inlineable
-  public var hashValue: Int {
-    let t = self._canonicalized()
-    return _fnv1a(t.numerator, t.denominator)
+extension Rational : Strideable {
+  public func distance(to other: Rational) -> Rational {
+    return other - self
+  }
+  
+  public func advanced(by amount: Rational) -> Rational {
+    return self + amount
   }
 }

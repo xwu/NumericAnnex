@@ -41,6 +41,12 @@ class NumericAnnexTests: XCTestCase {
 
   let pnpn = Complex(real: Double.nan, imaginary: .nan)
 
+  func testComplexInitialization() {
+    let foo = Complex128(42 as Double)
+    let bar = 42 as Complex128
+    XCTAssertEqual(foo, bar)
+  }
+
   func testComplexAddition() {
     let foo: Complex128 = 1.0 + 2.0 * .i
     let bar: Complex128 = 2 + 4 * .i
@@ -712,6 +718,7 @@ class NumericAnnexTests: XCTestCase {
   }
 
   static var allTests = [
+    ("testComplexInitialization", testComplexInitialization),
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
     ("testComplexLogarithm", testComplexLogarithm),
