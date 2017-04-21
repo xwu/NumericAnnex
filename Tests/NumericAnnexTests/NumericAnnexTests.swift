@@ -709,12 +709,16 @@ class NumericAnnexTests: XCTestCase {
 
     let b = 5 / 3 as Rational<Int>
     XCTAssertEqual(b.description, "5/3")
+    XCTAssertLessThan(a, b)
 
-    let product = a * b
-    XCTAssertEqual(product, 5 / 2 as Rational<Int>)
-    
-    let quotient = a / b
-    XCTAssertEqual(quotient, 9 / 10 as Rational<Int>)
+    XCTAssertEqual(a + b, 19 / 6 as Ratio)
+    XCTAssertEqual(b + a, 19 / 6 as Ratio)
+    XCTAssertEqual(a - b, -1 / 6 as Ratio)
+    XCTAssertEqual(b - a, 1 / 6 as Ratio)
+    XCTAssertEqual(a * b, 5 / 2 as Ratio)
+    XCTAssertEqual(b * a, 5 / 2 as Ratio)
+    XCTAssertEqual(a / b, 9 / 10 as Ratio)
+    XCTAssertEqual(b / a, 10 / 9 as Ratio)
   }
 
   static var allTests = [

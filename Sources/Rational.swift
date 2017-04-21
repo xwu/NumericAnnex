@@ -16,6 +16,26 @@ public struct Rational<
   /// The denominator of the rational value.
   public var denominator: T
 
+  /// Creates a new value from the given numerator and denominator without
+  /// computing its canonical form (i.e., without reducing to lowest terms).
+  ///
+  /// To create a value reduced to lowest terms, use the division (`/`)
+  /// operator. For example:
+  ///
+  /// ```swift
+  /// let x = 3 / 3 as Rational<Int>
+  /// print(x) // Prints "1"
+  /// ```
+  ///
+  /// - Parameters:
+  ///   - numerator: The new value's numerator.
+  ///   - denominator: The new value's denominator.
+  @_transparent // @_inlineable
+  public init(numerator: T, denominator: T) {
+    self.numerator = numerator
+    self.denominator = denominator
+  }
+
   /// Positive infinity.
   ///
   /// Infinity compares greater than all finite numbers and equal to other
@@ -98,7 +118,7 @@ extension Rational {
   ///
   /// A fraction `p / q` is proper iff `p > 0`, `q > 0`, and `p < q`.
   @_transparent // @_inlineable
-  public var isProperFraction: Bool {
+  public var isProper: Bool {
     return numerator > 0 && denominator > 0 && numerator < denominator
   }
 
@@ -112,6 +132,20 @@ extension Rational {
   @_transparent // @_inlineable
   public var magnitude: Rational {
     return sign == .minus ? -self : self
+  }
+
+  /// The mixed form representing this value.
+  ///
+  /// If the value is not finite, the mixed form has zero as its whole part and
+  /// the value as its fractional part.
+  @_transparent // @_inlineable
+  public var mixed: (whole: T, fractional: Rational) {
+    if denominator == 0 { return (whole: 0, fractional: self) }
+    let t = numerator.quotientAndRemainder(dividingBy: denominator)
+    return (
+      whole: t.quotient,
+      fractional: Rational(numerator: t.remainder, denominator: denominator)
+    )
   }
 
   /// The sign of this value.
@@ -170,8 +204,8 @@ extension Rational : Equatable {
         return lhs.numerator.magnitude == rhs.numerator.magnitude
       }
       let gcd = T.Magnitude.gcd(ldm, rdm)
-      let a = ldm / gcd
-      let b = rdm / gcd
+      let a = rdm / gcd
+      let b = ldm / gcd
       return a * lhs.numerator.magnitude == b * rhs.numerator.magnitude
     }
   }
@@ -195,8 +229,8 @@ extension Rational : Comparable {
       let ldm = lhs.denominator.magnitude
       let rdm = rhs.denominator.magnitude
       let gcd = T.Magnitude.gcd(ldm, rdm)
-      let a = ldm / gcd
-      let b = rdm / gcd
+      let a = rdm / gcd
+      let b = ldm / gcd
       return a * lhs.numerator.magnitude < b * rhs.numerator.magnitude
     }
 
@@ -224,8 +258,8 @@ extension Rational where T.Magnitude : FixedWidthInteger {
       let ldm = lhs.denominator.magnitude
       let rdm = rhs.denominator.magnitude
       let gcd = T.Magnitude.gcd(ldm, rdm)
-      let a = ldm / gcd
-      let b = rdm / gcd
+      let a = rdm / gcd
+      let b = ldm / gcd
       // Use full-width multiplication to avoid trapping on overflow.
       let c = a.multipliedFullWidth(by: lhs.numerator.magnitude)
       let d = b.multipliedFullWidth(by: rhs.numerator.magnitude)
@@ -254,3 +288,5 @@ extension Rational : Strideable {
     return self + amount
   }
 }
+
+public typealias Ratio = Rational<Int>

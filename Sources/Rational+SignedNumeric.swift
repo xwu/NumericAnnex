@@ -24,8 +24,8 @@ extension Rational : Numeric {
     let ldm = lhs.denominator.magnitude
     let rdm = rhs.denominator.magnitude
     let gcd = T.Magnitude.gcd(ldm, rdm)
-    let a = ldm / gcd
-    let b = rdm / gcd
+    let a = rdm / gcd
+    let b = ldm / gcd
 
     let n: T
     let d = T(ldm / gcd * rdm)
@@ -118,8 +118,8 @@ extension Rational where T.Magnitude : FixedWidthInteger {
     let rdm = rhs.denominator.magnitude
     // For full-width integers, we can make use of full-width multiplication.
     let lcm = T.Magnitude.lcmFullWidth(ldm, rdm)
-    let a = ldm.magnitude.dividingFullWidth(lcm)
-    let b = rdm.magnitude.dividingFullWidth(lcm)
+    let a = rdm.magnitude.dividingFullWidth(lcm)
+    let b = ldm.magnitude.dividingFullWidth(lcm)
     // TODO: Complete the rest of this algorithm.
   }
   */
@@ -152,8 +152,6 @@ extension Rational {
     // FIXME: Implement something better.
     lhs = lhs * rhs.reciprocal()
   }
-
-  // TODO: `%`
 
   /// Returns this value rounded to an integral value using the specified
   /// rounding rule.
