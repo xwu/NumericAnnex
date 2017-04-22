@@ -6,7 +6,40 @@
 //
 
 /// A type to represent a complex value in Cartesian form.
-// @_fixed_layout
+///
+/// Create new instances of `Complex<T>` using integer or floating-point
+/// literals and the imaginary unit `.i`. For example:
+///
+/// ```swift
+/// let x = 2 + 4 * .i // `x` is of type `Complex<Double>`
+/// let y = 3.5 + 7 * .i // `y` is of type `Complex<Double>`
+///
+/// let z: Complex64 = .e + .pi * .i // `z` is of type `Complex<Float>`
+/// ```
+///
+/// Additional Considerations
+/// =========================
+///
+/// Floating-point types have special values that represent infinity or NaN
+/// ("not a number"). Complex functions in different languages may return
+/// different results when working with special values.
+///
+/// Many complex functions have [branch cuts][dfn], which are curves in the
+/// complex plane across which a function is discontinuous. Different languages
+/// may adopt different branch cut structures for the same complex function.
+///
+/// Implementations in `Complex<T>` adhere to the [C standard][std] (Annex G) as
+/// closely as possible with respect to special values and branch cuts.
+///
+/// To users unfamiliar with complex functions, the principal value returned by
+/// some complex functions may be unexpected. For example,
+/// `Double.cbrt(-8) == -2`, which is the __real root__, while
+/// `Complex.cbrt(-8) == 2 * Complex.exp(.i * .pi / 3)`, which is the
+/// __principal root__.
+///
+/// [dfn]: http://mathworld.wolfram.com/BranchCut.html
+/// [std]: http://www.open-std.org/JTC1/SC22/WG14/www/standards.html#9899
+@_fixed_layout
 public struct Complex<
   T : FloatingPointMath & _ExpressibleByBuiltinFloatLiteral
 > {

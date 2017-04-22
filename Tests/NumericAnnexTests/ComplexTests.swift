@@ -56,6 +56,10 @@ class ComplexTests: XCTestCase {
     let boo: Complex64 = 2.0 + 4.0 * .i
     XCTAssertEqual((foo + bar).real, Double((baz + boo).real))
     XCTAssertEqual((foo + bar).imaginary, Double((baz + boo).imaginary))
+
+    let moo: Complex64 = .pi + .e * .i
+    XCTAssertEqual(moo.real, .pi)
+    XCTAssertEqual(moo.imaginary, .e)
   }
 
   func testComplexDivision() {
@@ -222,6 +226,9 @@ class ComplexTests: XCTestCase {
 
     let d: Complex64 = 27 * .i
     XCTAssertEqual(Complex.cbrt(d), Complex.cbrt(c).conjugate())
+
+    let e: Complex128 = -8
+    XCTAssertEqual(Complex.cbrt(e), 2 * Complex.exp(.i * .pi / 3))
   }
 
   func testComplexExponentiation() {

@@ -6,7 +6,70 @@
 //
 
 /// A type to represent a rational value.
-// @_fixed_layout
+///
+/// - Note: `Ratio` is a type alias for `Rational<Int>`.
+///
+/// Create new instances of `Rational<T>` by using integer literals and the
+/// division (`/`) operator. For example:
+///
+/// ```swift
+/// let x = 1 / 3 as Ratio // `x` is of type `Rational<Int>`
+/// let y = 2 as Ratio // `y` is of type `Rational<Int>`
+/// let z: Ratio = 2 / 3 // `z` is also of type `Rational<Int>`
+///
+/// print(x + y + z) // Prints "3"
+/// ```
+///
+/// You can create an unreduced fraction by using the initializer
+/// `Rational<T>.init(numerator:denominator:)`. For example:
+///
+/// ```swift
+/// let a = Ratio(numerator: 3, denominator: 3)
+/// print(a) // Prints "3/3"
+/// ```
+///
+/// All arithmetic operations with values in canonical form (i.e. reduced to
+/// lowest terms) return results in canonical form. However, operations with
+/// values not in canonical form may or may not return results that are
+/// themselves in canonical form. The property `canonicalized` is the canonical
+/// form of any value.
+///
+/// Additional Considerations
+/// =========================
+///
+/// Special Values
+/// --------------
+///
+/// `Rational<T>` does not prohibit zero as a denominator. Any instance with a
+/// positive numerator and zero denominator represents (positive) infinity; any
+/// instance with a negative numerator and zero denominator represents negative
+/// infinity; and any instance with zero numerator and zero denominator
+/// represents NaN ("not a number").
+///
+/// As with floating-point types, `Rational<T>.infinity` compares greater than
+/// every finite value and negative infinity, and `-Rational<T>.infinity`
+/// compares less than every finite value and positive infinity. Infinite values
+/// of the same sign compare equal to each other.
+///
+/// As with floating-point types, `Rational<T>.nan` does not compare equal to
+/// any other value, including another NaN. Use the property `isNaN` to test if
+/// a value is NaN. `Rational<T>` arithmetic operations are intended to
+/// propagate NaN in the same manner as analogous floating-point operations.
+///
+/// Fixed-Width Binary Parts
+/// ------------------------
+///
+/// When a value of type `Rational<T>` is in canonical form, the sign of the
+/// numerator is the sign of the value; that is, in canonical form, the sign of
+/// the denominator is always positive. Therefore, `-1 / T.min` cannot be
+/// represented as a value of type `Rational<T>` because `abs(T.min)` cannot be
+/// represented as a value of type `T`.
+///
+/// To ensure that every representable value of type `Rational<T>` has a
+/// representable magnitude and reciprocal of the same type, an overflow trap
+/// occurs when the division (`/`) operator is used to create a value of type
+/// `Rational<T>` with numerator `T.min`.
+@_fixed_layout
 public struct Rational<
   T : SignedInteger & _ExpressibleByBuiltinIntegerLiteral
 > where T.Magnitude : UnsignedInteger, T.Magnitude.Magnitude == T.Magnitude {
