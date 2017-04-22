@@ -2,5 +2,6 @@ import XCTest
 @testable import NumericAnnexTests
 
 XCTMain([
-    testCase(NumericAnnexTests.allTests),
+    testCase(ComplexTests.allTests),
+    testCase(RationalTests.allTests),
 ])
