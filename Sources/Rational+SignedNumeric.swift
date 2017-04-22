@@ -142,11 +142,23 @@ extension Rational : SignedNumeric {
 public typealias RationalRoundingRule = FloatingPointRoundingRule
 
 extension Rational {
+  /// Returns the quotient obtained by dividing the first value by the second,
+  /// trapping in case of arithmetic overflow.
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to divide.
+  ///   - rhs: The value by which to divide `lhs`.
   @_transparent // @_inlineable
   public static func / (lhs: Rational, rhs: Rational) -> Rational {
     return lhs * rhs.reciprocal()
   }
 
+  /// Divides the left-hand side by the right-hand side and stores the quotient
+  /// in the left-hand side, trapping in case of arithmetic overflow.
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to divide.
+  ///   - rhs: The value by which to divide `lhs`.
   // @_transparent // @_inlineable
   public static func /= (lhs: inout Rational, rhs: Rational) {
     // FIXME: Implement something better.

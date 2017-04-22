@@ -11,6 +11,11 @@ import Glibc
 import Darwin
 #endif
 
+/// A floating point type that provides a selection of special functions.
+///
+/// The `FloatingPointMath` protocol provides a suitable basis for writing
+/// functions that work on any floating-point type that provides the required
+/// functions.
 public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
@@ -100,29 +105,63 @@ extension FloatingPointMath {
 }
 
 extension FloatingPointMath {
+  /// Returns the inverse tangent of `y / x`, using the signs of `y` and `x` to
+  /// determine the quadrant of the computed angle.
+  ///
+  /// If `x == 0 && y == 0`, the return value is still finite.
+  ///
+  /// - Parameters:
+  ///   - y: The value to divide.
+  ///   - x: The divisor by which to divide `y`.
+  ///
+  /// - SeeAlso: `inverseTangent(dividingBy:)`
   @_transparent // @_inlineable
   public static func atan2(_ y: Self, _ x: Self) -> Self {
+    // Note the order of the internal names `y` and `x`, which is deliberate: a
+    // minority of programming languages vend functions that reverse the order
+    // of the arguments, but all refer to the denominator as `x` and the
+    // numerator as `y`.
     return y.inverseTangent(dividingBy: x)
   }
 
+  /// Returns the value of the [error function][dfn] of `x`.
+  ///
+  /// [dfn]: http://mathworld.wolfram.com/Erf.html
+  ///
+  /// - SeeAlso: `error()`
   @_transparent // @_inlineable
-  public static func erf(_ a: Self) -> Self {
-    return a.error()
+  public static func erf(_ x: Self) -> Self {
+    return x.error()
   }
 
+  /// Returns the value of the [complementary error function][dfn] of `x`.
+  ///
+  /// [dfn]: http://mathworld.wolfram.com/Erfc.html
+  ///
+  /// - SeeAlso: `complementaryError()`
   @_transparent // @_inlineable
-  public static func erfc(_ a: Self) -> Self {
-    return a.complementaryError()
+  public static func erfc(_ x: Self) -> Self {
+    return x.complementaryError()
   }
 
+  /// Returns the value of the [gamma function][dfn] of `x`.
+  ///
+  /// [dfn]: http://mathworld.wolfram.com/GammaFunction.html
+  ///
+  /// - SeeAlso: `gamma()`
   @_transparent // @_inlineable
-  public static func tgamma(_ a: Self) -> Self {
-    return a.gamma()
+  public static func tgamma(_ x: Self) -> Self {
+    return x.gamma()
   }
 
+  /// Returns the value of the [logarithmic gamma function][dfn] of `x`.
+  ///
+  /// [dfn]: http://mathworld.wolfram.com/LogGammaFunction.html
+  ///
+  /// - SeeAlso: `logarithmicGamma()`
   @_transparent // @_inlineable
-  public static func lgamma(_ a: Self) -> Self {
-    return a.logarithmicGamma()
+  public static func lgamma(_ x: Self) -> Self {
+    return x.logarithmicGamma()
   }
 }
 
@@ -177,7 +216,7 @@ extension Float : FloatingPointMath {
   }
 
   @_transparent
-  public func naturalLogarithmOfOnePlus() -> Float {
+  public func naturalLogarithmOnePlus() -> Float {
     return log1pf(self)
   }
 
@@ -333,7 +372,7 @@ extension Double : FloatingPointMath {
   }
 
   @_transparent
-  public func naturalLogarithmOfOnePlus() -> Double {
+  public func naturalLogarithmOnePlus() -> Double {
     return log1p(self)
   }
 

@@ -40,6 +40,7 @@ public struct Rational<
   ///
   /// Infinity compares greater than all finite numbers and equal to other
   /// (positive) infinite values.
+  @_transparent // @_inlineable
   public static var infinity: Rational {
     return Rational(numerator: 1, denominator: 0)
   }
@@ -48,6 +49,7 @@ public struct Rational<
   ///
   /// A NaN compares not equal, not greater than, and not less than every value,
   /// including itself. Passing a NaN to an operation generally results in NaN.
+  @_transparent // @_inlineable
   public static var nan: Rational {
     return Rational(numerator: 0, denominator: 0)
   }
@@ -280,10 +282,12 @@ extension Rational where T.Magnitude : FixedWidthInteger {
 }
 
 extension Rational : Strideable {
+  @_transparent // @_inlineable
   public func distance(to other: Rational) -> Rational {
     return other - self
   }
-  
+
+  @_transparent // @_inlineable
   public func advanced(by amount: Rational) -> Rational {
     return self + amount
   }
