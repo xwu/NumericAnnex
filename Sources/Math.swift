@@ -6,7 +6,7 @@
 //
 
 public protocol Math
-  : Equatable, ExpressibleByIntegerLiteral/*, SignedNumeric */ {
+  : /* Equatable, ExpressibleByIntegerLiteral, */ SignedNumeric {
   /// The mathematical constant pi (_π_).
   ///
   /// This value should be rounded toward zero to keep user computations with
@@ -21,13 +21,6 @@ public protocol Math
   /// The mathematical constant phi (_φ_), or golden ratio.
   static var phi: Self { get }
 
-  // ---------------------------------------------------------------------------
-  // FIXME: Remove the following three requirements after Numeric conformance
-  static func + (_: Self, _: Self) -> Self
-  static func - (_: Self, _: Self) -> Self
-  static func * (_: Self, _: Self) -> Self
-  // ---------------------------------------------------------------------------
-
   /// Returns the quotient obtained by dividing the first value by the second,
   /// rounded to a representable value.
   ///
@@ -35,6 +28,8 @@ public protocol Math
   ///   - lhs: The value to divide.
   ///   - rhs: The value by which to divide `lhs`.
   static func / (lhs: Self, rhs: Self) -> Self
+
+  // TODO: `/=`
 
   /// Returns the natural exponential of the value, rounded to a representable
   /// value.

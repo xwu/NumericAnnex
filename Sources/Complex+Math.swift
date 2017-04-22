@@ -14,7 +14,14 @@
 //  Code in libc++ is dual-licensed under the MIT and UIUC/NCSA licenses.
 //  Copyright © 2009-2017 contributors to the LLVM/libc++ project.
 
-extension Complex /* : Numeric */ {
+extension Complex : Numeric {
+  @_transparent // @_inlineable
+  public init?<U>(exactly source: U) where U : BinaryInteger {
+    guard let t = T(exactly: source) else { return nil }
+    self.real = t
+    self.imaginary = 0
+  }
+
   @_transparent // @_inlineable
   public static func + (lhs: Complex, rhs: Complex) -> Complex {
     return Complex(
@@ -48,9 +55,16 @@ extension Complex /* : Numeric */ {
       imaginary: lhs.real * rhs.imaginary + lhs.imaginary * rhs.real
     )
   }
+
+  @_transparent // @_inlineable
+  public static func *= (lhs: inout Complex, rhs: Complex) {
+    let t = lhs.real
+    lhs.real = lhs.real * rhs.real - lhs.imaginary * rhs.imaginary
+    lhs.imaginary = t * rhs.imaginary + lhs.imaginary * rhs.real
+  }
 }
 
-extension Complex /* : SignedNumeric */ {
+extension Complex : SignedNumeric {
   @_transparent // @_inlineable
   public static prefix func - (operand: Complex) -> Complex {
     return Complex(real: -operand.real, imaginary: -operand.imaginary)
@@ -82,7 +96,7 @@ extension Complex : Math {
   @_transparent // @_inlineable
   public static func / (lhs: Complex, rhs: Complex) -> Complex {
     // Prevent avoidable overflow; see Numerical Recipes.
-    if abs(rhs.real) >= abs(rhs.imaginary) {
+    if rhs.real.magnitude >= rhs.imaginary.magnitude {
       let ratio = rhs.imaginary / rhs.real
       let denominator = rhs.real + rhs.imaginary * ratio
       return Complex(
@@ -106,6 +120,23 @@ extension Complex : Math {
         (lhs.imaginary * rhs.real - lhs.real * rhs.imaginary) / denominator
     )
     */
+  }
+
+  @_transparent // @_inlineable
+  public static func /= (lhs: inout Complex, rhs: Complex) {
+    // Prevent avoidable overflow; see Numerical Recipes.
+    let t = lhs.real
+    if rhs.real.magnitude >= rhs.imaginary.magnitude {
+      let ratio = rhs.imaginary / rhs.real
+      let denominator = rhs.real + rhs.imaginary * ratio
+      lhs.real = (lhs.real + lhs.imaginary * ratio) / denominator
+      lhs.imaginary = (lhs.imaginary - t * ratio) / denominator
+    } else {
+      let ratio = rhs.real / rhs.imaginary
+      let denominator = rhs.real * ratio + rhs.imaginary
+      lhs.real = (lhs.real * ratio + lhs.imaginary) / denominator
+      lhs.imaginary = (lhs.imaginary * ratio - t) / denominator
+    }
   }
 
   @_transparent // @_inlineable
@@ -438,6 +469,12 @@ extension Complex : Math {
       imaginary: T(signOf: imaginary, magnitudeOf: a.imaginary)
     )
   }
+}
+
+/// Returns the absolute value (magnitude, modulus) of `z`.
+@_transparent
+public func abs<T>(_ z: Complex<T>) -> Complex<T> {
+  return Complex(real: z.magnitude)
 }
 
 /// Returns the square root of `z`.
