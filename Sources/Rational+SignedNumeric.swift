@@ -104,10 +104,11 @@ extension Rational : Numeric {
   }
 }
 
-extension Rational where T.Magnitude : FixedWidthInteger {
-  /*
+/*
+extension Rational
+where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
   @_transparent // @_inlineable
-  public static func + (lhs: Rational, rhs: Rational) -> Rational {
+  public static func &+ (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {
       return rhs.isInfinite && lhs.sign != rhs.sign ? .nan : lhs
@@ -116,14 +117,214 @@ extension Rational where T.Magnitude : FixedWidthInteger {
 
     let ldm = lhs.denominator.magnitude
     let rdm = rhs.denominator.magnitude
+    let gcd = T.Magnitude.gcd(ldm, rdm)
+    let a = rdm / gcd
+    let b = ldm / gcd
+
     // For full-width integers, we can make use of full-width multiplication.
-    let lcm = T.Magnitude.lcmFullWidth(ldm, rdm)
-    let a = rdm.magnitude.dividingFullWidth(lcm)
-    let b = ldm.magnitude.dividingFullWidth(lcm)
-    // TODO: Complete the rest of this algorithm.
+    // For now, we'll define some necessary arithmetic operations.
+    func _add(
+      _ lhs: inout (high: T, low: T.Magnitude),
+      _ rhs: (high: T, low: T.Magnitude)
+    ) {
+      let overflow: ArithmeticOverflow
+      (lhs.low, overflow) = lhs.low.addingReportingOverflow(rhs.low)
+      if overflow == .overflow {
+        lhs.high += rhs.high + 1
+      } else {
+        lhs.high += rhs.high
+      }
+    }
+
+    func _negate(_ x: inout (high: T, low: T.Magnitude)) {
+      let overflow: ArithmeticOverflow
+      (x.low, overflow) = (~x.low).addingReportingOverflow(1)
+      if overflow == .overflow {
+        x.high = (~x.high) + 1
+      } else {
+        x.high = ~x.high
+      }
+    }
+
+    func _magnitude(_ x: (high: T, low: T.Magnitude))
+      -> (high: T.Magnitude, low: T.Magnitude) {
+      guard x.high < 0 else { return (high: T.Magnitude(x.high), low: x.low) }
+      let (low, overflow) = (~x.low).addingReportingOverflow(1)
+      return (
+        high: overflow == .overflow
+          ? T.Magnitude(~x.high) + 1
+          : T.Magnitude(~x.high),
+        low: low
+      )
+    }
+
+    func _gcd(
+      _ a: (high: T.Magnitude, low: T.Magnitude),
+      _ b: (high: T.Magnitude, low: T.Magnitude)
+    ) -> (high: T.Magnitude, low: T.Magnitude) {
+      if a.high == 0 && b.high == 0 {
+        return (high: 0, low: T.Magnitude.gcd(a.low, b.low))
+      }
+
+      if a.high == 0 && a.low == 0 { return b } // gcd(0, b) == b
+      if b.high == 0 && b.low == 0 { return a } // gcd(a, 0) == a
+
+      var a = a, b = b, shift = 0
+      let w = T.Magnitude.bitWidth
+
+      // Equivalent to:
+      // `while ((a | b) & 1) == 0 { a &>>= 1; b &>>= 1; shift += 1 }`.
+      while ((a.low | b.low) & 1) == 0 && shift < w {
+        a.low &>>= 1
+        b.low &>>= 1
+        shift += 1
+      }
+      if shift == w {
+        swap(&a.high, &a.low)
+        swap(&b.high, &b.low)
+        while ((a.low | b.low) & 1) == 0 {
+          a.low &>>= 1
+          b.low &>>= 1
+          shift += 1
+        }
+      } else {
+        // We know that at least one of `a.high` and `b.high` is not zero.
+        let mask = (1 &<< shift) - 1 as T.Magnitude
+        let reshift = w - shift
+        if a.high != 0 {
+          a.low |= (mask & a.high) &<< reshift
+          a.high &>>= shift
+        }
+        if b.high != 0 {
+          b.low |= (mask & b.high) &<< reshift
+          b.high &>>= shift
+        }
+      }
+      // Now, shift is equal to log2(k), where k is the greatest power of 2
+      // dividing a and b.
+
+      // Equivalent to `while (a & 1) == 0 { a &>>= 1 }`.
+      if a.high == 0 {
+        while (a.low & 1) == 0 {
+          a.low &>>= 1
+        }
+      } else {
+        var counter = 0
+        while (a.low & 1) == 0 && counter < w {
+          a.low &>>= 1
+          counter += 1
+        }
+        if counter == w {
+          swap(&a.high, &a.low)
+          while (a.low & 1) == 0 {
+            a.low &>>= 1
+          }
+        } else {
+          let mask = (1 &<< counter) - 1 as T.Magnitude
+          a.low |= (mask & a.high) &<< (w - counter)
+          a.high &>>= counter
+        }
+      }
+      // Now, a is odd.
+
+      repeat {
+        // Equivalent to `while (b & 1) == 0 { b &>>= 1 }`.
+        if b.high == 0 {
+          while (b.low & 1) == 0 {
+            b.low &>>= 1
+          }
+        } else {
+          var counter = 0
+          while (b.low & 1) == 0 && counter < w {
+            b.low &>>= 1
+            counter += 1
+          }
+          if counter == w {
+            swap(&b.high, &b.low)
+            while (b.low & 1) == 0 {
+              b.low &>>= 1
+            }
+          } else {
+            let mask = (1 &<< counter) - 1 as T.Magnitude
+            b.low |= (mask & b.high) &<< (w - counter)
+            b.high &>>= counter
+          }
+        }
+        // Now, b is odd.
+
+        // Equivalent to `if a > b { swap(&a, &b) }`.
+        if a.high > b.high || (a.high == b.high && a.low > b.low) {
+          swap(&a, &b)
+        }
+        // Now, a < b.
+
+        // Equivalent to `b -= a`.
+        let overflow: ArithmeticOverflow
+        (b.low, overflow) = b.low.subtractingReportingOverflow(a.low)
+        if overflow == .overflow {
+          b.high -= a.high + 1
+        } else {
+          b.high -= a.high
+        }
+      } while b.low != 0 || b.high != 0
+
+      // Restore common factors of 2.
+      if shift >= w {
+        return (high: a.low &<< (shift - w), low: 0)
+      }
+      a.high &<<= shift
+      let mask = ~((1 &<< shift) - 1 as T.Magnitude)
+      a.high |= (mask & a.low) &>> (w - shift)
+      a.low &<<= shift
+      return a
+    }
+
+    func _dividing(
+      _ lhs: (high: T.Magnitude, low: T.Magnitude),
+      _ rhs: (high: T.Magnitude, low: T.Magnitude)
+    ) -> T.Magnitude {
+      // TODO: Implement this function.
+      fatalError()
+    }
+
+    var xm = a.multipliedFullWidth(by: lhs.numerator.magnitude)
+    var x = (high: T(xm.high), low: xm.low)
+    let ym = b.multipliedFullWidth(by: rhs.numerator.magnitude)
+    var y = (high: T(ym.high), low: ym.low)
+    switch (lhs.sign, rhs.sign) {
+    case (.plus, .plus):
+      break
+    case (.plus, .minus):
+      _negate(&y)
+    case (.minus, .plus):
+      _negate(&x)
+    case (.minus, .minus):
+      _negate(&x)
+      _negate(&y)
+    }
+    _add(&x, y)
+    xm = _magnitude(x)
+    let dm = (ldm / gcd).multipliedFullWidth(by: rdm)
+
+    // Perform a full-width gcd operation.
+    let g = _gcd(xm, dm)
+    guard g.low != 0 || g.high != 0 else {
+      let d = (high: T(dm.high), low: dm.low)
+      return Rational(
+        numerator: (1 as T).dividingFullWidth(x).quotient,
+        denominator: (1 as T).dividingFullWidth(d).quotient
+      )
+    }
+
+    let n = _dividing(xm, g)
+    let d = _dividing(dm, g)
+    if x.high >= 0 {
+      return Rational(numerator: T(n), denominator: T(d))
+    }
+    return Rational(numerator: -T(n), denominator: T(d))
   }
-  */
 }
+*/
 
 extension Rational : SignedNumeric {
   @_transparent // @_inlineable

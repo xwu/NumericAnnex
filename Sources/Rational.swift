@@ -312,7 +312,8 @@ extension Rational : Comparable {
   }
 }
 
-extension Rational where T.Magnitude : FixedWidthInteger {
+extension Rational
+where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
   @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.isNaN || rhs.isNaN { return false }
