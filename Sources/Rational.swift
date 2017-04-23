@@ -329,7 +329,7 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
       // Use full-width multiplication to avoid trapping on overflow.
       let c = a.multipliedFullWidth(by: lhs.numerator.magnitude)
       let d = b.multipliedFullWidth(by: rhs.numerator.magnitude)
-      return c.high == d.high ? c.low < d.low : c.high < d.high
+      return c.high < d.high || (c.high == d.high && c.low < d.low)
     }
 
     switch (lhs.sign, rhs.sign) {
