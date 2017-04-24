@@ -154,12 +154,12 @@ extension Complex : Math {
     return Complex(r: T.exp(real), theta: im)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func naturalLogarithm() -> Complex {
     return Complex(real: T.log(magnitude), imaginary: argument)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func commonLogarithm() -> Complex {
     return Complex.log(self) / Complex.log(10 as Complex)
   }
@@ -205,7 +205,7 @@ extension Complex : Math {
     */
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func cubeRoot() -> Complex {
     return Complex.exp(Complex.log(self) / 3)
 
@@ -214,29 +214,29 @@ extension Complex : Math {
     */
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func power(of base: Complex) -> Complex {
     return Complex.exp(self * Complex.log(base))
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func sine() -> Complex {
     let sinh = Complex.sinh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: sinh.imaginary, imaginary: -sinh.real)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func cosine() -> Complex {
     return Complex.cosh(Complex(real: -imaginary, imaginary: real))
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func tangent() -> Complex {
     let tanh = Complex.tanh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: tanh.imaginary, imaginary: -tanh.real)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func inverseSine() -> Complex {
     let asinh = Complex.asinh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: asinh.imaginary, imaginary: -asinh.real)
@@ -278,7 +278,7 @@ extension Complex : Math {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func inverseTangent() -> Complex {
     let atanh = Complex.atanh(Complex(real: -imaginary, imaginary: real))
     return Complex(real: atanh.imaginary, imaginary: -atanh.real)

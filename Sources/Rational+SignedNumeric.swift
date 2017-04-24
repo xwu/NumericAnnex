@@ -6,9 +6,11 @@
 //
 
 extension Rational : Numeric {
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public init?<U>(exactly source: U) where U : BinaryInteger {
     guard let t = T(exactly: source) else { return nil }
+    // Ensure that `t.magnitude` is representable as a `T`.
+    guard let _ = T(exactly: t.magnitude) else { return nil }
     self.numerator = t
     self.denominator = 1
   }

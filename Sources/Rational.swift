@@ -121,13 +121,22 @@ public struct Rational<
 extension Rational {
   // TODO: Document this initializer.
   // @_transparent // @_inlineable
+  public init<Source : BinaryInteger>(_ source: Source) {
+    let t = T(source)
+    // Ensure that `t.magnitude` is representable as a `T`.
+    _ = T(t.magnitude)
+    self.numerator = t
+    self.denominator = 1
+  }
+
+  // TODO: Document this initializer.
+  // @_transparent // @_inlineable
   public init<Source : BinaryFloatingPoint>(_ source: Source) {
     if source.isNaN { self = .nan; return }
     if source == .infinity { self = .infinity; return }
     if source == -.infinity { self = -.infinity; return }
     if source.isZero { self = 0; return }
 
-    // FIXME: Check that this produces the correct result with subnormal values.
     let exponent = source.exponent
     let significandWidth = source.significandWidth
     if significandWidth <= exponent {
@@ -136,8 +145,14 @@ extension Rational {
       return
     }
     let shift = significandWidth - Int(exponent)
-    self.numerator = T(source * Source(1 &<< shift))
-    self.denominator = T(1 &<< shift)
+    let numerator = T(source * Source(1 &<< shift))
+    // Ensure that `numerator.magnitude` is representable as a `T`.
+    _ = T(numerator.magnitude)
+    let denominator = T(1 &<< shift)
+    // Ensure that `denominator.magnitude` is representable as a `T`.
+    _ = T(denominator.magnitude)
+    self.numerator = numerator
+    self.denominator = denominator
   }
 }
 
@@ -355,7 +370,6 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
     if source == -.infinity { self = -.infinity; return }
     if source.isZero { self = 0; return } // Consider -0.0 to be exactly 0.
 
-    // FIXME: Check that this produces the correct result with subnormal values.
     let exponent = source.exponent
     let significandWidth = source.significandWidth
     let bitWidth = T.bitWidth
@@ -369,8 +383,14 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
     guard significandWidth + 1 < bitWidth && shift < bitWidth else {
       return nil
     }
-    self.numerator = T(source * Source(1 &<< shift))
-    self.denominator = T(1 &<< shift)
+    let numerator = T(source * Source(1 &<< shift))
+    // Ensure that `numerator.magnitude` is representable as a `T`.
+    guard let _ = T(exactly: numerator.magnitude) else { return nil }
+    let denominator = T(1 &<< shift)
+    // Ensure that `denominator.magnitude` is representable as a `T`.
+    guard let _ = T(exactly: denominator.magnitude) else { return nil }
+    self.numerator = numerator
+    self.denominator = denominator
   }
 
   @_transparent // @_inlineable

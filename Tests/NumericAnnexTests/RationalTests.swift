@@ -71,6 +71,69 @@ class RationalTests: XCTestCase {
     XCTAssertTrue((ni * pn).isNaN)
   }
 
+  func testRationalConversion() {
+    var d: Double, r: Ratio
+
+    r = Ratio(42)
+    XCTAssertEqual(r, 42)
+    XCTAssertEqual(Int(r), 42)
+
+    r = Ratio(UInt8.max)
+    XCTAssertEqual(UInt8(r), .max)
+
+    r = Ratio(Int16.min)
+    XCTAssertEqual(Int16(r), .min)
+    XCTAssertNil(UInt16(exactly: r))
+
+    XCTAssertNil(Ratio(exactly: Int.min))
+
+    r = Ratio(Double.pi)
+    XCTAssertEqual(Double(r), .pi)
+    XCTAssertTrue(r.isCanonical)
+
+    r = Ratio(Double.e)
+    XCTAssertEqual(Double(r), .e)
+    XCTAssertTrue(r.isCanonical)
+
+    r = Ratio(Double.phi)
+    XCTAssertEqual(Double(r), .phi)
+    XCTAssertTrue(r.isCanonical)
+
+    r = Ratio(Float.pi)
+    XCTAssertEqual(Float(r), .pi)
+    XCTAssertTrue(r.isCanonical)
+
+    r = Ratio(Float.e)
+    XCTAssertEqual(Float(r), .e)
+    XCTAssertTrue(r.isCanonical)
+
+    r = Ratio(Float.phi)
+    XCTAssertEqual(Float(r), .phi)
+    XCTAssertTrue(r.isCanonical)
+
+    d = 0
+    XCTAssertEqual(Ratio(d), 0)
+    XCTAssertEqual(Double(Ratio(d)), 0)
+
+    d = 0.ulp
+    XCTAssertTrue(d.isSubnormal)
+    XCTAssertEqual(d.significand, 1)
+    XCTAssertEqual(d.exponent, -1074)
+    XCTAssertNil(Ratio(exactly: d))
+
+    d = .infinity
+    XCTAssertEqual(Ratio(d), .infinity)
+    XCTAssertEqual(Double(Ratio(d)), .infinity)
+
+    d = -.infinity
+    XCTAssertEqual(Ratio(d), -.infinity)
+    XCTAssertEqual(Double(Ratio(d)), -.infinity)
+
+    d = .nan
+    XCTAssertTrue(Ratio(d).isNaN)
+    XCTAssertTrue(Double(Ratio(d)).isNaN)
+  }
+
   func testRationalRounding() {
     let a = 10 / 3 as Ratio
     XCTAssertEqual(a.rounded(), 3)
