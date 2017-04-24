@@ -17,6 +17,65 @@ import Darwin
 /// functions that work on any floating-point type that provides the required
 /// functions.
 public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
+  /// Creates a new value from the given rational value, after rounding the
+  /// whole part and the numerator and denominator of the fractional part each
+  /// to the closest possible representation.
+  ///
+  /// If two representable values are equally close, the result is the value
+  /// with more trailing zeros in its significand bit pattern.
+  ///
+  /// - Parameters:
+  ///   - value: The rational value to convert to a floating-point value.
+  init(_ value: Rational<Int>)
+
+  /// Creates a new value from the given rational value, after rounding the
+  /// whole part and the numerator and denominator of the fractional part each
+  /// to the closest possible representation.
+  ///
+  /// If two representable values are equally close, the result is the value
+  /// with more trailing zeros in its significand bit pattern.
+  ///
+  /// - Parameters:
+  ///   - value: The rational value to convert to a floating-point value.
+  init(_ value: Rational<Int8>)
+
+  /// Creates a new value from the given rational value, after rounding the
+  /// whole part and the numerator and denominator of the fractional part each
+  /// to the closest possible representation.
+  ///
+  /// If two representable values are equally close, the result is the value
+  /// with more trailing zeros in its significand bit pattern.
+  ///
+  /// - Parameters:
+  ///   - value: The rational value to convert to a floating-point value.
+  init(_ value: Rational<Int16>)
+
+  /// Creates a new value from the given rational value, after rounding the
+  /// whole part and the numerator and denominator of the fractional part each
+  /// to the closest possible representation.
+  ///
+  /// If two representable values are equally close, the result is the value
+  /// with more trailing zeros in its significand bit pattern.
+  ///
+  /// - Parameters:
+  ///   - value: The rational value to convert to a floating-point value.
+  init(_ value: Rational<Int32>)
+
+  /// Creates a new value from the given rational value, after rounding the
+  /// whole part and the numerator and denominator of the fractional part each
+  /// to the closest possible representation.
+  ///
+  /// If two representable values are equally close, the result is the value
+  /// with more trailing zeros in its significand bit pattern.
+  ///
+  /// - Parameters:
+  ///   - value: The rational value to convert to a floating-point value.
+  init(_ value: Rational<Int64>)
+
+  // FIXME: If corresponding requirements are added to FloatingPoint
+  // add init<U : SignedInteger>(_: Rational<U>) as well as
+  // init?<U : SignedInteger>(exactly: Rational<U>).
+
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
   /// underflow. The return value is the square root of the sum of squares of
@@ -26,15 +85,6 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   ///   - x: The length of one leg (cathetus) of a right-angle triangle.
   ///   - y: The length of the other leg (cathetus) of a right-angle triangle.
   static func hypot(_ x: Self, _ y: Self) -> Self
-
-  // ---------------------------------------------------------------------------
-  // TODO: Document the following initializers.
-  init (_ value: Rational<Int>)
-  init (_ value: Rational<Int8>)
-  init (_ value: Rational<Int16>)
-  init (_ value: Rational<Int32>)
-  init (_ value: Rational<Int64>)
-  // ---------------------------------------------------------------------------
 
   /// Returns the inverse tangent of `self / other`, using the signs of `self`
   /// and `other` to determine the quadrant of the computed angle.
@@ -77,15 +127,6 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
 }
 
 extension FloatingPointMath {
-  public static func hypot(_ x: Self, _ y: Self) -> Self {
-    var x = abs(x), y = abs(y)
-    if x < y {
-      swap(&x, &y)
-    }
-    let ratio = y / x
-    return x * sqrt(1 + ratio * ratio)
-  }
-
   public init(_ value: Rational<Int>) {
     let (whole, fraction) = value.mixed
     self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
@@ -109,6 +150,15 @@ extension FloatingPointMath {
   public init(_ value: Rational<Int64>) {
     let (whole, fraction) = value.mixed
     self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
+  }
+
+  public static func hypot(_ x: Self, _ y: Self) -> Self {
+    var x = abs(x), y = abs(y)
+    if x < y {
+      swap(&x, &y)
+    }
+    let ratio = y / x
+    return x * sqrt(1 + ratio * ratio)
   }
 
   public func inverseTangent(dividingBy other: Self) -> Self {

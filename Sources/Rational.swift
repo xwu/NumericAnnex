@@ -118,8 +118,6 @@ public struct Rational<
   }
 }
 
-public typealias RationalSign = FloatingPointSign
-
 extension Rational {
   // TODO: Document this initializer.
   // @_transparent // @_inlineable
@@ -142,6 +140,8 @@ extension Rational {
     self.denominator = T(1 &<< shift)
   }
 }
+
+public typealias RationalSign = FloatingPointSign
 
 extension Rational {
   /// The canonical representation of this value.

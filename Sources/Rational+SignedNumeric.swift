@@ -98,6 +98,35 @@ extension Rational : Numeric {
   }
 }
 
+extension BinaryInteger {
+  /// Creates a new binary integer from the given rational value, if it can be
+  /// represented exactly.
+  ///
+  /// If `source` is not representable exactly, the result is `nil`.
+  ///
+  /// - Parameters:
+  ///   - source: A rational value to convert to a binary integer.
+  @_transparent // @_inlineable
+  public init?<U>(exactly source: Rational<U>) {
+    let (whole, fraction) = source.mixed
+    guard fraction.isZero, let exact = Self(exactly: whole) else { return nil }
+    self = exact
+  }
+
+  /// Creates a new binary integer from the given rational value, truncating any
+  /// fractional part.
+  ///
+  /// If `source` is outside the bounds of this type after truncation, a runtime
+  /// error may occur.
+  ///
+  /// - Parameters:
+  ///   - source: A rational value to convert to a binary integer.
+  @_transparent // @_inlineable
+  public init<U>(_ source: Rational<U>) {
+    self = Self(source.mixed.whole)
+  }
+}
+
 /*
 extension Rational
 where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
