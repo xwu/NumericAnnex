@@ -50,12 +50,12 @@ library. For example, `FloatingPoint` types provide a method named
 
 Note, however, that NumericAnnex does not declare new free functions. Instead,
 functions such as `cbrt(_:)` and `atanh(_:)` are provided as static members.
-This avoids potential collisions with functions that the user may wish to use
-from the C standard library. It also promotes clarity at the use site that can
-be invaluable, for example, when the result of a complex operation differs from
-that of its real counterpart (`Complex128.cbrt(-8) != -2`). If the type of an
-expression can be unambiguously inferred, Swift syntax permits the use of a
-terser notation, if desired (`_ = 2.5 + .cbrt(3)`).
+This avoids potential collisions with C standard library functions that you may
+wish. It also promotes clarity at the use site that can be invaluable, for
+example, when the result of a complex operation differs from that of its real
+counterpart (`Complex128.cbrt(-8) != -2`). If the type of an expression can be
+unambiguously inferred, Swift permits the use of a terser notation, if desired
+(`_ = 2.5 + .cbrt(3)`).
 
 
 ## Future directions
