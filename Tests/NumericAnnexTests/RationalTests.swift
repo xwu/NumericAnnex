@@ -71,7 +71,57 @@ class RationalTests: XCTestCase {
     XCTAssertTrue((ni * pn).isNaN)
   }
 
+  func testRationalRounding() {
+    let a = 10 / 3 as Ratio
+    XCTAssertEqual(a.rounded(), 3)
+    XCTAssertEqual(a.rounded(.up), 4)
+    XCTAssertEqual(a.rounded(.down), 3)
+    XCTAssertEqual(a.rounded(.towardZero), 3)
+    XCTAssertEqual(a.rounded(.awayFromZero), 4)
+    XCTAssertEqual(a.rounded(.toNearestOrEven), 3)
+    XCTAssertEqual(a.rounded(.toNearestOrAwayFromZero), 3)
+
+    let b = -a
+    XCTAssertEqual(b, -10 / 3)
+    XCTAssertEqual(b.rounded(), -3)
+    XCTAssertEqual(b.rounded(.up), -3)
+    XCTAssertEqual(b.rounded(.down), -4)
+    XCTAssertEqual(b.rounded(.towardZero), -3)
+    XCTAssertEqual(b.rounded(.awayFromZero), -4)
+    XCTAssertEqual(b.rounded(.toNearestOrEven), -3)
+    XCTAssertEqual(b.rounded(.toNearestOrAwayFromZero), -3)
+
+    let c = 5 / 2 as Ratio
+    XCTAssertEqual(c.rounded(), 3)
+    XCTAssertEqual(c.rounded(.up), 3)
+    XCTAssertEqual(c.rounded(.down), 2)
+    XCTAssertEqual(c.rounded(.towardZero), 2)
+    XCTAssertEqual(c.rounded(.awayFromZero), 3)
+    XCTAssertEqual(c.rounded(.toNearestOrEven), 2)
+    XCTAssertEqual(c.rounded(.toNearestOrAwayFromZero), 3)
+
+    let d = -c
+    XCTAssertEqual(d, -5 / 2)
+    XCTAssertEqual(d.rounded(), -3)
+    XCTAssertEqual(d.rounded(.up), -2)
+    XCTAssertEqual(d.rounded(.down), -3)
+    XCTAssertEqual(d.rounded(.towardZero), -2)
+    XCTAssertEqual(d.rounded(.awayFromZero), -3)
+    XCTAssertEqual(d.rounded(.toNearestOrEven), -2)
+    XCTAssertEqual(d.rounded(.toNearestOrAwayFromZero), -3)
+
+    let e = 1 / 9 as Ratio
+    XCTAssertEqual(e.rounded(), 0)
+    XCTAssertEqual(e.rounded(.up), 1)
+    XCTAssertEqual(e.rounded(.down), 0)
+    XCTAssertEqual(e.rounded(.towardZero), 0)
+    XCTAssertEqual(e.rounded(.awayFromZero), 1)
+    XCTAssertEqual(e.rounded(.toNearestOrEven), 0)
+    XCTAssertEqual(e.rounded(.toNearestOrAwayFromZero), 0)
+  }
+
   static var allTests = [
     ("testRational", testRational),
+    ("testRationalRounding", testRationalRounding),
   ]
 }

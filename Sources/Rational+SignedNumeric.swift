@@ -24,11 +24,10 @@ extension Rational : Numeric {
     let ldm = lhs.denominator.magnitude
     let rdm = rhs.denominator.magnitude
     let gcd = T.Magnitude.gcd(ldm, rdm)
+    let d = T(ldm / gcd * rdm)
     let a = rdm / gcd
     let b = ldm / gcd
-
     let n: T
-    let d = T(ldm / gcd * rdm)
     switch (lhs.sign, rhs.sign) {
     case (.plus, .plus):
       n = T(a * lhs.numerator.magnitude) + T(b * rhs.numerator.magnitude)
@@ -42,9 +41,8 @@ extension Rational : Numeric {
     return Rational(numerator: n, denominator: d).canonical
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func += (lhs: inout Rational, rhs: Rational) {
-    // FIXME: Implement something better.
     lhs = lhs + rhs
   }
 
@@ -53,9 +51,8 @@ extension Rational : Numeric {
     return lhs + (-rhs)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func -= (lhs: inout Rational, rhs: Rational) {
-    // FIXME: Implement something better.
     lhs = lhs + (-rhs)
   }
   
@@ -77,7 +74,6 @@ extension Rational : Numeric {
     
     let lnm = lhs.numerator.magnitude, ldm = lhs.denominator.magnitude
     let rnm = rhs.numerator.magnitude, rdm = rhs.denominator.magnitude
-
     // Note that if `T` is a signed fixed-width integer type, `gcd(lnm, rdm)` or
     // `gcd(rnm, ldm)` could be equal to `-T.min`, which is not representable as
     // a `T`. This is why the following arithmetic is performed with values of
@@ -86,7 +82,6 @@ extension Rational : Numeric {
     guard a != 0 else { return .nan }
     let b = T.Magnitude.gcd(rnm, ldm)
     guard b != 0 else { return .nan }
-
     if lhs.sign == rhs.sign {
       return Rational(
         numerator: T(lnm / a * (rnm / b)), denominator: T(ldm / b * (rdm / a))
@@ -97,9 +92,8 @@ extension Rational : Numeric {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func *= (lhs: inout Rational, rhs: Rational) {
-    // FIXME: Implement something better.
     lhs = lhs * rhs
   }
 }
@@ -360,9 +354,8 @@ extension Rational {
   /// - Parameters:
   ///   - lhs: The value to divide.
   ///   - rhs: The value by which to divide `lhs`.
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func /= (lhs: inout Rational, rhs: Rational) {
-    // FIXME: Implement something better.
     lhs = lhs * rhs.reciprocal()
   }
 
@@ -433,15 +426,12 @@ extension Rational {
         switch denominator.magnitude.quotientAndRemainder(
           dividingBy: f.magnitude
         ) {
-        // Tie.
-        case (2, 0):
+        case (2, 0): // Tie.
           if rule == .toNearestOrEven && numerator % 2 == 0 { break }
           fallthrough
-        // Nearest is away from zero.
-        case (1, _):
+        case (1, _): // Nearest is away from zero.
           if f > 0 { numerator += 1 } else { numerator -= 1 }
-        // Nearest is toward zero.
-        default:
+        default: // Nearest is toward zero.
           break
         }
       case .up:
