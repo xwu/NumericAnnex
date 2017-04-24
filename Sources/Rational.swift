@@ -121,6 +121,29 @@ public struct Rational<
 public typealias RationalSign = FloatingPointSign
 
 extension Rational {
+  // TODO: Document this initializer.
+  // @_transparent // @_inlineable
+  public init<Source : BinaryFloatingPoint>(_ source: Source) {
+    if source.isNaN { self = .nan; return }
+    if source == .infinity { self = .infinity; return }
+    if source == -.infinity { self = -.infinity; return }
+    if source.isZero { self = 0; return }
+
+    // FIXME: Check that this produces the correct result with subnormal values.
+    let exponent = source.exponent
+    let significandWidth = source.significandWidth
+    if significandWidth <= exponent {
+      self.numerator = T(source)
+      self.denominator = 1
+      return
+    }
+    let shift = significandWidth - Int(exponent)
+    self.numerator = T(source * Source(1 &<< shift))
+    self.denominator = T(1 &<< shift)
+  }
+}
+
+extension Rational {
   /// The canonical representation of this value.
   // @_transparent // @_inlineable
   public var canonical: Rational {
@@ -310,8 +333,46 @@ extension Rational : Comparable {
   }
 }
 
+extension Rational : Strideable {
+  @_transparent // @_inlineable
+  public func distance(to other: Rational) -> Rational {
+    return other - self
+  }
+
+  @_transparent // @_inlineable
+  public func advanced(by amount: Rational) -> Rational {
+    return self + amount
+  }
+}
+
 extension Rational
-  where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
+where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
+  // TODO: Document this initializer.
+  // @_transparent // @_inlineable
+  public init?<Source : BinaryFloatingPoint>(exactly source: Source) {
+    if source.isNaN { self = .nan; return }
+    if source == .infinity { self = .infinity; return }
+    if source == -.infinity { self = -.infinity; return }
+    if source.isZero { self = 0; return } // Consider -0.0 to be exactly 0.
+
+    // FIXME: Check that this produces the correct result with subnormal values.
+    let exponent = source.exponent
+    let significandWidth = source.significandWidth
+    let bitWidth = T.bitWidth
+    if significandWidth <= exponent {
+      guard exponent + 1 < bitWidth else { return nil }
+      self.numerator = T(source)
+      self.denominator = 1
+      return
+    }
+    let shift = significandWidth - Int(exponent)
+    guard significandWidth + 1 < bitWidth && shift < bitWidth else {
+      return nil
+    }
+    self.numerator = T(source * Source(1 &<< shift))
+    self.denominator = T(1 &<< shift)
+  }
+
   @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.isNaN || rhs.isNaN { return false }
@@ -340,18 +401,6 @@ extension Rational
     case (.minus, .minus):
       return !isMagnitudeLessThan()
     }
-  }
-}
-
-extension Rational : Strideable {
-  @_transparent // @_inlineable
-  public func distance(to other: Rational) -> Rational {
-    return other - self
-  }
-
-  @_transparent // @_inlineable
-  public func advanced(by amount: Rational) -> Rational {
-    return self + amount
   }
 }
 

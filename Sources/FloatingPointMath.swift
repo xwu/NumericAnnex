@@ -27,6 +27,15 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   ///   - y: The length of the other leg (cathetus) of a right-angle triangle.
   static func hypot(_ x: Self, _ y: Self) -> Self
 
+  // ---------------------------------------------------------------------------
+  // TODO: Document the following initializers.
+  init (_ value: Rational<Int>)
+  init (_ value: Rational<Int8>)
+  init (_ value: Rational<Int16>)
+  init (_ value: Rational<Int32>)
+  init (_ value: Rational<Int64>)
+  // ---------------------------------------------------------------------------
+
   /// Returns the inverse tangent of `self / other`, using the signs of `self`
   /// and `other` to determine the quadrant of the computed angle.
   ///
@@ -75,6 +84,31 @@ extension FloatingPointMath {
     }
     let ratio = y / x
     return x * sqrt(1 + ratio * ratio)
+  }
+
+  public init(_ value: Rational<Int>) {
+    let (whole, fraction) = value.mixed
+    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
+  }
+
+  public init(_ value: Rational<Int8>) {
+    let (whole, fraction) = value.mixed
+    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
+  }
+
+  public init(_ value: Rational<Int16>) {
+    let (whole, fraction) = value.mixed
+    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
+  }
+
+  public init(_ value: Rational<Int32>) {
+    let (whole, fraction) = value.mixed
+    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
+  }
+
+  public init(_ value: Rational<Int64>) {
+    let (whole, fraction) = value.mixed
+    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
   }
 
   public func inverseTangent(dividingBy other: Self) -> Self {

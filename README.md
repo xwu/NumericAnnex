@@ -6,9 +6,9 @@ library.
 
 ## Features
 
-- [x] `Math`, a protocol for types that provides square root, cube root, and
+- [x] `Math`, a protocol for types providing square root, cube root, and
       elementary transcendental functions.
-- [x] `FloatingPointMath`, a protocol for floating point types that provides a
+- [x] `FloatingPointMath`, a protocol for floating point types providing a
       selection of special functions such as the gamma function.
 - [x] `Complex`, a value type to represent complex values in Cartesian form,
       which provides all functions required by `Math`.
