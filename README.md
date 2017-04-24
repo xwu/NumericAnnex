@@ -43,19 +43,18 @@ for details.
 All public protocols, types, and functions have been carefully documented in
 comments.
 
-In general, the project adheres to design patterns found in the Swift standard
-library. For example, `FloatingPoint` types provide a method named
-`squareRoot()`. Therefore, NumericAnnex `Math` types provide methods such as
-`cubeRoot()` and `inverseHyperbolicTangent()`.
+The project adheres to many design patterns found in the Swift standard library.
+For example, `Math` types provide methods such as `cubeRoot()` and `tangent()`
+just as `FloatingPoint` types provide methods such as `squareRoot()`.
 
-Note, however, that NumericAnnex does not declare new free functions. Instead,
-functions such as `cbrt(_:)` and `atanh(_:)` are provided as static members.
-This avoids potential collisions with C standard library functions that you may
-wish. It also promotes clarity at the use site that can be invaluable, for
-example, when the result of a complex operation differs from that of its real
-counterpart (`Complex128.cbrt(-8) != -2`). If the type of an expression can be
-unambiguously inferred, Swift permits the use of a terser notation, if desired
-(`_ = 2.5 + .cbrt(3)`).
+No free functions are declared in this library unless they overload existing
+ones in the Swift standard library. Instead, functions such as `cbrt(_:)` and
+`tan(_:)` are provided as static members. This avoids collisions with C standard
+library functions that you may wish to use. It also promotes clarity at the use
+site that can be invaluable, for example, when the result of a complex operation
+differs from that of its real counterpart (`Complex128.cbrt(-8) != -2`). If the
+type of an expression can be unambiguously inferred, you can use a terser
+notation, if desired (`_ = 2.5 + .cbrt(3)`).
 
 
 ## Future directions
