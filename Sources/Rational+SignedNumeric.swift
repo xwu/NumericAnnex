@@ -101,7 +101,7 @@ extension Rational : Numeric {
 /*
 extension Rational
   where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {

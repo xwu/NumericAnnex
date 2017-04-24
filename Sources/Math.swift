@@ -198,12 +198,12 @@ public protocol Math : SignedNumeric {
 }
 
 extension Math {
-  @_transparent
+  // @_transparent
   public static var e: Self {
     return Self.exp(1 as Self)
   }
 
-  @_transparent
+  // @_transparent
   public static var phi: Self {
     return Self.sqrt(((1 as Self) + Self.sqrt(5 as Self)) / (2 as Self))
   }

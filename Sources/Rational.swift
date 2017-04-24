@@ -122,17 +122,15 @@ public typealias RationalSign = FloatingPointSign
 
 extension Rational {
   /// The canonical representation of this value.
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public var canonical: Rational {
     let nm = numerator.magnitude, dm = denominator.magnitude
-
     // Note that if `T` is a signed fixed-width integer type, `gcd(nm, dm)`
     // could be equal to `-T.min`, which is not representable as a `T`. This is
     // why the following arithmetic is performed with values of type
     // `T.Magnitude`.
     let gcd = T.Magnitude.gcd(nm, dm)
     guard gcd != 0 else { return self }
-
     let n = nm / gcd
     let d = dm / gcd
     if sign == .plus {
@@ -300,12 +298,12 @@ extension Rational : Comparable {
     }
 
     switch (lhs.sign, rhs.sign) {
+    case (.plus, .plus):
+      return isMagnitudeLessThan()
     case (.plus, .minus):
       return false
     case (.minus, .plus):
       return true
-    case (.plus, .plus):
-      return isMagnitudeLessThan()
     case (.minus, .minus):
       return !isMagnitudeLessThan()
     }
