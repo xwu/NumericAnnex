@@ -11,6 +11,8 @@ class FactoringTests: XCTestCase {
     XCTAssertEqual(UInt.gcd(0, 42), 42)
     XCTAssertEqual(UInt.gcd(42, 0), 42)
     XCTAssertEqual(UInt.gcd(0, 0), 0)
+
+    XCTAssertTrue(Int8.gcdReportingOverflow(-128, -128).overflow == .overflow)
   }
 
   func testLCM() {
