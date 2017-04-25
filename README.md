@@ -44,23 +44,23 @@ for details.
 import NumericAnnex
 
 var x: Rational<Int> = 1 / 4
+// Note: `Ratio` is a type alias for `Rational<Int>`.
+
 print(x.reciprocal()) // Prints "4".
 
 x *= 8
 print(x + x) // Prints "4".
 
-x = Rational<Int>(Float.phi) // Golden ratio.
+x = Rational(Float.phi) // Golden ratio.
 print(x) // Prints "13573053/8388608".
 
-// Note: `Ratio` is a type alias for `Rational<Int>`.
-
 var z: Complex<Float> = 42 * .i
+// Note: `Complex64` is a type alias for `Complex<Float>`.
+
 print(Complex.sqrt(z)) // Prints "4.58258 + 4.58258i".
 
 z = .pi + .i * .log(2 - .sqrt(3))
 print(Complex.cos(z).real) // Prints "-2.0".
-
-// Note: `Complex64` is a type alias for `Complex<Float>`.
 ```
 
 
