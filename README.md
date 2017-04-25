@@ -38,6 +38,28 @@ add the package as a dependency for your own project. See Swift documentation
 for details.
 
 
+## Basic Usage
+
+```swift
+import NumericAnnex
+
+var x: Ratio = 1 / 4
+print(x.reciprocal()) // Prints "4".
+
+x *= 8
+print(x + x) // Prints "4".
+
+x = Ratio(Float.phi) // Golden ratio.
+print(x) // Prints "13573053/8388608".
+
+var z: Complex64 = 42 * .i
+print(Complex.sqrt(z)) // Prints "4.58258 + 4.58258i".
+
+z = .pi + .i * .log(2 - .sqrt(3))
+print(Complex.cos(z).real) // Prints "-2.0".
+```
+
+
 ## Documentation
 
 All public protocols, types, and functions have been carefully documented in
@@ -57,7 +79,7 @@ type of an expression can be unambiguously inferred, you can use a terser
 notation, if desired (`_ = 2.5 + .cbrt(3)`).
 
 
-## Future directions
+## Future Directions
 
 - [ ] Add more tests
 - [ ] Design and implement `BigInt`
