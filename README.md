@@ -83,11 +83,9 @@ just as `FloatingPoint` types provide methods such as `squareRoot()`.
 No free functions are declared in this library unless they overload existing
 ones in the Swift standard library. Instead, functions such as `cbrt(_:)` and
 `tan(_:)` are provided as static members. This avoids collisions with C standard
-library functions that you may wish to use. It also promotes clarity at the use
-site that can be invaluable, for example, when the result of a complex operation
-differs from that of its real counterpart (`Complex128.cbrt(-8) != -2`). If the
-type of an expression can be unambiguously inferred, you can use a terser
-notation, if desired (`_ = 2.5 + .cbrt(3)`).
+library functions that you may wish to use. It also promotes clarity at the call
+site when the result of a complex operation differs from that of its real
+counterpart (e.g., `Complex128.cbrt(-8) != -2`).
 
 
 ## Future Directions
