@@ -9,7 +9,7 @@ extension UnsignedInteger {
   /// Returns the greatest common divisor of `a` and `b`.
   // @_transparent // @_inlineable
   public static func gcd(_ a: Self, _ b: Self) -> Self {
-    // The following is an iterative version of Stein's algorithm.
+    // An iterative version of Stein's algorithm.
     if a == 0 { return b } // gcd(0, b) == b
     if b == 0 { return a } // gcd(a, 0) == a
 
@@ -32,7 +32,7 @@ extension UnsignedInteger {
   }
 
   /// Returns the least common multiple of `a` and `b`.
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func lcm(_ a: Self, _ b: Self) -> Self {
     if a == 0 || b == 0 { return 0 }
     return a / Self.gcd(a, b) * b
@@ -40,6 +40,15 @@ extension UnsignedInteger {
 }
 
 extension UnsignedInteger where Self : FixedWidthInteger {
+  /// Returns the least common multiple of `a` and `b` and a flag to indicate
+  /// whether overflow occurred during the operation.
+  // @_transparent // @_inlineable
+  public static func lcmReportingOverflow(_ a: Self, _ b: Self)
+    -> (partialValue: Self, overflow: ArithmeticOverflow) {
+    if a == 0 || b == 0 { return (partialValue: 0, overflow: .none) }
+    return (a / Self.gcd(a, b)).multipliedReportingOverflow(by: b)
+  }
+
   /// Returns the high and low parts of the least common multiple of `a` and `b`
   /// computed using full-width arithmetic.
   // @_transparent // @_inlineable
@@ -47,5 +56,57 @@ extension UnsignedInteger where Self : FixedWidthInteger {
     -> (high: Self, low: Self.Magnitude) {
     if a == 0 || b == 0 { return (0, 0) }
     return (a / Self.gcd(a, b)).multipliedFullWidth(by: b)
+  }
+}
+
+extension SignedInteger where Magnitude : UnsignedInteger {
+  /// Returns the greatest common divisor of `a` and `b`.
+  @_transparent // @_inlineable
+  public static func gcd(_ a: Self, _ b: Self) -> Self {
+    return Self(Magnitude.gcd(a.magnitude, b.magnitude))
+  }
+
+  /// Returns the least common multiple of `a` and `b`.
+  @_transparent // @_inlineable
+  public static func lcm(_ a: Self, _ b: Self) -> Self {
+    return Self(Magnitude.lcm(a.magnitude, b.magnitude))
+  }
+}
+
+extension SignedInteger where Self : FixedWidthInteger,
+  Magnitude : FixedWidthInteger & UnsignedInteger,
+  Magnitude.Magnitude == Magnitude {
+  /// Returns the greatest common divisor of `a` and `b` and a flag to indicate
+  /// whether overflow occurred during the operation.
+  // @_transparent // @_inlineable
+  public static func gcdReportingOverflow(_ a: Self, _ b: Self)
+    -> (partialValue: Self, overflow: ArithmeticOverflow) {
+    let t = Self(extendingOrTruncating: Magnitude.gcd(a.magnitude, b.magnitude))
+    return (
+      partialValue: t,
+      overflow: ArithmeticOverflow(t < 0)
+    )
+  }
+
+  /// Returns the least common multiple of `a` and `b` and a flag to indicate
+  /// whether overflow occurred during the operation.
+  // @_transparent // @_inlineable
+  public static func lcmReportingOverflow(_ a: Self, _ b: Self)
+    -> (partialValue: Self, overflow: ArithmeticOverflow) {
+    let (t, overflow) = Magnitude.lcmReportingOverflow(a.magnitude, b.magnitude)
+    let u = Self(extendingOrTruncating: t)
+    return (
+      partialValue: u,
+      overflow: ArithmeticOverflow(overflow == .overflow || u < 0)
+    )
+  }
+
+  /// Returns the high and low parts of the least common multiple of `a` and `b`
+  /// computed using full-width arithmetic.
+  // @_transparent // @_inlineable
+  public static func lcmFullWidth(_ a: Self, _ b: Self)
+    -> (high: Self, low: Self.Magnitude) {
+    let t = Magnitude.lcmFullWidth(a.magnitude, b.magnitude)
+    return (high: Self(t.high), low: t.low)
   }
 }
