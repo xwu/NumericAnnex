@@ -43,20 +43,24 @@ for details.
 ```swift
 import NumericAnnex
 
-var x: Ratio = 1 / 4
+var x: Rational<Int> = 1 / 4
 print(x.reciprocal()) // Prints "4".
 
 x *= 8
 print(x + x) // Prints "4".
 
-x = Ratio(Float.phi) // Golden ratio.
+x = Rational<Int>(Float.phi) // Golden ratio.
 print(x) // Prints "13573053/8388608".
 
-var z: Complex64 = 42 * .i
+// Note: `Ratio` is a type alias for `Rational<Int>`.
+
+var z: Complex<Float> = 42 * .i
 print(Complex.sqrt(z)) // Prints "4.58258 + 4.58258i".
 
 z = .pi + .i * .log(2 - .sqrt(3))
 print(Complex.cos(z).real) // Prints "-2.0".
+
+// Note: `Complex64` is a type alias for `Complex<Float>`.
 ```
 
 
