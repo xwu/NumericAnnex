@@ -6,14 +6,14 @@ library.
 
 ## Features
 
-- [x] Binary integer exponentiation, greatest common divisor, and least common
+- [x] `BinaryInteger` exponentiation, greatest common divisor, and least common
       multiple functions.
 - [x] `Math`, a protocol for types providing square root, cube root, and
       elementary transcendental functions.
 - [x] `FloatingPointMath`, a protocol for floating point types providing a
-      selection of special functions such as the gamma function.
+      selection of special functions.
 - [x] `Complex`, a value type to represent complex values in Cartesian form,
-      which provides all functions required by `Math`.
+      which implements all functions required by `Math`.
 - [x] `Rational`, a value type to represent rational values, which supports the
       special values infinity, negative infinity, and NaN ("not a number").
 
