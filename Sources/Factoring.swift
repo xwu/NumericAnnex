@@ -59,7 +59,7 @@ extension UnsignedInteger where Self : FixedWidthInteger {
   }
 }
 
-extension SignedInteger where Magnitude : UnsignedInteger {
+extension BinaryInteger where Magnitude : UnsignedInteger {
   /// Returns the greatest common divisor of `a` and `b`.
   @_transparent // @_inlineable
   public static func gcd(_ a: Self, _ b: Self) -> Self {
@@ -73,7 +73,7 @@ extension SignedInteger where Magnitude : UnsignedInteger {
   }
 }
 
-extension SignedInteger where Self : FixedWidthInteger,
+extension BinaryInteger where Self : FixedWidthInteger,
   Magnitude : FixedWidthInteger & UnsignedInteger,
   Magnitude.Magnitude == Magnitude {
   /// Returns the greatest common divisor of `a` and `b` and a flag to indicate
