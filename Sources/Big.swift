@@ -14,11 +14,12 @@ internal enum _Bit : Int {
 public struct Big<
   T : FixedWidthInteger & _ExpressibleByBuiltinIntegerLiteral
 > where T.Magnitude == UInt {
+  public typealias Word = T.Magnitude
 
   internal var _sign: _Bit
-  public internal(set) var words: [UInt]
+  public internal(set) var words: [Word]
 
-  internal init(_sign: _Bit = .zero, words: [UInt] = []) {
+  internal init(_sign: _Bit = .zero, words: [Word] = []) {
     self._sign = _sign
     self.words = words
   }
@@ -31,6 +32,11 @@ extension Big {
     }
     self._sign = value._sign
     self.words = value.words
+  }
+
+  public init(_ value: T) {
+    self._sign = value < 0 ? .one : .zero
+    self.words = value == 0 ? [] : [value.magnitude]
   }
 }
 
@@ -51,12 +57,61 @@ extension Big : Equatable {
   }
 }
 
+extension Big : CustomStringConvertible {
+  public var description : String {
+    if words.count == 0 { return "0" }
+    if T.isSigned && _sign == .one {
+      return "-\((~self + 1).description)"
+    }
+    // A version of the "double dabble" algorithm.
+    let width = Word.bitWidth
+    var count = width * words.count / 3
+    var min = count - 2
+    var scratch = [UInt8](repeating: 0, count: count)
+    // Traverse from most significant to least significant word.
+    for i in (0..<words.count).reversed() {
+      for j in 0..<width {
+        // Bit to be shifted in.
+        let bit = (words[i] & (1 << Word(width - j - 1)) > 0 ? 1 : 0 as UInt8)
+        // Increment any binary-coded decimal greater than four by three.
+        for k in min..<count {
+          scratch[k] += scratch[k] >= 5 ? 3 : 0
+        }
+        // Shift scratch to the left.
+        if scratch[min] >= 8 { min -= 1 }
+        for k in min..<(count - 1) {
+          scratch[k] &<<= 1
+          scratch[k] &= 0xF
+          scratch[k] |= (scratch[k + 1] >= 8) ? 1 : 0
+        }
+        // Shift in the new bit.
+        scratch[count - 1] &<<= 1
+        scratch[count - 1] &= 0xF
+        scratch[count - 1] |= bit
+      }
+    }
+    // Remove leading zeros.
+    let i = scratch.index { $0 != 0 } ?? 0
+    scratch.removeSubrange(0..<i)
+    count -= i
+    // Convert from binary-coded decimal to NUL-terminated ASCII.
+    for i in 0..<count {
+      scratch[i] += 48 // "0"
+    }
+    scratch.append(0)
+    return scratch.withUnsafeBufferPointer {
+      String(cString: $0.baseAddress!)
+    }
+  }
+}
+
 extension Big {
   internal mutating func _canonicalize() {
+    let query = T.isSigned && _sign == .one ? Word.max : 0
     let count = words.count
     var start = 0
     for i in (0..<count).reversed() {
-      if words[i] != 0 {
+      if words[i] != query {
         start = i + 1
         break
       }
@@ -88,7 +143,7 @@ extension Big /* : Numeric */ {
     for i in 0..<common {
       var r = rhs.words[i]
       if carry {
-        if r == UInt.max {
+        if r == Word.max {
           // carry == true
           continue
         }
@@ -105,7 +160,7 @@ extension Big /* : Numeric */ {
           var r = rhs.words[i]
           if !carry {
             if r == 0 {
-              lhs.words.append(UInt.max)
+              lhs.words.append(Word.max)
               // carry == false
               continue
             }
@@ -118,7 +173,7 @@ extension Big /* : Numeric */ {
         for i in common..<rwc {
           var r = rhs.words[i]
           if carry {
-            if r == UInt.max {
+            if r == Word.max {
               lhs.words.append(0)
               // carry == true
               continue
@@ -134,7 +189,7 @@ extension Big /* : Numeric */ {
         if !carry {
           for i in common..<lwc {
             if lhs.words[i] == 0 {
-              lhs.words[i] = UInt.max
+              lhs.words[i] = Word.max
               // carry == false
               continue
             }
@@ -145,7 +200,7 @@ extension Big /* : Numeric */ {
         }
       } else if carry {
         for i in common..<lwc {
-          if lhs.words[i] == UInt.max {
+          if lhs.words[i] == Word.max {
             lhs.words[i] = 0
             // carry == true
             continue
@@ -163,8 +218,10 @@ extension Big /* : Numeric */ {
     if lhs._sign != rhs._sign {
       lhs._sign = carry ? .zero : .one
       lhs._canonicalize()
-    } else if carry {
-      lhs.words.append(lhs._sign == .one ? UInt.max - 1 : 1)
+    } else if carry && lhs._sign == .zero {
+      lhs.words.append(1)
+    } else if !carry && lhs._sign == .one {
+      lhs.words.append(Word.max - 1)
     }
   }
 
@@ -183,7 +240,7 @@ extension Big /* : Numeric */ {
     for i in 0..<common {
       var r = rhs.words[i]
       if borrow {
-        if r == UInt.max {
+        if r == Word.max {
           // borrow == true
           continue
         }
@@ -199,22 +256,22 @@ extension Big /* : Numeric */ {
         for i in common..<rwc {
           let r = rhs.words[i]
           if !borrow {
-            lhs.words.append(UInt.max - r)
+            lhs.words.append(Word.max - r)
             // borrow == false
             continue
-          } else if r == UInt.max {
-            lhs.words.append(UInt.max)
+          } else if r == Word.max {
+            lhs.words.append(Word.max)
             // borrow == true
             continue
           }
-          lhs.words.append(UInt.max - r - 1)
+          lhs.words.append(Word.max - r - 1)
           borrow = false
         }
       } else {
         for i in common..<rwc {
           let r = rhs.words[i]
           if borrow {
-            lhs.words.append(UInt.max - r)
+            lhs.words.append(Word.max - r)
             // borrow == true
             continue
           } else if r == 0 {
@@ -222,7 +279,7 @@ extension Big /* : Numeric */ {
             // borrow == false
             continue
           }
-          lhs.words.append(UInt.max - r + 1)
+          lhs.words.append(Word.max - r + 1)
           borrow = true
         }
       }
@@ -230,7 +287,7 @@ extension Big /* : Numeric */ {
       if T.isSigned && rhs._sign == .one {
         for i in common..<lwc {
           if borrow { break }
-          if lhs.words[i] == UInt.max {
+          if lhs.words[i] == Word.max {
             lhs.words[i] = 0
             // borrow == false
             continue
@@ -242,7 +299,7 @@ extension Big /* : Numeric */ {
         for i in common..<lwc {
           if !borrow { break }
           if lhs.words[i] == 0 {
-            lhs.words[i] = UInt.max
+            lhs.words[i] = Word.max
             // borrow == true
             continue
           }
@@ -252,15 +309,17 @@ extension Big /* : Numeric */ {
       }
     }
     guard T.isSigned else {
-      if !borrow { _ = T(-1) }
+      if borrow { _ = T(-1) }
       lhs._canonicalize()
       return
     }
     if lhs._sign == rhs._sign {
-      lhs._sign = borrow ? .zero : .one
+      lhs._sign = borrow ? .one : .zero
       lhs._canonicalize()
-    } else if borrow {
-      lhs.words.append(lhs._sign == .one ? UInt.max - 1 : 1)
+    } else if borrow && lhs._sign == .one {
+      lhs.words.append(Word.max - 1)
+    } else if !borrow && lhs._sign == .zero {
+      lhs.words.append(1)
     }
   }
 }
@@ -292,13 +351,13 @@ extension Big /* : BinaryInteger */ {
   }
 
   public var bitWidth: Int {
-    return UInt.bitWidth * words.count + (T.isSigned ? 1 : 0)
+    return Word.bitWidth * words.count + (T.isSigned ? 1 : 0)
   }
 
   public var trailingZeroBitCount: Int {
     for i in 0..<words.count {
       guard words[i] != 0 else { continue }
-      return words[i].trailingZeroBitCount + i * UInt.bitWidth
+      return words[i].trailingZeroBitCount + i * Word.bitWidth
     }
     return T.isSigned ? 1 : 0
   }
@@ -359,7 +418,7 @@ extension Big /* : BinaryInteger */ {
     } else if (T.isSigned && rhs._sign == .one) && lwc > rwc {
       lhs.words.replaceSubrange(
         common..<lwc,
-        with: repeatElement(UInt.max, count: lwc - common)
+        with: repeatElement(Word.max, count: lwc - common)
       )
     }
     if T.isSigned {
@@ -405,9 +464,19 @@ extension Big /* : BinaryInteger */ {
 }
 
 extension Big /* : SignedInteger */ where T : SignedInteger {
+  public static prefix func - (lhs: Big) -> Big {
+    return ~lhs + 1
+  }
 
+  public mutating func negate() {
+    self = ~self
+    self += 1
+  }
 }
 
 extension Big /* : UnsignedInteger */ where T : UnsignedInteger {
 
 }
+
+public typealias BigInt = Big<Int>
+public typealias BigUInt = Big<UInt>
