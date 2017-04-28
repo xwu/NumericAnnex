@@ -252,7 +252,8 @@ extension Rational {
   /// The sign of this value.
   @_transparent // @_inlineable
   public var sign: RationalSign {
-    return (denominator < 0) == (numerator < 0) ? .plus : .minus
+    return numerator == 0 || (denominator < 0) == (numerator < 0)
+      ? .plus : .minus
   }
 
   /// Returns the reciprocal (multiplicative inverse) of this value.
@@ -391,6 +392,38 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
     guard let _ = T(exactly: denominator.magnitude) else { return nil }
     self.numerator = numerator
     self.denominator = denominator
+  }
+
+  @_transparent // @_inlineable
+  public static func == (lhs: Rational, rhs: Rational) -> Bool {
+    if lhs.denominator == 0 {
+      if lhs.numerator == 0 { return false }
+      return rhs.denominator == 0 && rhs.numerator != 0
+        && (lhs.numerator < 0) == (rhs.numerator < 0)
+    }
+    if rhs.denominator == 0 { return false }
+
+    switch (lhs.sign, rhs.sign) {
+    case (.plus, .minus):
+      fallthrough
+    case (.minus, .plus):
+      return false
+    case (.plus, .plus):
+      fallthrough
+    case (.minus, .minus):
+      let ldm = lhs.denominator.magnitude
+      let rdm = rhs.denominator.magnitude
+      if ldm == rdm {
+        return lhs.numerator.magnitude == rhs.numerator.magnitude
+      }
+      let gcd = T.Magnitude.gcd(ldm, rdm)
+      let a = rdm / gcd
+      let b = ldm / gcd
+      // Use full-width multiplication to avoid trapping on overflow.
+      let c = a.multipliedFullWidth(by: lhs.numerator.magnitude)
+      let d = b.multipliedFullWidth(by: rhs.numerator.magnitude)
+      return c.high == d.high && c.low == d.low
+    }
   }
 
   @_transparent // @_inlineable
