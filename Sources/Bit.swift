@@ -201,6 +201,12 @@ extension Bit : FixedWidthInteger {
   }
 
   @_transparent
+  public func remainderReportingOverflow(dividingBy rhs: Bit)
+    -> (partialValue: Bit, overflow: ArithmeticOverflow) {
+    return (Bit(rawValue % rhs.rawValue), .none)
+  }
+
+  @_transparent
   public func multipliedFullWidth(by other: Bit) -> (high: Bit, low: Bit) {
     return (.zero, Bit(rawValue * other.rawValue))
   }
