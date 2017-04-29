@@ -11,6 +11,80 @@ extension Big {
     return T.isSigned && T(extendingOrTruncating: words.last!) < 0
   }
 
+  internal static func _longMultiply<U>(_ lhs: U, _ rhs: U) -> [Word]
+    where U : RandomAccessCollection, U.SubSequence : RandomAccessCollection,
+      U.Iterator.Element == Word, U.Index == Int, U.IndexDistance == Int,
+      U.SubSequence.IndexDistance == U.IndexDistance {
+    let lhsWordCount = lhs.count
+    let rhsWordCount = rhs.count
+    if lhsWordCount == 1 && rhsWordCount == 1 {
+      let (high, low) = lhs.last!.multipliedFullWidth(by: rhs.last!)
+      return [low, high]
+    }
+    var words = [Word](repeating: 0, count: lhsWordCount + rhsWordCount)
+    var outerCarry = 0 as Word
+    for outerIndex in 0..<rhsWordCount {
+      let word = rhs[outerIndex]
+      var innerCarry = 0 as Word
+      for innerIndex in 0..<lhsWordCount {
+        var high: Word
+        let low: Word
+        (high, low) = lhs[innerIndex].multipliedFullWidth(by: word)
+        let offset = outerIndex + innerIndex
+        var overflow: ArithmeticOverflow
+        (words[offset], overflow) = words[offset].addingReportingOverflow(low)
+        if overflow == .overflow { innerCarry += 1 }
+        (high, overflow) = high.addingReportingOverflow(innerCarry)
+        innerCarry = (overflow == .overflow) ? 1 : 0
+        (words[offset + 1], overflow) =
+          words[offset + 1].addingReportingOverflow(high)
+        if overflow == .overflow { innerCarry += 1 }
+      }
+      let offset = outerIndex + lhsWordCount
+      let overflow: ArithmeticOverflow
+      (words[offset], overflow) =
+        words[offset].addingReportingOverflow(outerCarry)
+      outerCarry = (overflow == .overflow) ? innerCarry + 1 : innerCarry
+    }
+    return words
+  }
+
+  /*
+  internal static func _karatsubaMultiply<U>(_ lhs: U, _ rhs: U, threshold: Int)
+    -> [Word]
+    where U : RandomAccessCollection, U.SubSequence : RandomAccessCollection,
+      U.Iterator.Element == Word, U.Index == Int, U.IndexDistance == Int,
+      U.SubSequence.IndexDistance == U.IndexDistance {
+    let lhsWordCount = lhs.count
+    let rhsWordCount = rhs.count
+    if lhsWordCount == 0 || rhsWordCount == 0 {
+      return [0]
+    } else if lhsWordCount < threshold || rhsWordCount < threshold {
+      return _longMultiply(lhs, rhs)
+    }
+    let m = (max(lhsWordCount, rhsWordCount) + 1) / 2
+    let lhsLowCount = min(m, lhsWordCount)
+    let lhsLow = lhs[0..<lhsLowCount]
+    let lhsHigh = lhs[lhsLowCount..<lhsWordCount]
+    let rhsLowCount = min(m, rhsWordCount)
+    let rhsLow = rhs[0..<rhsLowCount]
+    let rhsHigh = rhs[rhsLowCount..<rhsWordCount]
+    let z0 = _karatsubaMultiply(lhsLow, rhsLow, threshold: threshold)
+    // FIXME: This addition is clearly inefficient.
+    let z1 = _karatsubaMultiply(
+      (Big(Array(lhsLow)) + Big(Array(lhsHigh))).words,
+      (Big(Array(rhsLow)) + Big(Array(rhsHigh))).words,
+      threshold: threshold
+    )
+    var bm = [Word](repeating: 0, count: m)
+    bm.append(contentsOf: z1)
+    let z2 = _karatsubaMultiply(lhsHigh, rhsHigh, threshold: threshold)
+    var bm2 = [Word](repeating: 0, count: m * 2)
+    bm2.append(contentsOf: z2)
+    return (Big(bm2) + Big(bm) + Big(z0)).words
+  }
+  */
+
   internal mutating func _canonicalize() {
     guard let last = words.last,
       last == 0 || (T.isSigned && last == Word.max) else { return }
@@ -45,39 +119,6 @@ extension Big {
     }
     self += 1
   }
-
-  internal static func _longMultiply<U>(_ lhs: U, _ rhs: U) -> [Word]
-    where U : RandomAccessCollection, U.Iterator.Element == Word,
-      U.Index == Int, U.IndexDistance == Int {
-    let lcount = lhs.count
-    let rcount = rhs.count
-    var words = [Word](repeating: 0, count: lcount + rcount)
-    var icarry = 0 as Word
-    for i in 0..<rcount {
-      let rword = rhs[i]
-      var jcarry = 0 as Word
-      for j in 0..<lcount {
-        var high: Word
-        let low: Word
-        (high, low) = lhs[j].multipliedFullWidth(by: rword)
-        let offset = i + j
-        var overflow: ArithmeticOverflow
-        (words[offset], overflow) = words[offset].addingReportingOverflow(low)
-        if overflow == .overflow { jcarry += 1 }
-        (high, overflow) = high.addingReportingOverflow(jcarry)
-        jcarry = (overflow == .overflow) ? 1 : 0
-        (words[offset + 1], overflow) =
-          words[offset + 1].addingReportingOverflow(high)
-        if overflow == .overflow { jcarry += 1 }
-      }
-      let offset = i + lcount
-      let overflow: ArithmeticOverflow
-      (words[offset], overflow) =
-        words[offset].addingReportingOverflow(icarry)
-      icarry = (overflow == .overflow) ? jcarry + 1 : jcarry
-    }
-    return words
-  }
 }
 
 extension Big : Numeric {
@@ -97,11 +138,12 @@ extension Big : Numeric {
   }
 
   public static func += (lhs: inout Big, rhs: Big) {
-    let lnegative = lhs._isNegative
+    let lhsIsNegative = lhs._isNegative
+    let rhsIsNegative = rhs._isNegative
 
-    let lcount = lhs.words.count
-    let rcount = rhs.words.count
-    let common = min(lcount, rcount)
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    let common = min(lhsWordCount, rhsWordCount)
     var carry = false
     for i in 0..<common {
       var r = rhs.words[i]
@@ -116,10 +158,10 @@ extension Big : Numeric {
       (lhs.words[i], overflow) = lhs.words[i].addingReportingOverflow(r)
       carry = (overflow == .overflow)
     }
-    if lcount < rcount {
-      lhs.words.reserveCapacity(rcount)
-      if lnegative {
-        for i in common..<rcount {
+    if lhsWordCount < rhsWordCount {
+      lhs.words.reserveCapacity(rhsWordCount)
+      if lhsIsNegative {
+        for i in common..<rhsWordCount {
           var r = rhs.words[i]
           if !carry {
             if r == 0 {
@@ -133,7 +175,7 @@ extension Big : Numeric {
           carry = true
         }
       } else {
-        for i in common..<rcount {
+        for i in common..<rhsWordCount {
           var r = rhs.words[i]
           if carry {
             if r == Word.max {
@@ -147,10 +189,10 @@ extension Big : Numeric {
           carry = false
         }
       }
-    } else if lcount > rcount {
-      if rhs._isNegative {
+    } else if lhsWordCount > rhsWordCount {
+      if rhsIsNegative {
         if !carry {
-          for i in common..<lcount {
+          for i in common..<lhsWordCount {
             if lhs.words[i] == 0 {
               lhs.words[i] = Word.max
               // carry == false
@@ -162,7 +204,7 @@ extension Big : Numeric {
           }
         }
       } else if carry {
-        for i in common..<lcount {
+        for i in common..<lhsWordCount {
           if lhs.words[i] == Word.max {
             lhs.words[i] = 0
             // carry == true
@@ -174,15 +216,14 @@ extension Big : Numeric {
         }
       }
     }
+
     guard T.isSigned else {
       if carry { lhs.words.append(1) }
       return
     }
-
-    let rnegative = rhs._isNegative
-    if lnegative && rnegative && !lhs._isNegative {
+    if lhsIsNegative && rhsIsNegative && !lhs._isNegative {
       lhs.words.append(Word.max)
-    } else if !lnegative && !rnegative && lhs._isNegative {
+    } else if !lhsIsNegative && !rhsIsNegative && lhs._isNegative {
       lhs.words.append(0)
     } else {
       lhs._canonicalize()
@@ -197,11 +238,12 @@ extension Big : Numeric {
   }
 
   public static func -= (lhs: inout Big, rhs: Big) {
-    let lnegative = lhs._isNegative
+    let lhsIsNegative = lhs._isNegative
+    let rhsIsNegative = rhs._isNegative
 
-    let lcount = lhs.words.count
-    let rcount = rhs.words.count
-    let common = min(lcount, rcount)
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    let common = min(lhsWordCount, rhsWordCount)
     var borrow = false
     for i in 0..<common {
       var r = rhs.words[i]
@@ -216,10 +258,10 @@ extension Big : Numeric {
       (lhs.words[i], overflow) = lhs.words[i].subtractingReportingOverflow(r)
       borrow = (overflow == .overflow)
     }
-    if lcount < rcount {
-      lhs.words.reserveCapacity(rcount)
-      if lnegative {
-        for i in common..<rcount {
+    if lhsWordCount < rhsWordCount {
+      lhs.words.reserveCapacity(rhsWordCount)
+      if lhsIsNegative {
+        for i in common..<rhsWordCount {
           let r = rhs.words[i]
           if !borrow {
             lhs.words.append(Word.max - r)
@@ -234,7 +276,7 @@ extension Big : Numeric {
           borrow = false
         }
       } else {
-        for i in common..<rcount {
+        for i in common..<rhsWordCount {
           let r = rhs.words[i]
           if borrow {
             lhs.words.append(Word.max - r)
@@ -249,9 +291,9 @@ extension Big : Numeric {
           borrow = true
         }
       }
-    } else if lcount > rcount {
-      if rhs._isNegative {
-        for i in common..<lcount {
+    } else if lhsWordCount > rhsWordCount {
+      if rhsIsNegative {
+        for i in common..<lhsWordCount {
           if borrow { break }
           if lhs.words[i] == Word.max {
             lhs.words[i] = 0
@@ -262,7 +304,7 @@ extension Big : Numeric {
           borrow = true
         }
       } else {
-        for i in common..<lcount {
+        for i in common..<lhsWordCount {
           if !borrow { break }
           if lhs.words[i] == 0 {
             lhs.words[i] = Word.max
@@ -274,17 +316,16 @@ extension Big : Numeric {
         }
       }
     }
+
     guard T.isSigned else {
       // If `T` is unsigned, underflow behaves like converting -1 to type `T`.
       if borrow { _ = T(-1) }
       lhs._canonicalize()
       return
     }
-
-    let rnegative = rhs._isNegative
-    if lnegative && !rnegative && !lhs._isNegative {
+    if lhsIsNegative && !rhsIsNegative && !lhs._isNegative {
       lhs.words.append(Word.max)
-    } else if !lnegative && rnegative && lhs._isNegative {
+    } else if !lhsIsNegative && rhsIsNegative && lhs._isNegative {
       lhs.words.append(0)
     } else {
       lhs._canonicalize()
@@ -299,20 +340,15 @@ extension Big : Numeric {
   }
 
   public static func *= (lhs: inout Big, rhs: Big) {
-    let lnegative = lhs._isNegative
-    if lnegative { lhs._negate() }
-    let rnegative = rhs._isNegative
-    let rhs = rnegative ? rhs._negated() : rhs
+    let lhsIsNegative = lhs._isNegative
+    if lhsIsNegative { lhs._negate() }
+    let rhsIsNegative = rhs._isNegative
+    let rhs = rhsIsNegative ? rhs._negated() : rhs
 
-    if lhs.words.count == 1 && rhs.words.count == 1 {
-      let (high, low) = lhs.words.last!.multipliedFullWidth(by: rhs.words.last!)
-      lhs.words = [low, high]
-    } else {
-      lhs.words = _longMultiply(lhs.words, rhs.words)
-    }
+    lhs.words = _longMultiply(lhs.words, rhs.words)
     lhs._canonicalize()
 
-    if lnegative != rnegative { lhs._negate() }
+    if lhsIsNegative != rhsIsNegative { lhs._negate() }
   }
 }
 
@@ -372,17 +408,19 @@ extension Big /* : BinaryInteger */ {
   }
 
   public static func &= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs.words.count
-    let rwc = rhs.words.count
-    let common = min(lwc, rwc)
+    let lhsIsNegative = lhs._isNegative
+    let rhsIsNegative = rhs._isNegative
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    let common = min(lhsWordCount, rhsWordCount)
     for i in 0..<common {
       lhs.words[i] &= rhs.words[i]
     }
-    if !rhs._isNegative && lwc > rwc {
-      lhs.words.removeSubrange(common..<lwc)
-    } else if lhs._isNegative && lwc < rwc {
-      lhs.words.reserveCapacity(rwc)
-      lhs.words.append(contentsOf: rhs.words[common..<rwc])
+    if !rhsIsNegative && lhsWordCount > rhsWordCount {
+      lhs.words.removeSubrange(common..<lhsWordCount)
+    } else if lhsIsNegative && lhsWordCount < rhsWordCount {
+      lhs.words.reserveCapacity(rhsWordCount)
+      lhs.words.append(contentsOf: rhs.words[common..<rhsWordCount])
     }
   }
 
@@ -394,18 +432,21 @@ extension Big /* : BinaryInteger */ {
   }
 
   public static func |= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs.words.count
-    let rwc = rhs.words.count
-    let common = min(lwc, rwc)
+    let lhsIsNegative = lhs._isNegative
+    let rhsIsNegative = rhs._isNegative
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    let common = min(lhsWordCount, rhsWordCount)
     for i in 0..<common {
       lhs.words[i] |= rhs.words[i]
     }
-    if !lhs._isNegative && lwc < rwc {
-      lhs.words.reserveCapacity(rwc)
-      lhs.words.append(contentsOf: rhs.words[common..<rwc])
-    } else if rhs._isNegative && lwc > rwc {
+    if !lhsIsNegative && lhsWordCount < rhsWordCount {
+      lhs.words.reserveCapacity(rhsWordCount)
+      lhs.words.append(contentsOf: rhs.words[common..<rhsWordCount])
+    } else if rhsIsNegative && lhsWordCount > rhsWordCount {
       lhs.words.replaceSubrange(
-        common..<lwc, with: repeatElement(Word.max, count: lwc - common)
+        common..<lhsWordCount,
+        with: repeatElement(Word.max, count: lhsWordCount - common)
       )
     }
   }
@@ -418,21 +459,25 @@ extension Big /* : BinaryInteger */ {
   }
 
   public static func ^= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs.words.count
-    let rwc = rhs.words.count
-    let common = min(lwc, rwc)
+    let lhsIsNegative = lhs._isNegative
+    let rhsIsNegative = rhs._isNegative
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    let common = min(lhsWordCount, rhsWordCount)
     for i in 0..<common {
       lhs.words[i] ^= rhs.words[i]
     }
-    if lwc < rwc {
-      lhs.words.reserveCapacity(rwc)
-      if !lhs._isNegative {
-        lhs.words.append(contentsOf: rhs.words[common..<rwc])
+    if lhsWordCount < rhsWordCount {
+      lhs.words.reserveCapacity(rhsWordCount)
+      if !lhsIsNegative {
+        lhs.words.append(contentsOf: rhs.words[common..<rhsWordCount])
       } else {
-        lhs.words.append(contentsOf: rhs.words[common..<rwc].lazy.map { ~$0 })
+        lhs.words.append(
+          contentsOf: rhs.words[common..<rhsWordCount].lazy.map { ~$0 }
+        )
       }
-    } else if rhs._isNegative && lwc > rwc {
-      for i in common..<lwc {
+    } else if rhsIsNegative && lhsWordCount > rhsWordCount {
+      for i in common..<lhsWordCount {
         lhs.words[i] = ~lhs.words[i]
       }
     }

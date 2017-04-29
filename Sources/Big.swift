@@ -64,19 +64,19 @@ extension Big : Equatable {
 extension Big : Comparable {
   public static func < (lhs: Big, rhs: Big) -> Bool {
     // We require that `lhs` and `rhs` have words that are canonicalized.
-    let lcount = lhs.words.count
-    let rcount = rhs.words.count
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
     if lhs._isNegative {
       guard rhs._isNegative else { return true }
-      if lcount < rcount { return false }
-      if lcount > rcount { return true }
+      if lhsWordCount < rhsWordCount { return false }
+      if lhsWordCount > rhsWordCount { return true }
     } else {
       if rhs._isNegative { return false }
-      if lcount < rcount { return true }
-      if lcount > rcount { return false }
+      if lhsWordCount < rhsWordCount { return true }
+      if lhsWordCount > rhsWordCount { return false }
     }
 
-    for i in (0..<lcount).reversed() {
+    for i in (0..<lhsWordCount).reversed() {
       let l = lhs.words[i]
       let r = rhs.words[i]
       if l < r { return true }
