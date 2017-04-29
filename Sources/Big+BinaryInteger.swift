@@ -269,19 +269,21 @@ extension Big : Numeric {
     let lhsWordCount = lhs.words.count
     let rhsWordCount = rhs.words.count
     if lhsWordCount == 1 {
-      let word = lhs.words.last!
+      let word = T(extendingOrTruncating: lhs.words.last!)
       if word == 0 {
         lhs.words = [0]
         return
       }
       if rhsWordCount == 1 {
-        let (high, low) = word.multipliedFullWidth(by: rhs.words.last!)
-        lhs.words = [low, high]
+        let (high, low) = word.multipliedFullWidth(
+          by: T(extendingOrTruncating: rhs.words.last!)
+        )
+        lhs.words = [low, Word(extendingOrTruncating: high)]
         lhs._canonicalize()
         return
       }
     }
-    if rhsWordCount == 1 && rhs.words.last! == 0 {
+    if rhsWordCount == 1 && T(extendingOrTruncating: rhs.words.last!) == 0 {
       lhs.words = [0]
       return
     }
