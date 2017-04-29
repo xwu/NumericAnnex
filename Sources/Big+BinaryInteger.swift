@@ -291,57 +291,33 @@ extension Big : Numeric {
     let rhsIsNegative = rhs._isNegative
     let rhs = rhsIsNegative ? rhs._negated() : rhs
 
-    /*
-    let karatsubaThreshold = 10
-    if lhsWordCount < karatsubaThreshold || rhsWordCount < karatsubaThreshold {
-    */
-      var words = [Word](repeating: 0, count: lhsWordCount + rhsWordCount)
-      var outerCarry = 0 as Word
-      for outerIndex in 0..<rhsWordCount {
-        let word = rhs.words[outerIndex]
-        var innerCarry = 0 as Word
-        for innerIndex in 0..<lhsWordCount {
-          var high: Word
-          let low: Word
-          (high, low) = lhs.words[innerIndex].multipliedFullWidth(by: word)
-          let offset = outerIndex + innerIndex
-          var overflow: ArithmeticOverflow
-          (words[offset], overflow) = words[offset].addingReportingOverflow(low)
-          if overflow == .overflow { innerCarry += 1 }
-          (high, overflow) = high.addingReportingOverflow(innerCarry)
-          innerCarry = (overflow == .overflow) ? 1 : 0
-          (words[offset + 1], overflow) =
-            words[offset + 1].addingReportingOverflow(high)
-          if overflow == .overflow { innerCarry += 1 }
-        }
-        let offset = outerIndex + lhsWordCount
-        let overflow: ArithmeticOverflow
-        (words[offset], overflow) =
-          words[offset].addingReportingOverflow(outerCarry)
-        outerCarry = (overflow == .overflow) ? innerCarry + 1 : innerCarry
+    var words = [Word](repeating: 0, count: lhsWordCount + rhsWordCount)
+    var outerCarry = 0 as Word
+    for outerIndex in 0..<rhsWordCount {
+      let word = rhs.words[outerIndex]
+      var innerCarry = 0 as Word
+      for innerIndex in 0..<lhsWordCount {
+        var high: Word
+        let low: Word
+        (high, low) = lhs.words[innerIndex].multipliedFullWidth(by: word)
+        let offset = outerIndex + innerIndex
+        var overflow: ArithmeticOverflow
+        (words[offset], overflow) = words[offset].addingReportingOverflow(low)
+        if overflow == .overflow { innerCarry += 1 }
+        (high, overflow) = high.addingReportingOverflow(innerCarry)
+        innerCarry = (overflow == .overflow) ? 1 : 0
+        (words[offset + 1], overflow) =
+          words[offset + 1].addingReportingOverflow(high)
+        if overflow == .overflow { innerCarry += 1 }
       }
-      lhs.words = words
-    /*
-    } else {
-      let m = (max(lhsWordCount, rhsWordCount) + 1) / 2
-      let rhsLowCount = min(m, rhsWordCount)
-      let rhsHigh = Big<Word>([Word](rhs.words[rhsLowCount..<rhsWordCount]))
-      let rhsLow = Big<Word>([Word](rhs.words[0..<rhsLowCount]))
-
-      var z1: Big<Word>
-      let lhsLowCount = min(m, lhsWordCount)
-      var z2 = Big<Word>([Word](lhs.words[lhsLowCount..<lhsWordCount]))
-      var z0 = Big<Word>([Word](lhs.words[0..<lhsLowCount]))
-
-      z1 = (z0 + z2) * (rhsLow + rhsHigh)
-      z1.words.replaceSubrange(0..<0, with: repeatElement(0, count: m))
-      z2 *= rhsHigh
-      z2.words.replaceSubrange(0..<0, with: repeatElement(0, count: m * 2))
-      z0 *= rhsLow
-      // print(z0, z1, z2)
-      lhs.words = (z0 + z1 + z2).words
+      let offset = outerIndex + lhsWordCount
+      let overflow: ArithmeticOverflow
+      (words[offset], overflow) =
+        words[offset].addingReportingOverflow(outerCarry)
+      outerCarry = (overflow == .overflow) ? innerCarry + 1 : innerCarry
     }
-    */
+    lhs.words = words
+
     if lhsIsNegative != rhsIsNegative { lhs._negate() }
     lhs._canonicalize()
   }

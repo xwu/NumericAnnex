@@ -20,7 +20,8 @@ T.Magnitude.Magnitude == T.Magnitude {
 
   /// Creates a new value with the given words.
   internal init(_ _words: [Word]) {
-    self.words = _words.count > 0 ? _words : [0]
+    precondition(_words.count > 0)
+    self.words = _words
   }
 }
 
@@ -35,6 +36,9 @@ extension Big {
     // If `T` is unsigned, underflow behaves like converting -1 to type `T`.
     if !T.isSigned && other._isNegative { _ = T(-1) }
     self.words = other.words
+    if !U.isSigned && _isNegative {
+      self.words.append(0)
+    }
   }
 }
 
@@ -91,6 +95,9 @@ extension Big : Hashable {
 
 extension Big : CustomStringConvertible {
   public var description : String {
+    if words.count == 1 {
+      return T(extendingOrTruncating: words.last!).description
+    }
     if _isNegative {
       return "-\(self._negated().description)"
     }

@@ -18,7 +18,7 @@ class BigTests: XCTestCase {
     let z = Big<Int8>(Int8.max)
     let a = Int(Int8.max)
     XCTAssertEqual((z * z).description, (a * a).description)
-    XCTAssertEqual((z * z * z * z).description, (a * a * a * a).description)
+    XCTAssertEqual((z * z * z).description, (a * a * a).description)
   }
 
   static var allTests = [
