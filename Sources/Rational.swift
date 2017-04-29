@@ -70,9 +70,9 @@
 /// occurs when the division (`/`) operator is used to create a value of type
 /// `Rational<T>` with numerator `T.min`.
 @_fixed_layout
-public struct Rational<
-  T : SignedInteger & _ExpressibleByBuiltinIntegerLiteral
-> where T.Magnitude : UnsignedInteger, T.Magnitude.Magnitude == T.Magnitude {
+public struct Rational<T : SignedInteger>
+where T : _ExpressibleByBuiltinIntegerLiteral,
+T.Magnitude : UnsignedInteger, T.Magnitude.Magnitude == T.Magnitude {
   /// The numerator of the rational value.
   public var numerator: T
 

@@ -11,80 +11,6 @@ extension Big {
     return T.isSigned && T(extendingOrTruncating: words.last!) < 0
   }
 
-  internal static func _longMultiply<U>(_ lhs: U, _ rhs: U) -> [Word]
-    where U : RandomAccessCollection, U.SubSequence : RandomAccessCollection,
-      U.Iterator.Element == Word, U.Index == Int, U.IndexDistance == Int,
-      U.SubSequence.IndexDistance == U.IndexDistance {
-    let lhsWordCount = lhs.count
-    let rhsWordCount = rhs.count
-    if lhsWordCount == 1 && rhsWordCount == 1 {
-      let (high, low) = lhs.last!.multipliedFullWidth(by: rhs.last!)
-      return [low, high]
-    }
-    var words = [Word](repeating: 0, count: lhsWordCount + rhsWordCount)
-    var outerCarry = 0 as Word
-    for outerIndex in 0..<rhsWordCount {
-      let word = rhs[outerIndex]
-      var innerCarry = 0 as Word
-      for innerIndex in 0..<lhsWordCount {
-        var high: Word
-        let low: Word
-        (high, low) = lhs[innerIndex].multipliedFullWidth(by: word)
-        let offset = outerIndex + innerIndex
-        var overflow: ArithmeticOverflow
-        (words[offset], overflow) = words[offset].addingReportingOverflow(low)
-        if overflow == .overflow { innerCarry += 1 }
-        (high, overflow) = high.addingReportingOverflow(innerCarry)
-        innerCarry = (overflow == .overflow) ? 1 : 0
-        (words[offset + 1], overflow) =
-          words[offset + 1].addingReportingOverflow(high)
-        if overflow == .overflow { innerCarry += 1 }
-      }
-      let offset = outerIndex + lhsWordCount
-      let overflow: ArithmeticOverflow
-      (words[offset], overflow) =
-        words[offset].addingReportingOverflow(outerCarry)
-      outerCarry = (overflow == .overflow) ? innerCarry + 1 : innerCarry
-    }
-    return words
-  }
-
-  /*
-  internal static func _karatsubaMultiply<U>(_ lhs: U, _ rhs: U, threshold: Int)
-    -> [Word]
-    where U : RandomAccessCollection, U.SubSequence : RandomAccessCollection,
-      U.Iterator.Element == Word, U.Index == Int, U.IndexDistance == Int,
-      U.SubSequence.IndexDistance == U.IndexDistance {
-    let lhsWordCount = lhs.count
-    let rhsWordCount = rhs.count
-    if lhsWordCount == 0 || rhsWordCount == 0 {
-      return [0]
-    } else if lhsWordCount < threshold || rhsWordCount < threshold {
-      return _longMultiply(lhs, rhs)
-    }
-    let m = (max(lhsWordCount, rhsWordCount) + 1) / 2
-    let lhsLowCount = min(m, lhsWordCount)
-    let lhsLow = lhs[0..<lhsLowCount]
-    let lhsHigh = lhs[lhsLowCount..<lhsWordCount]
-    let rhsLowCount = min(m, rhsWordCount)
-    let rhsLow = rhs[0..<rhsLowCount]
-    let rhsHigh = rhs[rhsLowCount..<rhsWordCount]
-    let z0 = _karatsubaMultiply(lhsLow, rhsLow, threshold: threshold)
-    // FIXME: This addition is clearly inefficient.
-    let z1 = _karatsubaMultiply(
-      (Big(Array(lhsLow)) + Big(Array(lhsHigh))).words,
-      (Big(Array(rhsLow)) + Big(Array(rhsHigh))).words,
-      threshold: threshold
-    )
-    var bm = [Word](repeating: 0, count: m)
-    bm.append(contentsOf: z1)
-    let z2 = _karatsubaMultiply(lhsHigh, rhsHigh, threshold: threshold)
-    var bm2 = [Word](repeating: 0, count: m * 2)
-    bm2.append(contentsOf: z2)
-    return (Big(bm2) + Big(bm) + Big(z0)).words
-  }
-  */
-
   internal mutating func _canonicalize() {
     guard let last = words.last,
       last == 0 || (T.isSigned && last == Word.max) else { return }
@@ -340,15 +266,84 @@ extension Big : Numeric {
   }
 
   public static func *= (lhs: inout Big, rhs: Big) {
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    if lhsWordCount == 1 {
+      let word = lhs.words.last!
+      if word == 0 {
+        lhs.words = [0]
+        return
+      }
+      if rhsWordCount == 1 {
+        let (high, low) = word.multipliedFullWidth(by: rhs.words.last!)
+        lhs.words = [low, high]
+        lhs._canonicalize()
+        return
+      }
+    }
+    if rhsWordCount == 1 && rhs.words.last! == 0 {
+      lhs.words = [0]
+      return
+    }
+
     let lhsIsNegative = lhs._isNegative
     if lhsIsNegative { lhs._negate() }
     let rhsIsNegative = rhs._isNegative
     let rhs = rhsIsNegative ? rhs._negated() : rhs
 
-    lhs.words = _longMultiply(lhs.words, rhs.words)
-    lhs._canonicalize()
+    /*
+    let karatsubaThreshold = 10
+    if lhsWordCount < karatsubaThreshold || rhsWordCount < karatsubaThreshold {
+    */
+      var words = [Word](repeating: 0, count: lhsWordCount + rhsWordCount)
+      var outerCarry = 0 as Word
+      for outerIndex in 0..<rhsWordCount {
+        let word = rhs.words[outerIndex]
+        var innerCarry = 0 as Word
+        for innerIndex in 0..<lhsWordCount {
+          var high: Word
+          let low: Word
+          (high, low) = lhs.words[innerIndex].multipliedFullWidth(by: word)
+          let offset = outerIndex + innerIndex
+          var overflow: ArithmeticOverflow
+          (words[offset], overflow) = words[offset].addingReportingOverflow(low)
+          if overflow == .overflow { innerCarry += 1 }
+          (high, overflow) = high.addingReportingOverflow(innerCarry)
+          innerCarry = (overflow == .overflow) ? 1 : 0
+          (words[offset + 1], overflow) =
+            words[offset + 1].addingReportingOverflow(high)
+          if overflow == .overflow { innerCarry += 1 }
+        }
+        let offset = outerIndex + lhsWordCount
+        let overflow: ArithmeticOverflow
+        (words[offset], overflow) =
+          words[offset].addingReportingOverflow(outerCarry)
+        outerCarry = (overflow == .overflow) ? innerCarry + 1 : innerCarry
+      }
+      lhs.words = words
+    /*
+    } else {
+      let m = (max(lhsWordCount, rhsWordCount) + 1) / 2
+      let rhsLowCount = min(m, rhsWordCount)
+      let rhsHigh = Big<Word>([Word](rhs.words[rhsLowCount..<rhsWordCount]))
+      let rhsLow = Big<Word>([Word](rhs.words[0..<rhsLowCount]))
 
+      var z1: Big<Word>
+      let lhsLowCount = min(m, lhsWordCount)
+      var z2 = Big<Word>([Word](lhs.words[lhsLowCount..<lhsWordCount]))
+      var z0 = Big<Word>([Word](lhs.words[0..<lhsLowCount]))
+
+      z1 = (z0 + z2) * (rhsLow + rhsHigh)
+      z1.words.replaceSubrange(0..<0, with: repeatElement(0, count: m))
+      z2 *= rhsHigh
+      z2.words.replaceSubrange(0..<0, with: repeatElement(0, count: m * 2))
+      z0 *= rhsLow
+      // print(z0, z1, z2)
+      lhs.words = (z0 + z1 + z2).words
+    }
+    */
     if lhsIsNegative != rhsIsNegative { lhs._negate() }
+    lhs._canonicalize()
   }
 }
 
@@ -375,7 +370,11 @@ extension Big /* : BinaryInteger */ {
   }
 
   public init<U : BinaryInteger>(clamping source: U) {
-    fatalError()
+    if !T.isSigned && source < 0 {
+      self.init(0 as U)
+    } else {
+      self.init(source)
+    }
   }
 
   public var bitWidth: Int {
@@ -390,7 +389,27 @@ extension Big /* : BinaryInteger */ {
     return bitWidth
   }
 
-  // TODO: Implement `/`, `/=`, `%`, `%=`.
+  public static func / (_ lhs: Big, _ rhs: Big) -> Big {
+    var lhs = lhs
+    lhs /= rhs
+    return rhs
+  }
+
+  public static func /= (_ lhs: inout Big, _ rhs: Big) {
+    // TODO: Implement division.
+    fatalError()
+  }
+
+  public static func % (_ lhs: Big, _ rhs: Big) -> Big {
+    var lhs = lhs
+    lhs %= rhs
+    return rhs
+  }
+
+  public static func %= (_ lhs: inout Big, _ rhs: Big) {
+    // TODO: Implement remainder.
+    fatalError()
+  }
 
   public static prefix func ~ (rhs: Big) -> Big {
     var words = rhs.words
@@ -483,12 +502,31 @@ extension Big /* : BinaryInteger */ {
     }
   }
 
-  // TODO: Implement `&<<`, `&<<=`, `&>>`, `&>>=`.
+  public static func &<< (_ lhs: Big, _ rhs: Big) -> Big {
+    fatalError()
+  }
+
+  public static func &<<= (_ lhs: inout Big, _ rhs: Big) {
+    fatalError()
+  }
+
+  public static func &>> (_ lhs: Big, _ rhs: Big) -> Big {
+    fatalError()
+  }
+
+  public static func &>>= (_ lhs: inout Big, _ rhs: Big) {
+    fatalError()
+  }
 
   public func signum() -> Big {
     if _isNegative { return -1 }
     if words.last! == 0 { return 0 }
     return 1
+  }
+
+  public func word(at n: Int) -> UInt {
+    // TODO: Implement (or, eventually, remove).
+    fatalError()
   }
 }
 

@@ -6,23 +6,21 @@
 //
 
 /// A type to represent an arbitrary-precision integer.
-public struct Big<
-  T : FixedWidthInteger & _ExpressibleByBuiltinIntegerLiteral
-> where
-  T.Magnitude : UnsignedInteger,
-  T.Magnitude : FixedWidthInteger,
-  T.Magnitude : _ExpressibleByBuiltinIntegerLiteral,
-  T.Magnitude.Magnitude == T.Magnitude {
+public struct Big<T : FixedWidthInteger>
+where T : _ExpressibleByBuiltinIntegerLiteral,
+T.Magnitude : FixedWidthInteger & UnsignedInteger,
+T.Magnitude : _ExpressibleByBuiltinIntegerLiteral,
+T.Magnitude.Magnitude == T.Magnitude {
+  /// A type that represents a word in the representation of the value.
   public typealias Word = T.Magnitude
   
-  /// The collection of words in two's complement form, from least significant
-  /// to most significant.
+  /// The collection of words in the representation of the value in two's
+  /// complement form, from least significant to most significant.
   public internal(set) var words: [Word]
 
   /// Creates a new value with the given words.
   internal init(_ _words: [Word]) {
-    precondition(_words.count > 0)
-    self.words = _words
+    self.words = _words.count > 0 ? _words : [0]
   }
 }
 
@@ -35,9 +33,7 @@ extension Big {
   // TODO: Document this initializer.
   public init<U>(_ other: Big<U>) where U.Magnitude == T.Magnitude {
     // If `T` is unsigned, underflow behaves like converting -1 to type `T`.
-    if !T.isSigned && U(extendingOrTruncating: other.words.last!) < 0 {
-      _ = T(-1)
-    }
+    if !T.isSigned && other._isNegative { _ = T(-1) }
     self.words = other.words
   }
 }
@@ -83,6 +79,13 @@ extension Big : Comparable {
       if l > r { return false }
     }
     return false
+  }
+}
+
+extension Big : Hashable {
+  public var hashValue: Int {
+    // TODO: Implement `hashValue`.
+    fatalError()
   }
 }
 

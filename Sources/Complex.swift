@@ -40,9 +40,8 @@
 /// [dfn]: http://mathworld.wolfram.com/BranchCut.html
 /// [std]: http://www.open-std.org/JTC1/SC22/WG14/www/standards.html#9899
 @_fixed_layout
-public struct Complex<
-  T : FloatingPointMath & _ExpressibleByBuiltinFloatLiteral
-> {
+public struct Complex<T : FloatingPointMath>
+where T : _ExpressibleByBuiltinFloatLiteral {
   /// The real component of the complex value.
   public var real: T
 
