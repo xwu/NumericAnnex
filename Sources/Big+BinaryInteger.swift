@@ -118,7 +118,7 @@ extension Big : Numeric {
     }
     if lcount < rcount {
       lhs.words.reserveCapacity(rcount)
-      if lhs._isNegative {
+      if lnegative {
         for i in common..<rcount {
           var r = rhs.words[i]
           if !carry {
@@ -218,7 +218,7 @@ extension Big : Numeric {
     }
     if lcount < rcount {
       lhs.words.reserveCapacity(rcount)
-      if lhs._isNegative {
+      if lnegative {
         for i in common..<rcount {
           let r = rhs.words[i]
           if !borrow {
