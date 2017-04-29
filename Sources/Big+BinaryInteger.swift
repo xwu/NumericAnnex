@@ -5,16 +5,88 @@
 //  Created by Xiaodi Wu on 4/26/17.
 //
 
-/*
+extension Big {
+  /// A Boolean value indicating whether the instance is negative.
+  internal var _isNegative: Bool {
+    return T.isSigned && T(extendingOrTruncating: words.last!) < 0
+  }
+
+  internal mutating func _canonicalize() {
+    guard let last = words.last,
+      last == 0 || (T.isSigned && last == Word.max) else { return }
+
+    let old = words.count
+    var new = 1
+    for i in (0..<(old - 1)).reversed() {
+      let word = words[i]
+      if word != last {
+        if T.isSigned
+          && (T(extendingOrTruncating: word) < 0)
+            != (T(extendingOrTruncating: last) < 0) {
+          new = i + 2
+        } else {
+          new = i + 1
+        }
+        break
+      }
+    }
+    words.removeLast(old - new)
+  }
+
+  internal func _negated() -> Big {
+    var rhs = self
+    rhs._negate()
+    return rhs
+  }
+
+  internal mutating func _negate() {
+    for i in 0..<words.count {
+      words[i] = ~words[i]
+    }
+    self += 1
+  }
+
+  internal static func _longMultiply<U>(_ lhs: U, _ rhs: U) -> [Word]
+    where U : RandomAccessCollection, U.Iterator.Element == Word,
+      U.Index == Int, U.IndexDistance == Int {
+    let lcount = lhs.count
+    let rcount = rhs.count
+    var words = [Word](repeating: 0, count: lcount + rcount)
+    var icarry = 0 as Word
+    for i in 0..<rcount {
+      let rword = rhs[i]
+      var jcarry = 0 as Word
+      for j in 0..<lcount {
+        var high: Word
+        let low: Word
+        (high, low) = lhs[j].multipliedFullWidth(by: rword)
+        let offset = i + j
+        var overflow: ArithmeticOverflow
+        (words[offset], overflow) = words[offset].addingReportingOverflow(low)
+        if overflow == .overflow { jcarry += 1 }
+        (high, overflow) = high.addingReportingOverflow(jcarry)
+        jcarry = (overflow == .overflow) ? 1 : 0
+        (words[offset + 1], overflow) =
+          words[offset + 1].addingReportingOverflow(high)
+        if overflow == .overflow { jcarry += 1 }
+      }
+      let offset = i + lcount
+      let overflow: ArithmeticOverflow
+      (words[offset], overflow) =
+        words[offset].addingReportingOverflow(icarry)
+      icarry = (overflow == .overflow) ? jcarry + 1 : jcarry
+    }
+    return words
+  }
+}
+
 extension Big : Numeric {
   public init?<U>(exactly source: U) where U : BinaryInteger {
     self.init(source)
   }
 
   public var magnitude: Big<T.Magnitude> {
-    return Big<T.Magnitude>(
-      T.isSigned && _storage._msb == .one ? ~self + 1 : self
-    )
+    return Big<T.Magnitude>(_isNegative ? _negated() : self)
   }
 
   @_transparent // @_inlineable
@@ -25,93 +97,95 @@ extension Big : Numeric {
   }
 
   public static func += (lhs: inout Big, rhs: Big) {
-    let lwc = lhs._storage._words.count
-    let rwc = rhs._storage._words.count
-    let common = Swift.min(lwc, rwc)
+    let lnegative = lhs._isNegative
+
+    let lcount = lhs.words.count
+    let rcount = rhs.words.count
+    let common = min(lcount, rcount)
     var carry = false
     for i in 0..<common {
-      var r = rhs._storage._words[i]
+      var r = rhs.words[i]
       if carry {
-        if r == Words<T>.Word.max {
+        if r == Word.max {
           // carry == true
           continue
         }
         r += 1
       }
-      let ov: ArithmeticOverflow
-      (lhs._storage._words[i], ov) =
-        lhs._storage._words[i].addingReportingOverflow(r)
-      carry = (ov == .overflow)
+      let overflow: ArithmeticOverflow
+      (lhs.words[i], overflow) = lhs.words[i].addingReportingOverflow(r)
+      carry = (overflow == .overflow)
     }
-    if lwc < rwc {
-      lhs._storage._words.reserveCapacity(rwc)
-      if T.isSigned && lhs._storage._msb == .one {
-        for i in common..<rwc {
-          var r = rhs._storage._words[i]
+    if lcount < rcount {
+      lhs.words.reserveCapacity(rcount)
+      if lhs._isNegative {
+        for i in common..<rcount {
+          var r = rhs.words[i]
           if !carry {
             if r == 0 {
-              lhs._storage._words.append(Words<T>.Word.max)
+              lhs.words.append(Word.max)
               // carry == false
               continue
             }
             r -= 1
           }
-          lhs._storage._words.append(r)
+          lhs.words.append(r)
           carry = true
         }
       } else {
-        for i in common..<rwc {
-          var r = rhs._storage._words[i]
+        for i in common..<rcount {
+          var r = rhs.words[i]
           if carry {
-            if r == Words<T>.Word.max {
-              lhs._storage._words.append(0)
+            if r == Word.max {
+              lhs.words.append(0)
               // carry == true
               continue
             }
             r += 1
           }
-          lhs._storage._words.append(r)
+          lhs.words.append(r)
           carry = false
         }
       }
-    } else if lwc > rwc {
-      if T.isSigned && rhs._storage._msb == .one {
+    } else if lcount > rcount {
+      if rhs._isNegative {
         if !carry {
-          for i in common..<lwc {
-            if lhs._storage._words[i] == 0 {
-              lhs._storage._words[i] = Words<T>.Word.max
+          for i in common..<lcount {
+            if lhs.words[i] == 0 {
+              lhs.words[i] = Word.max
               // carry == false
               continue
             }
-            lhs._storage._words[i] -= 1
+            lhs.words[i] -= 1
             carry = true
             break
           }
         }
       } else if carry {
-        for i in common..<lwc {
-          if lhs._storage._words[i] == Words<T>.Word.max {
-            lhs._storage._words[i] = 0
+        for i in common..<lcount {
+          if lhs.words[i] == Word.max {
+            lhs.words[i] = 0
             // carry == true
             continue
           }
-          lhs._storage._words[i] += 1
+          lhs.words[i] += 1
           carry = false
           break
         }
       }
     }
     guard T.isSigned else {
-      if carry { lhs._storage._words.append(1) }
+      if carry { lhs.words.append(1) }
       return
     }
-    if lhs._storage._msb != rhs._storage._msb {
-      lhs._storage._msb = carry ? .zero : .one
-      lhs._storage._canonicalize()
-    } else if carry && lhs._storage._msb == .zero {
-      lhs._storage._words.append(1)
-    } else if !carry && lhs._storage._msb == .one {
-      lhs._storage._words.append(Words<T>.Word.max - 1)
+
+    let rnegative = rhs._isNegative
+    if lnegative && rnegative && !lhs._isNegative {
+      lhs.words.append(Word.max)
+    } else if !lnegative && !rnegative && lhs._isNegative {
+      lhs.words.append(0)
+    } else {
+      lhs._canonicalize()
     }
   }
 
@@ -123,94 +197,97 @@ extension Big : Numeric {
   }
 
   public static func -= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs._storage._words.count
-    let rwc = rhs._storage._words.count
-    let common = Swift.min(lwc, rwc)
+    let lnegative = lhs._isNegative
+
+    let lcount = lhs.words.count
+    let rcount = rhs.words.count
+    let common = min(lcount, rcount)
     var borrow = false
     for i in 0..<common {
-      var r = rhs._storage._words[i]
+      var r = rhs.words[i]
       if borrow {
-        if r == Words<T>.Word.max {
+        if r == Word.max {
           // borrow == true
           continue
         }
         r += 1
       }
-      let ov: ArithmeticOverflow
-      (lhs._storage._words[i], ov) =
-        lhs._storage._words[i].subtractingReportingOverflow(r)
-      borrow = (ov == .overflow)
+      let overflow: ArithmeticOverflow
+      (lhs.words[i], overflow) = lhs.words[i].subtractingReportingOverflow(r)
+      borrow = (overflow == .overflow)
     }
-    if lwc < rwc {
-      lhs._storage._words.reserveCapacity(rwc)
-      if T.isSigned && lhs._storage._msb == .one {
-        for i in common..<rwc {
-          let r = rhs._storage._words[i]
+    if lcount < rcount {
+      lhs.words.reserveCapacity(rcount)
+      if lhs._isNegative {
+        for i in common..<rcount {
+          let r = rhs.words[i]
           if !borrow {
-            lhs._storage._words.append(Words<T>.Word.max - r)
+            lhs.words.append(Word.max - r)
             // borrow == false
             continue
-          } else if r == Words<T>.Word.max {
-            lhs._storage._words.append(Words<T>.Word.max)
+          } else if r == Word.max {
+            lhs.words.append(Word.max)
             // borrow == true
             continue
           }
-          lhs._storage._words.append(Words<T>.Word.max - r - 1)
+          lhs.words.append(Word.max - r - 1)
           borrow = false
         }
       } else {
-        for i in common..<rwc {
-          let r = rhs._storage._words[i]
+        for i in common..<rcount {
+          let r = rhs.words[i]
           if borrow {
-            lhs._storage._words.append(Words<T>.Word.max - r)
+            lhs.words.append(Word.max - r)
             // borrow == true
             continue
           } else if r == 0 {
-            lhs._storage._words.append(0)
+            lhs.words.append(0)
             // borrow == false
             continue
           }
-          lhs._storage._words.append(Words<T>.Word.max - r + 1)
+          lhs.words.append(Word.max - r + 1)
           borrow = true
         }
       }
-    } else if lwc > rwc {
-      if T.isSigned && rhs._storage._msb == .one {
-        for i in common..<lwc {
+    } else if lcount > rcount {
+      if rhs._isNegative {
+        for i in common..<lcount {
           if borrow { break }
-          if lhs._storage._words[i] == Words<T>.Word.max {
-            lhs._storage._words[i] = 0
+          if lhs.words[i] == Word.max {
+            lhs.words[i] = 0
             // borrow == false
             continue
           }
-          lhs._storage._words[i] += 1
+          lhs.words[i] += 1
           borrow = true
         }
       } else {
-        for i in common..<lwc {
+        for i in common..<lcount {
           if !borrow { break }
-          if lhs._storage._words[i] == 0 {
-            lhs._storage._words[i] = Words<T>.Word.max
+          if lhs.words[i] == 0 {
+            lhs.words[i] = Word.max
             // borrow == true
             continue
           }
-          lhs._storage._words[i] -= 1
+          lhs.words[i] -= 1
           borrow = false
         }
       }
     }
     guard T.isSigned else {
+      // If `T` is unsigned, underflow behaves like converting -1 to type `T`.
       if borrow { _ = T(-1) }
-      lhs._storage._canonicalize()
+      lhs._canonicalize()
       return
     }
-    if lhs._storage._msb == rhs._storage._msb {
-      lhs._storage._msb = borrow ? .one : .zero
-      lhs._storage._canonicalize()
-    } else if borrow && lhs._storage._msb == .one {
-      lhs._storage._words.append(Words<T>.Word.max - 1)
-    } else if !borrow && lhs._storage._msb == .zero {
-      lhs._storage._words.append(1)
+
+    let rnegative = rhs._isNegative
+    if lnegative && !rnegative && !lhs._isNegative {
+      lhs.words.append(Word.max)
+    } else if !lnegative && rnegative && lhs._isNegative {
+      lhs.words.append(0)
+    } else {
+      lhs._canonicalize()
     }
   }
 
@@ -222,42 +299,20 @@ extension Big : Numeric {
   }
 
   public static func *= (lhs: inout Big, rhs: Big) {
-    // Note that here we use _storage directly.
-    let lwc = lhs._storage.count
-    if lwc == 1 { return }
-    let rwc = rhs._storage.count
-    if rwc == 1 { lhs._storage._words = []; return }
+    let lnegative = lhs._isNegative
+    if lnegative { lhs._negate() }
+    let rnegative = rhs._isNegative
+    let rhs = rnegative ? rhs._negated() : rhs
 
-    var words = Array<Words<T>.Word>(repeating: 0, count: (lwc + rwc))
-    var msw = 0 as Words<T>.Word
-    for i in 0..<rwc {
-      var carry = 0 as Words<T>.Word
-      for j in 0..<lwc {
-        var high: Words<T>.Word
-        let low: Words<T>.Word
-        (high, low) = lhs._storage[j].multipliedFullWidth(by: rhs._storage[i])
-        var offset = i + j
-        var ov: ArithmeticOverflow
-        (words[offset], ov) = words[offset].addingReportingOverflow(low)
-        if ov == .overflow { carry += 1 }
-        (high, ov) = high.addingReportingOverflow(carry)
-        carry = 0
-        if ov == .overflow { carry += 1 }
-        offset += 1
-        (words[offset], ov) = words[offset].addingReportingOverflow(high)
-        if ov == .overflow { carry += 1 }
-      }
-      let offset = i + lwc
-      let ov: ArithmeticOverflow
-      (words[offset], ov) = words[offset].addingReportingOverflow(msw)
-      msw = carry
-      if ov == .overflow { msw += 1 }
+    if lhs.words.count == 1 && rhs.words.count == 1 {
+      let (high, low) = lhs.words.last!.multipliedFullWidth(by: rhs.words.last!)
+      lhs.words = [low, high]
+    } else {
+      lhs.words = _longMultiply(lhs.words, rhs.words)
     }
-    if T.isSigned {
-      lhs._storage._msb = words[lwc + rwc - 2] & 1 == 1 ? .one : .zero
-    }
-    words.removeLast(2)
-    lhs._storage._words = words
+    lhs._canonicalize()
+
+    if lnegative != rnegative { lhs._negate() }
   }
 }
 
@@ -266,11 +321,11 @@ extension Big /* : BinaryInteger */ {
   public static var isSigned: Bool {
     return T.isSigned
   }
-/*
+
   public init?<U : FloatingPoint>(exactly source: U) {
     fatalError()
   }
-*/
+
   public init<U : FloatingPoint>(_ source: U) {
     fatalError()
   }
@@ -288,26 +343,25 @@ extension Big /* : BinaryInteger */ {
   }
 
   public var bitWidth: Int {
-    return Words<T>.Word.bitWidth * _storage.count
+    return Word.bitWidth * words.count
   }
 
   public var trailingZeroBitCount: Int {
-    for i in 0..<_storage.count {
-      guard _storage[i] != 0 else { continue }
-      return _storage[i].trailingZeroBitCount + i * Words<T>.Word.bitWidth
+    for i in 0..<words.count {
+      guard words[i] != 0 else { continue }
+      return words[i].trailingZeroBitCount + i * Word.bitWidth
     }
-    return 0
+    return bitWidth
   }
 
+  // TODO: Implement `/`, `/=`, `%`, `%=`.
+
   public static prefix func ~ (rhs: Big) -> Big {
-    var words = rhs._storage._words
+    var words = rhs.words
     for i in 0..<words.count {
       words[i] = ~words[i]
     }
-    return Big(Words(
-      _msb: T.isSigned && rhs._storage._msb == .one ? .zero : .one,
-      words: words
-    ))
+    return Big(words)
   }
 
   @_transparent // @_inlineable
@@ -318,21 +372,17 @@ extension Big /* : BinaryInteger */ {
   }
 
   public static func &= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs._storage._words.count
-    let rwc = rhs._storage._words.count
+    let lwc = lhs.words.count
+    let rwc = rhs.words.count
     let common = min(lwc, rwc)
     for i in 0..<common {
-      lhs._storage._words[i] &= rhs._storage._words[i]
+      lhs.words[i] &= rhs.words[i]
     }
-    if (!T.isSigned || rhs._storage._msb == .zero) && lwc > rwc {
-      lhs._storage._words.removeSubrange(common..<lwc)
-    } else if (T.isSigned && lhs._storage._msb == .one) && lwc < rwc {
-      lhs._storage._words.reserveCapacity(rwc)
-      lhs._storage._words.append(contentsOf: rhs._storage._words[common..<rwc])
-    }
-    if T.isSigned {
-      lhs._storage._msb =
-        Bit(lhs._storage._msb.rawValue & rhs._storage._msb.rawValue)
+    if !rhs._isNegative && lwc > rwc {
+      lhs.words.removeSubrange(common..<lwc)
+    } else if lhs._isNegative && lwc < rwc {
+      lhs.words.reserveCapacity(rwc)
+      lhs.words.append(contentsOf: rhs.words[common..<rwc])
     }
   }
 
@@ -344,24 +394,19 @@ extension Big /* : BinaryInteger */ {
   }
 
   public static func |= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs._storage._words.count
-    let rwc = rhs._storage._words.count
+    let lwc = lhs.words.count
+    let rwc = rhs.words.count
     let common = min(lwc, rwc)
     for i in 0..<common {
-      lhs._storage._words[i] |= rhs._storage._words[i]
+      lhs.words[i] |= rhs.words[i]
     }
-    if (!T.isSigned || lhs._storage._msb == .zero) && lwc < rwc {
-      lhs._storage._words.reserveCapacity(rwc)
-      lhs._storage._words.append(contentsOf: rhs._storage._words[common..<rwc])
-    } else if (T.isSigned && rhs._storage._msb == .one) && lwc > rwc {
-      lhs._storage._words.replaceSubrange(
-        common..<lwc,
-        with: repeatElement(Words<T>.Word.max, count: lwc - common)
+    if !lhs._isNegative && lwc < rwc {
+      lhs.words.reserveCapacity(rwc)
+      lhs.words.append(contentsOf: rhs.words[common..<rwc])
+    } else if rhs._isNegative && lwc > rwc {
+      lhs.words.replaceSubrange(
+        common..<lwc, with: repeatElement(Word.max, count: lwc - common)
       )
-    }
-    if T.isSigned {
-      lhs._storage._msb =
-        Bit(lhs._storage._msb.rawValue | rhs._storage._msb.rawValue)
     }
   }
 
@@ -373,51 +418,43 @@ extension Big /* : BinaryInteger */ {
   }
 
   public static func ^= (lhs: inout Big, rhs: Big) {
-    let lwc = lhs._storage._words.count
-    let rwc = rhs._storage._words.count
+    let lwc = lhs.words.count
+    let rwc = rhs.words.count
     let common = min(lwc, rwc)
     for i in 0..<common {
-      lhs._storage._words[i] ^= rhs._storage._words[i]
+      lhs.words[i] ^= rhs.words[i]
     }
     if lwc < rwc {
-      lhs._storage._words.reserveCapacity(rwc)
-      if !T.isSigned || lhs._storage._msb == .zero {
-        lhs._storage._words.append(
-          contentsOf: rhs._storage._words[common..<rwc]
-        )
+      lhs.words.reserveCapacity(rwc)
+      if !lhs._isNegative {
+        lhs.words.append(contentsOf: rhs.words[common..<rwc])
       } else {
-        lhs._storage._words.append(
-          contentsOf: rhs._storage._words[common..<rwc].lazy.map { ~$0 }
-        )
+        lhs.words.append(contentsOf: rhs.words[common..<rwc].lazy.map { ~$0 })
       }
-    } else if (T.isSigned && rhs._storage._msb == .one) && lwc > rwc {
+    } else if rhs._isNegative && lwc > rwc {
       for i in common..<lwc {
-        lhs._storage._words[i] = ~lhs._storage._words[i]
+        lhs.words[i] = ~lhs.words[i]
       }
-    }
-    if T.isSigned {
-      lhs._storage._msb =
-        Bit(lhs._storage._msb.rawValue ^ rhs._storage._msb.rawValue)
     }
   }
 
+  // TODO: Implement `&<<`, `&<<=`, `&>>`, `&>>=`.
+
   public func signum() -> Big {
-    if T.isSigned && _storage._msb == .one { return -1 }
-    if _storage._words.count == 0 { return 0 }
+    if _isNegative { return -1 }
+    if words.last! == 0 { return 0 }
     return 1
   }
 }
 
 extension Big /* : SignedInteger */ where T : SignedInteger {
   public static prefix func - (lhs: Big) -> Big {
-    return ~lhs + 1
+    return lhs._negated()
   }
 
   public mutating func negate() {
-    self = ~self
-    self += 1
+    _negate()
   }
 }
 
 extension Big /* : UnsignedInteger */ where T : UnsignedInteger { }
-*/
