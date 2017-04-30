@@ -15,7 +15,7 @@ extension Rational : Numeric {
     self.denominator = 1
   }
 
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {
@@ -58,7 +58,7 @@ extension Rational : Numeric {
     lhs = lhs + (-rhs)
   }
   
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.isNaN || rhs.isNaN { return .nan }
     if lhs.isInfinite {

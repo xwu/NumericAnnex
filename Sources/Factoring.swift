@@ -35,7 +35,7 @@ extension UnsignedInteger {
   @_transparent // @_inlineable
   public static func lcm(_ a: Self, _ b: Self) -> Self {
     if a == 0 || b == 0 { return 0 }
-    return a / Self.gcd(a, b) * b
+    return a / .gcd(a, b) * b
   }
 }
 
@@ -46,7 +46,7 @@ extension UnsignedInteger where Self : FixedWidthInteger {
   public static func lcmReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: ArithmeticOverflow) {
     if a == 0 || b == 0 { return (partialValue: 0, overflow: .none) }
-    return (a / Self.gcd(a, b)).multipliedReportingOverflow(by: b)
+    return (a / .gcd(a, b)).multipliedReportingOverflow(by: b)
   }
 
   /// Returns the high and low parts of the least common multiple of `a` and `b`
@@ -55,7 +55,7 @@ extension UnsignedInteger where Self : FixedWidthInteger {
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {
     if a == 0 || b == 0 { return (0, 0) }
-    return (a / Self.gcd(a, b)).multipliedFullWidth(by: b)
+    return (a / .gcd(a, b)).multipliedFullWidth(by: b)
   }
 }
 
