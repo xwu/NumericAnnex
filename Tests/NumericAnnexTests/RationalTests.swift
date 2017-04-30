@@ -134,6 +134,26 @@ class RationalTests: XCTestCase {
     XCTAssertTrue(Double(Ratio(d)).isNaN)
   }
 
+  func testRationalComparison() {
+    let a = 1 / 2 as Ratio
+    let b = 1 / 4 as Ratio
+    XCTAssert(a != b)
+    XCTAssert(a == a)
+    XCTAssert(b == b)
+    XCTAssert(a > b)
+    XCTAssert(b < a)
+    XCTAssert(!(a < a))
+
+    let c = -1 / 2 as Ratio
+    let d = -1 / 4 as Ratio
+    XCTAssert(c != d)
+    XCTAssert(c == c)
+    XCTAssert(d == d)
+    XCTAssert(c < d)
+    XCTAssert(d > c)
+    XCTAssert(!(c < c))
+  }
+
   func testRationalRounding() {
     let a = 10 / 3 as Ratio
     XCTAssertEqual(a.rounded(), 3)
@@ -185,6 +205,8 @@ class RationalTests: XCTestCase {
 
   static var allTests = [
     ("testRational", testRational),
+    ("testRationalConversion", testRationalConversion),
+    ("testRationalComparison", testRationalComparison),
     ("testRationalRounding", testRationalRounding),
   ]
 }

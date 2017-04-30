@@ -49,50 +49,6 @@ extension Big : ExpressibleByIntegerLiteral {
   }
 }
 
-extension Big : Equatable {
-  public static func == (lhs: Big, rhs: Big) -> Bool {
-    // We require that `lhs` and `rhs` have words that are canonicalized.
-    let count = lhs.words.count
-    guard count == rhs.words.count else { return false }
-    for i in (0..<count).reversed() {
-      if lhs.words[i] != rhs.words[i] { return false }
-    }
-    return true
-  }
-}
-
-extension Big : Comparable {
-  public static func < (lhs: Big, rhs: Big) -> Bool {
-    // We require that `lhs` and `rhs` have words that are canonicalized.
-    let lhsWordCount = lhs.words.count
-    let rhsWordCount = rhs.words.count
-    if lhs._isNegative {
-      guard rhs._isNegative else { return true }
-      if lhsWordCount < rhsWordCount { return false }
-      if lhsWordCount > rhsWordCount { return true }
-    } else {
-      if rhs._isNegative { return false }
-      if lhsWordCount < rhsWordCount { return true }
-      if lhsWordCount > rhsWordCount { return false }
-    }
-
-    for i in (0..<lhsWordCount).reversed() {
-      let l = lhs.words[i]
-      let r = rhs.words[i]
-      if l < r { return true }
-      if l > r { return false }
-    }
-    return false
-  }
-}
-
-extension Big : Hashable {
-  public var hashValue: Int {
-    // TODO: Implement `hashValue`.
-    fatalError()
-  }
-}
-
 extension Big : CustomStringConvertible {
   public var description : String {
     if words.count == 1 {
@@ -141,6 +97,50 @@ extension Big : CustomStringConvertible {
     return scratch.withUnsafeBufferPointer {
       String(cString: $0.baseAddress!)
     }
+  }
+}
+
+extension Big : Equatable {
+  public static func == (lhs: Big, rhs: Big) -> Bool {
+    // We require that `lhs` and `rhs` have words that are canonicalized.
+    let count = lhs.words.count
+    guard count == rhs.words.count else { return false }
+    for i in (0..<count).reversed() {
+      if lhs.words[i] != rhs.words[i] { return false }
+    }
+    return true
+  }
+}
+
+extension Big : Hashable {
+  public var hashValue: Int {
+    // TODO: Implement `hashValue`.
+    fatalError()
+  }
+}
+
+extension Big : Comparable {
+  public static func < (lhs: Big, rhs: Big) -> Bool {
+    // We require that `lhs` and `rhs` have words that are canonicalized.
+    let lhsWordCount = lhs.words.count
+    let rhsWordCount = rhs.words.count
+    if lhs._isNegative {
+      guard rhs._isNegative else { return true }
+      if lhsWordCount < rhsWordCount { return false }
+      if lhsWordCount > rhsWordCount { return true }
+    } else {
+      if rhs._isNegative { return false }
+      if lhsWordCount < rhsWordCount { return true }
+      if lhsWordCount > rhsWordCount { return false }
+    }
+
+    for i in (0..<lhsWordCount).reversed() {
+      let l = lhs.words[i]
+      let r = rhs.words[i]
+      if l < r { return true }
+      if l > r { return false }
+    }
+    return false
   }
 }
 
