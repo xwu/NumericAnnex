@@ -418,7 +418,7 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
       // Use full-width multiplication to avoid trapping on overflow.
       let a = (rdm / gcd).multipliedFullWidth(by: lhs.numerator.magnitude)
       let b = (ldm / gcd).multipliedFullWidth(by: rhs.numerator.magnitude)
-      return a == b
+      return a.high == b.high && a.low == b.low
     }
   }
 
