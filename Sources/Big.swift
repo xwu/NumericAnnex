@@ -6,39 +6,32 @@
 //
 
 /// A type to represent an arbitrary-precision integer.
-public struct Big<T : FixedWidthInteger>
+/* public */ struct Big<T : FixedWidthInteger & SignedInteger>
 where T : _ExpressibleByBuiltinIntegerLiteral,
 T.Magnitude : FixedWidthInteger & UnsignedInteger,
 T.Magnitude : _ExpressibleByBuiltinIntegerLiteral,
 T.Magnitude.Magnitude == T.Magnitude {
-  /// A type that represents a word in the representation of the value.
-  public typealias Word = T.Magnitude
-  
-  /// The collection of words in the representation of the value in two's
-  /// complement form, from least significant to most significant.
-  public internal(set) var words: [Word]
+  /// A type that represents a 'limb' in the representation of the value.
+  public typealias Limb = T.Magnitude
 
-  /// Creates a new value with the given words.
-  internal init(_ _words: [Word]) {
-    precondition(_words.count > 0)
-    self.words = _words
+  /// The mathematical sign of the value.
+  internal var _sign: Sign
+
+  /// The collection of 'limbs' in the magnitude of the value, from least
+  /// significant to most significant.
+  internal var _limbs: [Limb]
+
+  /// Creates a new value with the given sign and magnitude.
+  internal init(_sign: Sign = .plus, _limbs: [Limb] = []) {
+    self._sign = _sign
+    self._limbs = _limbs
   }
 }
 
 extension Big {
-  // TODO: Document this initializer.
   public init(_ source: T) {
-    self.words = [Word(extendingOrTruncating: source)]
-  }
-
-  // TODO: Document this initializer.
-  public init<U>(_ other: Big<U>) where U.Magnitude == T.Magnitude {
-    // If `T` is unsigned, underflow behaves like converting -1 to type `T`.
-    if !T.isSigned && other._isNegative { _ = T(-1) }
-    self.words = other.words
-    if !U.isSigned && _isNegative {
-      self.words.append(0)
-    }
+    self._sign = source < 0 ? .minus : .plus
+    self._limbs = source == 0 ? [] : [source.magnitude]
   }
 }
 
@@ -51,23 +44,17 @@ extension Big : ExpressibleByIntegerLiteral {
 
 extension Big : CustomStringConvertible {
   public var description : String {
-    if words.count == 1 {
-      return T(extendingOrTruncating: words.last!).description
-    }
-    if _isNegative {
-      return "-\(self._negated().description)"
-    }
-
     // A version of the "double dabble" algorithm.
-    let width = Word.bitWidth
-    var count = width * words.count / 3
+    let width = Limb.bitWidth
+    var count = width * _limbs.count / 3
     var min = count - 2
     var scratch = [UInt8](repeating: 0, count: count)
     // Traverse from most significant to least significant word.
-    for i in (0..<words.count).reversed() {
+    for i in (0..<_limbs.count).reversed() {
       for j in 0..<width {
         // Bit to be shifted in.
-        let bit = words[i] & (1 << Word(width - j - 1)) > 0 ? 1 : 0 as UInt8
+        let bit =
+          _limbs[i] & (1 << Limb(width - j - 1)) > 0 ? 1 : 0 as UInt8
         // Increment any binary-coded decimal greater than four by three.
         for k in min..<count {
           scratch[k] += scratch[k] >= 5 ? 3 : 0
@@ -94,55 +81,67 @@ extension Big : CustomStringConvertible {
       scratch[i] += 48 // "0"
     }
     scratch.append(0)
-    return scratch.withUnsafeBufferPointer {
+    let description = scratch.withUnsafeBufferPointer {
       String(cString: $0.baseAddress!)
     }
+    return _sign == .minus ? "-\(description)" : description
   }
 }
 
 extension Big : Equatable {
   public static func == (lhs: Big, rhs: Big) -> Bool {
-    // We require that `lhs` and `rhs` have words that are canonicalized.
-    let count = lhs.words.count
-    guard count == rhs.words.count else { return false }
-    for i in (0..<count).reversed() {
-      if lhs.words[i] != rhs.words[i] { return false }
-    }
-    return true
+    guard lhs._sign == rhs._sign else { return false }
+    guard lhs._limbs.count == rhs._limbs.count else { return false }
+    return lhs._limbs == rhs._limbs
   }
 }
 
 extension Big : Hashable {
   public var hashValue: Int {
-    // TODO: Implement `hashValue`.
+    // TODO: Implement.
     fatalError()
   }
 }
 
 extension Big : Comparable {
-  public static func < (lhs: Big, rhs: Big) -> Bool {
-    // We require that `lhs` and `rhs` have words that are canonicalized.
-    let lhsWordCount = lhs.words.count
-    let rhsWordCount = rhs.words.count
-    if lhs._isNegative {
-      guard rhs._isNegative else { return true }
-      if lhsWordCount < rhsWordCount { return false }
-      if lhsWordCount > rhsWordCount { return true }
-    } else {
-      if rhs._isNegative { return false }
-      if lhsWordCount < rhsWordCount { return true }
-      if lhsWordCount > rhsWordCount { return false }
+  internal static func _compareMagnitude(_ lhs: Big, _ rhs: Big) -> Int {
+    let lhsLimbCount = lhs._limbs.count
+    let rhsLimbCount = rhs._limbs.count
+    if lhsLimbCount > rhsLimbCount { return 1 }
+    if lhsLimbCount < rhsLimbCount { return -1 }
+    for i in (0..<lhsLimbCount).reversed() {
+      let l = lhs._limbs[i]
+      let r = rhs._limbs[i]
+      if l > r { return 1 }
+      if l < r { return -1 }
     }
+    return 0
+  }
 
-    for i in (0..<lhsWordCount).reversed() {
-      let l = lhs.words[i]
-      let r = rhs.words[i]
-      if l < r { return true }
-      if l > r { return false }
+  public static func < (lhs: Big, rhs: Big) -> Bool {
+    switch (lhs._sign, rhs._sign) {
+    case (.plus, .plus):
+      return _compareMagnitude(lhs, rhs) == -1
+    case (.minus, .minus):
+      return _compareMagnitude(lhs, rhs) == 1
+    case (.plus, .minus):
+      return false
+    case (.minus, .plus):
+      return true
     }
-    return false
   }
 }
 
-public typealias BigInt = Big<Int>
-public typealias BigUInt = Big<UInt>
+extension Big : Strideable {
+  @_transparent // @_inlineable
+  public func distance(to other: Big) -> Big {
+    return other - self
+  }
+
+  @_transparent // @_inlineable
+  public func advanced(by amount: Big) -> Big {
+    return self + amount
+  }
+}
+
+/* public */ typealias BigInt = Big<Int>
