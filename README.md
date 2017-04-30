@@ -12,10 +12,9 @@ library.
       elementary transcendental functions.
 - [x] `FloatingPointMath`, a protocol for floating point types providing a
       selection of special functions.
-- [x] `Complex`, a value type to represent complex values in Cartesian form,
-      which implements all functions required by `Math`.
-- [x] `Rational`, a value type to represent rational values, which supports the
-      special values infinity, negative infinity, and NaN ("not a number").
+- [x] `Complex`, a value type to represent complex values in Cartesian form.
+- [x] `Rational`, a value type to represent rational values, which supports
+      division by zero.
 
 > Note: This project is in the early stages of development and is not
 > production-ready at this time.
