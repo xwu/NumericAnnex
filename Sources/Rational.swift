@@ -393,6 +393,36 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
   }
 
   // @_transparent // @_inlineable
+  public static func == (lhs: Rational, rhs: Rational) -> Bool {
+    if lhs.denominator == 0 {
+      if lhs.numerator == 0 { return false }
+      return rhs.denominator == 0 && rhs.numerator != 0
+        && (lhs.numerator < 0) == (rhs.numerator < 0)
+    }
+    if rhs.denominator == 0 { return false }
+
+    switch (lhs.sign, rhs.sign) {
+    case (.plus, .minus):
+      fallthrough
+    case (.minus, .plus):
+      return false
+    case (.plus, .plus):
+      fallthrough
+    case (.minus, .minus):
+      let ldm = lhs.denominator.magnitude
+      let rdm = rhs.denominator.magnitude
+      if ldm == rdm {
+        return lhs.numerator.magnitude == rhs.numerator.magnitude
+      }
+      let gcd = T.Magnitude.gcd(ldm, rdm)
+      // Use full-width multiplication to avoid trapping on overflow.
+      let a = (rdm / gcd).multipliedFullWidth(by: lhs.numerator.magnitude)
+      let b = (ldm / gcd).multipliedFullWidth(by: rhs.numerator.magnitude)
+      return a == b
+    }
+  }
+
+  // @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.isNaN || rhs.isNaN { return false }
     if rhs == -.infinity { return false }
