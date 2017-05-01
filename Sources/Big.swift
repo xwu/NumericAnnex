@@ -137,7 +137,7 @@ extension Big : Comparable {
   }
 }
 
-extension Big : Strideable {
+extension Big : Strideable, _Strideable {
   @_transparent // @_inlineable
   public func distance(to other: Big) -> Big {
     return other - self

@@ -25,7 +25,7 @@ extension Big : Numeric {
   ) {
     let lhsLimbCount = lhs._limbs.count - lhsLimbOffset
     let rhsLimbCount = rhs._limbs.count - rhsLimbOffset
-    let commonLimbCount = min(lhsLimbCount, rhsLimbCount)
+    let commonLimbCount = Swift.min(lhsLimbCount, rhsLimbCount)
     var carry = false
     for i in 0..<commonLimbCount {
       var r = rhs._limbs[i + rhsLimbOffset]
@@ -85,7 +85,7 @@ extension Big : Numeric {
   ) {
     let lhsLimbCount = lhs._limbs.count - lhsLimbOffset
     let rhsLimbCount = rhs._limbs.count - rhsLimbOffset
-    let commonLimbCount = min(lhsLimbCount, rhsLimbCount)
+    let commonLimbCount = Swift.min(lhsLimbCount, rhsLimbCount)
     var borrow = false
     for i in 0..<commonLimbCount {
       var r = rhs._limbs[i + rhsLimbOffset]
@@ -301,7 +301,7 @@ extension Big : BinaryInteger {
   public var trailingZeroBitCount: Int {
     // The trailing zero bit count of the two's complement representation of a
     // negative value is equal to the trailing zero bit count of the binary
-    // representation of the absolute value.
+    // representation of the magnitude.
     for i in 0..<_limbs.count {
       if _limbs[i] != 0 {
         return i * Limb.bitWidth + _limbs[i].trailingZeroBitCount
@@ -455,3 +455,5 @@ extension Big : BinaryInteger {
     fatalError()
   }
 }
+
+extension Big : SignedInteger { }

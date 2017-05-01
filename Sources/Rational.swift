@@ -346,7 +346,7 @@ extension Rational : Comparable {
   }
 }
 
-extension Rational : Strideable {
+extension Rational : Strideable, _Strideable {
   @_transparent // @_inlineable
   public func distance(to other: Rational) -> Rational {
     return other - self
