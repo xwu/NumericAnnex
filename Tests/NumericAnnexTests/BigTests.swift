@@ -21,7 +21,16 @@ class BigTests: XCTestCase {
     XCTAssertEqual((z * z * z).description, (a * a * a).description)
   }
 
+  func testBigIntBitwiseNot() {
+    for i in Int8.min...Int8.max {
+      let big = Big<Int8>(i)
+      let small = i
+      XCTAssertEqual((~big).description, (~small).description)
+    }
+  }
+
   static var allTests = [
     ("testBigInt", testBigInt),
+    ("testBigIntBitwiseNot", testBigIntBitwiseNot),
   ]
 }

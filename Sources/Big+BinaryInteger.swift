@@ -270,7 +270,7 @@ extension Big : SignedNumeric {
 
   // @_transparent // @_inlineable
   public mutating func negate() {
-    _sign = _sign == .minus ? .plus : .minus
+    _sign = _sign == .minus || _limbs.isEmpty ? .plus : .minus
   }
 }
 
@@ -338,14 +338,7 @@ extension Big : BinaryInteger {
   }
 
   public static prefix func ~ (rhs: Big) -> Big {
-    fatalError()
-    /*
-    var words = rhs.words
-    for i in 0..<words.count {
-      words[i] = ~words[i]
-    }
-    return Big(words)
-    */
+    return -(rhs + 1)
   }
 
   // @_transparent // @_inlineable

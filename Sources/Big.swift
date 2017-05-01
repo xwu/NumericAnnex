@@ -44,6 +44,11 @@ extension Big : ExpressibleByIntegerLiteral {
 
 extension Big : CustomStringConvertible {
   public var description : String {
+    guard _limbs.count > 1 else {
+      let description = _limbs.last?.description ?? "0"
+      return _sign == .minus ? "-\(description)" : description
+    }
+    
     // A version of the "double dabble" algorithm.
     let width = Limb.bitWidth
     var count = width * _limbs.count / 3
