@@ -152,6 +152,21 @@ class RationalTests: XCTestCase {
     XCTAssert(c < d)
     XCTAssert(d > c)
     XCTAssert(!(c < c))
+
+    let e = Ratio(numerator: 0, denominator: 1)
+    let f = Ratio(numerator: 0, denominator: 2)
+    let g = Ratio(numerator: 0, denominator: -1)
+    let h = Ratio(numerator: 0, denominator: -2)
+    let i = Ratio(numerator: 0, denominator: 0)
+    XCTAssert(e.sign == .plus)
+    XCTAssert(e == f)
+    XCTAssert(f.sign == .plus)
+    XCTAssert(e == g)
+    XCTAssert(g.sign == .plus)
+    XCTAssert(e == h)
+    XCTAssert(h.sign == .plus)
+    XCTAssert(e != i)
+    XCTAssert(i != i)
   }
 
   func testRationalRounding() {

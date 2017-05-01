@@ -250,8 +250,7 @@ extension Rational {
   /// The sign of this value.
   @_transparent // @_inlineable
   public var sign: Sign {
-    return numerator == 0 || (denominator < 0) == (numerator < 0)
-      ? .plus : .minus
+    return isZero || (denominator < 0) == (numerator < 0) ? .plus : .minus
   }
 
   /// Returns the reciprocal (multiplicative inverse) of this value.

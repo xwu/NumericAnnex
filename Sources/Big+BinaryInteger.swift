@@ -19,24 +19,6 @@ extension Big : Numeric {
     if endIndex == 0 { _sign = .plus }
   }
 
-  /// The result of this operation is not canonicalized and the sign of zero may
-  /// be negative.
-  internal mutating func _complement() {
-    _sign = _sign == .minus ? .plus : .minus
-    let count = _limbs.count
-    for i in 0..<count {
-      let overflow: ArithmeticOverflow
-      (_limbs[i], overflow) =
-        (~_limbs[i]).addingReportingOverflow(1)
-      if overflow == .none {
-        for j in (i + 1)..<count {
-          _limbs[j] = ~_limbs[j]
-        }
-        return
-      }
-    }
-  }
-
   internal static func _addAssignMagnitude(
     _ lhs: inout Big, offset lhsLimbOffset: Int = 0,
     _ rhs: Big, offset rhsLimbOffset: Int = 0
@@ -151,7 +133,19 @@ extension Big : Numeric {
       }
     }
     if borrow {
-      lhs._complement()
+      lhs._sign = lhs._sign == .minus ? .plus : .minus
+      let count = lhs._limbs.count
+      outer: for i in 0..<count {
+        let overflow: ArithmeticOverflow
+        (lhs._limbs[i], overflow) =
+          (~lhs._limbs[i]).addingReportingOverflow(1)
+        if overflow == .none {
+          inner: for j in (i + 1)..<count {
+            lhs._limbs[j] = ~lhs._limbs[j]
+          }
+          break outer
+        }
+      }
     }
   }
 
@@ -210,17 +204,17 @@ extension Big : Numeric {
   }
 
   public static func += (lhs: inout Big, rhs: Big) {
+    defer { lhs._canonicalize() }
+
     switch (lhs._sign, rhs._sign) {
     case (.plus, .plus):
       fallthrough
     case (.minus, .minus):
       _addAssignMagnitude(&lhs, rhs)
-      lhs._canonicalize()
     case (.plus, .minus):
       fallthrough
     case (.minus, .plus):
       _subtractAssignMagnitude(&lhs, rhs)
-      lhs._canonicalize()
     }
   }
 
@@ -232,17 +226,17 @@ extension Big : Numeric {
   }
 
   public static func -= (lhs: inout Big, rhs: Big) {
+    defer { lhs._canonicalize() }
+
     switch (lhs._sign, rhs._sign) {
     case (.plus, .plus):
       fallthrough
     case (.minus, .minus):
       _subtractAssignMagnitude(&lhs, rhs)
-      lhs._canonicalize()
     case (.plus, .minus):
       fallthrough
     case (.minus, .plus):
       _addAssignMagnitude(&lhs, rhs)
-      lhs._canonicalize()
     }
   }
 
@@ -254,8 +248,9 @@ extension Big : Numeric {
   }
 
   public static func *= (lhs: inout Big, rhs: Big) {
+    defer { lhs._canonicalize() }
+
     lhs = _multiplyMagnitude(lhs, rhs)
-    lhs._canonicalize()
     if lhs._sign != rhs._sign { lhs._sign = .minus }
   }
 }
