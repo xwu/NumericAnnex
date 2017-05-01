@@ -26,12 +26,12 @@ extension Rational : Numeric {
     let ldm = lhs.denominator.magnitude
     let rdm = rhs.denominator.magnitude
     let gcd = T.Magnitude.gcd(ldm, rdm)
-    let d = T(ldm / gcd * rdm)
     let a = T(rdm / gcd * lhs.numerator.magnitude)
     let b = T(ldm / gcd * rhs.numerator.magnitude)
     let n = lhs.sign == .plus
       ? (rhs.sign == .plus ? a + b : a - b)
       : (rhs.sign == .plus ? b - a : -a - b)
+    let d = T(ldm / gcd * rdm)
     return Rational(numerator: n, denominator: d).canonical
   }
 

@@ -1,5 +1,5 @@
 //
-//  Big+BinaryInteger.swift
+//  Big+SignedInteger.swift
 //  NumericAnnex
 //
 //  Created by Xiaodi Wu on 4/26/17.
