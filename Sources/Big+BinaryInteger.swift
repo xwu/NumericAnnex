@@ -199,7 +199,7 @@ extension Big : Numeric {
   }
 
   public var magnitude: Big {
-    return _sign == .minus ? Big(_sign: .plus, _limbs: _limbs) : self
+    return _sign == .minus ? Big(_limbs: _limbs) : self
   }
 
   @_transparent // @_inlineable
