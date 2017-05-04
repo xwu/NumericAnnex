@@ -76,14 +76,10 @@ extension Rational : Numeric {
     guard a != 0 else { return .nan }
     let b = T.Magnitude.gcd(rnm, ldm)
     guard b != 0 else { return .nan }
-    if lhs.sign == rhs.sign {
-      return Rational(
-        numerator: T(lnm / a * (rnm / b)), denominator: T(ldm / b * (rdm / a))
-      )
-    }
-    return Rational(
-      numerator: -T(lnm / a * (rnm / b)), denominator: T(ldm / b * (rdm / a))
-    )
+    let n = lhs.sign == rhs.sign
+      ? T(lnm / a * (rnm / b)) : -T(lnm / a * (rnm / b))
+    let d = T(ldm / b * (rdm / a))
+    return Rational(numerator: n, denominator: d)
   }
 
   @_transparent // @_inlineable
