@@ -1,5 +1,5 @@
 //
-//  _Hash.swift
+//  Hash.swift
 //  NumericAnnex
 //
 //  Created by Xiaodi Wu on 4/1/17.
