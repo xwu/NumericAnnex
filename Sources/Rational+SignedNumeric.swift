@@ -126,8 +126,6 @@ extension Rational : SignedNumeric {
   }
 }
 
-public typealias RationalRoundingRule = FloatingPointRoundingRule
-
 extension Rational {
   /// Returns the quotient obtained by dividing the first value by the second,
   /// trapping in case of arithmetic overflow.
@@ -171,7 +169,7 @@ extension Rational {
   /// - SeeAlso: `round(_:)`, `FloatingPointRoundingRule`
   @_transparent // @_inlineable
   public func rounded(
-    _ rule: RationalRoundingRule = .toNearestOrAwayFromZero
+    _ rule: RoundingRule = .toNearestOrAwayFromZero
   ) -> Rational {
     var t = self
     t.round(rule)
@@ -202,9 +200,7 @@ extension Rational {
   ///
   /// - SeeAlso: `round(_:)`, `FloatingPointRoundingRule`
   @_transparent // @_inlineable
-  public mutating func round(
-    _ rule: RationalRoundingRule = .toNearestOrAwayFromZero
-  ) {
+  public mutating func round(_ rule: RoundingRule = .toNearestOrAwayFromZero) {
     if denominator == 0 { return }
 
     let f: T

@@ -5,5 +5,5 @@
 //  Created by Xiaodi Wu on 4/30/17.
 //
 
-/// A type to represent the mathematical sign of a value.
+/// The mathematical sign of a number.
 public typealias Sign = FloatingPointSign
