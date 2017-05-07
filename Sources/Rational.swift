@@ -315,16 +315,7 @@ extension Rational : Equatable {
     }
     if rhs.denominator == 0 { return false }
 
-    switch (lhs.sign, rhs.sign) {
-    case (.plus, .minus):
-      fallthrough
-    case (.minus, .plus):
-      return false
-    case (.plus, .plus):
-      fallthrough
-    case (.minus, .minus):
-      return _compareFiniteMagnitude(lhs, rhs) == 0
-    }
+    return lhs.sign == rhs.sign && _compareFiniteMagnitude(lhs, rhs) == 0
   }
 }
 
