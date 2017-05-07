@@ -192,12 +192,9 @@ extension Rational {
     // `T.Magnitude`.
     let gcd = T.Magnitude.gcd(nm, dm)
     guard gcd != 0 else { return self }
-    let n = nm / gcd
-    let d = dm / gcd
-    if sign == .plus {
-      return Rational(numerator: T(n), denominator: T(d))
-    }
-    return Rational(numerator: -T(n), denominator: T(d))
+    let n = sign == .plus ? T(nm / gcd) : -T(nm / gcd)
+    let d = T(dm / gcd)
+    return Rational(numerator: n, denominator: d)
   }
 
   /// A Boolean value indicating whether the instance's representation is in
@@ -275,15 +272,16 @@ extension Rational {
   @_transparent // @_inlineable
   public var sign: Sign {
     return numerator == 0 || (denominator < 0) == (numerator < 0)
-      ? .plus : .minus
+      ? .plus
+      : .minus
   }
 
   /// Returns the reciprocal (multiplicative inverse) of this value.
   @_transparent // @_inlineable
   public func reciprocal() -> Rational {
-    return (numerator < 0) ?
-      Rational(numerator: -denominator, denominator: -numerator) :
-      Rational(numerator: denominator, denominator: numerator)
+    return numerator < 0
+      ? Rational(numerator: -denominator, denominator: -numerator)
+      : Rational(numerator: denominator, denominator: numerator)
   }
 }
 
