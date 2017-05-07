@@ -157,6 +157,31 @@ extension Rational {
 }
 
 extension Rational {
+  /// Compares the (finite) magnitude of two finite values, returning -1 if
+  /// `lhs.magnitude` is less than `rhs.magnitude`, 0 if `lhs.magnitude` is
+  /// equal to `rhs.magnitude`, or 1 if `lhs.magnitude` is greater than
+  /// `rhs.magnitude`.
+  // @_versioned
+  internal static func _compareFiniteMagnitude(
+    _ lhs: Rational, _ rhs: Rational
+  ) -> Int {
+    let ldm = lhs.denominator.magnitude
+    let rdm = rhs.denominator.magnitude
+    let gcd = T.Magnitude.gcd(ldm, rdm)
+    let a = rdm / gcd * lhs.numerator.magnitude
+    let b = ldm / gcd * rhs.numerator.magnitude
+    return a == b ? 0 : (a < b ? -1 : 1)
+    // FIXME: Use full-width multiplication to avoid trapping on overflow
+    // where `T : FixedWidthInteger, T.Magnitude : FixedWidthInteger`.
+    /*
+    let a = (rdm / gcd).multipliedFullWidth(by: lhs.numerator.magnitude)
+    let b = (ldm / gcd).multipliedFullWidth(by: rhs.numerator.magnitude)
+    return a.high == b.high
+      ? (a.low == b.low ? 0 : (a.low < b.low ? -1 : 1))
+      : (a.high < b.high ? -1 : 1)
+    */
+  }
+
   /// The canonical representation of this value.
   // @_transparent // @_inlineable
   public var canonical: Rational {
@@ -297,15 +322,7 @@ extension Rational : Equatable {
     case (.plus, .plus):
       fallthrough
     case (.minus, .minus):
-      let ldm = lhs.denominator.magnitude
-      let rdm = rhs.denominator.magnitude
-      if ldm == rdm {
-        return lhs.numerator.magnitude == rhs.numerator.magnitude
-      }
-      let gcd = T.Magnitude.gcd(ldm, rdm)
-      let a = rdm / gcd * lhs.numerator.magnitude
-      let b = ldm / gcd * rhs.numerator.magnitude
-      return a == b
+      return _compareFiniteMagnitude(lhs, rhs) == 0
     }
   }
 }
@@ -320,28 +337,21 @@ extension Rational : Hashable {
 extension Rational : Comparable {
   // @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
-    if lhs.isNaN || rhs.isNaN { return false }
-    if rhs == -.infinity { return false }
-    if lhs == -.infinity { return true }
-
-    func compareMagnitude() -> Int {
-      let ldm = lhs.denominator.magnitude
-      let rdm = rhs.denominator.magnitude
-      let gcd = T.Magnitude.gcd(ldm, rdm)
-      let a = rdm / gcd * lhs.numerator.magnitude
-      let b = ldm / gcd * rhs.numerator.magnitude
-      return a == b ? 0 : (a < b ? -1 : 1)
+    if lhs.denominator == 0 {
+      if lhs.numerator >= 0 { return false }
+      return rhs.denominator != 0 || rhs.numerator > 0
     }
+    if rhs.denominator == 0 { return rhs.numerator > 0 }
 
     switch (lhs.sign, rhs.sign) {
-    case (.plus, .plus):
-      return compareMagnitude() == -1
     case (.plus, .minus):
       return false
     case (.minus, .plus):
       return true
+    case (.plus, .plus):
+      return _compareFiniteMagnitude(lhs, rhs) == -1
     case (.minus, .minus):
-      return compareMagnitude() == 1
+      return _compareFiniteMagnitude(lhs, rhs) == 1
     }
   }
 }
@@ -389,66 +399,6 @@ where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
     guard let _ = T(exactly: denominator.magnitude) else { return nil }
     self.numerator = numerator
     self.denominator = denominator
-  }
-
-  // @_transparent // @_inlineable
-  public static func == (lhs: Rational, rhs: Rational) -> Bool {
-    if lhs.denominator == 0 {
-      if lhs.numerator == 0 { return false }
-      return rhs.denominator == 0 && rhs.numerator != 0
-        && (lhs.numerator < 0) == (rhs.numerator < 0)
-    }
-    if rhs.denominator == 0 { return false }
-
-    switch (lhs.sign, rhs.sign) {
-    case (.plus, .minus):
-      fallthrough
-    case (.minus, .plus):
-      return false
-    case (.plus, .plus):
-      fallthrough
-    case (.minus, .minus):
-      let ldm = lhs.denominator.magnitude
-      let rdm = rhs.denominator.magnitude
-      if ldm == rdm {
-        return lhs.numerator.magnitude == rhs.numerator.magnitude
-      }
-      let gcd = T.Magnitude.gcd(ldm, rdm)
-      // Use full-width multiplication to avoid trapping on overflow.
-      let a = (rdm / gcd).multipliedFullWidth(by: lhs.numerator.magnitude)
-      let b = (ldm / gcd).multipliedFullWidth(by: rhs.numerator.magnitude)
-      return a.high == b.high && a.low == b.low
-    }
-  }
-
-  // @_transparent // @_inlineable
-  public static func < (lhs: Rational, rhs: Rational) -> Bool {
-    if lhs.isNaN || rhs.isNaN { return false }
-    if rhs == -.infinity { return false }
-    if lhs == -.infinity { return true }
-
-    func compareMagnitude() -> Int {
-      let ldm = lhs.denominator.magnitude
-      let rdm = rhs.denominator.magnitude
-      let gcd = T.Magnitude.gcd(ldm, rdm)
-      // Use full-width multiplication to avoid trapping on overflow.
-      let a = (rdm / gcd).multipliedFullWidth(by: lhs.numerator.magnitude)
-      let b = (ldm / gcd).multipliedFullWidth(by: rhs.numerator.magnitude)
-      return a.high == b.high
-        ? (a.low == b.low ? 0 : (a.low < b.low ? -1 : 1))
-        : (a.high < b.high ? -1 : 1)
-    }
-
-    switch (lhs.sign, rhs.sign) {
-    case (.plus, .plus):
-      return compareMagnitude() == -1
-    case (.plus, .minus):
-      return false
-    case (.minus, .plus):
-      return true
-    case (.minus, .minus):
-      return compareMagnitude() == 1
-    }
   }
 }
 
