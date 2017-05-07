@@ -257,10 +257,10 @@ extension Big : Numeric {
 
 extension Big : SignedNumeric {
   // @_transparent // @_inlineable
-  public static prefix func - (lhs: Big) -> Big {
-    var lhs = lhs
-    lhs.negate()
-    return lhs
+  public static prefix func - (rhs: Big) -> Big {
+    var rhs = rhs
+    rhs.negate()
+    return rhs
   }
 
   // @_transparent // @_inlineable
@@ -457,3 +457,36 @@ extension Big : BinaryInteger {
 }
 
 extension Big : SignedInteger { }
+
+extension Big {
+  // TODO: Implement and document this method.
+  public static func pow(
+    _ base: Big, _ exponent: Big, modulo modulus: Big
+  ) -> Big {
+    fatalError()
+  }
+
+  // TODO: Document this method.
+  public func inverse(modulo modulus: Big) -> Big {
+    var rhs = self
+    rhs.invert(modulo: modulus)
+    return rhs
+  }
+
+  // TODO: Implement and document this method.
+  public mutating func invert(modulo modulus: Big) {
+    fatalError()
+  }
+
+  // TODO: Document this method.
+  public func multiplied(by other: Big, modulo modulus: Big) -> Big {
+    var lhs = self
+    lhs.multiply(by: other, modulo: modulus)
+    return lhs
+  }
+
+  // TODO: Implement and document this method.
+  public mutating func multiply(by other: Big, modulo modulus: Big) {
+    fatalError()
+  }
+}
