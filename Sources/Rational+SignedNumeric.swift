@@ -71,7 +71,8 @@ extension Rational : Numeric {
     let a = T.Magnitude.gcd(lnm, rdm)
     let b = T.Magnitude.gcd(rnm, ldm)
     let n = lhs.sign == rhs.sign
-      ? T(lnm / a * (rnm / b)) : -T(lnm / a * (rnm / b))
+      ? T(lnm / a * (rnm / b))
+      : -T(lnm / a * (rnm / b))
     let d = T(ldm / b * (rdm / a))
     return Rational(numerator: n, denominator: d)
   }
