@@ -7,126 +7,126 @@
 
 extension Big : Numeric {
   internal mutating func _canonicalize() {
-    let count = _limbs.count
+    let count = _magnitude.count
     var endIndex = 0
     for i in (0..<count).reversed() {
-      if _limbs[i] != 0 {
+      if _magnitude[i] != 0 {
         endIndex = i + 1
         break
       }
     }
-    _limbs.removeLast(count - endIndex)
+    _magnitude.removeLast(count - endIndex)
     if endIndex == 0 { _sign = .plus }
   }
 
   internal static func _addAssignMagnitude(
-    _ lhs: inout Big, offset lhsLimbOffset: Int = 0,
-    _ rhs: Big, offset rhsLimbOffset: Int = 0
+    _ lhs: inout Big, offset lhsDigitOffset: Int = 0,
+    _ rhs: Big, offset rhsDigitOffset: Int = 0
   ) {
-    let lhsLimbCount = lhs._limbs.count - lhsLimbOffset
-    let rhsLimbCount = rhs._limbs.count - rhsLimbOffset
-    let commonLimbCount = Swift.min(lhsLimbCount, rhsLimbCount)
+    let lhsDigitCount = lhs._magnitude.count - lhsDigitOffset
+    let rhsDigitCount = rhs._magnitude.count - rhsDigitOffset
+    let commonDigitCount = Swift.min(lhsDigitCount, rhsDigitCount)
     var carry = false
-    for i in 0..<commonLimbCount {
-      var r = rhs._limbs[i + rhsLimbOffset]
+    for i in 0..<commonDigitCount {
+      var r = rhs._magnitude[i + rhsDigitOffset]
       if carry {
-        if r == Limb.max {
+        if r == Digit.max {
           // carry == true
           continue
         }
         r += 1
       }
-      let index = i + lhsLimbOffset
+      let index = i + lhsDigitOffset
       let overflow: ArithmeticOverflow
-      (lhs._limbs[index], overflow) =
-        lhs._limbs[index].addingReportingOverflow(r)
+      (lhs._magnitude[index], overflow) =
+        lhs._magnitude[index].addingReportingOverflow(r)
       carry = (overflow == .overflow)
     }
-    if lhsLimbCount < rhsLimbCount {
-      lhs._limbs.reserveCapacity(rhsLimbCount + lhsLimbOffset)
-      for i in commonLimbCount..<rhsLimbCount {
-        var r = rhs._limbs[i + rhsLimbOffset]
+    if lhsDigitCount < rhsDigitCount {
+      lhs._magnitude.reserveCapacity(rhsDigitCount + lhsDigitOffset)
+      for i in commonDigitCount..<rhsDigitCount {
+        var r = rhs._magnitude[i + rhsDigitOffset]
         if carry {
-          if r == Limb.max {
-            lhs._limbs.append(0)
+          if r == Digit.max {
+            lhs._magnitude.append(0)
             // carry == true
             continue
           }
           r += 1
         }
-        lhs._limbs.append(r)
+        lhs._magnitude.append(r)
         carry = false
       }
-    } else if lhsLimbCount > rhsLimbCount {
+    } else if lhsDigitCount > rhsDigitCount {
       if carry {
-        for i in commonLimbCount..<lhsLimbCount {
-          let index = i + lhsLimbOffset
-          if lhs._limbs[index] == Limb.max {
-            lhs._limbs[index] = 0
+        for i in commonDigitCount..<lhsDigitCount {
+          let index = i + lhsDigitOffset
+          if lhs._magnitude[index] == Digit.max {
+            lhs._magnitude[index] = 0
             // carry == true
             continue
           }
-          lhs._limbs[index] += 1
+          lhs._magnitude[index] += 1
           carry = false
           break
         }
       }
     }
     if carry {
-      lhs._limbs.append(1)
+      lhs._magnitude.append(1)
     }
   }
 
   /// The result of this operation is not canonicalized and the sign of zero may
   /// be negative.
   internal static func _subtractAssignMagnitude(
-    _ lhs: inout Big, offset lhsLimbOffset: Int = 0,
-    _ rhs: Big, offset rhsLimbOffset: Int = 0
+    _ lhs: inout Big, offset lhsDigitOffset: Int = 0,
+    _ rhs: Big, offset rhsDigitOffset: Int = 0
   ) {
-    let lhsLimbCount = lhs._limbs.count - lhsLimbOffset
-    let rhsLimbCount = rhs._limbs.count - rhsLimbOffset
-    let commonLimbCount = Swift.min(lhsLimbCount, rhsLimbCount)
+    let lhsDigitCount = lhs._magnitude.count - lhsDigitOffset
+    let rhsDigitCount = rhs._magnitude.count - rhsDigitOffset
+    let commonDigitCount = Swift.min(lhsDigitCount, rhsDigitCount)
     var borrow = false
-    for i in 0..<commonLimbCount {
-      var r = rhs._limbs[i + rhsLimbOffset]
+    for i in 0..<commonDigitCount {
+      var r = rhs._magnitude[i + rhsDigitOffset]
       if borrow {
-        if r == Limb.max {
+        if r == Digit.max {
           // borrow == true
           continue
         }
         r += 1
       }
-      let index = i + lhsLimbOffset
+      let index = i + lhsDigitOffset
       let overflow: ArithmeticOverflow
-      (lhs._limbs[index], overflow) =
-        lhs._limbs[index].subtractingReportingOverflow(r)
+      (lhs._magnitude[index], overflow) =
+        lhs._magnitude[index].subtractingReportingOverflow(r)
       borrow = (overflow == .overflow)
     }
-    if lhsLimbCount < rhsLimbCount {
-      lhs._limbs.reserveCapacity(rhsLimbCount + lhsLimbOffset)
-      for i in commonLimbCount..<rhsLimbCount {
-        var r = rhs._limbs[i + rhsLimbOffset]
+    if lhsDigitCount < rhsDigitCount {
+      lhs._magnitude.reserveCapacity(rhsDigitCount + lhsDigitOffset)
+      for i in commonDigitCount..<rhsDigitCount {
+        var r = rhs._magnitude[i + rhsDigitOffset]
         if !borrow {
           if r == 0 {
-            lhs._limbs.append(0)
+            lhs._magnitude.append(0)
             // borrow == false
             continue
           }
           r -= 1
         }
-        lhs._limbs.append(Limb.max - r)
+        lhs._magnitude.append(Digit.max - r)
         borrow = true
       }
-    } else if lhsLimbCount > rhsLimbCount {
+    } else if lhsDigitCount > rhsDigitCount {
       if borrow {
-        for i in commonLimbCount..<lhsLimbCount {
-          let index = i + lhsLimbOffset
-          if lhs._limbs[index] == 0 {
-            lhs._limbs[index] = Limb.max
+        for i in commonDigitCount..<lhsDigitCount {
+          let index = i + lhsDigitOffset
+          if lhs._magnitude[index] == 0 {
+            lhs._magnitude[index] = Digit.max
             // borrow == true
             continue
           }
-          lhs._limbs[index] -= 1
+          lhs._magnitude[index] -= 1
           borrow = false
           break
         }
@@ -134,14 +134,14 @@ extension Big : Numeric {
     }
     if borrow {
       lhs._sign = lhs._sign == .minus ? .plus : .minus
-      let count = lhs._limbs.count
+      let count = lhs._magnitude.count
       outer: for i in 0..<count {
         let overflow: ArithmeticOverflow
-        (lhs._limbs[i], overflow) =
-          (~lhs._limbs[i]).addingReportingOverflow(1)
+        (lhs._magnitude[i], overflow) =
+          (~lhs._magnitude[i]).addingReportingOverflow(1)
         if overflow == .none {
           inner: for j in (i + 1)..<count {
-            lhs._limbs[j] = ~lhs._limbs[j]
+            lhs._magnitude[j] = ~lhs._magnitude[j]
           }
           break outer
         }
@@ -151,41 +151,44 @@ extension Big : Numeric {
 
   /// The result of this operation is not canonicalized.
   internal static func _multiplyMagnitude(
-    _ lhs: Big, range lhsLimbRange: CountableRange<Int>? = nil,
-    _ rhs: Big, range rhsLimbRange: CountableRange<Int>? = nil
+    _ lhs: Big, range lhsDigitRange: CountableRange<Int>? = nil,
+    _ rhs: Big, range rhsDigitRange: CountableRange<Int>? = nil
   ) -> Big {
-    let lhsLimbOffset = lhsLimbRange?.startIndex ?? 0
-    let rhsLimbOffset = rhsLimbRange?.startIndex ?? 0
-    let lhsLimbCount = lhsLimbRange?.count ?? lhs._limbs.count
-    let rhsLimbCount = rhsLimbRange?.count ?? rhs._limbs.count
-    var limbs = [Limb](repeating: 0, count: lhsLimbCount + rhsLimbCount)
+    let lhsDigitOffset = lhsDigitRange?.startIndex ?? 0
+    let rhsDigitOffset = rhsDigitRange?.startIndex ?? 0
+    let lhsDigitCount = lhsDigitRange?.count ?? lhs._magnitude.count
+    let rhsDigitCount = rhsDigitRange?.count ?? rhs._magnitude.count
+    var digits = [Digit](repeating: 0, count: lhsDigitCount + rhsDigitCount)
 
-    var outerCarry = 0 as Limb
-    for outerIndex in 0..<rhsLimbCount {
-      let limb = rhs._limbs[outerIndex + rhsLimbOffset]
+    var outerCarry = 0 as Digit
+    for outerIndex in 0..<rhsDigitCount {
+      let digit = rhs._magnitude[outerIndex + rhsDigitOffset]
       var offset = outerIndex
       var overflow: ArithmeticOverflow
 
-      var innerCarry = 0 as Limb
-      for innerIndex in 0..<lhsLimbCount {
-        var high: Limb
-        let low: Limb
+      var innerCarry = 0 as Digit
+      for innerIndex in 0..<lhsDigitCount {
+        var high: Digit
+        let low: Digit
         (high, low) =
-          lhs._limbs[innerIndex + lhsLimbOffset].multipliedFullWidth(by: limb)
-        (limbs[offset], overflow) = limbs[offset].addingReportingOverflow(low)
+          lhs._magnitude[innerIndex + lhsDigitOffset]
+            .multipliedFullWidth(by: digit)
+        (digits[offset], overflow) =
+          digits[offset].addingReportingOverflow(low)
         if overflow == .overflow { innerCarry += 1 }
 
         offset += 1
         (high, overflow) = high.addingReportingOverflow(innerCarry)
         innerCarry = (overflow == .overflow) ? 1 : 0
-        (limbs[offset], overflow) = limbs[offset].addingReportingOverflow(high)
+        (digits[offset], overflow) =
+          digits[offset].addingReportingOverflow(high)
         if overflow == .overflow { innerCarry += 1 }
       }
-      (limbs[offset], overflow)
-        = limbs[offset].addingReportingOverflow(outerCarry)
+      (digits[offset], overflow) =
+        digits[offset].addingReportingOverflow(outerCarry)
       outerCarry = (overflow == .overflow) ? innerCarry + 1 : innerCarry
     }
-    return Big(_limbs: limbs)
+    return Big(_magnitude: digits)
   }
 
   public init?<U>(exactly source: U) where U : BinaryInteger {
@@ -193,7 +196,7 @@ extension Big : Numeric {
   }
 
   public var magnitude: Big {
-    return _sign == .minus ? Big(_limbs: _limbs) : self
+    return _sign == .minus ? Big(_magnitude: _magnitude) : self
   }
 
   @_transparent // @_inlineable
@@ -265,7 +268,7 @@ extension Big : SignedNumeric {
 
   // @_transparent // @_inlineable
   public mutating func negate() {
-    _sign = _sign == .minus || _limbs.isEmpty ? .plus : .minus
+    _sign = _sign == .minus || _magnitude.isEmpty ? .plus : .minus
   }
 }
 
@@ -294,17 +297,17 @@ extension Big : BinaryInteger {
   }
 
   public var bitWidth: Int {
-    return 1 + _limbs.count * Limb.bitWidth -
-      (_limbs.last ?? Limb.max).leadingZeroBitCount
+    return 1 + _magnitude.count * Digit.bitWidth -
+      (_magnitude.last ?? Digit.max).leadingZeroBitCount
   }
 
   public var trailingZeroBitCount: Int {
     // The trailing zero bit count of the two's complement representation of a
     // negative value is equal to the trailing zero bit count of the binary
     // representation of the magnitude.
-    for i in 0..<_limbs.count {
-      if _limbs[i] != 0 {
-        return i * Limb.bitWidth + _limbs[i].trailingZeroBitCount
+    for i in 0..<_magnitude.count {
+      if _magnitude[i] != 0 {
+        return i * Digit.bitWidth + _magnitude[i].trailingZeroBitCount
       }
     }
     return 1
@@ -446,7 +449,7 @@ extension Big : BinaryInteger {
 
   public func signum() -> Big {
     if _sign == .minus { return -1 }
-    if _limbs.isEmpty { return 0 }
+    if _magnitude.isEmpty { return 0 }
     return 1
   }
 

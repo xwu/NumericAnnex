@@ -11,27 +11,43 @@ where T : _ExpressibleByBuiltinIntegerLiteral,
 T.Magnitude : FixedWidthInteger & UnsignedInteger,
 T.Magnitude : _ExpressibleByBuiltinIntegerLiteral,
 T.Magnitude.Magnitude == T.Magnitude {
-  /// A type that represents a 'limb' in the representation of the value.
-  public typealias Limb = T.Magnitude
+  /// A type that represents a digit in the representation of the value.
+  public typealias Digit = T.Magnitude
 
   /// The mathematical sign of the value.
   internal var _sign: Sign
 
-  /// The collection of 'limbs' in the magnitude of the value, from least
+  /// The collection of digits in the magnitude of the value, from least
   /// significant to most significant.
-  internal var _limbs: [Limb]
+  internal var _magnitude: [Digit]
 
   /// Creates a new value with the given sign and magnitude.
-  internal init(_sign: Sign = .plus, _limbs: [Limb] = []) {
+  internal init(_sign: Sign = .plus, _magnitude: [Digit] = []) {
     self._sign = _sign
-    self._limbs = _limbs
+    self._magnitude = _magnitude
   }
 }
 
 extension Big {
   public init(_ source: T) {
     self._sign = source < 0 ? .minus : .plus
-    self._limbs = source == 0 ? [] : [source.magnitude]
+    self._magnitude = source == 0 ? [] : [source.magnitude]
+  }
+}
+
+extension Big {
+  internal static func _compareMagnitude(_ lhs: Big, _ rhs: Big) -> Int {
+    let lhsDigitCount = lhs._magnitude.count
+    let rhsDigitCount = rhs._magnitude.count
+    if lhsDigitCount < rhsDigitCount { return -1 }
+    if lhsDigitCount > rhsDigitCount { return 1 }
+    for i in (0..<lhsDigitCount).reversed() {
+      let l = lhs._magnitude[i]
+      let r = rhs._magnitude[i]
+      if l < r { return -1 }
+      if l > r { return 1 }
+    }
+    return 0
   }
 }
 
@@ -44,22 +60,22 @@ extension Big : ExpressibleByIntegerLiteral {
 
 extension Big : CustomStringConvertible {
   public var description : String {
-    guard _limbs.count > 1 else {
-      let description = _limbs.last?.description ?? "0"
+    guard _magnitude.count > 1 else {
+      let description = _magnitude.last?.description ?? "0"
       return _sign == .minus ? "-\(description)" : description
     }
     
     // A version of the "double dabble" algorithm.
-    let width = Limb.bitWidth
-    var count = width * _limbs.count / 3
+    let width = Digit.bitWidth
+    var count = width * _magnitude.count / 3
     var min = count - 2
     var scratch = [UInt8](repeating: 0, count: count)
     // Traverse from most significant to least significant word.
-    for i in (0..<_limbs.count).reversed() {
+    for i in (0..<_magnitude.count).reversed() {
       for j in 0..<width {
         // Bit to be shifted in.
         let bit =
-          _limbs[i] & (1 << Limb(width - j - 1)) > 0 ? 1 : 0 as UInt8
+          _magnitude[i] & (1 << Digit(width - j - 1)) > 0 ? 1 : 0 as UInt8
         // Increment any binary-coded decimal greater than four by three.
         for k in min..<count {
           scratch[k] += scratch[k] >= 5 ? 3 : 0
@@ -95,9 +111,7 @@ extension Big : CustomStringConvertible {
 
 extension Big : Equatable {
   public static func == (lhs: Big, rhs: Big) -> Bool {
-    guard lhs._sign == rhs._sign else { return false }
-    guard lhs._limbs.count == rhs._limbs.count else { return false }
-    return lhs._limbs == rhs._limbs
+    return lhs._sign == rhs._sign && _compareMagnitude(lhs, rhs) == 0
   }
 }
 
@@ -109,30 +123,16 @@ extension Big : Hashable {
 }
 
 extension Big : Comparable {
-  internal static func _compareMagnitude(_ lhs: Big, _ rhs: Big) -> Int {
-    let lhsLimbCount = lhs._limbs.count
-    let rhsLimbCount = rhs._limbs.count
-    if lhsLimbCount > rhsLimbCount { return 1 }
-    if lhsLimbCount < rhsLimbCount { return -1 }
-    for i in (0..<lhsLimbCount).reversed() {
-      let l = lhs._limbs[i]
-      let r = rhs._limbs[i]
-      if l > r { return 1 }
-      if l < r { return -1 }
-    }
-    return 0
-  }
-
   public static func < (lhs: Big, rhs: Big) -> Bool {
     switch (lhs._sign, rhs._sign) {
-    case (.plus, .plus):
-      return _compareMagnitude(lhs, rhs) == -1
-    case (.minus, .minus):
-      return _compareMagnitude(lhs, rhs) == 1
     case (.plus, .minus):
       return false
     case (.minus, .plus):
       return true
+    case (.plus, .plus):
+      return _compareMagnitude(lhs, rhs) < 0
+    case (.minus, .minus):
+      return _compareMagnitude(lhs, rhs) > 0
     }
   }
 }
