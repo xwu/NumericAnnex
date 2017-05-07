@@ -17,11 +17,12 @@ extension Rational : Numeric {
 
   // @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
-    if lhs.isNaN || rhs.isNaN { return .nan }
-    if lhs.isInfinite {
-      return rhs.isInfinite && lhs.sign != rhs.sign ? .nan : lhs
+    if lhs.denominator == 0 {
+      if rhs.denominator != 0 || lhs.numerator == 0 { return lhs }
+      if lhs.numerator > 0 { return rhs.numerator < 0 ? .nan : rhs }
+      return rhs.numerator > 0 ? .nan : rhs
     }
-    if rhs.isInfinite { return rhs }
+    if rhs.denominator == 0 { return rhs }
 
     let ldm = lhs.denominator.magnitude
     let rdm = rhs.denominator.magnitude
@@ -52,18 +53,13 @@ extension Rational : Numeric {
   
   // @_transparent // @_inlineable
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
-    if lhs.isNaN || rhs.isNaN { return .nan }
-    if lhs.isInfinite {
-      if rhs.isZero { return .nan }
-      return lhs.sign != rhs.sign
-        ? lhs.numerator < 0 ? lhs : -lhs
-        : lhs.numerator < 0 ? -lhs : lhs
+    if lhs.denominator == 0 {
+      if rhs.numerator == 0 { return .nan }
+      return rhs.sign == .minus ? -lhs : lhs
     }
-    if rhs.isInfinite {
-      if lhs.isZero { return .nan }
-      return lhs.sign != rhs.sign
-        ? rhs.numerator < 0 ? rhs : -rhs
-        : rhs.numerator < 0 ? -rhs : rhs
+    if rhs.denominator == 0 {
+      if lhs.numerator == 0 { return .nan }
+      return lhs.sign == .minus ? -rhs : rhs
     }
     
     let lnm = lhs.numerator.magnitude, ldm = lhs.denominator.magnitude
@@ -73,9 +69,7 @@ extension Rational : Numeric {
     // a `T`. This is why the following arithmetic is performed with values of
     // type `T.Magnitude`.
     let a = T.Magnitude.gcd(lnm, rdm)
-    guard a != 0 else { return .nan }
     let b = T.Magnitude.gcd(rnm, ldm)
-    guard b != 0 else { return .nan }
     let n = lhs.sign == rhs.sign
       ? T(lnm / a * (rnm / b)) : -T(lnm / a * (rnm / b))
     let d = T(ldm / b * (rdm / a))
