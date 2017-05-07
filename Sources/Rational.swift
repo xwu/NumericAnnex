@@ -275,7 +275,8 @@ extension Rational {
   /// The sign of this value.
   @_transparent // @_inlineable
   public var sign: Sign {
-    return isZero || (denominator < 0) == (numerator < 0) ? .plus : .minus
+    return numerator == 0 || (denominator < 0) == (numerator < 0)
+      ? .plus : .minus
   }
 
   /// Returns the reciprocal (multiplicative inverse) of this value.
@@ -309,8 +310,8 @@ extension Rational : Equatable {
   public static func == (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.denominator == 0 {
       if lhs.numerator == 0 { return false }
-      return rhs.denominator == 0 && rhs.numerator != 0
-        && (lhs.numerator < 0) == (rhs.numerator < 0)
+      if lhs.numerator > 0 { return rhs.denominator == 0 && rhs.numerator > 0 }
+      return rhs.denominator == 0 && rhs.numerator < 0
     }
     if rhs.denominator == 0 { return false }
 
@@ -349,10 +350,41 @@ extension Rational : Comparable {
     case (.minus, .plus):
       return true
     case (.plus, .plus):
-      return _compareFiniteMagnitude(lhs, rhs) == -1
+      return _compareFiniteMagnitude(lhs, rhs) < 0
     case (.minus, .minus):
-      return _compareFiniteMagnitude(lhs, rhs) == 1
+      return _compareFiniteMagnitude(lhs, rhs) > 0
     }
+  }
+
+  @_transparent // @_inlineable
+  public static func > (lhs: Rational, rhs: Rational) -> Bool {
+    return rhs < lhs
+  }
+
+  // @_transparent // @_inlineable
+  public static func <= (lhs: Rational, rhs: Rational) -> Bool {
+    if lhs.denominator == 0 {
+      if lhs.numerator == 0 { return false }
+      if lhs.numerator > 0 { return rhs.denominator == 0 && rhs.numerator > 0 }
+      return rhs.denominator != 0 || rhs.numerator != 0
+    }
+    if rhs.denominator == 0 { return rhs.numerator > 0 }
+
+    switch (lhs.sign, rhs.sign) {
+    case (.plus, .minus):
+      return false
+    case (.minus, .plus):
+      return true
+    case (.plus, .plus):
+      return _compareFiniteMagnitude(lhs, rhs) <= 0
+    case (.minus, .minus):
+      return _compareFiniteMagnitude(lhs, rhs) >= 0
+    }
+  }
+
+  @_transparent // @_inlineable
+  public static func >= (lhs: Rational, rhs: Rational) -> Bool {
+    return rhs <= lhs
   }
 }
 
