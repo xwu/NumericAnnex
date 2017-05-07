@@ -55,11 +55,11 @@ extension Rational : Numeric {
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.denominator == 0 {
       if rhs.numerator == 0 { return .nan }
-      return rhs.sign == .minus ? -lhs : lhs
+      return rhs.sign == .plus ? lhs : -lhs
     }
     if rhs.denominator == 0 {
       if lhs.numerator == 0 { return .nan }
-      return lhs.sign == .minus ? -rhs : rhs
+      return lhs.sign == .plus ? rhs : -rhs
     }
     
     let lnm = lhs.numerator.magnitude, ldm = lhs.denominator.magnitude
