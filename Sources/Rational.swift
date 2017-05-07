@@ -207,8 +207,7 @@ extension Rational {
     if denominator > 0 {
       return T.Magnitude.gcd(numerator.magnitude, denominator.magnitude) == 1
     }
-    return denominator == 0 &&
-      (numerator == -1 || numerator == 0 || numerator == 1)
+    return denominator == 0 && numerator.magnitude <= 1
   }
 
   /// A Boolean value indicating whether the instance is finite.
@@ -322,7 +321,8 @@ extension Rational : Equatable {
 extension Rational : Hashable {
   // @_transparent // @_inlineable
   public var hashValue: Int {
-    return _fnv1a(canonical.numerator, canonical.denominator)
+    let t = canonical
+    return _fnv1a(t.numerator, t.denominator)
   }
 }
 
