@@ -152,8 +152,8 @@ extension Big : Numeric {
   /// The result of this operation is not canonicalized.
   internal static func _multiplyMagnitude(
     _ lhs: Big, range lhsDigitRange: CountableRange<Int>? = nil,
-    _ rhs: Big, range rhsDigitRange: CountableRange<Int>? = nil,
-    karatsubaThreshold n: Int = /* 16 */ 2
+    _ rhs: Big, range rhsDigitRange: CountableRange<Int>? = nil/*,
+    karatsubaThreshold n: Int = /* 16 */ 2*/
   ) -> Big {
     let lhsDigitOffset = lhsDigitRange?.startIndex ?? 0
     let rhsDigitOffset = rhsDigitRange?.startIndex ?? 0
@@ -161,6 +161,7 @@ extension Big : Numeric {
     let rhsDigitCount = rhsDigitRange?.count ?? rhs._magnitude.count
     guard lhsDigitCount > 0 && rhsDigitCount > 0 else { return Big() }
 
+    /*
     precondition(n >= 2, "Karatsuba threshold must be at least 2")
     guard lhsDigitCount < n || rhsDigitCount < n else {
       let m = Swift.max(lhsDigitCount, rhsDigitCount) / 2
@@ -194,6 +195,7 @@ extension Big : Numeric {
       _subtractAssignMagnitude(&product, offset: m, z0)
       return product
     }
+    */
 
     var digits = [Digit](repeating: 0, count: lhsDigitCount + rhsDigitCount)
 
