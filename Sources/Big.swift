@@ -11,7 +11,7 @@ where T : _ExpressibleByBuiltinIntegerLiteral,
 T.Magnitude : FixedWidthInteger & UnsignedInteger,
 T.Magnitude : _ExpressibleByBuiltinIntegerLiteral,
 T.Magnitude.Magnitude == T.Magnitude {
-  /// A type that represents a digit in the representation of the value.
+  /// The type that represents a digit in the representation of the value.
   public typealias Digit = T.Magnitude
 
   /// The mathematical sign of the value.

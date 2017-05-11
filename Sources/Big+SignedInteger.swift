@@ -152,12 +152,49 @@ extension Big : Numeric {
   /// The result of this operation is not canonicalized.
   internal static func _multiplyMagnitude(
     _ lhs: Big, range lhsDigitRange: CountableRange<Int>? = nil,
-    _ rhs: Big, range rhsDigitRange: CountableRange<Int>? = nil
+    _ rhs: Big, range rhsDigitRange: CountableRange<Int>? = nil,
+    karatsubaThreshold n: Int = /* 16 */ 2
   ) -> Big {
     let lhsDigitOffset = lhsDigitRange?.startIndex ?? 0
     let rhsDigitOffset = rhsDigitRange?.startIndex ?? 0
     let lhsDigitCount = lhsDigitRange?.count ?? lhs._magnitude.count
     let rhsDigitCount = rhsDigitRange?.count ?? rhs._magnitude.count
+    guard lhsDigitCount > 0 && rhsDigitCount > 0 else { return Big() }
+
+    precondition(n >= 2, "Karatsuba threshold must be at least 2")
+    guard lhsDigitCount < n || rhsDigitCount < n else {
+      let m = Swift.max(lhsDigitCount, rhsDigitCount) / 2
+      let lhsSplitOffset = Swift.min(m, lhsDigitCount)
+      let lhsLowRange = lhsDigitOffset..<(lhsDigitOffset + lhsSplitOffset)
+      let lhsHighRange =
+        (lhsDigitOffset + lhsSplitOffset)..<(lhsDigitOffset + lhsDigitCount)
+      let rhsSplitOffset = Swift.min(m, rhsDigitCount)
+      let rhsLowRange = rhsDigitOffset..<(rhsDigitOffset + rhsSplitOffset)
+      let rhsHighRange =
+        (rhsDigitOffset + rhsSplitOffset)..<(rhsDigitOffset + rhsDigitCount)
+
+      var product = Big(_magnitude: [Digit](repeating: 0, count: m * 2))
+      let z2 = _multiplyMagnitude(
+        lhs, range: lhsHighRange, rhs, range: rhsHighRange,
+        karatsubaThreshold: n
+      )
+      _addAssignMagnitude(&product, offset: m * 2, z2)
+      let z0 = _multiplyMagnitude(
+        lhs, range: lhsLowRange, rhs, range: rhsLowRange,
+        karatsubaThreshold: n
+      )
+      _addAssignMagnitude(&product, z0)
+      var x = Big(_magnitude: [Digit](lhs._magnitude[lhsLowRange]))
+      _addAssignMagnitude(&x, offset: 0, lhs, offset: lhsSplitOffset)
+      var y = Big(_magnitude: [Digit](rhs._magnitude[rhsLowRange]))
+      _addAssignMagnitude(&y, offset: 0, rhs, offset: rhsSplitOffset)
+      let z1 = _multiplyMagnitude(x, y, karatsubaThreshold: n)
+      _addAssignMagnitude(&product, offset: m, z1)
+      _subtractAssignMagnitude(&product, offset: m, z2)
+      _subtractAssignMagnitude(&product, offset: m, z0)
+      return product
+    }
+
     var digits = [Digit](repeating: 0, count: lhsDigitCount + rhsDigitCount)
 
     var outerCarry = 0 as Digit
@@ -273,6 +310,7 @@ extension Big : SignedNumeric {
 }
 
 extension Big : BinaryInteger {
+
   @_transparent // @_inlineable
   public static var isSigned: Bool { return true }
 
@@ -454,6 +492,11 @@ extension Big : BinaryInteger {
   }
 
   public func word(at n: Int) -> UInt {
+    // TODO: Implement (or, eventually, remove).
+    fatalError()
+  }
+
+  public func _word(at n: Int) -> UInt {
     // TODO: Implement (or, eventually, remove).
     fatalError()
   }

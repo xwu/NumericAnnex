@@ -158,7 +158,7 @@ extension FloatingPointMath {
       swap(&x, &y)
     }
     let ratio = y / x
-    return x * sqrt(1 + ratio * ratio)
+    return x * .sqrt(1 + ratio * ratio)
   }
 
   public func inverseTangent(dividingBy other: Self) -> Self {
@@ -175,10 +175,10 @@ extension FloatingPointMath {
       return y.sign == .minus ? -.pi / 2 : .pi / 2
     }
     if x > 0 {
-      return 2 * Self.atan(y / (sqrt(x * x + y * y) + x))
+      return 2 * .atan(y / (.sqrt(x * x + y * y) + x))
     }
     if y != 0 {
-      return 2 * Self.atan((sqrt(x * x + y * y) - x) / y)
+      return 2 * .atan((.sqrt(x * x + y * y) - x) / y)
     }
     if x.sign == .minus /* && y == 0 */ {
       return y.sign == .minus ? -.pi : .pi
@@ -418,18 +418,26 @@ extension Double : FloatingPointMath {
 
   @_transparent
   public func naturalExponential() -> Double {
-    return exp(self)
+    #if os(Linux)
+    return Glibc.exp(self)
+    #else
+    return Darwin.exp(self)
+    #endif
   }
 
   @_transparent
   public func binaryExponential() -> Double {
-    return exp2(self)
+    #if os(Linux)
+    return Glibc.exp2(self)
+    #else
+    return Darwin.exp2(self)
+    #endif
   }
 
   @_transparent
   public func commonExponential() -> Double {
     #if os(Linux)
-    return exp10(self)
+    return Glibc.exp10(self)
     #else
     return __exp10(self)
     #endif
@@ -437,97 +445,173 @@ extension Double : FloatingPointMath {
 
   @_transparent
   public func naturalExponentialMinusOne() -> Double {
-    return expm1(self)
+    #if os(Linux)
+    return Glibc.expm1(self)
+    #else
+    return Darwin.expm1(self)
+    #endif
   }
 
   @_transparent
   public func naturalLogarithm() -> Double {
-    return log(self)
+    #if os(Linux)
+    return Glibc.log(self)
+    #else
+    return Darwin.log(self)
+    #endif
   }
 
   @_transparent
   public func binaryLogarithm() -> Double {
-    return log2(self)
+    #if os(Linux)
+    return Glibc.log2(self)
+    #else
+    return Darwin.log2(self)
+    #endif
   }
 
   @_transparent
   public func commonLogarithm() -> Double {
-    return log10(self)
+    #if os(Linux)
+    return Glibc.log10(self)
+    #else
+    return Darwin.log10(self)
+    #endif
   }
 
   @_transparent
   public func naturalLogarithmOnePlus() -> Double {
-    return log1p(self)
+    #if os(Linux)
+    return Glibc.log1p(self)
+    #else
+    return Darwin.log1p(self)
+    #endif
   }
 
   @_transparent
   public func cubeRoot() -> Double {
-    return cbrt(self)
+    #if os(Linux)
+    return Glibc.cbrt(self)
+    #else
+    return Darwin.cbrt(self)
+    #endif
   }
 
   @_transparent
   public func power(of base: Double) -> Double {
-    return pow(base, self)
+    #if os(Linux)
+    return Glibc.pow(base, self)
+    #else
+    return Darwin.pow(base, self)
+    #endif
   }
 
   @_transparent
   public func sine() -> Double {
-    return sin(self)
+    #if os(Linux)
+    return Glibc.sin(self)
+    #else
+    return Darwin.sin(self)
+    #endif
   }
 
   @_transparent
   public func cosine() -> Double {
-    return cos(self)
+    #if os(Linux)
+    return Glibc.cos(self)
+    #else
+    return Darwin.cos(self)
+    #endif
   }
 
   @_transparent
   public func tangent() -> Double {
-    return tan(self)
+    #if os(Linux)
+    return Glibc.tan(self)
+    #else
+    return Darwin.tan(self)
+    #endif
   }
 
   @_transparent
   public func inverseSine() -> Double {
-    return asin(self)
+    #if os(Linux)
+    return Glibc.asin(self)
+    #else
+    return Darwin.asin(self)
+    #endif
   }
 
   @_transparent
   public func inverseCosine() -> Double {
-    return acos(self)
+    #if os(Linux)
+    return Glibc.acos(self)
+    #else
+    return Darwin.acos(self)
+    #endif
   }
 
   @_transparent
   public func inverseTangent() -> Double {
-    return atan(self)
+    #if os(Linux)
+    return Glibc.atan(self)
+    #else
+    return Darwin.atan(self)
+    #endif
   }
 
   @_transparent
   public func hyperbolicSine() -> Double {
-    return sinh(self)
+    #if os(Linux)
+    return Glibc.sinh(self)
+    #else
+    return Darwin.sinh(self)
+    #endif
   }
 
   @_transparent
   public func hyperbolicCosine() -> Double {
-    return cosh(self)
+    #if os(Linux)
+    return Glibc.cosh(self)
+    #else
+    return Darwin.cosh(self)
+    #endif
   }
 
   @_transparent
   public func hyperbolicTangent() -> Double {
-    return tanh(self)
+    #if os(Linux)
+    return Glibc.tanh(self)
+    #else
+    return Darwin.tanh(self)
+    #endif
   }
 
   @_transparent
   public func inverseHyperbolicSine() -> Double {
-    return asinh(self)
+    #if os(Linux)
+    return Glibc.asinh(self)
+    #else
+    return Darwin.asinh(self)
+    #endif
   }
 
   @_transparent
   public func inverseHyperbolicCosine() -> Double {
-    return acosh(self)
+    #if os(Linux)
+    return Glibc.acosh(self)
+    #else
+    return Darwin.acosh(self)
+    #endif
   }
 
   @_transparent
   public func inverseHyperbolicTangent() -> Double {
-    return atanh(self)
+    #if os(Linux)
+    return Glibc.atanh(self)
+    #else
+    return Darwin.atanh(self)
+    #endif
   }
 
   @_transparent
@@ -541,26 +625,46 @@ extension Double : FloatingPointMath {
 
   @_transparent
   public func inverseTangent(dividingBy other: Double) -> Double {
-    return atan2(self, other)
+    #if os(Linux)
+    return Glibc.atan2(self, other)
+    #else
+    return Darwin.atan2(self, other)
+    #endif
   }
 
   @_transparent
   public func error() -> Double {
-    return erf(self)
+    #if os(Linux)
+    return Glibc.erf(self)
+    #else
+    return Darwin.erf(self)
+    #endif
   }
 
   @_transparent
   public func complementaryError() -> Double {
-    return erfc(self)
+    #if os(Linux)
+    return Glibc.erfc(self)
+    #else
+    return Darwin.erfc(self)
+    #endif
   }
 
   @_transparent
   public func gamma() -> Double {
-    return tgamma(self)
+    #if os(Linux)
+    return Glibc.tgamma(self)
+    #else
+    return Darwin.tgamma(self)
+    #endif
   }
 
   @_transparent
   public func logarithmicGamma() -> Double {
-    return lgamma(self)
+    #if os(Linux)
+    return Glibc.lgamma(self)
+    #else
+    return Darwin.lgamma(self)
+    #endif
   }
 }

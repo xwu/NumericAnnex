@@ -19,6 +19,16 @@ class BigTests: XCTestCase {
     let a = Int(Int8.max)
     XCTAssertEqual((z * z).description, (a * a).description)
     XCTAssertEqual((z * z * z).description, (a * a * a).description)
+
+    let z4 = (z * z) * (z * z)
+    let a4 = (a * a) * (a * a)
+    XCTAssertEqual(z4.description, a4.description)
+
+    /*
+    let z7 = (z4 * z) * (z * z)
+    let a7 = (a4 * a) * (a * a)
+    XCTAssertEqual(z7.description, a7.description)
+    */
   }
 
   func testBigIntBitwiseNot() {
