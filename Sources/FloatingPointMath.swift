@@ -11,12 +11,12 @@ import Glibc
 import Darwin
 #endif
 
-/// A floating point type that provides a selection of special functions.
+/// A binary floating-point type that provides a selection of special functions.
 ///
 /// The `FloatingPointMath` protocol provides a suitable basis for writing
-/// functions that work on any floating-point type that provides the required
-/// functions.
-public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
+/// functions that work on any binary floating-point type that provides the
+/// required functions.
+public protocol FloatingPointMath : Math, BinaryFloatingPoint /*, Hashable */ {
   /// Creates a new value from the given rational value, after rounding the
   /// whole part and the numerator and denominator of the fractional part each
   /// to the closest possible representation.
