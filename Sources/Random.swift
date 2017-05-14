@@ -40,19 +40,17 @@ import Darwin
   /// Creates a pseudo-random number generator with a random internal state by
   /// reading data from `/dev/urandom`.
   ///
-  /// If no data can be read from `/dev/urandom`, the result is `nil`.
+  /// If `/dev/urandom` cannot be opened, the result is `nil`.
   public convenience init?() {
     // Why read data from `/dev/urandom`? See:
     // https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
     guard let file = fopen("/dev/urandom", "rb") else { return nil }
     defer { fclose(file) }
     let size = MemoryLayout<UInt64>.size
-    var read = 0
-    var state = (0 as UInt64, 0 as UInt64)
-    withUnsafeMutablePointer(to: &state) { ptr in
-      read = fread(ptr, size, 2, file)
-    }
-    guard read == 2 else { return nil }
+    var read = 0, state = (0 as UInt64, 0 as UInt64)
+    repeat {
+      withUnsafeMutablePointer(to: &state) { read = fread($0, size, 2, file) }
+    } while read != 2 || state == (0, 0)
     self.init(state: state)
   }
 
@@ -72,19 +70,162 @@ import Darwin
 // TODO: Document methods in this extension.
 extension Random {
   // @_versioned
-  internal func _canonical<T : BinaryFloatingPoint>(
-    _: T.Type = T.self, bits: Int = T.significandBitCount
-  ) -> T {
-    let bits = Swift.min(bits, T.significandBitCount)
+  internal static var _maxRandomBitCount: Int {
     // `Element` must be unsigned or the following computation may overflow.
     let difference = Random.max - Random.min
-    let (quotient, remainder) = bits.quotientAndRemainder(
-      dividingBy: difference == Element.max
-        ? Element.bitWidth
-        : Element.bitWidth - (difference + 1).leadingZeroBitCount - 1
-    )
+    guard difference < Element.max else { return Element.bitWidth }
+    return Element.bitWidth - (difference + 1).leadingZeroBitCount - 1
+  }
+
+  // MARK: - Unsigned integers
+
+  // @_versioned
+  internal func _random<T : FixedWidthInteger & UnsignedInteger>(
+    _: T.Type = T.self, bitCount: Int = T.bitWidth
+  ) -> T {
+    let maxRandomBitCount = Random._maxRandomBitCount
+    let bitCount = Swift.min(bitCount, T.bitWidth)
+    if T.bitWidth == Element.bitWidth &&
+      maxRandomBitCount == Element.bitWidth &&
+      bitCount == T.bitWidth {
+      return T(extendingOrTruncating: next()!)
+    }
+    let (quotient, remainder) =
+      bitCount.quotientAndRemainder(dividingBy: maxRandomBitCount)
+    let max =
+      (Element.max &>> (Element.bitWidth - Random._maxRandomBitCount)) +
+        Random.min
+    var temporary = 0 as T
+    // Call `next()` at least `quotient` times.
+    for i in 0..<quotient {
+      temporary +=
+        T(extendingOrTruncating: first { $0 <= max }!) &<<
+          (maxRandomBitCount * i)
+    }
+    // If `remainder != 0`, call `next()` at least one more time.
+    if remainder != 0 {
+      let mask = Element.max &>> (Element.bitWidth - remainder)
+      temporary +=
+        T(extendingOrTruncating: first { $0 <= max }! & mask) &<<
+          (maxRandomBitCount * quotient)
+    }
+    return temporary
+  }
+
+  @_transparent // @_inlineable
+  public func uniform<T : FixedWidthInteger & UnsignedInteger>(
+    _: T.Type = T.self
+  ) -> T {
+    return uniform(a: T.min, b: T.max)
+  }
+
+  @_transparent // @_inlineable
+  public func uniform<T : FixedWidthInteger & UnsignedInteger>(
+    _: T.Type = T.self, count: Int
+  ) -> UnfoldSequence<T, Int> {
+    return uniform(a: T.min, b: T.max, count: count)
+  }
+
+  public func uniform<T : FixedWidthInteger & UnsignedInteger>(
+    _: T.Type = T.self, a: T, b: T
+  ) -> T {
+    precondition(b >= a, "Discrete uniform distribution parameter b should not be less than a")
+    guard a != b else { return a }
+    let difference = b - a
+    guard difference < T.max else {
+      return _random() + a
+    }
+    let r = difference + 1
+    var bitCount = T.bitWidth - r.leadingZeroBitCount - 1
+    if r & (T.max &>> (T.bitWidth - bitCount)) != 0 {
+      bitCount += 1
+    }
+    var temporary: T
+    repeat {
+      temporary = _random(bitCount: bitCount)
+    } while temporary > difference
+    return temporary + a
+  }
+
+  @_transparent // @_inlineable
+  public func uniform<T : FixedWidthInteger & UnsignedInteger>(
+    _: T.Type = T.self, a: T, b: T, count: Int
+  ) -> UnfoldSequence<T, Int> {
+    precondition(count >= 0, "Element count should be non-negative")
+    return sequence(state: 0) { (state: inout Int) -> T? in
+      defer { state += 1 }
+      return state == count ? nil : self.uniform(a: a, b: b)
+    }
+  }
+
+  // MARK: - Signed integers
+
+  @_transparent // @_inlineable
+  public func uniform<T : FixedWidthInteger & SignedInteger>(
+    _: T.Type = T.self
+  ) -> T where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+    return uniform(a: T.min, b: T.max)
+  }
+
+  @_transparent // @_inlineable
+  public func uniform<T : FixedWidthInteger & SignedInteger>(
+    _: T.Type = T.self, count: Int
+  ) -> UnfoldSequence<T, Int>
+  where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+    return uniform(a: T.min, b: T.max, count: count)
+  }
+
+  public func uniform<T : FixedWidthInteger & SignedInteger>(
+    _: T.Type = T.self, a: T, b: T
+  ) -> T where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+    precondition(b >= a, "Discrete uniform distribution parameter b should not be less than a")
+    guard a != b else { return a }
+    let difference = a.signum() < 0
+      ? (b.signum() < 0 ? a.magnitude - b.magnitude : b.magnitude + a.magnitude)
+      : b.magnitude - a.magnitude
+    guard difference < T.Magnitude.max else {
+      return a.signum() < 0
+        ? T(_random() - a.magnitude)
+        : T(_random() + a.magnitude)
+    }
+    let r = difference + 1
+    var bitCount = T.Magnitude.bitWidth - r.leadingZeroBitCount - 1
+    if r & (T.Magnitude.max &>> (T.Magnitude.bitWidth - bitCount)) != 0 {
+      bitCount += 1
+    }
+    var temporary: T.Magnitude
+    repeat {
+      temporary = _random(bitCount: bitCount)
+    } while temporary > difference
+    return a.signum() < 0
+      ? T(temporary - a.magnitude)
+      : T(temporary + a.magnitude)
+  }
+
+  @_transparent // @_inlineable
+  public func uniform<T : FixedWidthInteger & SignedInteger>(
+    _: T.Type = T.self, a: T, b: T, count: Int
+  ) -> UnfoldSequence<T, Int>
+  where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+    precondition(count >= 0, "Element count should be non-negative")
+    return sequence(state: 0) { (state: inout Int) -> T? in
+      defer { state += 1 }
+      return state == count ? nil : self.uniform(a: a, b: b)
+    }
+  }
+
+  // MARK: - Binary floating-point values
+
+  // @_versioned
+  internal func _canonical<T : BinaryFloatingPoint>(
+    _: T.Type = T.self, bitCount: Int = T.significandBitCount
+  ) -> T {
+    let bitCount = Swift.min(bitCount, T.significandBitCount)
+    let (quotient, remainder) =
+      bitCount.quotientAndRemainder(dividingBy: Random._maxRandomBitCount)
     let k = Swift.max(1, remainder == 0 ? quotient : quotient + 1)
-    let step = T(difference)
+    // `Element` must be unsigned or the following computation may overflow.
+    let step = T(Random.max - Random.min)
     let initial = (0 as T, 1 as T)
     // Call `next()` exactly `k` times.
     let (dividend, divisor) = prefix(k).reduce(initial) { partial, next in
