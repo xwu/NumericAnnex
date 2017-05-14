@@ -40,7 +40,7 @@ import Darwin
   /// Creates a pseudo-random number generator with a random internal state by
   /// reading data from `/dev/urandom`.
   ///
-  /// If `/dev/urandom` cannot be opened, the result is `nil`.
+  /// If data cannot be read from `/dev/urandom`, the result is `nil`.
   public convenience init?() {
     // Why read data from `/dev/urandom`? See:
     // https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
@@ -50,7 +50,8 @@ import Darwin
     var read = 0, state = (0 as UInt64, 0 as UInt64)
     repeat {
       withUnsafeMutablePointer(to: &state) { read = fread($0, size, 2, file) }
-    } while read != 2 || state == (0, 0)
+      guard read == 2 else { return nil }
+    } while state == (0, 0)
     self.init(state: state)
   }
 
