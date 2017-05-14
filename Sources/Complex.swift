@@ -207,11 +207,11 @@ extension Complex {
     self.imaginary = 0
   }
 
+  // ---------------------------------------------------------------------------
   // FIXME: If corresponding requirements are added to FloatingPoint
   // add init<U : Integer>(_: U) as well as init?<U : Integer>(exactly: U).
-}
+  // ---------------------------------------------------------------------------
 
-extension Complex where T : BinaryFloatingPoint {
   /// Creates a new value from the given real component, rounded to the closest
   /// possible representation.
   ///
