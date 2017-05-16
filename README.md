@@ -10,8 +10,8 @@ library.
       multiple functions.
 - [x] `Math`, a protocol for types providing square root, cube root, and
       elementary transcendental functions.
-- [x] `FloatingPointMath`, a protocol for floating-point types providing a
-      selection of special functions.
+- [x] `FloatingPointMath`, a protocol for floating-point types providing certain
+      special functions.
 - [x] `Complex`, a value type to represent complex values in Cartesian form.
 - [x] `Rational`, a value type to represent rational values, which supports
       division by zero.
