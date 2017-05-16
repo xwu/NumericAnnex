@@ -64,9 +64,11 @@ extension PRNG {
     if T.bitWidth == Element.bitWidth &&
       maxRandomBitCount == Element.bitWidth &&
       bitCount == T.bitWidth {
+      // It is an awkward way of spelling `next()`, but it is necessary.
       guard let next = first(where: { _ in true }) else { fatalError() }
       return T(extendingOrTruncating: next)
     }
+
     let (quotient, remainder) =
       bitCount.quotientAndRemainder(dividingBy: maxRandomBitCount)
     let max =
@@ -96,15 +98,12 @@ extension PRNG {
       "Discrete uniform distribution parameter b should not be less than a"
     )
     guard a != b else { return a }
+
     let difference = b - a
     guard difference < T.max else {
       return _random() + a
     }
-    let r = difference + 1
-    var bitCount = T.bitWidth - r.leadingZeroBitCount - 1
-    if r & (T.max &>> (T.bitWidth - bitCount)) != 0 {
-      bitCount += 1
-    }
+    let bitCount = T.bitWidth - difference.leadingZeroBitCount
     var temporary: T
     repeat {
       temporary = _random(bitCount: bitCount)
@@ -145,26 +144,20 @@ extension PRNG {
       "Discrete uniform distribution parameter b should not be less than a"
     )
     guard a != b else { return a }
-    let difference = a.signum() < 0
+
+    let test = a.signum() < 0
+    let difference = test
       ? (b.signum() < 0 ? a.magnitude - b.magnitude : b.magnitude + a.magnitude)
       : b.magnitude - a.magnitude
     guard difference < T.Magnitude.max else {
-      return a.signum() < 0
-        ? T(_random() - a.magnitude)
-        : T(_random() + a.magnitude)
+      return test ? T(_random() - a.magnitude) : T(_random() + a.magnitude)
     }
-    let r = difference + 1
-    var bitCount = T.Magnitude.bitWidth - r.leadingZeroBitCount - 1
-    if r & (T.Magnitude.max &>> (T.Magnitude.bitWidth - bitCount)) != 0 {
-      bitCount += 1
-    }
+    let bitCount = T.Magnitude.bitWidth - difference.leadingZeroBitCount
     var temporary: T.Magnitude
     repeat {
       temporary = _random(bitCount: bitCount)
     } while temporary > difference
-    return a.signum() < 0
-      ? T(temporary - a.magnitude)
-      : T(temporary + a.magnitude)
+    return test ? T(temporary - a.magnitude) : T(temporary + a.magnitude)
   }
 
   @_transparent // @_inlineable
