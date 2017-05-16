@@ -22,10 +22,9 @@ library.
 
 ## Requirements
 
-NumericAnnex now requires the latest development (master) branch of Swift or a
-recent development snapshot that includes the revised numeric protocols. It
-requires either `Darwin` or `Glibc` for transcendental functions provided by the
-C standard library.
+NumericAnnex now requires a recent development snapshot of Swift 4.0 that
+includes the revised numeric protocols. It requires either `Darwin` or `Glibc`
+for transcendental functions provided by the C standard library.
 
 
 ## Installation
