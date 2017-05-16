@@ -8,7 +8,7 @@
 /// A pseudo-random number generator.
 /* public */ protocol PRNG : class, IteratorProtocol, Sequence
 where Element : FixedWidthInteger & UnsignedInteger, SubSequence : Sequence,
-Element == Iterator.Element, Element == SubSequence.Iterator.Element {
+  Element == Iterator.Element, Element == SubSequence.Iterator.Element {
   /// A type that can represent the internal state of the pseudo-random number
   /// generator.
   associatedtype State
