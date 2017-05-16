@@ -8,7 +8,7 @@
 #if os(Linux)
 import Glibc
 #else
-import Darwin
+import Security
 #endif
 
 /// A pseudo-random number generator that implements [`xorshift128+`][ref], an
@@ -32,14 +32,33 @@ import Darwin
   }
 
   public init?() {
+    let size = MemoryLayout<UInt64>.size
+    var state = (0 as UInt64, 0 as UInt64)
+    #if os(Linux)
+    // Read from `urandom`. See:
+    // https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
     guard let file = fopen("/dev/urandom", "rb") else { return nil }
     defer { fclose(file) }
-    let size = MemoryLayout<UInt64>.size
-    var read = 0, state = (0 as UInt64, 0 as UInt64)
     repeat {
-      withUnsafeMutablePointer(to: &state) { read = fread($0, size, 2, file) }
+      let read = withUnsafeMutablePointer(to: &state) {
+        fread($0, size, 2, file)
+      }
       guard read == 2 else { return nil }
     } while state == (0, 0)
+    #else
+    // Sandboxing can make `urandom` unavailable.
+    let count = size * 2
+    repeat {
+      let result = withUnsafeMutableBytes(of: &state) {
+        SecRandomCopyBytes(
+          nil,
+          count,
+          $0.baseAddress!.bindMemory(to: UInt8.self, capacity: count)
+        )
+      }
+      guard result == errSecSuccess else { return nil }
+    } while state == (0, 0)
+    #endif
     self.state = state
   }
 }

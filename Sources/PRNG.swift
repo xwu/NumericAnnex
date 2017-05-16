@@ -30,12 +30,11 @@ where Element : FixedWidthInteger & UnsignedInteger, SubSequence : Sequence,
   ///   - state: The value to be used as the generator's internal state.
   init(state: State)
 
-  /// Creates a pseudo-random number generator with a random internal state by
-  /// reading data from [`/dev/urandom`][why].
+  /// Creates a pseudo-random number generator with an internal state seeded
+  /// using cryptographically secure random bytes.
   ///
-  /// If data cannot be read from `/dev/urandom`, the result is `nil`.
-  ///
-  /// [why]: https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
+  /// If cryptographically secure random bytes are unavailable, the result is
+  /// `nil`.
   init?()
 }
 
