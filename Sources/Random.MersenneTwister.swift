@@ -20,7 +20,7 @@ extension Random {
     public static let l = 18
     public static let f = 1812433253 as UInt32
 
-    internal static let _lower = (1 as UInt32 &<< r) - 1
+    internal static let _lower = (1 as UInt32 &<< r) &- 1
     internal static let _upper = ~_lower
 
     internal var _state: [UInt32]
@@ -51,9 +51,9 @@ extension Random {
     internal func _twist() {
       for i in 0..<MersenneTwister.n {
         let x = (_state[i] & MersenneTwister._upper) &+
-          (_state[(i + 1) % MersenneTwister.n] & MersenneTwister._lower)
+          (_state[(i &+ 1) % MersenneTwister.n] & MersenneTwister._lower)
         let xA = x % 2 == 0 ? x &>> 1 : (x &>> 1) ^ MersenneTwister.a
-        _state[i] = _state[(i + MersenneTwister.m) % MersenneTwister.n] ^ xA
+        _state[i] = _state[(i &+ MersenneTwister.m) % MersenneTwister.n] ^ xA
       }
       _index = 0
     }
@@ -79,7 +79,7 @@ extension Random {
       var next = seed
       self._state[0] = next
       for i in 1..<MersenneTwister.n {
-        next = MersenneTwister.f &* (next ^ (next &>> (MersenneTwister.w - 2)))
+        next = MersenneTwister.f &* (next ^ (next &>> (MersenneTwister.w &- 2)))
           &+ UInt32(i)
         self._state[i] = next
       }

@@ -278,7 +278,11 @@ extension PRNG where Element == UInt64 {
       b > a,
       "Uniform distribution parameter b should be greater than a"
     )
-    return (b - a) * _random() + a
+    var temporary: T
+    repeat {
+      temporary = (b - a) * _random() + a
+    } while temporary == b
+    return temporary
   }
 
   @_transparent // @_inlineable
