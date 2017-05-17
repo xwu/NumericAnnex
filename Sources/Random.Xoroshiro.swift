@@ -6,9 +6,8 @@
 //
 
 extension Random {
-  /// A pseudo-random number generator that implements [`xoroshiro128+`], which
-  /// uses a shift/rotate-based linear tranformation devised by Sebastiano Vigna
-  /// and David Blackman.
+  /// A pseudo-random number generator that implements [`xoroshiro128+`], a
+  /// successor to `xorshift128+` devised by S. Vigna and D. Blackman.
   /* public */ final class Xoroshiro : PRNG {
     public var state: (UInt64, UInt64)
 
