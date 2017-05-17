@@ -308,3 +308,83 @@ extension PRNG where Element == UInt64 {
     return uniform(a: 0, b: 1, count: count)
   }
 }
+
+extension PRNG where Element == UInt64 {
+  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self, lambda: T
+  ) -> T {
+    precondition(
+      lambda > 0 && lambda < .infinity,
+      "Exponential distribution parameter lambda should be positive and finite"
+    )
+    var temporary: T
+    repeat {
+      temporary = -.log(1 - _random()) / lambda
+    } while temporary == .infinity
+    return temporary
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self
+  ) -> T {
+    return exponential(lambda: 1)
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self, lambda: T, count: Int
+  ) -> UnfoldSequence<T, Int> {
+    precondition(count >= 0, "Element count should be non-negative")
+    return sequence(state: 0) { (state: inout Int) -> T? in
+      defer { state += 1 }
+      return state == count ? nil : self.exponential(lambda: lambda)
+    }
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self, count: Int
+  ) -> UnfoldSequence<T, Int> {
+    return exponential(lambda: 1, count: count)
+  }
+  
+  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self, lambda: T, kappa: T
+  ) -> T {
+    precondition(
+      lambda > 0 && lambda < .infinity && kappa > 0 && kappa < .infinity,
+      "Weibull distribution parameters should be positive and finite"
+    )
+    var temporary: T
+    repeat {
+      temporary = lambda * .pow(-.log(1 - _random()), 1 / kappa)
+    } while temporary == .infinity
+    return temporary
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self
+  ) -> T {
+    return weibull(lambda: 1, kappa: 1)
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self, lambda: T, kappa: T, count: Int
+  ) -> UnfoldSequence<T, Int> {
+    precondition(count >= 0, "Element count should be non-negative")
+    return sequence(state: 0) { (state: inout Int) -> T? in
+      defer { state += 1 }
+      return state == count ? nil : self.weibull(lambda: lambda, kappa: kappa)
+    }
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+    _: T.Type = T.self, count: Int
+  ) -> UnfoldSequence<T, Int> {
+    return weibull(lambda: 1, kappa: 1, count: count)
+  }
+}
