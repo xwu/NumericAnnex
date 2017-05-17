@@ -5,12 +5,6 @@
 //  Created by Xiaodi Wu on 5/13/17.
 //
 
-#if os(Linux)
-import Glibc
-#else
-import Security
-#endif
-
 /// A pseudo-random number generator that implements [`xorshift128+`][ref], an
 /// efficient linear-feedback shift register.
 ///
@@ -32,33 +26,11 @@ import Security
   }
 
   public init?() {
-    let size = MemoryLayout<UInt64>.size
-    var state = (0 as UInt64, 0 as UInt64)
-    #if os(Linux)
-    // Read from `urandom`. See:
-    // https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
-    guard let file = fopen("/dev/urandom", "rb") else { return nil }
-    defer { fclose(file) }
     repeat {
-      let read = withUnsafeMutablePointer(to: &state) {
-        fread($0, size, 2, file)
+      guard let entropy = Random._entropy(UInt64.self, count: 2) else {
+        return nil
       }
-      guard read == 2 else { return nil }
-    } while state == (0, 0)
-    #else
-    // Sandboxing can make `urandom` unavailable.
-    let count = size * 2
-    repeat {
-      let result = withUnsafeMutableBytes(of: &state) {
-        SecRandomCopyBytes(
-          nil,
-          count,
-          $0.baseAddress!.bindMemory(to: UInt8.self, capacity: count)
-        )
-      }
-      guard result == errSecSuccess else { return nil }
-    } while state == (0, 0)
-    #endif
-    self.state = state
+      self.state = (entropy[0], entropy[1])
+    } while self.state == (0, 0)
   }
 }

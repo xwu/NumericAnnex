@@ -5,6 +5,12 @@
 //  Created by Xiaodi Wu on 5/15/17.
 //
 
+#if os(Linux)
+import Glibc
+#else
+import Security
+#endif
+
 /// A pseudo-random number generator.
 /* public */ protocol PRNG : class, IteratorProtocol, Sequence
 where Element : FixedWidthInteger & UnsignedInteger, SubSequence : Sequence,
@@ -49,6 +55,60 @@ extension PRNG {
     let difference = Self.max - Self.min
     guard difference < Element.max else { return Element.bitWidth }
     return Element.bitWidth - (difference + 1).leadingZeroBitCount - 1
+  }
+
+  // TODO: Document this method.
+  // @_versioned
+  internal static func _entropy<
+    T : FixedWidthInteger & UnsignedInteger
+  >(_: T.Type = T.self) -> T? {
+    let size = MemoryLayout<T>.size
+    var value = T()
+    #if os(Linux)
+    // Read from `urandom`.
+    // https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
+    guard let file = fopen("/dev/urandom", "rb") else { return nil }
+    defer { fclose(file) }
+    let read = fread(&value, size, 1, file)
+    guard read == 1 else { return nil }
+    #else
+    // Sandboxing can make `urandom` unavailable.
+    let result = withUnsafeMutableBytes(of: &value) {
+      SecRandomCopyBytes(
+        nil,
+        size,
+        $0.baseAddress!.bindMemory(to: UInt8.self, capacity: size)
+      )
+    }
+    guard result == errSecSuccess else { return nil }
+    #endif
+    return value
+  }
+
+  // TODO: Document this method.
+  // @_versioned
+  internal static func _entropy<
+    T : FixedWidthInteger & UnsignedInteger
+  >(_: T.Type = T.self, count: Int) -> [T]? {
+    let size = MemoryLayout<T>.size
+    var value = [T](repeating: 0, count: count)
+    #if os(Linux)
+    guard let file = fopen("/dev/urandom", "rb") else { return nil }
+    defer { fclose(file) }
+    let read = fread(&value, size, count, file)
+    guard read == count else { return nil }
+    #else
+    let result = value.withUnsafeMutableBytes { ptr -> Int32 in
+      let byteCount = ptr.count
+      return SecRandomCopyBytes(
+        nil,
+        byteCount,
+        ptr.baseAddress!.bindMemory(to: UInt8.self, capacity: byteCount)
+      )
+    }
+    guard result == errSecSuccess else { return nil }
+    #endif
+    return value
   }
 }
 
