@@ -8,7 +8,7 @@
 #if os(Linux)
 import Glibc
 #else
-import Darwin
+import Darwin.C
 #endif
 
 /// A floating-point type that provides a selection of special functions.
