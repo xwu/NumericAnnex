@@ -310,6 +310,43 @@ extension PRNG where Element == UInt64 {
 }
 
 extension PRNG where Element == UInt64 {
+  /* public */ func bernoulli<T : BinaryFloatingPoint>(
+    _: Bool.Type = Bool.self, p: T
+  ) -> Bool {
+    precondition(
+      p >= 0 && p <= 1,
+      "Bernoulli distribution parameter p should be between zero and one"
+    )
+    var temporary: T
+    repeat {
+      temporary = _random()
+    } while temporary == 1
+    return temporary < p
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func bernoulli(_: Bool.Type = Bool.self) -> Bool {
+    return bernoulli(p: 0.5)
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func bernoulli<T : BinaryFloatingPoint>(
+    _: Bool.Type = Bool.self, p: T, count: Int
+  ) -> UnfoldSequence<Bool, Int> {
+    precondition(count >= 0, "Element count should be non-negative")
+    return sequence(state: 0) { (state: inout Int) -> Bool? in
+      defer { state += 1 }
+      return state == count ? nil : self.bernoulli(p: p)
+    }
+  }
+
+  @_transparent // @_inlineable
+  /* public */ func bernoulli(
+    _: Bool.Type = Bool.self, count: Int
+  ) -> UnfoldSequence<Bool, Int> {
+    return bernoulli(p: 0.5, count: count)
+  }
+
   /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
     _: T.Type = T.self, lambda: T
   ) -> T {
