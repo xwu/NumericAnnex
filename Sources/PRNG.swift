@@ -64,14 +64,14 @@ extension PRNG {
   >(_: T.Type = T.self) -> T? {
     let size = MemoryLayout<T>.size
     var value = T()
-    #if os(Linux)
+#if os(Linux)
     // Read from `urandom`.
     // https://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
     guard let file = fopen("/dev/urandom", "rb") else { return nil }
     defer { fclose(file) }
     let read = fread(&value, size, 1, file)
     guard read == 1 else { return nil }
-    #else
+#else
     // Sandboxing can make `urandom` unavailable.
     let result = withUnsafeMutableBytes(of: &value) {
       SecRandomCopyBytes(
@@ -81,7 +81,7 @@ extension PRNG {
       )
     }
     guard result == errSecSuccess else { return nil }
-    #endif
+#endif
     return value
   }
 
@@ -92,12 +92,12 @@ extension PRNG {
   >(_: T.Type = T.self, count: Int) -> [T]? {
     let size = MemoryLayout<T>.size
     var value = [T](repeating: 0, count: count)
-    #if os(Linux)
+#if os(Linux)
     guard let file = fopen("/dev/urandom", "rb") else { return nil }
     defer { fclose(file) }
     let read = fread(&value, size, count, file)
     guard read == count else { return nil }
-    #else
+#else
     let result = value.withUnsafeMutableBytes { ptr -> Int32 in
       let byteCount = ptr.count
       return SecRandomCopyBytes(
@@ -107,7 +107,7 @@ extension PRNG {
       )
     }
     guard result == errSecSuccess else { return nil }
-    #endif
+#endif
     return value
   }
 }
@@ -183,8 +183,8 @@ extension PRNG {
   ) -> UnfoldSequence<T, Int> {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> T? in
-      defer { state += 1 }
-      return state == count ? nil : self.uniform(a: a, b: b)
+      state += 1
+      return state > count ? nil : self.uniform(a: a, b: b)
     }
   }
 
@@ -233,8 +233,8 @@ extension PRNG {
   where T.Magnitude : FixedWidthInteger & UnsignedInteger {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> T? in
-      defer { state += 1 }
-      return state == count ? nil : self.uniform(a: a, b: b)
+      state += 1
+      return state > count ? nil : self.uniform(a: a, b: b)
     }
   }
 
@@ -296,8 +296,8 @@ extension PRNG where Element == UInt64 {
   ) -> UnfoldSequence<T, Int> {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> T? in
-      defer { state += 1 }
-      return state == count ? nil : self.uniform(a: a, b: b)
+      state += 1
+      return state > count ? nil : self.uniform(a: a, b: b)
     }
   }
 
@@ -335,8 +335,8 @@ extension PRNG where Element == UInt64 {
   ) -> UnfoldSequence<Bool, Int> {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> Bool? in
-      defer { state += 1 }
-      return state == count ? nil : self.bernoulli(p: p)
+      state += 1
+      return state > count ? nil : self.bernoulli(p: p)
     }
   }
 
@@ -374,8 +374,8 @@ extension PRNG where Element == UInt64 {
   ) -> UnfoldSequence<T, Int> {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> T? in
-      defer { state += 1 }
-      return state == count ? nil : self.exponential(lambda: lambda)
+      state += 1
+      return state > count ? nil : self.exponential(lambda: lambda)
     }
   }
 
@@ -413,8 +413,8 @@ extension PRNG where Element == UInt64 {
   ) -> UnfoldSequence<T, Int> {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> T? in
-      defer { state += 1 }
-      return state == count ? nil : self.weibull(lambda: lambda, kappa: kappa)
+      state += 1
+      return state > count ? nil : self.weibull(lambda: lambda, kappa: kappa)
     }
   }
 

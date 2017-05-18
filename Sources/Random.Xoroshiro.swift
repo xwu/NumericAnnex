@@ -20,12 +20,11 @@ extension Random {
     public func next() -> UInt64? {
       let x = state.0
       var y = state.1
-      defer {
-        y ^= x
-        state.0 = Xoroshiro._rotl(x, 55) ^ y ^ (y &<< 14)
-        state.1 = Xoroshiro._rotl(y, 36)
-      }
-      return x + y
+      let result = x &+ y
+      y ^= x
+      state.0 = Xoroshiro._rotl(x, 55) ^ y ^ (y &<< 14)
+      state.1 = Xoroshiro._rotl(y, 36)
+      return result
     }
 
     public init(state: (UInt64, UInt64)) {

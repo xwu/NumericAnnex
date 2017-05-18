@@ -272,11 +272,11 @@ extension Float : FloatingPointMath {
 
   @_transparent
   public func commonExponential() -> Float {
-    #if os(Linux)
+#if os(Linux)
     return exp10f(self)
-    #else
+#else
     return __exp10f(self)
-    #endif
+#endif
   }
 
   @_transparent
@@ -418,253 +418,253 @@ extension Double : FloatingPointMath {
 
   @_transparent
   public func naturalExponential() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.exp(self)
-    #else
+#else
     return Darwin.exp(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func binaryExponential() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.exp2(self)
-    #else
+#else
     return Darwin.exp2(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func commonExponential() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.exp10(self)
-    #else
+#else
     return __exp10(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func naturalExponentialMinusOne() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.expm1(self)
-    #else
+#else
     return Darwin.expm1(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func naturalLogarithm() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.log(self)
-    #else
+#else
     return Darwin.log(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func binaryLogarithm() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.log2(self)
-    #else
+#else
     return Darwin.log2(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func commonLogarithm() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.log10(self)
-    #else
+#else
     return Darwin.log10(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func naturalLogarithmOnePlus() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.log1p(self)
-    #else
+#else
     return Darwin.log1p(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func cubeRoot() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.cbrt(self)
-    #else
+#else
     return Darwin.cbrt(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func power(of base: Double) -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.pow(base, self)
-    #else
+#else
     return Darwin.pow(base, self)
-    #endif
+#endif
   }
 
   @_transparent
   public func sine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.sin(self)
-    #else
+#else
     return Darwin.sin(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func cosine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.cos(self)
-    #else
+#else
     return Darwin.cos(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func tangent() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.tan(self)
-    #else
+#else
     return Darwin.tan(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseSine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.asin(self)
-    #else
+#else
     return Darwin.asin(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseCosine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.acos(self)
-    #else
+#else
     return Darwin.acos(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseTangent() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.atan(self)
-    #else
+#else
     return Darwin.atan(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func hyperbolicSine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.sinh(self)
-    #else
+#else
     return Darwin.sinh(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func hyperbolicCosine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.cosh(self)
-    #else
+#else
     return Darwin.cosh(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func hyperbolicTangent() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.tanh(self)
-    #else
+#else
     return Darwin.tanh(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseHyperbolicSine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.asinh(self)
-    #else
+#else
     return Darwin.asinh(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseHyperbolicCosine() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.acosh(self)
-    #else
+#else
     return Darwin.acosh(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseHyperbolicTangent() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.atanh(self)
-    #else
+#else
     return Darwin.atanh(self)
-    #endif
+#endif
   }
 
   @_transparent
   public static func hypot(_ x: Double, _ y: Double) -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.hypot(x, y)
-    #else
+#else
     return Darwin.hypot(x, y)
-    #endif
+#endif
   }
 
   @_transparent
   public func inverseTangent(dividingBy other: Double) -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.atan2(self, other)
-    #else
+#else
     return Darwin.atan2(self, other)
-    #endif
+#endif
   }
 
   @_transparent
   public func error() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.erf(self)
-    #else
+#else
     return Darwin.erf(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func complementaryError() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.erfc(self)
-    #else
+#else
     return Darwin.erfc(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func gamma() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.tgamma(self)
-    #else
+#else
     return Darwin.tgamma(self)
-    #endif
+#endif
   }
 
   @_transparent
   public func logarithmicGamma() -> Double {
-    #if os(Linux)
+#if os(Linux)
     return Glibc.lgamma(self)
-    #else
+#else
     return Darwin.lgamma(self)
-    #endif
+#endif
   }
 }

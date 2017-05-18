@@ -13,12 +13,27 @@
   public var state: (UInt64, UInt64)
 
   public func next() -> UInt64? {
+#if true
+    // An updated version of xorshift128+.
+    //
+    // This version adds the two halves of the current state, which allows for
+    // better parallelization.
+    var x = state.0
+    let y = state.1
+    let result = x &+ y
+    state.0 = y
+    x ^= x &<< 23
+    state.1 = x ^ y ^ (x &>> 18) ^ (y &>> 5)
+    return result
+#else
+    // A previous version of xorshift128+.
     var x = state.0
     let y = state.1
     state.0 = y
     x ^= x &<< 23
     state.1 = x ^ y ^ (x &>> 17) ^ (y &>> 26)
     return state.1 &+ y
+#endif
   }
 
   public init(state: (UInt64, UInt64)) {
