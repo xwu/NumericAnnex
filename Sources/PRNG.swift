@@ -73,12 +73,10 @@ extension PRNG {
     guard read == 1 else { return nil }
 #else
     // Sandboxing can make `urandom` unavailable.
-    let result = withUnsafeMutableBytes(of: &value) {
-      SecRandomCopyBytes(
-        nil,
-        size,
-        $0.baseAddress!.bindMemory(to: UInt8.self, capacity: size)
-      )
+    let result = withUnsafeMutableBytes(of: &value) { ptr -> Int32 in
+      let bytes = ptr.baseAddress!.bindMemory(to: UInt8.self, capacity: size)
+      defer { ptr.baseAddress!.bindMemory(to: T.self, capacity: 1) }
+      return SecRandomCopyBytes(nil, size, bytes)
     }
     guard result == errSecSuccess else { return nil }
 #endif
@@ -90,21 +88,19 @@ extension PRNG {
   internal static func _entropy<
     T : FixedWidthInteger & UnsignedInteger
   >(_: T.Type = T.self, count: Int) -> [T]? {
-    let size = MemoryLayout<T>.size
+    let stride = MemoryLayout<T>.stride
     var value = [T](repeating: 0, count: count)
 #if os(Linux)
     guard let file = fopen("/dev/urandom", "rb") else { return nil }
     defer { fclose(file) }
-    let read = fread(&value, size, count, file)
+    let read = fread(&value, stride, count, file)
     guard read == count else { return nil }
 #else
     let result = value.withUnsafeMutableBytes { ptr -> Int32 in
-      let byteCount = ptr.count
-      return SecRandomCopyBytes(
-        nil,
-        byteCount,
-        ptr.baseAddress!.bindMemory(to: UInt8.self, capacity: byteCount)
-      )
+      let n = stride * count
+      let bytes = ptr.baseAddress!.bindMemory(to: UInt8.self, capacity: n)
+      defer { ptr.baseAddress!.bindMemory(to: T.self, capacity: count) }
+      return SecRandomCopyBytes(nil, n, bytes)
     }
     guard result == errSecSuccess else { return nil }
 #endif
@@ -309,6 +305,7 @@ extension PRNG where Element == UInt64 {
   }
 }
 
+/*
 extension PRNG where Element == UInt64 {
   /* public */ func bernoulli<T : BinaryFloatingPoint>(
     _: Bool.Type = Bool.self, p: T
@@ -425,3 +422,4 @@ extension PRNG where Element == UInt64 {
     return weibull(lambda: 1, kappa: 1, count: count)
   }
 }
+*/

@@ -9,7 +9,7 @@
 /// efficient linear-feedback shift register.
 ///
 /// [ref]: http://vigna.di.unimi.it/ftp/papers/xorshiftplus.pdf
-/* public */ final class Random : PRNG {
+public final class Random : PRNG {
   public var state: (UInt64, UInt64)
 
   public func next() -> UInt64? {
