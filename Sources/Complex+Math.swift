@@ -141,12 +141,12 @@ extension Complex : Math {
 
   // @_transparent // @_inlineable
   public func naturalExponential() -> Complex {
-    if real.isNaN && imaginary == 0 { return self }
+    if real.isNaN && imaginary == (0 as T) { return self }
     var im = imaginary
     if real.isInfinite {
-      if real < 0 && !im.isFinite {
+      if real < (0 as T) && !im.isFinite {
         im = 1
-      } else if im == 0 || !im.isFinite {
+      } else if im == (0 as T) || !im.isFinite {
         if im.isInfinite { im = .nan }
         return Complex(real: real, imaginary: im)
       }
@@ -170,7 +170,7 @@ extension Complex : Math {
       return Complex(real: .infinity, imaginary: imaginary)
     }
     if real.isInfinite {
-      if real > 0 {
+      if real > (0 as T) {
         return Complex(
           real: real,
           imaginary: imaginary.isNaN ? imaginary :
@@ -184,7 +184,7 @@ extension Complex : Math {
     }
     // Guard intermediate results and enforce a branch cut; see Numerical
     // Recipes.
-    if real == 0 && imaginary == 0 { return 0 }
+    if real == (0 as T) && imaginary == (0 as T) { return 0 }
     let w: T
     let x = abs(real), y = abs(imaginary)
     if x >= y {
@@ -194,11 +194,11 @@ extension Complex : Math {
       let r = x / y
       w = T.sqrt(y) * T.sqrt((r + T.sqrt(1 + r * r)) / 2)
     }
-    if real >= 0 {
+    if real >= (0 as T) {
       return Complex(real: w, imaginary: imaginary / (2 * w))
     }
-    /* real < 0 */
-    return Complex(real: y / (2 * w), imaginary: imaginary >= 0 ? w : -w)
+    /* real < (0 as T) */
+    return Complex(real: y / (2 * w), imaginary: imaginary >= (0 as T) ? w : -w)
 
     /*
     return Complex(r: T.sqrt(magnitude), theta: argument / 2)
@@ -256,15 +256,15 @@ extension Complex : Math {
       }
       if imaginary.isInfinite {
         return Complex(
-          real: real < 0 ? .pi * 3 / 4 : .pi / 4,
+          real: real < (0 as T) ? .pi * 3 / 4 : .pi / 4,
           imaginary: -imaginary
         )
       }
-      return real < 0 ?
+      return real < (0 as T) ?
         Complex(real: .pi, imaginary: imaginary.sign == .minus ? -real : real) :
         Complex(real: 0, imaginary: imaginary.sign == .minus ? real : -real)
     }
-    if real == 0 && (imaginary.isNaN || imaginary == 0) {
+    if real == (0 as T) && (imaginary.isNaN || imaginary == (0 as T)) {
       return Complex(real: .pi / 2, imaginary: -imaginary)
     }
     if imaginary.isInfinite {
@@ -286,10 +286,10 @@ extension Complex : Math {
 
   // @_transparent // @_inlineable
   public func hyperbolicSine() -> Complex {
-    if (real.isInfinite || real == 0) && !imaginary.isFinite {
+    if (real.isInfinite || real == (0 as T)) && !imaginary.isFinite {
       return Complex(real: real, imaginary: .nan)
     }
-    if imaginary == 0 && !real.isFinite {
+    if imaginary == (0 as T) && !real.isFinite {
       return self
     }
     return Complex(
@@ -303,13 +303,13 @@ extension Complex : Math {
     if real.isInfinite && !imaginary.isFinite {
       return Complex(real: abs(real), imaginary: .nan)
     }
-    if real == 0 && imaginary == 0 {
+    if real == (0 as T) && imaginary == (0 as T) {
       return Complex(real: 1, imaginary: imaginary)
     }
-    if real == 0 && !imaginary.isFinite {
+    if real == (0 as T) && !imaginary.isFinite {
       return Complex(real: .nan, imaginary: real)
     }
-    if imaginary == 0 && !real.isFinite {
+    if imaginary == (0 as T) && !real.isFinite {
       return Complex(real: abs(real), imaginary: imaginary)
     }
     return Complex(
@@ -320,7 +320,7 @@ extension Complex : Math {
 
   // @_transparent // @_inlineable
   public func hyperbolicTangent() -> Complex {
-    if real.isNaN && imaginary == 0 { return self }
+    if real.isNaN && imaginary == (0 as T) { return self }
     if real.isInfinite {
       if !imaginary.isFinite { return 1 }
       return Complex(
@@ -333,8 +333,8 @@ extension Complex : Math {
     let sinh = T.sinh(twiceReal)
     if sinh.isInfinite && denominator.isInfinite {
       return Complex(
-        real: sinh > 0 ? (1 as T) : -(1 as T),
-        imaginary: twiceImaginary > 0 ? (0 as T) : -(0 as T)
+        real: sinh > (0 as T) ? (1 as T) : -(1 as T),
+        imaginary: twiceImaginary > (0 as T) ? (0 as T) : -(0 as T)
       )
     }
     return Complex(
@@ -349,7 +349,7 @@ extension Complex : Math {
       if imaginary.isInfinite {
         return Complex(real: imaginary, imaginary: real)
       }
-      if imaginary == 0 { return self }
+      if imaginary == (0 as T) { return self }
       return Complex(real: real, imaginary: real)
     }
     if real.isInfinite {
@@ -416,7 +416,7 @@ extension Complex : Math {
       // See C11 DR 471.
       return Complex(
         real: imaginary,
-        imaginary: real == 0 ? .pi / 2 : imaginary
+        imaginary: real == (0 as T) ? .pi / 2 : imaginary
       )
     }
     if imaginary.isInfinite {
@@ -435,7 +435,7 @@ extension Complex : Math {
   // @_transparent // @_inlineable
   public func inverseHyperbolicTangent() -> Complex {
     if imaginary.isNaN {
-      if real.isInfinite || real == 0 {
+      if real.isInfinite || real == (0 as T) {
         return Complex(
           real: T(signOf: real, magnitudeOf: 0), imaginary: imaginary
         )
@@ -448,7 +448,7 @@ extension Complex : Math {
         imaginary: T(signOf: imaginary, magnitudeOf: .pi / 2)
       )
     }
-    if imaginary == 0 && abs(real) == 1 {
+    if imaginary == (0 as T) && abs(real) == (1 as T) {
       return Complex(
         real: T(signOf: real, magnitudeOf: .infinity),
         imaginary: T(signOf: imaginary, magnitudeOf: 0)

@@ -17,12 +17,16 @@ extension Rational : Numeric {
 
   // @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
-    if lhs.denominator == 0 {
-      if rhs.denominator != 0 || lhs.numerator == 0 { return lhs }
-      if lhs.numerator > 0 { return rhs.numerator < 0 ? .nan : rhs }
-      return rhs.numerator > 0 ? .nan : rhs
+    if lhs.denominator == (0 as T) {
+      if rhs.denominator != (0 as T) || lhs.numerator == (0 as T) {
+        return lhs
+      }
+      if lhs.numerator > (0 as T) {
+        return rhs.numerator < (0 as T) ? .nan : rhs
+      }
+      return rhs.numerator > (0 as T) ? .nan : rhs
     }
-    if rhs.denominator == 0 { return rhs }
+    if rhs.denominator == (0 as T) { return rhs }
 
     let ldm = lhs.denominator.magnitude
     let rdm = rhs.denominator.magnitude
@@ -53,12 +57,12 @@ extension Rational : Numeric {
   
   // @_transparent // @_inlineable
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
-    if lhs.denominator == 0 {
-      if rhs.numerator == 0 { return .nan }
+    if lhs.denominator == (0 as T) {
+      if rhs.numerator == (0 as T) { return .nan }
       return rhs.sign == .plus ? lhs : -lhs
     }
-    if rhs.denominator == 0 {
-      if lhs.numerator == 0 { return .nan }
+    if rhs.denominator == (0 as T) {
+      if lhs.numerator == (0 as T) { return .nan }
       return lhs.sign == .plus ? rhs : -rhs
     }
     
@@ -206,7 +210,7 @@ extension Rational {
     let f: T
     (numerator, f) = numerator.quotientAndRemainder(dividingBy: denominator)
     // Rounding rules only come into play if the fractional part is non-zero.
-    if f != 0 {
+    if f != (0 as T) {
       switch rule {
       case .toNearestOrAwayFromZero:
         fallthrough
@@ -215,21 +219,21 @@ extension Rational {
           dividingBy: f.magnitude
         ) {
         case (2, 0): // Tie.
-          if rule == .toNearestOrEven && numerator % 2 == 0 { break }
+          if rule == .toNearestOrEven && numerator % 2 == (0 as T) { break }
           fallthrough
         case (1, _): // Nearest is away from zero.
-          if f > 0 { numerator += 1 } else { numerator -= 1 }
+          if f > (0 as T) { numerator += 1 } else { numerator -= 1 }
         default: // Nearest is toward zero.
           break
         }
       case .up:
-        if f > 0 { numerator += 1 }
+        if f > (0 as T) { numerator += 1 }
       case .down:
-        if f < 0 { numerator -= 1 }
+        if f < (0 as T) { numerator -= 1 }
       case .towardZero:
         break
       case .awayFromZero:
-        if f > 0 { numerator += 1 } else { numerator -= 1 }
+        if f > (0 as T) { numerator += 1 } else { numerator -= 1 }
       }
     }
     denominator = 1

@@ -174,10 +174,10 @@ extension FloatingPointMath {
       }
       return y.sign == .minus ? -.pi / 2 : .pi / 2
     }
-    if x > 0 {
+    if x > (0 as Self) {
       return 2 * .atan(y / (.sqrt(x * x + y * y) + x))
     }
-    if y != 0 {
+    if y != (0 as Self) {
       return 2 * .atan((.sqrt(x * x + y * y) - x) / y)
     }
     if x.sign == .minus /* && y == 0 */ {

@@ -212,7 +212,7 @@ extension Rational {
   /// All values other than NaN and infinity are considered finite.
   @_transparent // @_inlineable
   public var isFinite: Bool {
-    return denominator != 0
+    return denominator != (0 as T)
   }
 
   /// A Boolean value indicating whether the instance is infinite.
@@ -221,7 +221,7 @@ extension Rational {
   /// is neither finite nor infinite.
   @_transparent // @_inlineable
   public var isInfinite: Bool {
-    return denominator == 0 && numerator != 0
+    return denominator == (0 as T) && numerator != (0 as T)
   }
 
   /// A Boolean value indicating whether the instance is NaN ("not a number").
@@ -231,7 +231,7 @@ extension Rational {
   /// test whether a value is or is not NaN.
   @_transparent // @_inlineable
   public var isNaN: Bool {
-    return denominator == 0 && numerator == 0
+    return denominator == (0 as T) && numerator == (0 as T)
   }
 
   /// A Boolean value indicating whether the instance is a proper fraction.
@@ -239,13 +239,14 @@ extension Rational {
   /// A fraction `p / q` is proper iff `p > 0`, `q > 0`, and `p < q`.
   @_transparent // @_inlineable
   public var isProper: Bool {
-    return numerator > 0 && denominator > 0 && numerator < denominator
+    return numerator > (0 as T) && denominator > (0 as T)
+      && numerator < denominator
   }
 
   /// A Boolean value indicating whether the instance is equal to zero.
   @_transparent // @_inlineable
   public var isZero: Bool {
-    return denominator != 0 && numerator == 0
+    return denominator != (0 as T) && numerator == (0 as T)
   }
 
   /// The magnitude (absolute value) of this value.
@@ -260,7 +261,7 @@ extension Rational {
   /// the value as its fractional part.
   @_transparent // @_inlineable
   public var mixed: (whole: T, fractional: Rational) {
-    if denominator == 0 { return (whole: 0, fractional: self) }
+    if denominator == (0 as T) { return (whole: 0, fractional: self) }
     let t = numerator.quotientAndRemainder(dividingBy: denominator)
     return (
       whole: t.quotient,
@@ -271,7 +272,8 @@ extension Rational {
   /// The sign of this value.
   @_transparent // @_inlineable
   public var sign: Sign {
-    return numerator == 0 || (denominator < 0) == (numerator < 0)
+    return numerator == (0 as T) ||
+      (denominator < (0 as T)) == (numerator < (0 as T))
       ? .plus
       : .minus
   }
@@ -279,7 +281,7 @@ extension Rational {
   /// Returns the reciprocal (multiplicative inverse) of this value.
   @_transparent // @_inlineable
   public func reciprocal() -> Rational {
-    return numerator < 0
+    return numerator < (0 as T)
       ? Rational(numerator: -denominator, denominator: -numerator)
       : Rational(numerator: denominator, denominator: numerator)
   }
@@ -296,21 +298,27 @@ extension Rational : ExpressibleByIntegerLiteral {
 extension Rational : CustomStringConvertible {
   @_transparent // @_inlineable
   public var description: String {
-    if numerator == 0 { return denominator == 0 ? "nan" : "0" }
-    if denominator == 0 { return numerator < 0 ? "-inf" : "inf" }
-    return denominator == 1 ? "\(numerator)" : "\(numerator)/\(denominator)"
+    if numerator == (0 as T) { return denominator == (0 as T) ? "nan" : "0" }
+    if denominator == (0 as T) { return numerator < (0 as T) ? "-inf" : "inf" }
+    return denominator == (1 as T)
+      ? "\(numerator)"
+      : "\(numerator)/\(denominator)"
   }
 }
 
 extension Rational : Equatable {
   // @_transparent // @_inlineable
   public static func == (lhs: Rational, rhs: Rational) -> Bool {
-    if lhs.denominator == 0 {
-      if lhs.numerator == 0 { return false }
-      if lhs.numerator > 0 { return rhs.denominator == 0 && rhs.numerator > 0 }
-      return rhs.denominator == 0 && rhs.numerator < 0
+    if lhs.denominator == (0 as T) {
+      if lhs.numerator == (0 as T) {
+        return false
+      }
+      if lhs.numerator > (0 as T) {
+        return rhs.denominator == (0 as T) && rhs.numerator > (0 as T)
+      }
+      return rhs.denominator == (0 as T) && rhs.numerator < (0 as T)
     }
-    if rhs.denominator == 0 { return false }
+    if rhs.denominator == (0 as T) { return false }
 
     return lhs.sign == rhs.sign && _compareFiniteMagnitude(lhs, rhs) == 0
   }
@@ -327,11 +335,11 @@ extension Rational : Hashable {
 extension Rational : Comparable {
   // @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
-    if lhs.denominator == 0 {
-      if lhs.numerator >= 0 { return false }
-      return rhs.denominator != 0 || rhs.numerator > 0
+    if lhs.denominator == (0 as T) {
+      if lhs.numerator >= (0 as T) { return false }
+      return rhs.denominator != (0 as T) || rhs.numerator > (0 as T)
     }
-    if rhs.denominator == 0 { return rhs.numerator > 0 }
+    if rhs.denominator == (0 as T) { return rhs.numerator > (0 as T) }
 
     switch (lhs.sign, rhs.sign) {
     case (.plus, .minus):
@@ -352,12 +360,16 @@ extension Rational : Comparable {
 
   // @_transparent // @_inlineable
   public static func <= (lhs: Rational, rhs: Rational) -> Bool {
-    if lhs.denominator == 0 {
-      if lhs.numerator == 0 { return false }
-      if lhs.numerator > 0 { return rhs.denominator == 0 && rhs.numerator > 0 }
-      return rhs.denominator != 0 || rhs.numerator != 0
+    if lhs.denominator == (0 as T) {
+      if lhs.numerator == (0 as T) {
+        return false
+      }
+      if lhs.numerator > (0 as T) {
+        return rhs.denominator == (0 as T) && rhs.numerator > (0 as T)
+      }
+      return rhs.denominator != (0 as T) || rhs.numerator != (0 as T)
     }
-    if rhs.denominator == 0 { return rhs.numerator > 0 }
+    if rhs.denominator == (0 as T) { return rhs.numerator > (0 as T) }
 
     switch (lhs.sign, rhs.sign) {
     case (.plus, .minus):
