@@ -6,6 +6,10 @@
 //
 
 extension BinaryInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   /// Returns the result of raising `base` to the power of `exponent`, rounded
   /// to a representable value.

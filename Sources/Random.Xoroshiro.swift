@@ -11,6 +11,19 @@ extension Random {
   public final class Xoroshiro : PRNG {
     public var state: (UInt64, UInt64)
 
+    public init(state: (UInt64, UInt64)) {
+      self.state = state
+    }
+
+    public init?() {
+      repeat {
+        guard let entropy = Xoroshiro._entropy(UInt64.self, count: 2) else {
+          return nil
+        }
+        self.state = (entropy[0], entropy[1])
+      } while self.state == (0, 0)
+    }
+
     // @_versioned
     internal static func _rotl(_ value: UInt64, _ count: Int) -> UInt64 {
       // TODO: Document this function.
@@ -25,19 +38,6 @@ extension Random {
       state.0 = Xoroshiro._rotl(x, 55) ^ y ^ (y &<< 14)
       state.1 = Xoroshiro._rotl(y, 36)
       return result
-    }
-
-    public init(state: (UInt64, UInt64)) {
-      self.state = state
-    }
-
-    public init?() {
-      repeat {
-        guard let entropy = Xoroshiro._entropy(UInt64.self, count: 2) else {
-          return nil
-        }
-        self.state = (entropy[0], entropy[1])
-      } while self.state == (0, 0)
     }
   }
 }

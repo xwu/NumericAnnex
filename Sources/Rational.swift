@@ -77,6 +77,10 @@ where T : _ExpressibleByBuiltinIntegerLiteral, T.Magnitude : UnsignedInteger,
   /// The denominator of the rational value.
   public var denominator: T
 
+  // ---------------------------------------------------------------------------
+  // MARK: Initializers
+  // ---------------------------------------------------------------------------
+
   /// Creates a new value from the given numerator and denominator without
   /// computing its canonical form (i.e., without reducing to lowest terms).
   ///
@@ -97,26 +101,6 @@ where T : _ExpressibleByBuiltinIntegerLiteral, T.Magnitude : UnsignedInteger,
     self.denominator = denominator
   }
 
-  /// Positive infinity.
-  ///
-  /// Infinity compares greater than all finite numbers and equal to other
-  /// (positive) infinite values.
-  @_transparent // @_inlineable
-  public static var infinity: Rational {
-    return Rational(numerator: 1, denominator: 0)
-  }
-
-  /// A quiet NaN ("not a number").
-  ///
-  /// A NaN compares not equal, not greater than, and not less than every value,
-  /// including itself. Passing a NaN to an operation generally results in NaN.
-  @_transparent // @_inlineable
-  public static var nan: Rational {
-    return Rational(numerator: 0, denominator: 0)
-  }
-}
-
-extension Rational {
   // @_transparent // @_inlineable
   /// Creates a new rational value from the given binary integer.
   ///
@@ -134,6 +118,9 @@ extension Rational {
   }
 
   // @_transparent // @_inlineable
+  /// Creates a new rational value from the given binary floating-point value.
+  ///
+  /// ...
   public init<Source : BinaryFloatingPoint>(_ source: Source) {
     // TODO: Document this initializer.
     if source.isNaN { self = .nan; return }
@@ -160,7 +147,74 @@ extension Rational {
   }
 }
 
+extension Rational
+where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Initializers (Fixed-Width)
+  // ---------------------------------------------------------------------------
+
+  // @_transparent // @_inlineable
+  /// Creates a new rational value from the given binary floating-point value.
+  ///
+  /// ...
+  public init?<Source : BinaryFloatingPoint>(exactly source: Source) {
+    // TODO: Document this initializer.
+    if source.isNaN { self = .nan; return }
+    if source == .infinity { self = .infinity; return }
+    if source == -.infinity { self = -.infinity; return }
+    if source.isZero { self = 0; return } // Consider -0.0 to be exactly 0.
+
+    let exponent = source.exponent
+    let significandWidth = source.significandWidth
+    let bitWidth = T.bitWidth
+    if significandWidth <= exponent {
+      guard exponent + 1 < bitWidth else { return nil }
+      self.numerator = T(source)
+      self.denominator = 1
+      return
+    }
+    let shift = significandWidth - Int(exponent)
+    guard significandWidth + 1 < bitWidth && shift < bitWidth else {
+      return nil
+    }
+    let numerator = T(source * Source(1 &<< shift))
+    // Ensure that `numerator.magnitude` is representable as a `T`.
+    guard let _ = T(exactly: numerator.magnitude) else { return nil }
+    let denominator = T(1 &<< shift)
+    // Ensure that `denominator.magnitude` is representable as a `T`.
+    guard let _ = T(exactly: denominator.magnitude) else { return nil }
+    self.numerator = numerator
+    self.denominator = denominator
+  }
+}
+
 extension Rational {
+  // ---------------------------------------------------------------------------
+  // MARK: Static Properties
+  // ---------------------------------------------------------------------------
+
+  /// Positive infinity.
+  ///
+  /// Infinity compares greater than all finite numbers and equal to other
+  /// (positive) infinite values.
+  @_transparent // @_inlineable
+  public static var infinity: Rational {
+    return Rational(numerator: 1, denominator: 0)
+  }
+
+  /// A quiet NaN ("not a number").
+  ///
+  /// A NaN compares not equal, not greater than, and not less than every value,
+  /// including itself. Passing a NaN to an operation generally results in NaN.
+  @_transparent // @_inlineable
+  public static var nan: Rational {
+    return Rational(numerator: 0, denominator: 0)
+  }
+
+  // ---------------------------------------------------------------------------
+  // MARK: Static Methods
+  // ---------------------------------------------------------------------------
+
   /// Compares the (finite) magnitude of two finite values, returning -1 if
   /// `lhs.magnitude` is less than `rhs.magnitude`, 0 if `lhs.magnitude` is
   /// equal to `rhs.magnitude`, or 1 if `lhs.magnitude` is greater than
@@ -185,6 +239,32 @@ extension Rational {
       : (a.high < b.high ? -1 : 1)
     */
   }
+
+  /// Returns the quotient obtained by dividing the first value by the second,
+  /// trapping in case of arithmetic overflow.
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to divide.
+  ///   - rhs: The value by which to divide `lhs`.
+  @_transparent // @_inlineable
+  public static func / (lhs: Rational, rhs: Rational) -> Rational {
+    return lhs * rhs.reciprocal()
+  }
+
+  /// Divides the left-hand side by the right-hand side and stores the quotient
+  /// in the left-hand side, trapping in case of arithmetic overflow.
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to divide.
+  ///   - rhs: The value by which to divide `lhs`.
+  @_transparent // @_inlineable
+  public static func /= (lhs: inout Rational, rhs: Rational) {
+    lhs = lhs * rhs.reciprocal()
+  }
+
+  // ---------------------------------------------------------------------------
+  // MARK: Instance Properties
+  // ---------------------------------------------------------------------------
 
   // @_transparent // @_inlineable
   /// The canonical representation of this value.
@@ -280,6 +360,10 @@ extension Rational {
       : .minus
   }
 
+  // ---------------------------------------------------------------------------
+  // MARK: Instance Methods
+  // ---------------------------------------------------------------------------
+
   /// Returns the reciprocal (multiplicative inverse) of this value.
   @_transparent // @_inlineable
   public func reciprocal() -> Rational {
@@ -287,9 +371,99 @@ extension Rational {
       ? Rational(numerator: -denominator, denominator: -numerator)
       : Rational(numerator: denominator, denominator: numerator)
   }
+
+  /// Returns this value rounded to an integral value using the specified
+  /// rounding rule.
+  ///
+  /// ```swift
+  /// let x = 7 / 2 as Rational<Int>
+  /// print(x.rounded()) // Prints "4"
+  /// print(x.rounded(.towardZero)) // Prints "3"
+  /// print(x.rounded(.up)) // Prints "4"
+  /// print(x.rounded(.down)) // Prints "3"
+  /// ```
+  ///
+  /// See the `FloatingPointRoundingRule` enumeration for more information about
+  /// the available rounding rules.
+  ///
+  /// - Parameters:
+  ///   - rule: The rounding rule to use.
+  ///
+  /// - SeeAlso: `round(_:)`, `RoundingRule`
+  @_transparent // @_inlineable
+  public func rounded(
+    _ rule: RoundingRule = .toNearestOrAwayFromZero
+  ) -> Rational {
+    var t = self
+    t.round(rule)
+    return t
+  }
+
+  /// Rounds the value to an integral value using the specified rounding rule.
+  ///
+  /// ```swift
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round() // x == 4
+  ///
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round(.towardZero) // x == 3
+  ///
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round(.up) // x == 4
+  ///
+  /// var x = 7 / 2 as Rational<Int>
+  /// x.round(.down) // x == 3
+  /// ```
+  ///
+  /// See the `FloatingPointRoundingRule` enumeration for more information about
+  /// the available rounding rules.
+  ///
+  /// - Parameters:
+  ///   - rule: The rounding rule to use.
+  ///
+  /// - SeeAlso: `round(_:)`, `RoundingRule`
+  @_transparent // @_inlineable
+  public mutating func round(_ rule: RoundingRule = .toNearestOrAwayFromZero) {
+    if denominator == 0 { return }
+
+    let f: T
+    (numerator, f) = numerator.quotientAndRemainder(dividingBy: denominator)
+    // Rounding rules only come into play if the fractional part is non-zero.
+    if f != 0 {
+      switch rule {
+      case .toNearestOrAwayFromZero:
+        fallthrough
+      case .toNearestOrEven:
+        switch denominator.magnitude.quotientAndRemainder(
+          dividingBy: f.magnitude
+        ) {
+        case (2, 0): // Tie.
+          if rule == .toNearestOrEven && numerator % 2 == 0 { break }
+          fallthrough
+        case (1, _): // Nearest is away from zero.
+          if f > 0 { numerator += 1 } else { numerator -= 1 }
+        default: // Nearest is toward zero.
+          break
+        }
+      case .up:
+        if f > 0 { numerator += 1 }
+      case .down:
+        if f < 0 { numerator -= 1 }
+      case .towardZero:
+        break
+      case .awayFromZero:
+        if f > 0 { numerator += 1 } else { numerator -= 1 }
+      }
+    }
+    denominator = 1
+  }
 }
 
 extension Rational : ExpressibleByIntegerLiteral {
+  // ---------------------------------------------------------------------------
+  // MARK: ExpressibleByIntegerLiteral
+  // ---------------------------------------------------------------------------
+
   @_transparent // @_inlineable
   public init(integerLiteral value: T) {
     self.numerator = value
@@ -298,6 +472,10 @@ extension Rational : ExpressibleByIntegerLiteral {
 }
 
 extension Rational : CustomStringConvertible {
+  // ---------------------------------------------------------------------------
+  // MARK: CustomStringConvertible
+  // ---------------------------------------------------------------------------
+
   @_transparent // @_inlineable
   public var description: String {
     if numerator == 0 { return denominator == 0 ? "nan" : "0" }
@@ -307,6 +485,10 @@ extension Rational : CustomStringConvertible {
 }
 
 extension Rational : Equatable {
+  // ---------------------------------------------------------------------------
+  // MARK: Equatable
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   public static func == (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.denominator == 0 {
@@ -321,6 +503,10 @@ extension Rational : Equatable {
 }
 
 extension Rational : Hashable {
+  // ---------------------------------------------------------------------------
+  // MARK: Hashable
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   public var hashValue: Int {
     let t = canonical
@@ -329,6 +515,10 @@ extension Rational : Hashable {
 }
 
 extension Rational : Comparable {
+  // ---------------------------------------------------------------------------
+  // MARK: Comparable
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.denominator == 0 {
@@ -382,6 +572,10 @@ extension Rational : Comparable {
 }
 
 extension Rational : Strideable, _Strideable {
+  // ---------------------------------------------------------------------------
+  // MARK: Strideable
+  // ---------------------------------------------------------------------------
+
   @_transparent // @_inlineable
   public func distance(to other: Rational) -> Rational {
     return other - self
@@ -393,38 +587,171 @@ extension Rational : Strideable, _Strideable {
   }
 }
 
-extension Rational
-where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
-  // @_transparent // @_inlineable
-  public init?<Source : BinaryFloatingPoint>(exactly source: Source) {
-    // TODO: Document this initializer.
-    if source.isNaN { self = .nan; return }
-    if source == .infinity { self = .infinity; return }
-    if source == -.infinity { self = -.infinity; return }
-    if source.isZero { self = 0; return } // Consider -0.0 to be exactly 0.
+extension Rational : Numeric {
+  // ---------------------------------------------------------------------------
+  // MARK: Numeric
+  // ---------------------------------------------------------------------------
 
-    let exponent = source.exponent
-    let significandWidth = source.significandWidth
-    let bitWidth = T.bitWidth
-    if significandWidth <= exponent {
-      guard exponent + 1 < bitWidth else { return nil }
-      self.numerator = T(source)
-      self.denominator = 1
-      return
+  // @_transparent // @_inlineable
+  public init?<U>(exactly source: U) where U : BinaryInteger {
+    guard let t = T(exactly: source) else { return nil }
+    // Ensure that `t.magnitude` is representable as a `T`.
+    guard let _ = T(exactly: t.magnitude) else { return nil }
+    self.numerator = t
+    self.denominator = 1
+  }
+
+  // @_transparent // @_inlineable
+  public static func + (lhs: Rational, rhs: Rational) -> Rational {
+    if lhs.denominator == 0 {
+      if rhs.denominator != 0 || lhs.numerator == 0 { return lhs }
+      if lhs.numerator > 0 { return rhs.numerator < 0 ? .nan : rhs }
+      return rhs.numerator > 0 ? .nan : rhs
     }
-    let shift = significandWidth - Int(exponent)
-    guard significandWidth + 1 < bitWidth && shift < bitWidth else {
-      return nil
+    if rhs.denominator == 0 { return rhs }
+
+    let ldm = lhs.denominator.magnitude
+    let rdm = rhs.denominator.magnitude
+    let gcd = T.Magnitude.gcd(ldm, rdm)
+    let a = T(rdm / gcd * lhs.numerator.magnitude)
+    let b = T(ldm / gcd * rhs.numerator.magnitude)
+    let n = lhs.sign == .plus
+      ? (rhs.sign == .plus ? a + b : a - b)
+      : (rhs.sign == .plus ? b - a : -a - b)
+    let d = T(ldm / gcd * rdm)
+    return Rational(numerator: n, denominator: d).canonical
+  }
+
+  @_transparent // @_inlineable
+  public static func += (lhs: inout Rational, rhs: Rational) {
+    lhs = lhs + rhs
+  }
+
+  @_transparent // @_inlineable
+  public static func - (lhs: Rational, rhs: Rational) -> Rational {
+    return lhs + (-rhs)
+  }
+
+  @_transparent // @_inlineable
+  public static func -= (lhs: inout Rational, rhs: Rational) {
+    lhs = lhs + (-rhs)
+  }
+  
+  // @_transparent // @_inlineable
+  public static func * (lhs: Rational, rhs: Rational) -> Rational {
+    if lhs.denominator == 0 {
+      if rhs.numerator == 0 { return .nan }
+      return rhs.sign == .plus ? lhs : -lhs
     }
-    let numerator = T(source * Source(1 &<< shift))
-    // Ensure that `numerator.magnitude` is representable as a `T`.
-    guard let _ = T(exactly: numerator.magnitude) else { return nil }
-    let denominator = T(1 &<< shift)
-    // Ensure that `denominator.magnitude` is representable as a `T`.
-    guard let _ = T(exactly: denominator.magnitude) else { return nil }
-    self.numerator = numerator
-    self.denominator = denominator
+    if rhs.denominator == 0 {
+      if lhs.numerator == 0 { return .nan }
+      return lhs.sign == .plus ? rhs : -rhs
+    }
+    
+    let lnm = lhs.numerator.magnitude, ldm = lhs.denominator.magnitude
+    let rnm = rhs.numerator.magnitude, rdm = rhs.denominator.magnitude
+    // Note that if `T` is a signed fixed-width integer type, `gcd(lnm, rdm)` or
+    // `gcd(rnm, ldm)` could be equal to `-T.min`, which is not representable as
+    // a `T`. This is why the following arithmetic is performed with values of
+    // type `T.Magnitude`.
+    let a = T.Magnitude.gcd(lnm, rdm)
+    let b = T.Magnitude.gcd(rnm, ldm)
+    let n = lhs.sign == rhs.sign
+      ? T(lnm / a * (rnm / b))
+      : -T(lnm / a * (rnm / b))
+    let d = T(ldm / b * (rdm / a))
+    return Rational(numerator: n, denominator: d)
+  }
+
+  @_transparent // @_inlineable
+  public static func *= (lhs: inout Rational, rhs: Rational) {
+    lhs = lhs * rhs
   }
 }
 
+extension Rational : SignedNumeric {
+  // ---------------------------------------------------------------------------
+  // MARK: SignedNumeric
+  // ---------------------------------------------------------------------------
+
+  @_transparent // @_inlineable
+  public static prefix func - (operand: Rational) -> Rational {
+    return Rational(
+      numerator: -operand.numerator, denominator: operand.denominator
+    )
+  }
+
+  @_transparent // @_inlineable
+  public mutating func negate() {
+    numerator.negate()
+  }
+}
+
+/// Returns the absolute value (magnitude) of `x`.
+@_transparent
+public func abs<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.magnitude
+}
+
+/// Returns the closest integral value greater than or equal to `x`.
+@_transparent
+public func ceil<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded(.up)
+}
+
+/// Returns the closest integral value less than or equal to `x`.
+@_transparent
+public func floor<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded(.down)
+}
+
+/// Returns the closest integral value; if two values are equally close, returns
+/// the one with greater magnitude.
+@_transparent
+public func round<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded()
+}
+
+/// Returns the closest integral value with magnitude less than or equal to that
+/// of `x`.
+@_transparent
+public func trunc<T>(_ x: Rational<T>) -> Rational<T> {
+  return x.rounded(.towardZero)
+}
+
 public typealias Ratio = Rational<Int>
+
+// MARK: -
+
+extension BinaryInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Initializers
+  // ---------------------------------------------------------------------------
+
+  /// Creates a new binary integer from the given rational value, if it can be
+  /// represented exactly.
+  ///
+  /// If `source` is not representable exactly, the result is `nil`.
+  ///
+  /// - Parameters:
+  ///   - source: A rational value to convert to a binary integer.
+  @_transparent // @_inlineable
+  public init?<U>(exactly source: Rational<U>) {
+    let (whole, fraction) = source.mixed
+    guard fraction.isZero, let exact = Self(exactly: whole) else { return nil }
+    self = exact
+  }
+
+  /// Creates a new binary integer from the given rational value, rounding
+  /// toward zero.
+  ///
+  /// If `source` is outside the bounds of this type after rounding toward zero,
+  /// a runtime error may occur.
+  ///
+  /// - Parameters:
+  ///   - source: A rational value to convert to a binary integer.
+  @_transparent // @_inlineable
+  public init<U>(_ source: Rational<U>) {
+    self = Self(source.mixed.whole)
+  }
+}

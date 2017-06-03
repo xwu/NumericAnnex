@@ -12,6 +12,19 @@
 public final class Random : PRNG {
   public var state: (UInt64, UInt64)
 
+  public init(state: (UInt64, UInt64)) {
+    self.state = state
+  }
+
+  public init?() {
+    repeat {
+      guard let entropy = Random._entropy(UInt64.self, count: 2) else {
+        return nil
+      }
+      self.state = (entropy[0], entropy[1])
+    } while self.state == (0, 0)
+  }
+  
   public func next() -> UInt64? {
 #if true
     // An updated version of xorshift128+.
@@ -34,18 +47,5 @@ public final class Random : PRNG {
     state.1 = x ^ y ^ (x &>> 17) ^ (y &>> 26)
     return state.1 &+ y
 #endif
-  }
-
-  public init(state: (UInt64, UInt64)) {
-    self.state = state
-  }
-
-  public init?() {
-    repeat {
-      guard let entropy = Random._entropy(UInt64.self, count: 2) else {
-        return nil
-      }
-      self.state = (entropy[0], entropy[1])
-    } while self.state == (0, 0)
   }
 }

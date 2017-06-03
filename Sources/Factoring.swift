@@ -6,6 +6,10 @@
 //
 
 extension UnsignedInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Factoring
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   /// Returns the greatest common divisor of `a` and `b`.
   public static func gcd(_ a: Self, _ b: Self) -> Self {
@@ -40,6 +44,10 @@ extension UnsignedInteger {
 }
 
 extension UnsignedInteger where Self : FixedWidthInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Factoring (Fixed-Width)
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   /// Returns the least common multiple of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
@@ -60,6 +68,10 @@ extension UnsignedInteger where Self : FixedWidthInteger {
 }
 
 extension BinaryInteger where Magnitude : UnsignedInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Factoring
+  // ---------------------------------------------------------------------------
+
   /// Returns the greatest common divisor of `a` and `b`.
   @_transparent // @_inlineable
   public static func gcd(_ a: Self, _ b: Self) -> Self {
@@ -79,6 +91,10 @@ extension BinaryInteger where Magnitude : UnsignedInteger {
 extension BinaryInteger
 where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
   Magnitude.Magnitude == Magnitude {
+  // ---------------------------------------------------------------------------
+  // MARK: Factoring (Fixed-Width)
+  // ---------------------------------------------------------------------------
+
   // @_transparent // @_inlineable
   /// Returns the greatest common divisor of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
