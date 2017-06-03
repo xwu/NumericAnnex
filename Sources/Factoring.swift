@@ -73,6 +73,9 @@ extension BinaryInteger where Magnitude : UnsignedInteger {
   }
 }
 
+// `BinaryInteger where Self : FixedWidthInteger` may seem superfluous, but it
+// is necessary to disambiguate calls to `Magnitude.lcmReportingOverflow(_:_:)`
+// and `Magnitude.lcmFullWidth(_:_:)`.
 extension BinaryInteger
 where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
   Magnitude.Magnitude == Magnitude {
