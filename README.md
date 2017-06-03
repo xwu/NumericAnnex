@@ -10,11 +10,14 @@ library.
       multiple functions.
 - [x] `Math`, a protocol for types providing square root, cube root, and
       elementary transcendental functions.
-- [x] `FloatingPointMath`, a protocol for binary floating-point types providing
-      a selection of special functions.
+- [x] `FloatingPointMath`, a protocol for floating-point types providing certain
+      special functions.
+- [x] `PRNG`, a protocol for pseudo-random number generators (PRNGs).
 - [x] `Complex`, a value type to represent complex values in Cartesian form.
 - [x] `Rational`, a value type to represent rational values, which supports
       division by zero.
+- [x] `Random` and `Random.Xoroshiro`, two reference types implementing
+      efficient non-cryptographically-secure PRNGs.
 
 > Note: This project is in the early stages of development and is not
 > production-ready at this time.
@@ -22,10 +25,11 @@ library.
 
 ## Requirements
 
-NumericAnnex now requires the latest development (master) branch of Swift or a
-recent development snapshot that includes the revised numeric protocols. It
-requires either `Darwin` or `Glibc` for transcendental functions provided by the
-C standard library.
+NumericAnnex now requires a recent development snapshot of Swift 4.0 that
+includes the revised numeric protocols. It requires either `Darwin.C` or `Glibc`
+for transcendental functions provided by the C standard library and either
+`Security` (Apple platforms) or `Glibc` (Linux) for cryptographically secure
+random bytes.
 
 
 ## Installation
@@ -89,9 +93,9 @@ counterpart (e.g., `Complex128.cbrt(-8) != -2`).
 
 ## Future Directions
 
-- [ ] Add more tests
+- [ ] Add more tests, including performance tests
+- [ ] Design and implement additional methods on `PRNG`
 - [ ] Design and implement `BigInt`
-- [ ] Design and implement `Random`
 
 
 ## License

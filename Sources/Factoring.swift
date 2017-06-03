@@ -73,8 +73,8 @@ extension BinaryInteger where Magnitude : UnsignedInteger {
   }
 }
 
-extension BinaryInteger where Self : FixedWidthInteger,
-  Magnitude : FixedWidthInteger & UnsignedInteger,
+extension BinaryInteger
+where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
   Magnitude.Magnitude == Magnitude {
   /// Returns the greatest common divisor of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
