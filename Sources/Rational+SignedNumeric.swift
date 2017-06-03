@@ -98,11 +98,11 @@ extension BinaryInteger {
     self = exact
   }
 
-  /// Creates a new binary integer from the given rational value, truncating any
-  /// fractional part.
+  /// Creates a new binary integer from the given rational value, rounding
+  /// toward zero.
   ///
-  /// If `source` is outside the bounds of this type after truncation, a runtime
-  /// error may occur.
+  /// If `source` is outside the bounds of this type after rounding toward zero,
+  /// a runtime error may occur.
   ///
   /// - Parameters:
   ///   - source: A rational value to convert to a binary integer.
@@ -166,7 +166,7 @@ extension Rational {
   /// - Parameters:
   ///   - rule: The rounding rule to use.
   ///
-  /// - SeeAlso: `round(_:)`, `FloatingPointRoundingRule`
+  /// - SeeAlso: `round(_:)`, `RoundingRule`
   @_transparent // @_inlineable
   public func rounded(
     _ rule: RoundingRule = .toNearestOrAwayFromZero
@@ -198,7 +198,7 @@ extension Rational {
   /// - Parameters:
   ///   - rule: The rounding rule to use.
   ///
-  /// - SeeAlso: `round(_:)`, `FloatingPointRoundingRule`
+  /// - SeeAlso: `round(_:)`, `RoundingRule`
   @_transparent // @_inlineable
   public mutating func round(_ rule: RoundingRule = .toNearestOrAwayFromZero) {
     if denominator == 0 { return }

@@ -35,10 +35,9 @@
 /// form of any value.
 ///
 /// Additional Considerations
-/// =========================
+/// -------------------------
 ///
-/// Special Values
-/// --------------
+/// ### Special Values
 ///
 /// `Rational<T>` does not prohibit zero as a denominator. Any instance with a
 /// positive numerator and zero denominator represents (positive) infinity; any
@@ -56,8 +55,7 @@
 /// a value is NaN. `Rational<T>` arithmetic operations are intended to
 /// propagate NaN in the same manner as analogous floating-point operations.
 ///
-/// Fixed-Width Binary Parts
-/// ------------------------
+/// ### Fixed-Width Binary Parts
 ///
 /// When a value of type `Rational<T>` is in canonical form, the sign of the
 /// numerator is the sign of the value; that is, in canonical form, the sign of
@@ -119,8 +117,14 @@ where T : _ExpressibleByBuiltinIntegerLiteral, T.Magnitude : UnsignedInteger,
 }
 
 extension Rational {
-  // TODO: Document this initializer.
   // @_transparent // @_inlineable
+  /// Creates a new rational value from the given binary integer.
+  ///
+  /// If `source` or its magnitude is not representable as a numerator of type
+  /// `T`, a runtime error may occur.
+  ///
+  /// - Parameters:
+  ///   - source: A binary integer to convert to a rational value.
   public init<Source : BinaryInteger>(_ source: Source) {
     let t = T(source)
     // Ensure that `t.magnitude` is representable as a `T`.
@@ -129,9 +133,9 @@ extension Rational {
     self.denominator = 1
   }
 
-  // TODO: Document this initializer.
   // @_transparent // @_inlineable
   public init<Source : BinaryFloatingPoint>(_ source: Source) {
+    // TODO: Document this initializer.
     if source.isNaN { self = .nan; return }
     if source == .infinity { self = .infinity; return }
     if source == -.infinity { self = -.infinity; return }
@@ -182,8 +186,8 @@ extension Rational {
     */
   }
 
-  /// The canonical representation of this value.
   // @_transparent // @_inlineable
+  /// The canonical representation of this value.
   public var canonical: Rational {
     let nm = numerator.magnitude, dm = denominator.magnitude
     // Note that if `T` is a signed fixed-width integer type, `gcd(nm, dm)`
@@ -391,9 +395,9 @@ extension Rational : Strideable, _Strideable {
 
 extension Rational
 where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
-  // TODO: Document this initializer.
   // @_transparent // @_inlineable
   public init?<Source : BinaryFloatingPoint>(exactly source: Source) {
+    // TODO: Document this initializer.
     if source.isNaN { self = .nan; return }
     if source == .infinity { self = .infinity; return }
     if source == -.infinity { self = -.infinity; return }

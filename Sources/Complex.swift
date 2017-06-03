@@ -18,7 +18,7 @@
 /// ```
 ///
 /// Additional Considerations
-/// =========================
+/// -------------------------
 ///
 /// Floating-point types have special values that represent infinity or NaN
 /// ("not a number"). Complex functions in different languages may return

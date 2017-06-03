@@ -72,10 +72,6 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   ///   - value: The rational value to convert to a floating-point value.
   init(_ value: Rational<Int64>)
 
-  // FIXME: If corresponding requirements are added to FloatingPoint
-  // add init<U : SignedInteger>(_: Rational<U>) as well as
-  // init?<U : SignedInteger>(exactly: Rational<U>).
-
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
   /// underflow. The return value is the square root of the sum of squares of
@@ -124,6 +120,10 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   ///
   /// - SeeAlso: `lgamma(_:)`
   func logarithmicGamma() -> Self
+
+  // FIXME: If corresponding requirements are added to FloatingPoint
+  // add init<U : SignedInteger>(_: Rational<U>) as well as
+  // init?<U : SignedInteger>(exactly: Rational<U>).
 }
 
 extension FloatingPointMath {

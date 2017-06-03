@@ -6,9 +6,9 @@
 //
 
 extension BinaryInteger {
+  // @_transparent // @_inlineable
   /// Returns the result of raising `base` to the power of `exponent`, rounded
   /// to a representable value.
-  // @_transparent // @_inlineable
   public static func pow(_ base: Self, _ exponent: Self) -> Self {
     var x = base, n = exponent
     if Self.isSigned && n < 0 {

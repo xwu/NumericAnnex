@@ -6,8 +6,8 @@
 //
 
 extension UnsignedInteger {
-  /// Returns the greatest common divisor of `a` and `b`.
   // @_transparent // @_inlineable
+  /// Returns the greatest common divisor of `a` and `b`.
   public static func gcd(_ a: Self, _ b: Self) -> Self {
     // An iterative version of Stein's algorithm.
     if a == 0 { return b } // gcd(0, b) == b
@@ -40,18 +40,18 @@ extension UnsignedInteger {
 }
 
 extension UnsignedInteger where Self : FixedWidthInteger {
+  // @_transparent // @_inlineable
   /// Returns the least common multiple of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
-  // @_transparent // @_inlineable
   public static func lcmReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: ArithmeticOverflow) {
     if a == 0 || b == 0 { return (partialValue: 0, overflow: .none) }
     return (a / .gcd(a, b)).multipliedReportingOverflow(by: b)
   }
 
+  // @_transparent // @_inlineable
   /// Returns the high and low parts of the least common multiple of `a` and `b`
   /// computed using full-width arithmetic.
-  // @_transparent // @_inlineable
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {
     if a == 0 || b == 0 { return (0, 0) }
@@ -79,9 +79,9 @@ extension BinaryInteger where Magnitude : UnsignedInteger {
 extension BinaryInteger
 where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
   Magnitude.Magnitude == Magnitude {
+  // @_transparent // @_inlineable
   /// Returns the greatest common divisor of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
-  // @_transparent // @_inlineable
   public static func gcdReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: ArithmeticOverflow) {
     let t = Self(extendingOrTruncating: Magnitude.gcd(a.magnitude, b.magnitude))
@@ -91,9 +91,9 @@ where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
     )
   }
 
+  // @_transparent // @_inlineable
   /// Returns the least common multiple of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
-  // @_transparent // @_inlineable
   public static func lcmReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: ArithmeticOverflow) {
     let (t, overflow) = Magnitude.lcmReportingOverflow(a.magnitude, b.magnitude)
@@ -104,9 +104,9 @@ where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
     )
   }
 
+  // @_transparent // @_inlineable
   /// Returns the high and low parts of the least common multiple of `a` and `b`
   /// computed using full-width arithmetic.
-  // @_transparent // @_inlineable
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {
     let t = Magnitude.lcmFullWidth(a.magnitude, b.magnitude)

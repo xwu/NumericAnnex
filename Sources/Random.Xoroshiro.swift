@@ -6,14 +6,14 @@
 //
 
 extension Random {
-  /// A pseudo-random number generator that implements [`xoroshiro128+`], a
+  /// A pseudo-random number generator that implements `xoroshiro128+`, a
   /// successor to `xorshift128+` devised by S. Vigna and D. Blackman.
   public final class Xoroshiro : PRNG {
     public var state: (UInt64, UInt64)
 
-    // TODO: Document this function.
     // @_versioned
     internal static func _rotl(_ value: UInt64, _ count: Int) -> UInt64 {
+      // TODO: Document this function.
       return (value &<< count) | (value &>> (64 &- count))
     }
 
