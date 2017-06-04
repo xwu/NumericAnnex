@@ -173,9 +173,9 @@ secure PRNG.</p>
             <summary>Contents</summary>
             <div class="wrapper">
               <ul>
-                <li><a href="#/s:12NumericAnnex4PRNGP5state5StateQzv">state</a></li>
-                <li><a href="#/s:12NumericAnnex4PRNGPx5StateQz5state_tcfc">init(state:)</a></li>
-                <li><a href="#/s:12NumericAnnex4PRNGPxSgycfc">init()</a></li>
+                <li><a href="#/s:12NumericAnnex6RandomC5states6UInt64V_AFtv">state</a></li>
+                <li><a href="#/s:12NumericAnnex6RandomCACs6UInt64V_AEt5state_tcfc">init(state:)</a></li>
+                <li><a href="#/s:12NumericAnnex6RandomCACSgycfc">init()</a></li>
                 <li><a href="#/s:s16IteratorProtocolP4next7ElementQzSgyF">next()</a></li>
               </ul>
               <ul>
@@ -190,14 +190,15 @@ secure PRNG.</p>
               <ul>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex4PRNGP5state5StateQzv"></a>
+                    <a name="/s:12NumericAnnex6RandomC5states6UInt64V_AFtv"></a>
                     <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
                     <h4>
                       <code>state</code>
                     </h4>
                   </div>
                   <div class="abstract">
-                    
+                    <p>The internal state of the pseudo-random number generator.</p>
+
                   </div>
                   <div class="declaration">
                     <h5>Declaration</h5>
@@ -210,14 +211,15 @@ secure PRNG.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex4PRNGPx5StateQz5state_tcfc"></a>
+                    <a name="/s:12NumericAnnex6RandomCACs6UInt64V_AEt5state_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(state:)" class="dashAnchor"></a>
                     <h4>
                       <code>init(state:)</code>
                     </h4>
                   </div>
                   <div class="abstract">
-                    
+                    <p>Creates a pseudo-random number generator with the given internal state.</p>
+
                   </div>
                   <div class="declaration">
                     <h5>Declaration</h5>
@@ -230,14 +232,19 @@ secure PRNG.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex4PRNGPxSgycfc"></a>
+                    <a name="/s:12NumericAnnex6RandomCACSgycfc"></a>
                     <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
                     <h4>
                       <code>init()</code>
                     </h4>
                   </div>
                   <div class="abstract">
-                    
+                    <p>Creates a pseudo-random number generator with an internal state seeded
+using cryptographically secure random bytes.</p>
+
+<p>If cryptographically secure random bytes are unavailable, the result is
+<code>nil</code>.</p>
+
                   </div>
                   <div class="declaration">
                     <h5>Declaration</h5>
