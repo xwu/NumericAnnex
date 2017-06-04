@@ -112,7 +112,7 @@ pre code {
 body > .wrapper {
   display: flex;
   flex-direction: column; }
-  @media only screen and (min-width: 1008px), only screen and (orientation: landscape) and (min-height: 1008px) {
+  @media only screen and (min-width: 1024px), only screen and (orientation: landscape) and (min-height: 1024px) {
     body > .wrapper {
       flex-direction: row; } }
 
@@ -136,11 +136,11 @@ header a[href] {
 
 nav {
   order: 2; }
-  @media (min-width: 1008px) {
+  @media only screen and (min-width: 1024px), only screen and (orientation: landscape) and (min-height: 1024px) {
     nav {
       order: 1;
       flex: 0 0 25%;
-      max-width: 235px;
+      max-width: 239px;
       overflow: hidden;
       border-right: 1px solid #ddd;
       padding-bottom: 32px;
@@ -175,7 +175,7 @@ article {
   order: 1;
   border-bottom: 1px solid #ddd;
   padding-bottom: 31px; }
-  @media (min-width: 1008px) {
+  @media only screen and (min-width: 1024px), only screen and (orientation: landscape) and (min-height: 1024px) {
     article {
       order: 2;
       flex: 1 1 auto;
@@ -186,7 +186,7 @@ article {
     article > section:last-child {
       border-bottom: none; }
     article > section > .wrapper {
-      max-width: 708px;
+      max-width: 720px;
       margin: 0 auto; }
 
 .declaration .highlight {
@@ -201,7 +201,7 @@ article {
   border-bottom: 1px solid #ddd;
   background-color: #fbfbfb; }
   .toc details {
-    max-width: 708px;
+    max-width: 720px;
     margin: 0 auto;
     padding: 15px 0; }
     .toc details[open] > summary {
@@ -226,7 +226,7 @@ article {
         content: ' (Click to Show)'; }
     .toc details > .wrapper {
       columns: 1; }
-      @media (min-width: 1008px) {
+      @media only screen and (min-width: 1024px), only screen and (orientation: landscape) and (min-height: 1024px) {
         .toc details > .wrapper {
           columns: 2;
           column-gap: 16px; } }
