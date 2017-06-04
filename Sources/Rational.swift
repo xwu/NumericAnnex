@@ -71,6 +71,10 @@
 public struct Rational<T : SignedInteger>
 where T : _ExpressibleByBuiltinIntegerLiteral, T.Magnitude : UnsignedInteger,
   T.Magnitude.Magnitude == T.Magnitude {
+  // ---------------------------------------------------------------------------
+  // MARK: Stored Properties
+  // ---------------------------------------------------------------------------
+
   /// The numerator of the rational value.
   public var numerator: T
 
@@ -120,9 +124,12 @@ where T : _ExpressibleByBuiltinIntegerLiteral, T.Magnitude : UnsignedInteger,
   // @_transparent // @_inlineable
   /// Creates a new rational value from the given binary floating-point value.
   ///
-  /// ...
+  /// If `source` or its magnitude is not representable exactly as a ratio of
+  /// two signed integers of type `T`, a runtime error may occur.
+  ///
+  /// - Parameters:
+  ///   - source: A binary floating-point value to convert to a rational value.
   public init<Source : BinaryFloatingPoint>(_ source: Source) {
-    // TODO: Document this initializer.
     if source.isNaN { self = .nan; return }
     if source == .infinity { self = .infinity; return }
     if source == -.infinity { self = -.infinity; return }
@@ -150,13 +157,21 @@ where T : _ExpressibleByBuiltinIntegerLiteral, T.Magnitude : UnsignedInteger,
 extension Rational
 where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
   // ---------------------------------------------------------------------------
-  // MARK: Initializers (Fixed-Width)
+  // MARK: Initializers (Constrained)
   // ---------------------------------------------------------------------------
 
   // @_transparent // @_inlineable
-  /// Creates a new rational value from the given binary floating-point value.
+  /// Creates a new rational value from the given binary floating-point value,
+  /// if it can be represented exactly.
   ///
-  /// ...
+  /// If `source` or its magnitude is not representable exactly as a ratio of
+  /// two signed integers of type `T`, the result is `nil`.
+  ///
+  /// - Note: This initializer creates only instances of
+  ///   `Rational<T> where T : FixedWidthInteger`.
+  ///
+  /// - Parameters:
+  ///   - source: A floating-point value to convert to a rational value.
   public init?<Source : BinaryFloatingPoint>(exactly source: Source) {
     // TODO: Document this initializer.
     if source.isNaN { self = .nan; return }
@@ -263,7 +278,7 @@ extension Rational {
   }
 
   // ---------------------------------------------------------------------------
-  // MARK: Instance Properties
+  // MARK: Computed Properties
   // ---------------------------------------------------------------------------
 
   // @_transparent // @_inlineable
@@ -361,7 +376,7 @@ extension Rational {
   }
 
   // ---------------------------------------------------------------------------
-  // MARK: Instance Methods
+  // MARK: Methods
   // ---------------------------------------------------------------------------
 
   /// Returns the reciprocal (multiplicative inverse) of this value.

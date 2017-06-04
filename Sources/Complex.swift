@@ -51,6 +51,10 @@
 @_fixed_layout
 public struct Complex<T : FloatingPointMath>
 where T : _ExpressibleByBuiltinFloatLiteral {
+  // ---------------------------------------------------------------------------
+  // MARK: Stored Properties
+  // ---------------------------------------------------------------------------
+
   /// The real component of the complex value.
   public var real: T
 
@@ -231,11 +235,14 @@ where T : _ExpressibleByBuiltinFloatLiteral {
 
 extension Complex where T : BinaryFloatingPoint {
   // ---------------------------------------------------------------------------
-  // MARK: Initializers (Binary)
+  // MARK: Initializers (Constrained)
   // ---------------------------------------------------------------------------
 
   /// Creates a new value from the given real component, rounded to the closest
   /// possible representation.
+  ///
+  /// - Note: This initializer creates only instances of
+  ///   `Complex<T> where T : BinaryFloatingPoint`.
   ///
   /// - Parameters:
   ///   - real: The value to convert to a real component of type `T`.
@@ -247,6 +254,9 @@ extension Complex where T : BinaryFloatingPoint {
 
   /// Creates a new value from the given real component, rounded to the closest
   /// possible representation.
+  ///
+  /// - Note: This initializer creates only instances of
+  ///   `Complex<T> where T : BinaryFloatingPoint`.
   ///
   /// - Parameters:
   ///   - real: The value to convert to a real component of type `T`.
@@ -275,7 +285,7 @@ extension Complex {
   }
 
   // ---------------------------------------------------------------------------
-  // MARK: Instance Properties
+  // MARK: Computed Properties
   // ---------------------------------------------------------------------------
 
   /// The principal argument (phase angle) of this value.
@@ -376,7 +386,7 @@ extension Complex {
   }
 
   // ---------------------------------------------------------------------------
-  // MARK: Instance Methods
+  // MARK: Methods
   // ---------------------------------------------------------------------------
 
   /// Returns the complex conjugate of this value, obtained by reversing the
