@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rational Struct Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css">
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/Rational" class="dashAnchor"></a>
+    <a title="Rational Struct Reference"></a>
+    <header>
+      <p class="primary">
+        <a href="../index.html">NumericAnnex Reference</a>
+        (100% documented)
+      </p>
+      <p>
+        <a href="https://github.com/xwu/NumericAnnex">View on GitHub</a>
+      </p>
+    </header>
+    <div class="wrapper">
+      <nav>
+        <ul>
+          <li>
+            <p><a href="../Classes.html">Classes</a></p>
+            <ul>
+              <li>
+                <a href="../Classes/Random.html">Random</a>
+              </li>
+              <li>
+                <a href="../Classes/Random/Xoroshiro.html">– Xoroshiro</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Extensions.html">Extensions</a></p>
+            <ul>
+              <li>
+                <a href="../Extensions/BinaryInteger.html">BinaryInteger</a>
+              </li>
+              <li>
+                <a href="../Extensions/Double.html">Double</a>
+              </li>
+              <li>
+                <a href="../Extensions/Float.html">Float</a>
+              </li>
+              <li>
+                <a href="../Extensions/FloatingPoint.html">FloatingPoint</a>
+              </li>
+              <li>
+                <a href="../Extensions/UnsignedInteger.html">UnsignedInteger</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Functions.html">Functions</a></p>
+            <ul>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">abs(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex4ceilAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">ceil(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5floorAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">floor(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">round(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">trunc(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Protocols.html">Protocols</a></p>
+            <ul>
+              <li>
+                <a href="../Protocols/FloatingPointMath.html">FloatingPointMath</a>
+              </li>
+              <li>
+                <a href="../Protocols/Math.html">Math</a>
+              </li>
+              <li>
+                <a href="../Protocols/PRNG.html">PRNG</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Structs.html">Structs</a></p>
+            <ul>
+              <li>
+                <a href="../Structs/Complex.html">Complex</a>
+              </li>
+              <li>
+                <a href="../Structs/Rational.html">Rational</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Typealiases.html">Typealiases</a></p>
+            <ul>
+              <li>
+                <a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a>
+              </li>
+              <li>
+                <a href="../Typealiases.html#/s:12NumericAnnex4Signa">Sign</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article>
+        <section>
+          <div class="wrapper">
+            <div class="overview">
+              <h1>Rational</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">T</span> <span class="p">:</span> <span class="kt">SignedInteger</span><span class="o">&gt;</span>
+<span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="n">_ExpressibleByBuiltinIntegerLiteral</span><span class="p">,</span> <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span> <span class="p">:</span> <span class="kt">UnsignedInteger</span><span class="p">,</span>
+  <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span><span class="o">.</span><span class="kt">Magnitude</span> <span class="o">==</span> <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span></code></pre>
+
+                </div>
+              </div>
+              <p>A type to represent a rational value.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <code>Ratio</code> is a type alias for <code>Rational&lt;Int&gt;</code>.
+
+</div>
+
+<p>Create new instances of <code>Rational&lt;T&gt;</code> by using integer literals and the
+division (<code>/</code>) operator. For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span> <span class="k">as</span> <span class="kt">Ratio</span> <span class="c1">// `x` is of type `Rational&lt;Int&gt;`</span>
+<span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">as</span> <span class="kt">Ratio</span> <span class="c1">// `y` is of type `Rational&lt;Int&gt;`</span>
+<span class="k">let</span> <span class="nv">z</span><span class="p">:</span> <span class="kt">Ratio</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span> <span class="c1">// `z` is also of type `Rational&lt;Int&gt;`</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span> <span class="c1">// Prints "3"</span>
+</code></pre>
+
+<p>You can create an unreduced fraction by using the initializer
+<code><a href="../Structs/Rational.html#/s:12NumericAnnex8RationalVACyxGx9numerator_x11denominatortcfc">Rational&lt;T&gt;.init(numerator:denominator:)</a></code>. For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="kt">Ratio</span><span class="p">(</span><span class="nv">numerator</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nv">denominator</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">// Prints "3/3"</span>
+</code></pre>
+
+<p>All arithmetic operations with values in canonical form (i.e. reduced to
+lowest terms) return results in canonical form. However, operations with
+values not in canonical form may or may not return results that are
+themselves in canonical form. The property <code>canonicalized</code> is the canonical
+form of any value.</p>
+<h2 id='additional-considerations' class='heading'>Additional Considerations</h2>
+<h3 id='special-values' class='heading'>Special Values</h3>
+
+<p><code>Rational&lt;T&gt;</code> does not prohibit zero as a denominator. Any instance with a
+positive numerator and zero denominator represents (positive) infinity; any
+instance with a negative numerator and zero denominator represents negative
+infinity; and any instance with zero numerator and zero denominator
+represents NaN (<q>not a number</q>).</p>
+
+<p>As with floating-point types, <code><a href="../Structs/Rational.html#/s:12NumericAnnex8RationalV8infinityACyxGvZ">Rational&lt;T&gt;.infinity</a></code> compares greater than
+every finite value and negative infinity, and <code>-Rational&lt;T&gt;.infinity</code>
+compares less than every finite value and positive infinity. Infinite values
+of the same sign compare equal to each other.</p>
+
+<p>As with floating-point types, <code><a href="../Structs/Rational.html#/s:12NumericAnnex8RationalV3nanACyxGvZ">Rational&lt;T&gt;.nan</a></code> does not compare equal to
+any other value, including another NaN. Use the property <code>isNaN</code> to test if
+a value is NaN. <code>Rational&lt;T&gt;</code> arithmetic operations are intended to
+propagate NaN in the same manner as analogous floating-point operations.</p>
+<h3 id='fixed-width-binary-parts' class='heading'>Fixed-Width Binary Parts</h3>
+
+<p>When a value of type <code>Rational&lt;T&gt;</code> is in canonical form, the sign of the
+numerator is the sign of the value; that is, in canonical form, the sign of
+the denominator is always positive. Therefore, <code>-1 / T.min</code> cannot be
+represented as a value of type <code>Rational&lt;T&gt;</code> because <code>abs(T.min)</code> cannot be
+represented as a value of type <code>T</code>.</p>
+
+<p>To ensure that every representable value of type <code>Rational&lt;T&gt;</code> has a
+representable magnitude and reciprocal of the same type, an overflow trap
+occurs when the division (<code>/</code>) operator is used to create a value of type
+<code>Rational&lt;T&gt;</code> with numerator <code>T.min</code>.</p>
+
+            </div>
+          </div>
+        </section>
+        <section class="toc">
+          <details open>
+            <summary>Contents</summary>
+            <div class="wrapper">
+              <p><a href="#/Stored%20Properties">Stored Properties</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalV9numeratorxv">numerator</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV11denominatorxv">denominator</a></li>
+              </ul>
+              <p><a href="#/Initializers">Initializers</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalVACyxGx9numerator_x11denominatortcfc">init(numerator:denominator:)</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalVACyxGqd__cs13BinaryIntegerRd__lufc">init(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalVACyxGqd__cs19BinaryFloatingPointRd__lufc">init(_:)</a></li>
+              </ul>
+              <p><a href="#/Initializers%20(Constrained)">Initializers (Constrained)</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalVAAs17FixedWidthIntegerRzs06SignedF0Rzs021_ExpressibleByBuiltinF7LiteralRzsAD9Magnitudes0A0PRpzs08UnsignedF0AJRQAgI_AgIQZAJRSlEACyxGSgqd__7exactly_tcs19BinaryFloatingPointRd__lufc">init(exactly:)</a></li>
+              </ul>
+              <p><a href="#/Static%20Properties">Static Properties</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalV8infinityACyxGvZ">infinity</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV3nanACyxGvZ">nan</a></li>
+              </ul>
+              <p><a href="#/Static%20Methods">Static Methods</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalV1doiACyxGAE_AEtFZ">/(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV2deoiyACyxGz_AEtFZ">/=(_:_:)</a></li>
+              </ul>
+              <p><a href="#/Computed%20Properties">Computed Properties</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalV9canonicalACyxGv">canonical</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV11isCanonicalSbv">isCanonical</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV8isFiniteSbv">isFinite</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV10isInfiniteSbv">isInfinite</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV5isNaNSbv">isNaN</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV8isProperSbv">isProper</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV6isZeroSbv">isZero</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV9magnitudeACyxGv">magnitude</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV5mixedx5whole_ACyxG10fractionaltv">mixed</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV4signs17FloatingPointSignOv">sign</a></li>
+              </ul>
+              <p><a href="#/Methods">Methods</a></p>
+              <ul>
+                <li><a href="#/s:12NumericAnnex8RationalV10reciprocalACyxGyF">reciprocal()</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV7roundedACyxGs25FloatingPointRoundingRuleOF">rounded(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex8RationalV5roundys25FloatingPointRoundingRuleOF">round(_:)</a></li>
+              </ul>
+              <p><a href="#/ExpressibleByIntegerLiteral">ExpressibleByIntegerLiteral</a></p>
+              <ul>
+                <li><a href="#/s:s27ExpressibleByIntegerLiteralPx0cD4TypeQz07integerD0_tcfc">init(integerLiteral:)</a></li>
+              </ul>
+              <p><a href="#/CustomStringConvertible">CustomStringConvertible</a></p>
+              <ul>
+                <li><a href="#/s:s23CustomStringConvertibleP11descriptionSSv">description</a></li>
+              </ul>
+              <p><a href="#/Equatable">Equatable</a></p>
+              <ul>
+                <li><a href="#/s:s9EquatableP2eeoiSbx_xtFZ">==(_:_:)</a></li>
+              </ul>
+              <p><a href="#/Hashable">Hashable</a></p>
+              <ul>
+                <li><a href="#/s:s8HashableP9hashValueSiv">hashValue</a></li>
+              </ul>
+              <p><a href="#/Comparable">Comparable</a></p>
+              <ul>
+                <li><a href="#/s:s10ComparableP1loiSbx_xtFZ">&lt;(_:_:)</a></li>
+                <li><a href="#/s:s10ComparableP1goiSbx_xtFZ">&gt;(_:_:)</a></li>
+                <li><a href="#/s:s10ComparableP2leoiSbx_xtFZ">&lt;=(_:_:)</a></li>
+                <li><a href="#/s:s10ComparableP2geoiSbx_xtFZ">&gt;=(_:_:)</a></li>
+              </ul>
+              <p><a href="#/Strideable">Strideable</a></p>
+              <ul>
+                <li><a href="#/s:s10StrideableP8distance6StrideQzx2to_tF">distance(to:)</a></li>
+                <li><a href="#/s:s10StrideableP8advancedx6StrideQz2by_tF">advanced(by:)</a></li>
+              </ul>
+              <p><a href="#/Numeric">Numeric</a></p>
+              <ul>
+                <li><a href="#/s:s7NumericPxSgqd__7exactly_tcs13BinaryIntegerRd__lufc">init(exactly:)</a></li>
+                <li><a href="#/s:s7NumericP1poixx_xtFZ">+(_:_:)</a></li>
+                <li><a href="#/s:s7NumericP2peoiyxz_xtFZ">+=(_:_:)</a></li>
+                <li><a href="#/s:s7NumericP1soixx_xtFZ">-(_:_:)</a></li>
+                <li><a href="#/s:s7NumericP2seoiyxz_xtFZ">-=(_:_:)</a></li>
+                <li><a href="#/s:s7NumericP1moixx_xtFZ">*(_:_:)</a></li>
+                <li><a href="#/s:s7NumericP2meoiyxz_xtFZ">*=(_:_:)</a></li>
+              </ul>
+              <p><a href="#/SignedNumeric">SignedNumeric</a></p>
+              <ul>
+                <li><a href="#/s:s13SignedNumericP1sopxxFZ">-(_:)</a></li>
+                <li><a href="#/s:s13SignedNumericP6negateyyF">negate()</a></li>
+              </ul>
+            </div>
+          </details>
+        </section>
+        <section>
+          <div class="wrapper">
+            <div class="group">
+              <div>
+                <a name="/Stored%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Stored Properties" class="dashAnchor"></a>
+                <h3>Stored Properties</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV9numeratorxv"></a>
+                    <a name="//apple_ref/swift/Property/numerator" class="dashAnchor"></a>
+                    <h4>
+                      <code>numerator</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The numerator of the rational value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">numerator</span><span class="p">:</span> <span class="kt">T</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV11denominatorxv"></a>
+                    <a name="//apple_ref/swift/Property/denominator" class="dashAnchor"></a>
+                    <h4>
+                      <code>denominator</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The denominator of the rational value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">denominator</span><span class="p">:</span> <span class="kt">T</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Initializers"></a>
+                <a name="//apple_ref/swift/Section/Initializers" class="dashAnchor"></a>
+                <h3>Initializers</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalVACyxGx9numerator_x11denominatortcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(numerator:denominator:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(numerator:denominator:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Creates a new value from the given numerator and denominator without
+computing its canonical form (i.e., without reducing to lowest terms).</p>
+
+<p>To create a value reduced to lowest terms, use the division (<code>/</code>)
+operator. For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span> <span class="k">as</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">// Prints "1"</span>
+</code></pre>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">numerator</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">denominator</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalVACyxGqd__cs13BinaryIntegerRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Creates a new rational value from the given binary integer.</p>
+
+<p>If <code>source</code> or its magnitude is not representable as a numerator of type
+<code>T</code>, a runtime error may occur.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">Source</span> <span class="p">:</span> <span class="kt">BinaryInteger</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">Source</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalVACyxGqd__cs19BinaryFloatingPointRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Creates a new rational value from the given binary floating-point value.</p>
+
+<p>If <code>source</code> or its magnitude is not representable exactly as a ratio of
+two signed integers of type <code>T</code>, a runtime error may occur.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">Source</span> <span class="p">:</span> <span class="kt">BinaryFloatingPoint</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">Source</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Initializers%20(Constrained)"></a>
+                <a name="//apple_ref/swift/Section/Initializers (Constrained)" class="dashAnchor"></a>
+                <h3>Initializers (Constrained)</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalVAAs17FixedWidthIntegerRzs06SignedF0Rzs021_ExpressibleByBuiltinF7LiteralRzsAD9Magnitudes0A0PRpzs08UnsignedF0AJRQAgI_AgIQZAJRSlEACyxGSgqd__7exactly_tcs19BinaryFloatingPointRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(exactly:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(exactly:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Creates a new rational value from the given binary floating-point value,
+if it can be represented exactly.</p>
+
+<p>If <code>source</code> or its magnitude is not representable exactly as a ratio of
+two signed integers of type <code>T</code>, the result is <code>nil</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>This initializer creates only instances of
+<code>Rational&lt;T&gt; where T : FixedWidthInteger</code>.</p>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="p">?</span><span class="o">&lt;</span><span class="kt">Source</span> <span class="p">:</span> <span class="kt">BinaryFloatingPoint</span><span class="o">&gt;</span><span class="p">(</span><span class="n">exactly</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">Source</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Static%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Static Properties" class="dashAnchor"></a>
+                <h3>Static Properties</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV8infinityACyxGvZ"></a>
+                    <a name="//apple_ref/swift/Variable/infinity" class="dashAnchor"></a>
+                    <h4>
+                      <code>infinity</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Positive infinity.</p>
+
+<p>Infinity compares greater than all finite numbers and equal to other
+(positive) infinite values.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">infinity</span><span class="p">:</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV3nanACyxGvZ"></a>
+                    <a name="//apple_ref/swift/Variable/nan" class="dashAnchor"></a>
+                    <h4>
+                      <code>nan</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A quiet NaN (<q>not a number</q>).</p>
+
+<p>A NaN compares not equal, not greater than, and not less than every value,
+including itself. Passing a NaN to an operation generally results in NaN.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">nan</span><span class="p">:</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Static%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Static Methods" class="dashAnchor"></a>
+                <h3>Static Methods</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV1doiACyxGAE_AEtFZ"></a>
+                    <a name="//apple_ref/swift/Method//(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>/(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the quotient obtained by dividing the first value by the second,
+trapping in case of arithmetic overflow.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">/</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV2deoiyACyxGz_AEtFZ"></a>
+                    <a name="//apple_ref/swift/Method//=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>/=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Divides the left-hand side by the right-hand side and stores the quotient
+in the left-hand side, trapping in case of arithmetic overflow.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">/=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Computed%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Computed Properties" class="dashAnchor"></a>
+                <h3>Computed Properties</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV9canonicalACyxGv"></a>
+                    <a name="//apple_ref/swift/Property/canonical" class="dashAnchor"></a>
+                    <h4>
+                      <code>canonical</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The canonical representation of this value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">canonical</span><span class="p">:</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV11isCanonicalSbv"></a>
+                    <a name="//apple_ref/swift/Property/isCanonical" class="dashAnchor"></a>
+                    <h4>
+                      <code>isCanonical</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A Boolean value indicating whether the instance&rsquo;s representation is in
+canonical form.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isCanonical</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV8isFiniteSbv"></a>
+                    <a name="//apple_ref/swift/Property/isFinite" class="dashAnchor"></a>
+                    <h4>
+                      <code>isFinite</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A Boolean value indicating whether the instance is finite.</p>
+
+<p>All values other than NaN and infinity are considered finite.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isFinite</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV10isInfiniteSbv"></a>
+                    <a name="//apple_ref/swift/Property/isInfinite" class="dashAnchor"></a>
+                    <h4>
+                      <code>isInfinite</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A Boolean value indicating whether the instance is infinite.</p>
+
+<p>Note that <code><a href="../Structs/Rational.html#/s:12NumericAnnex8RationalV8isFiniteSbv">isFinite</a></code> and <code>isInfinite</code> do not form a dichotomy because NaN
+is neither finite nor infinite.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isInfinite</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV5isNaNSbv"></a>
+                    <a name="//apple_ref/swift/Property/isNaN" class="dashAnchor"></a>
+                    <h4>
+                      <code>isNaN</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A Boolean value indicating whether the instance is NaN (<q>not a number</q>).</p>
+
+<p>Because NaN is not equal to any value, including NaN, use this property
+instead of the equal-to operator (<code>==</code>) or not-equal-to operator (<code>!=</code>) to
+test whether a value is or is not NaN.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isNaN</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV8isProperSbv"></a>
+                    <a name="//apple_ref/swift/Property/isProper" class="dashAnchor"></a>
+                    <h4>
+                      <code>isProper</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A Boolean value indicating whether the instance is a proper fraction.</p>
+
+<p>A fraction <code>p / q</code> is proper iff <code>p &gt; 0</code>, <code>q &gt; 0</code>, and <code>p &lt; q</code>.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isProper</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV6isZeroSbv"></a>
+                    <a name="//apple_ref/swift/Property/isZero" class="dashAnchor"></a>
+                    <h4>
+                      <code>isZero</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A Boolean value indicating whether the instance is equal to zero.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isZero</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV9magnitudeACyxGv"></a>
+                    <a name="//apple_ref/swift/Property/magnitude" class="dashAnchor"></a>
+                    <h4>
+                      <code>magnitude</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The magnitude (absolute value) of this value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">magnitude</span><span class="p">:</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV5mixedx5whole_ACyxG10fractionaltv"></a>
+                    <a name="//apple_ref/swift/Property/mixed" class="dashAnchor"></a>
+                    <h4>
+                      <code>mixed</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The mixed form representing this value.</p>
+
+<p>If the value is not finite, the mixed form has zero as its whole part and
+the value as its fractional part.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">mixed</span><span class="p">:</span> <span class="p">(</span><span class="nv">whole</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">fractional</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV4signs17FloatingPointSignOv"></a>
+                    <a name="//apple_ref/swift/Property/sign" class="dashAnchor"></a>
+                    <h4>
+                      <code>sign</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The sign of this value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">sign</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:12NumericAnnex4Signa">Sign</a></span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Methods"></a>
+                <a name="//apple_ref/swift/Section/Methods" class="dashAnchor"></a>
+                <h3>Methods</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV10reciprocalACyxGyF"></a>
+                    <a name="//apple_ref/swift/Method/reciprocal()" class="dashAnchor"></a>
+                    <h4>
+                      <code>reciprocal()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the reciprocal (multiplicative inverse) of this value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reciprocal</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV7roundedACyxGs25FloatingPointRoundingRuleOF"></a>
+                    <a name="//apple_ref/swift/Method/rounded(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>rounded(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns this value rounded to an integral value using the specified
+rounding rule.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">as</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="nf">rounded</span><span class="p">())</span> <span class="c1">// Prints "4"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="nf">rounded</span><span class="p">(</span><span class="o">.</span><span class="n">towardZero</span><span class="p">))</span> <span class="c1">// Prints "3"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="nf">rounded</span><span class="p">(</span><span class="o">.</span><span class="n">up</span><span class="p">))</span> <span class="c1">// Prints "4"</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="nf">rounded</span><span class="p">(</span><span class="o">.</span><span class="n">down</span><span class="p">))</span> <span class="c1">// Prints "3"</span>
+</code></pre>
+
+<p>See the <code>FloatingPointRoundingRule</code> enumeration for more information about
+the available rounding rules.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="../Structs/Rational.html#/s:12NumericAnnex8RationalV5roundys25FloatingPointRoundingRuleOF">round(_:)</a></code>, <code><a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a></code></p>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">rounded</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">rule</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">toNearestOrAwayFromZero</span>
+  <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex8RationalV5roundys25FloatingPointRoundingRuleOF"></a>
+                    <a name="//apple_ref/swift/Method/round(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>round(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Rounds the value to an integral value using the specified rounding rule.</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">as</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+<span class="n">x</span><span class="o">.</span><span class="nf">round</span><span class="p">()</span> <span class="c1">// x == 4</span>
+
+<span class="k">var</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">as</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+<span class="n">x</span><span class="o">.</span><span class="nf">round</span><span class="p">(</span><span class="o">.</span><span class="n">towardZero</span><span class="p">)</span> <span class="c1">// x == 3</span>
+
+<span class="k">var</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">as</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+<span class="n">x</span><span class="o">.</span><span class="nf">round</span><span class="p">(</span><span class="o">.</span><span class="n">up</span><span class="p">)</span> <span class="c1">// x == 4</span>
+
+<span class="k">var</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">as</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+<span class="n">x</span><span class="o">.</span><span class="nf">round</span><span class="p">(</span><span class="o">.</span><span class="n">down</span><span class="p">)</span> <span class="c1">// x == 3</span>
+</code></pre>
+
+<p>See the <code>FloatingPointRoundingRule</code> enumeration for more information about
+the available rounding rules.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code>round(_:)</code>, <code><a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a></code></p>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">round</span><span class="p">(</span><span class="n">_</span> <span class="nv">rule</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">toNearestOrAwayFromZero</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/ExpressibleByIntegerLiteral"></a>
+                <a name="//apple_ref/swift/Section/ExpressibleByIntegerLiteral" class="dashAnchor"></a>
+                <h3>ExpressibleByIntegerLiteral</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s27ExpressibleByIntegerLiteralPx0cD4TypeQz07integerD0_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(integerLiteral:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(integerLiteral:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">integerLiteral</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/CustomStringConvertible"></a>
+                <a name="//apple_ref/swift/Section/CustomStringConvertible" class="dashAnchor"></a>
+                <h3>CustomStringConvertible</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s23CustomStringConvertibleP11descriptionSSv"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <h4>
+                      <code>description</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Equatable"></a>
+                <a name="//apple_ref/swift/Section/Equatable" class="dashAnchor"></a>
+                <h3>Equatable</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s9EquatableP2eeoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>==(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Hashable"></a>
+                <a name="//apple_ref/swift/Section/Hashable" class="dashAnchor"></a>
+                <h3>Hashable</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s8HashableP9hashValueSiv"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <h4>
+                      <code>hashValue</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Comparable"></a>
+                <a name="//apple_ref/swift/Section/Comparable" class="dashAnchor"></a>
+                <h3>Comparable</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s10ComparableP1loiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&lt;(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>&lt;(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s10ComparableP1goiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&gt;(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>&gt;(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s10ComparableP2leoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&lt;=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>&lt;=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s10ComparableP2geoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&gt;=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>&gt;=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Strideable"></a>
+                <a name="//apple_ref/swift/Section/Strideable" class="dashAnchor"></a>
+                <h3>Strideable</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s10StrideableP8distance6StrideQzx2to_tF"></a>
+                    <a name="//apple_ref/swift/Method/distance(to:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>distance(to:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">distance</span><span class="p">(</span><span class="n">to</span> <span class="nv">other</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s10StrideableP8advancedx6StrideQz2by_tF"></a>
+                    <a name="//apple_ref/swift/Method/advanced(by:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>advanced(by:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">advanced</span><span class="p">(</span><span class="n">by</span> <span class="nv">amount</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Numeric"></a>
+                <a name="//apple_ref/swift/Section/Numeric" class="dashAnchor"></a>
+                <h3>Numeric</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericPxSgqd__7exactly_tcs13BinaryIntegerRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(exactly:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(exactly:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="p">?</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">exactly</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">BinaryInteger</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericP1poixx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/+(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>+(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">+</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericP2peoiyxz_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/+=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>+=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericP1soixx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/-(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>-(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">-</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericP2seoiyxz_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/-=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>-=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">-=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericP1moixx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/*(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>*(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">*</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s7NumericP2meoiyxz_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/*=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>*=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">*=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/SignedNumeric"></a>
+                <a name="//apple_ref/swift/Section/SignedNumeric" class="dashAnchor"></a>
+                <h3>SignedNumeric</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s13SignedNumericP1sopxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/-(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>-(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">prefix</span> <span class="kd">func</span> <span class="o">-</span> <span class="p">(</span><span class="nv">operand</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s13SignedNumericP6negateyyF"></a>
+                    <a name="//apple_ref/swift/Method/negate()" class="dashAnchor"></a>
+                    <h4>
+                      <code>negate()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">negate</span><span class="p">()</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+    <footer>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-04)</p>
+      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </footer>
+  </body>
+</div>
+</html>

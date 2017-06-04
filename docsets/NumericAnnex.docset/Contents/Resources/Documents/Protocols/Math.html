@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Math Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css">
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/Math" class="dashAnchor"></a>
+    <a title="Math Protocol Reference"></a>
+    <header>
+      <p class="primary">
+        <a href="../index.html">NumericAnnex Reference</a>
+        (100% documented)
+      </p>
+      <p>
+        <a href="https://github.com/xwu/NumericAnnex">View on GitHub</a>
+      </p>
+    </header>
+    <div class="wrapper">
+      <nav>
+        <ul>
+          <li>
+            <p><a href="../Classes.html">Classes</a></p>
+            <ul>
+              <li>
+                <a href="../Classes/Random.html">Random</a>
+              </li>
+              <li>
+                <a href="../Classes/Random/Xoroshiro.html">– Xoroshiro</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Extensions.html">Extensions</a></p>
+            <ul>
+              <li>
+                <a href="../Extensions/BinaryInteger.html">BinaryInteger</a>
+              </li>
+              <li>
+                <a href="../Extensions/Double.html">Double</a>
+              </li>
+              <li>
+                <a href="../Extensions/Float.html">Float</a>
+              </li>
+              <li>
+                <a href="../Extensions/FloatingPoint.html">FloatingPoint</a>
+              </li>
+              <li>
+                <a href="../Extensions/UnsignedInteger.html">UnsignedInteger</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Functions.html">Functions</a></p>
+            <ul>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">abs(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex4ceilAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">ceil(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5floorAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">floor(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">round(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">trunc(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Protocols.html">Protocols</a></p>
+            <ul>
+              <li>
+                <a href="../Protocols/FloatingPointMath.html">FloatingPointMath</a>
+              </li>
+              <li>
+                <a href="../Protocols/Math.html">Math</a>
+              </li>
+              <li>
+                <a href="../Protocols/PRNG.html">PRNG</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Structs.html">Structs</a></p>
+            <ul>
+              <li>
+                <a href="../Structs/Complex.html">Complex</a>
+              </li>
+              <li>
+                <a href="../Structs/Rational.html">Rational</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Typealiases.html">Typealiases</a></p>
+            <ul>
+              <li>
+                <a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a>
+              </li>
+              <li>
+                <a href="../Typealiases.html#/s:12NumericAnnex4Signa">Sign</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article>
+        <section>
+          <div class="wrapper">
+            <div class="overview">
+              <h1>Math</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Math</span> <span class="p">:</span> <span class="kt">SignedNumeric</span></code></pre>
+
+                </div>
+              </div>
+              <p>A signed numeric type that provides square root, cube root, and elementary
+transcendental functions.</p>
+
+<p>The <code>Math</code> protocol provides a suitable basis for writing functions that
+work on any real or complex floating-point type which provides the required
+functions.</p>
+
+            </div>
+          </div>
+        </section>
+        <section class="toc">
+          <details open>
+            <summary>Contents</summary>
+            <div class="wrapper">
+              <ul>
+                <li><a href="#/s:12NumericAnnex4MathP2pixvZ">pi</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP1exvZ">e</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP3phixvZ">phi</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP1doixx_xtFZ">/(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP2deoiyxz_xtFZ">/=(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP18naturalExponentialxyF">naturalExponential()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP17binaryExponentialxyF">binaryExponential()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP17commonExponentialxyF">commonExponential()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP26naturalExponentialMinusOnexyF">naturalExponentialMinusOne()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP16naturalLogarithmxyF">naturalLogarithm()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP15binaryLogarithmxyF">binaryLogarithm()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP15commonLogarithmxyF">commonLogarithm()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP23naturalLogarithmOnePlusxyF">naturalLogarithmOnePlus()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP10squareRootxyF">squareRoot()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP8cubeRootxyF">cubeRoot()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP5powerxx2of_tF">power(of:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP4sinexyF">sine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP6cosinexyF">cosine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP7tangentxyF">tangent()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP11inverseSinexyF">inverseSine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP13inverseCosinexyF">inverseCosine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP14inverseTangentxyF">inverseTangent()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP14hyperbolicSinexyF">hyperbolicSine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP16hyperbolicCosinexyF">hyperbolicCosine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP17hyperbolicTangentxyF">hyperbolicTangent()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP21inverseHyperbolicSinexyF">inverseHyperbolicSine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP23inverseHyperbolicCosinexyF">inverseHyperbolicCosine()</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP24inverseHyperbolicTangentxyF">inverseHyperbolicTangent()</a></li>
+              </ul>
+              <ul>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3expxxFZ">exp(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4exp2xxFZ">exp2(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5exp10xxFZ">exp10(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5expm1xxFZ">expm1(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3logxxFZ">log(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4log2xxFZ">log2(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5log10xxFZ">log10(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5log1pxxFZ">log1p(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4sqrtxxFZ">sqrt(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4cbrtxxFZ">cbrt(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3powxx_xtFZ">pow(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3sinxxFZ">sin(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3cosxxFZ">cos(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3tanxxFZ">tan(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4asinxxFZ">asin(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4acosxxFZ">acos(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4atanxxFZ">atan(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4sinhxxFZ">sinh(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4coshxxFZ">cosh(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE4tanhxxFZ">tanh(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5asinhxxFZ">asinh(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5acoshxxFZ">acosh(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathPAAE5atanhxxFZ">atanh(_:)</a></li>
+              </ul>
+            </div>
+          </details>
+        </section>
+        <section>
+          <div class="wrapper">
+            <div class="group">
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP2pixvZ"></a>
+                    <a name="//apple_ref/swift/Variable/pi" class="dashAnchor"></a>
+                    <h4>
+                      <code>pi</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The mathematical constant pi (<em>π</em>).</p>
+
+<p>This value should be rounded toward zero to keep user computations with
+angles from inadvertently ending up in the wrong quadrant. A type that
+conforms to the <code>Math</code> protocol provides the value for <code>pi</code> at its best
+possible precision.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">pi</span><span class="p">:</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP1exvZ"></a>
+                    <a name="//apple_ref/swift/Variable/e" class="dashAnchor"></a>
+                    <h4>
+                      <code>e</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The mathematical constant <em>e</em>, or Euler&rsquo;s number.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">e</span><span class="p">:</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP3phixvZ"></a>
+                    <a name="//apple_ref/swift/Variable/phi" class="dashAnchor"></a>
+                    <h4>
+                      <code>phi</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The mathematical constant phi (<em>φ</em>), or golden ratio.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">phi</span><span class="p">:</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP1doixx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method//(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>/(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the quotient obtained by dividing the first value by the second,
+rounded to a representable value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">/</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP2deoiyxz_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method//=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>/=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Divides the left-hand side by the right-hand side and stores the quotient
+in the left-hand side, rounded to a representable value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">/=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP18naturalExponentialxyF"></a>
+                    <a name="//apple_ref/swift/Method/naturalExponential()" class="dashAnchor"></a>
+                    <h4>
+                      <code>naturalExponential()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the natural exponential of the value, rounded to a representable
+value.</p>
+
+<p>The natural exponential of a value <code>x</code> is <em>e</em> (2.7182818&hellip;) raised to the
+power of <code>x</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3expxxFZ">exp(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">naturalExponential</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP17binaryExponentialxyF"></a>
+                    <a name="//apple_ref/swift/Method/binaryExponential()" class="dashAnchor"></a>
+                    <h4>
+                      <code>binaryExponential()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the binary exponential of the value, rounded to a representable
+value.</p>
+
+<p>The binary exponential of a value <code>x</code> is 2 raised to the power of <code>x</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4exp2xxFZ">exp2(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">binaryExponential</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP17commonExponentialxyF"></a>
+                    <a name="//apple_ref/swift/Method/commonExponential()" class="dashAnchor"></a>
+                    <h4>
+                      <code>commonExponential()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the common exponential of the value, rounded to a representable
+value.</p>
+
+<p>The common exponential of a value <code>x</code> is 10 raised to the power of <code>x</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5exp10xxFZ">exp10(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">commonExponential</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP26naturalExponentialMinusOnexyF"></a>
+                    <a name="//apple_ref/swift/Method/naturalExponentialMinusOne()" class="dashAnchor"></a>
+                    <h4>
+                      <code>naturalExponentialMinusOne()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of subtracting one from the natural exponential of the
+value, rounded to a representable value.</p>
+
+<p>The natural exponential of a value <code>x</code> is <em>e</em> (2.7182818&hellip;) raised to the
+power of <code>x</code>.</p>
+
+<p>This function is more accurate than <code>x.naturalExponential() - 1</code> for
+values of <code>x</code> close to zero.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5expm1xxFZ">expm1(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">naturalExponentialMinusOne</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP16naturalLogarithmxyF"></a>
+                    <a name="//apple_ref/swift/Method/naturalLogarithm()" class="dashAnchor"></a>
+                    <h4>
+                      <code>naturalLogarithm()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the natural (base <em>e</em>) logarithm of the value, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3logxxFZ">log(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">naturalLogarithm</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP15binaryLogarithmxyF"></a>
+                    <a name="//apple_ref/swift/Method/binaryLogarithm()" class="dashAnchor"></a>
+                    <h4>
+                      <code>binaryLogarithm()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the binary (base 2) logarithm of the value, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4log2xxFZ">log2(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">binaryLogarithm</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP15commonLogarithmxyF"></a>
+                    <a name="//apple_ref/swift/Method/commonLogarithm()" class="dashAnchor"></a>
+                    <h4>
+                      <code>commonLogarithm()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the common (base 10) logarithm of the value, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5log10xxFZ">log10(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">commonLogarithm</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP23naturalLogarithmOnePlusxyF"></a>
+                    <a name="//apple_ref/swift/Method/naturalLogarithmOnePlus()" class="dashAnchor"></a>
+                    <h4>
+                      <code>naturalLogarithmOnePlus()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the natural (base <em>e</em>) logarithm of the result of adding one to
+the value, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5log1pxxFZ">log1p(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">naturalLogarithmOnePlus</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP10squareRootxyF"></a>
+                    <a name="//apple_ref/swift/Method/squareRoot()" class="dashAnchor"></a>
+                    <h4>
+                      <code>squareRoot()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the square root of the value, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4sqrtxxFZ">sqrt(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">squareRoot</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP8cubeRootxyF"></a>
+                    <a name="//apple_ref/swift/Method/cubeRoot()" class="dashAnchor"></a>
+                    <h4>
+                      <code>cubeRoot()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the cube root of the value, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4cbrtxxFZ">cbrt(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">cubeRoot</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP5powerxx2of_tF"></a>
+                    <a name="//apple_ref/swift/Method/power(of:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>power(of:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of raising <code>base</code> to the power of the value, rounded to
+a representable value.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>The argument is the <em>base</em> and the receiver is the <em>exponent</em>.</p>
+
+</div>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3powxx_xtFZ">pow(_:_:)</a></code></p>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">power</span><span class="p">(</span><span class="n">of</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP4sinexyF"></a>
+                    <a name="//apple_ref/swift/Method/sine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>sine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the sine of the value (given in radians), rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3sinxxFZ">sin(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP6cosinexyF"></a>
+                    <a name="//apple_ref/swift/Method/cosine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>cosine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the cosine of the value (given in radians), rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3cosxxFZ">cos(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">cosine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP7tangentxyF"></a>
+                    <a name="//apple_ref/swift/Method/tangent()" class="dashAnchor"></a>
+                    <h4>
+                      <code>tangent()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the tangent of the value (given in radians), rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3tanxxFZ">tan(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">tangent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP11inverseSinexyF"></a>
+                    <a name="//apple_ref/swift/Method/inverseSine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>inverseSine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse sine of the value, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4asinxxFZ">asin(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">inverseSine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP13inverseCosinexyF"></a>
+                    <a name="//apple_ref/swift/Method/inverseCosine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>inverseCosine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse cosine of the value, rounded to
+a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4acosxxFZ">acos(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">inverseCosine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP14inverseTangentxyF"></a>
+                    <a name="//apple_ref/swift/Method/inverseTangent()" class="dashAnchor"></a>
+                    <h4>
+                      <code>inverseTangent()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse tangent of the value, rounded
+to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4atanxxFZ">atan(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">inverseTangent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP14hyperbolicSinexyF"></a>
+                    <a name="//apple_ref/swift/Method/hyperbolicSine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>hyperbolicSine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the hyperbolic sine of the value, rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4sinhxxFZ">sinh(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">hyperbolicSine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP16hyperbolicCosinexyF"></a>
+                    <a name="//apple_ref/swift/Method/hyperbolicCosine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>hyperbolicCosine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the hyperbolic cosine of the value, rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4coshxxFZ">cosh(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">hyperbolicCosine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP17hyperbolicTangentxyF"></a>
+                    <a name="//apple_ref/swift/Method/hyperbolicTangent()" class="dashAnchor"></a>
+                    <h4>
+                      <code>hyperbolicTangent()</code>
+                      <span class="declaration-note">Default implementation</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the hyperbolic tangent of the value, rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE4tanhxxFZ">tanh(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">hyperbolicTangent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP21inverseHyperbolicSinexyF"></a>
+                    <a name="//apple_ref/swift/Method/inverseHyperbolicSine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>inverseHyperbolicSine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse hyperbolic sine of the value,
+rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5asinhxxFZ">asinh(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">inverseHyperbolicSine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP23inverseHyperbolicCosinexyF"></a>
+                    <a name="//apple_ref/swift/Method/inverseHyperbolicCosine()" class="dashAnchor"></a>
+                    <h4>
+                      <code>inverseHyperbolicCosine()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse hyperbolic cosine of the value,
+rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5acoshxxFZ">acosh(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">inverseHyperbolicCosine</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP24inverseHyperbolicTangentxyF"></a>
+                    <a name="//apple_ref/swift/Method/inverseHyperbolicTangent()" class="dashAnchor"></a>
+                    <h4>
+                      <code>inverseHyperbolicTangent()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse hyperbolic tangent of the
+value, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE5atanhxxFZ">atanh(_:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">inverseHyperbolicTangent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3expxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/exp(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>exp(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the natural exponential of <code>x</code>, rounded to a representable value.</p>
+
+<p>The natural exponential of a value <code>x</code> is <em>e</em> (2.7182818&hellip;) raised to the
+power of <code>x</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP18naturalExponentialxyF">naturalExponential()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">exp</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4exp2xxFZ"></a>
+                    <a name="//apple_ref/swift/Method/exp2(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>exp2(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the binary exponential of <code>x</code>, rounded to a representable value.</p>
+
+<p>The binary exponential of a value <code>x</code> is 2 raised to the power of <code>x</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP17binaryExponentialxyF">binaryExponential()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">exp2</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5exp10xxFZ"></a>
+                    <a name="//apple_ref/swift/Method/exp10(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>exp10(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the common exponential of <code>x</code>, rounded to a representable value.</p>
+
+<p>The common exponential of a value <code>x</code> is 10 raised to the power of <code>x</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP17commonExponentialxyF">commonExponential()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">exp10</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5expm1xxFZ"></a>
+                    <a name="//apple_ref/swift/Method/expm1(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>expm1(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of subtracting one from the natural exponential of <code>x</code>,
+rounded to a representable value.</p>
+
+<p>The natural exponential of a value <code>x</code> is <em>e</em> (2.7182818&hellip;) raised to the
+power of <code>x</code>.</p>
+
+<p>This function is more accurate than <code>.exp(x) - 1</code> for values of <code>x</code> close
+to zero.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP26naturalExponentialMinusOnexyF">naturalExponentialMinusOne()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">expm1</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3logxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/log(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>log(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the natural (base <em>e</em>) logarithm of <code>x</code>, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP16naturalLogarithmxyF">naturalLogarithm()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4log2xxFZ"></a>
+                    <a name="//apple_ref/swift/Method/log2(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>log2(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the binary (base 2) logarithm of <code>x</code>, rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP15binaryLogarithmxyF">binaryLogarithm()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">log2</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5log10xxFZ"></a>
+                    <a name="//apple_ref/swift/Method/log10(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>log10(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the common (base 10) logarithm of <code>x</code>, rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP15commonLogarithmxyF">commonLogarithm()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">log10</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5log1pxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/log1p(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>log1p(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the natural (base <em>e</em>) logarithm of the result of adding one to
+<code>x</code>, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code>naturalLogarithmOfOnePlus()</code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">log1p</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4sqrtxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/sqrt(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>sqrt(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the square root of <code>x</code>, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP10squareRootxyF">squareRoot()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4cbrtxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/cbrt(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>cbrt(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the cube root of <code>x</code>, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP8cubeRootxyF">cubeRoot()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">cbrt</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3powxx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>pow(_:_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
+to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP5powerxx2of_tF">power(of:)</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3sinxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/sin(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>sin(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the sine of <code>x</code> (given in radians), rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP4sinexyF">sine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sin</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3cosxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/cos(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>cos(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the cosine of <code>x</code> (given in radians), rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP6cosinexyF">cosine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">cos</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3tanxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/tan(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>tan(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the tangent of <code>x</code> (given in radians), rounded to a representable
+value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP7tangentxyF">tangent()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">tan</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4asinxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/asin(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>asin(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse sine of <code>x</code>, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP11inverseSinexyF">inverseSine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">asin</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4acosxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/acos(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>acos(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse cosine of <code>x</code>, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP13inverseCosinexyF">inverseCosine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">acos</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4atanxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/atan(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>atan(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse tangent of <code>x</code>, rounded to a
+representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP14inverseTangentxyF">inverseTangent()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">atan</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4sinhxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/sinh(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>sinh(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the hyperbolic sine of <code>x</code>, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP14hyperbolicSinexyF">hyperbolicSine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sinh</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4coshxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/cosh(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>cosh(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the hyperbolic cosine of <code>x</code>, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP16hyperbolicCosinexyF">hyperbolicCosine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">cosh</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE4tanhxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/tanh(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>tanh(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the hyperbolic tangent of <code>x</code>, rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP17hyperbolicTangentxyF">hyperbolicTangent()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">tanh</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5asinhxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/asinh(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>asinh(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse hyperbolic sine of <code>x</code>, rounded
+to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP21inverseHyperbolicSinexyF">inverseHyperbolicSine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">asinh</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5acoshxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/acosh(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>acosh(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse hyperbolic cosine of <code>x</code>,
+rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP23inverseHyperbolicCosinexyF">inverseHyperbolicCosine()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">acosh</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE5atanhxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/atanh(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>atanh(_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the principal value of the inverse hyperbolic tangent of <code>x</code>,
+rounded to a representable value.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP24inverseHyperbolicTangentxyF">inverseHyperbolicTangent()</a></code>
+
+</div>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">atanh</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+    <footer>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-04)</p>
+      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </footer>
+  </body>
+</div>
+</html>
