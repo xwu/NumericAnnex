@@ -11,7 +11,45 @@ import Glibc
 import Security
 #endif
 
-/// A pseudo-random number generator.
+/// A pseudo-random number generator (PRNG).
+///
+/// Reference types that conform to `PRNG` are infinite sequences of
+/// pseudo-random elements. Protocol extension methods iterate over such a
+/// sequence as necessary to generate pseudo-random values from the desired
+/// distribution.
+///
+/// Considerations for Conforming Types
+/// -----------------------------------
+///
+/// For clarity to end users, custom PRNGs may be implemented in an extension to
+/// `Random`. For instance, the `xoroshiro128+` algorithm is implemented in a
+/// final class named `Random.Xoroshiro`.
+///
+/// The static methods `_entropy(_:)` and `_entropy(_:count:)` return
+/// cryptographically secure random bytes that may be useful for seeding your
+/// custom PRNG. However, these methods may return `nil` if the requested number
+/// of random bytes is not available, and they are not recommended as a routine
+/// source of random data.
+///
+/// Adding Other Probability Distributions
+/// --------------------------------------
+///
+/// Many built-in protocol extension methods make use of the primitive,
+/// overloaded method `_random(_:bitCount:)`. You may wish to use the same
+/// method in new protocol extension methods that return pseudo-random
+/// values from other probability distributions.
+///
+/// The method `_random(_:bitCount:)` generates uniformly distributed binary
+/// floating-point values in the half-open range [0, 1) with a precision of
+/// either `bitCount` or the significand bit count of the floating-point type,
+/// whichever is less. Additionally, this method generates uniformly distributed
+/// unsigned integers in the half-open range [0, `2 ** x`), where `**` is the
+/// exponentiation operator and `x` is the lesser of `bitCount` and the bit
+/// width of the integer type.
+///
+/// For end users, however, the recommended spelling for a uniformly distributed
+/// numeric value is `uniform()`; that method is overloaded to permit custom
+/// minimum and maximum values for the uniform distribution.
 public protocol PRNG : class, IteratorProtocol, Sequence
 where Element : FixedWidthInteger & UnsignedInteger, SubSequence : Sequence,
   /* Element == Iterator.Element, Element == SubSequence.Iterator.Element, */
