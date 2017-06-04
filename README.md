@@ -76,8 +76,9 @@ print(Complex.cos(z).real)
 
 ## Documentation
 
-All public protocols, types, and functions have been carefully documented in
-comments.
+All public protocols, types, and functions have been carefully documented in the
+code. See the [formatted reference](https://xwu.github.io/NumericAnnex/) for
+details.
 
 The project adheres to many design patterns found in the Swift standard library.
 For example, `Math` types provide methods such as `cubeRoot()` and `tangent()`
