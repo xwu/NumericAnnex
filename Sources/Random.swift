@@ -5,8 +5,33 @@
 //  Created by Xiaodi Wu on 5/13/17.
 //
 
-/// A pseudo-random number generator that implements [`xorshift128+`][ref], an
-/// efficient linear-feedback shift register.
+/// A pseudo-random number generator (PRNG) that implements
+/// [`xorshift128+`][ref], an efficient linear-feedback shift register.
+///
+/// Create your own instance of `Random` with an internal state seeded from
+/// cryptographically secure random bytes to generate random numbers:
+///
+/// ```swift
+/// let random = Random()!
+/// let x = random.uniform() as Int
+///
+/// // You can also pass the desired result type as an argument.
+/// let y = random.uniform(Int.self)
+///
+/// if x > y {
+///   print("Here's a random value between 0 and 42 (inclusive):")
+///   print(random.uniform(0, 42))
+/// } else {
+///   print("Here's a random value between -42 and 0 (inclusive):")
+///   print(random.uniform(-42, 0))
+/// }
+/// ```
+///
+/// - Warning: Once seeded from cryptographically secure random bytes, `Random`
+///   generates high-quality random numbers but is _not_ a cryptographically
+///   secure PRNG.
+///
+/// - SeeAlso: `Random.Xoroshiro`, `PRNG`
 ///
 /// [ref]: http://vigna.di.unimi.it/ftp/papers/xorshiftplus.pdf
 public final class Random : PRNG {

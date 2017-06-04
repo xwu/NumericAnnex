@@ -6,8 +6,34 @@
 //
 
 extension Random {
-  /// A pseudo-random number generator that implements `xoroshiro128+`, a
+  /// A pseudo-random number generator (PRNG) that implements `xoroshiro128+`, a
   /// successor to `xorshift128+` devised by S. Vigna and D. Blackman.
+  ///
+  /// Create your own instance of `Random.Xoroshiro` with an internal state
+  /// seeded from cryptographically secure random bytes to generate random
+  /// numbers:
+  ///
+  /// ```swift
+  /// let random = Random.Xoroshiro()!
+  /// let x = random.uniform() as Int
+  ///
+  /// // You can also pass the desired result type as an argument.
+  /// let y = random.uniform(Int.self)
+  ///
+  /// if x > y {
+  ///   print("Here's a random value between 0 and 42 (inclusive):")
+  ///   print(random.uniform(0, 42))
+  /// } else {
+  ///   print("Here's a random value between -42 and 0 (inclusive):")
+  ///   print(random.uniform(-42, 0))
+  /// }
+  /// ```
+  ///
+  /// - Warning: Once seeded from cryptographically secure random bytes,
+  ///   `Random.Xoroshiro` generates high-quality random numbers but is _not_ a
+  ///   cryptographically secure PRNG.
+  ///
+  /// - SeeAlso: `Random`, `PRNG`
   public final class Xoroshiro : PRNG {
     public var state: (UInt64, UInt64)
 
