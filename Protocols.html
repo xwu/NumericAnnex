@@ -19,6 +19,9 @@
       <p>
         <a href="https://github.com/xwu/NumericAnnex">View on GitHub</a>
       </p>
+      <p>
+        <a href="dash-feed://https%3A%2F%2Fxwu%2Egithub%2Eio%2FNumericAnnex%2Fdocsets%2FNumericAnnex%2Exml">Install in Dash</a>
+      </p>
     </header>
     <div class="wrapper">
       <nav>
@@ -157,7 +160,41 @@
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>A pseudo-random number generator.</p>
+                    <p>A pseudo-random number generator (PRNG).</p>
+
+<p>Reference types that conform to <code>PRNG</code> are infinite sequences of
+pseudo-random elements. Protocol extension methods iterate over such a
+sequence as necessary to generate pseudo-random values from the desired
+distribution.</p>
+<h2 id='considerations-for-conforming-types' class='heading'>Considerations for Conforming Types</h2>
+
+<p>For clarity to end users, custom PRNGs may be implemented in an extension to
+<code><a href="Classes/Random.html">Random</a></code>. For instance, the <code>xoroshiro128+</code> algorithm is implemented in a
+final class named <code><a href="Classes/Random/Xoroshiro.html">Random.Xoroshiro</a></code>.</p>
+
+<p>The static methods <code>_entropy(_:)</code> and <code>_entropy(_:count:)</code> return
+cryptographically secure random bytes that may be useful for seeding your
+custom PRNG. However, these methods may return <code>nil</code> if the requested number
+of random bytes is not available, and they are not recommended as a routine
+source of random data.</p>
+<h2 id='adding-other-probability-distributions' class='heading'>Adding Other Probability Distributions</h2>
+
+<p>Many built-in protocol extension methods make use of the primitive,
+overloaded method <code>_random(_:bitCount:)</code>. You may wish to use the same
+method in new protocol extension methods that return pseudo-random
+values from other probability distributions.</p>
+
+<p>The method <code>_random(_:bitCount:)</code> generates uniformly distributed binary
+floating-point values in the half-open range [0, 1) with a precision of
+either <code>bitCount</code> or the significand bit count of the floating-point type,
+whichever is less. Additionally, this method generates uniformly distributed
+unsigned integers in the half-open range [0, <code>2 ** x</code>), where <code>**</code> is the
+exponentiation operator and <code>x</code> is the lesser of <code>bitCount</code> and the bit
+width of the integer type.</p>
+
+<p>For end users, however, the recommended spelling for a uniformly distributed
+numeric value is <code>uniform()</code>; that method is overloaded to permit custom
+minimum and maximum values for the uniform distribution.</p>
 
                     <a href="Protocols/PRNG.html">See more…</a>
                   </div>
