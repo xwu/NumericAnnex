@@ -17,61 +17,6 @@ import Darwin.C
 /// functions that work on any floating-point type that provides the required
 /// functions.
 public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
-  /// Creates a new value from the given rational value, after rounding the
-  /// whole part and the numerator and denominator of the fractional part each
-  /// to the closest possible representation.
-  ///
-  /// If two representable values are equally close, the result is the value
-  /// with more trailing zeros in its significand bit pattern.
-  ///
-  /// - Parameters:
-  ///   - value: The rational value to convert to a floating-point value.
-  init(_ value: Rational<Int>)
-
-  /// Creates a new value from the given rational value, after rounding the
-  /// whole part and the numerator and denominator of the fractional part each
-  /// to the closest possible representation.
-  ///
-  /// If two representable values are equally close, the result is the value
-  /// with more trailing zeros in its significand bit pattern.
-  ///
-  /// - Parameters:
-  ///   - value: The rational value to convert to a floating-point value.
-  init(_ value: Rational<Int8>)
-
-  /// Creates a new value from the given rational value, after rounding the
-  /// whole part and the numerator and denominator of the fractional part each
-  /// to the closest possible representation.
-  ///
-  /// If two representable values are equally close, the result is the value
-  /// with more trailing zeros in its significand bit pattern.
-  ///
-  /// - Parameters:
-  ///   - value: The rational value to convert to a floating-point value.
-  init(_ value: Rational<Int16>)
-
-  /// Creates a new value from the given rational value, after rounding the
-  /// whole part and the numerator and denominator of the fractional part each
-  /// to the closest possible representation.
-  ///
-  /// If two representable values are equally close, the result is the value
-  /// with more trailing zeros in its significand bit pattern.
-  ///
-  /// - Parameters:
-  ///   - value: The rational value to convert to a floating-point value.
-  init(_ value: Rational<Int32>)
-
-  /// Creates a new value from the given rational value, after rounding the
-  /// whole part and the numerator and denominator of the fractional part each
-  /// to the closest possible representation.
-  ///
-  /// If two representable values are equally close, the result is the value
-  /// with more trailing zeros in its significand bit pattern.
-  ///
-  /// - Parameters:
-  ///   - value: The rational value to convert to a floating-point value.
-  init(_ value: Rational<Int64>)
-
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
   /// underflow. The return value is the square root of the sum of squares of
@@ -127,31 +72,6 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
 }
 
 extension FloatingPointMath {
-  public init(_ value: Rational<Int>) {
-    let (whole, fraction) = value.mixed
-    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
-  }
-
-  public init(_ value: Rational<Int8>) {
-    let (whole, fraction) = value.mixed
-    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
-  }
-
-  public init(_ value: Rational<Int16>) {
-    let (whole, fraction) = value.mixed
-    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
-  }
-
-  public init(_ value: Rational<Int32>) {
-    let (whole, fraction) = value.mixed
-    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
-  }
-
-  public init(_ value: Rational<Int64>) {
-    let (whole, fraction) = value.mixed
-    self = Self(whole) + Self(fraction.numerator) / Self(fraction.denominator)
-  }
-
   public static func hypot(_ x: Self, _ y: Self) -> Self {
     var x = abs(x), y = abs(y)
     if x < y {
@@ -250,6 +170,10 @@ extension FloatingPointMath {
 }
 
 extension Float : FloatingPointMath {
+  // ---------------------------------------------------------------------------
+  // MARK: FloatingPointMath
+  // ---------------------------------------------------------------------------
+
   @_transparent
   public static var e: Float {
     return Float(0x1.5bf0a8p1)
@@ -406,6 +330,10 @@ extension Float : FloatingPointMath {
 }
 
 extension Double : FloatingPointMath {
+  // ---------------------------------------------------------------------------
+  // MARK: FloatingPointMath
+  // ---------------------------------------------------------------------------
+
   @_transparent
   public static var e: Double {
     return Double(0x1.5bf0a8b145769p1)
