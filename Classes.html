@@ -157,8 +157,8 @@
                     <p>A pseudo-random number generator (PRNG) that implements
 <a href="http://vigna.di.unimi.it/ftp/papers/xorshiftplus.pdf"><code>xorshift128+</code></a>, an efficient linear-feedback shift register.</p>
 
-<p>Create your own instance of <code>Random</code> with an internal state seeded from
-cryptographically secure random bytes to generate random numbers:</p>
+<p>To generate random numbers, create your own instance of <code>Random</code> with an
+internal state seeded from cryptographically secure random bytes:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="kt">Random</span><span class="p">()</span><span class="o">!</span>
 <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">()</span> <span class="k">as</span> <span class="kt">Int</span>
 

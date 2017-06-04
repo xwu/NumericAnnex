@@ -136,9 +136,8 @@
               <p>A pseudo-random number generator (PRNG) that implements <code>xoroshiro128+</code>, a
 successor to <code>xorshift128+</code> devised by S. Vigna and D. Blackman.</p>
 
-<p>Create your own instance of <code>Random.Xoroshiro</code> with an internal state
-seeded from cryptographically secure random bytes to generate random
-numbers:</p>
+<p>To generate random numbers, create your own instance of <code>Random.Xoroshiro</code>
+with an internal state seeded from cryptographically secure random bytes:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="kt">Random</span><span class="o">.</span><span class="kt">Xoroshiro</span><span class="p">()</span><span class="o">!</span>
 <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">()</span> <span class="k">as</span> <span class="kt">Int</span>
 
