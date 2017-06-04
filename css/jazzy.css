@@ -139,7 +139,7 @@ nav {
   @media (min-width: 768px) {
     nav {
       order: 1;
-      width: 25%;
+      flex: 0 0 25%;
       max-width: 255px;
       overflow: hidden;
       border-right: 1px solid #ddd;
@@ -178,7 +178,7 @@ article {
   @media (min-width: 768px) {
     article {
       order: 2;
-      flex: 1;
+      flex: 1 1 auto;
       border-bottom: none;
       padding-bottom: 32px; } }
   article > section {
@@ -247,29 +247,26 @@ article {
           color: #808080; }
 
 .group {
-  padding-top: 0;
-  /*
-  &:last-child {
-    border-bottom: none;
-  }
-  */ }
+  border-bottom: 1px solid #ddd;
+  padding-top: 0; }
+  .group:last-child {
+    border-bottom: none; }
+    .group:last-child > ul > li:last-child {
+      padding-bottom: 16px; }
   .group a[name]::before {
     content: "";
     display: block; }
   .group > ul {
     margin: 0;
     padding: 0; }
-    .group > ul li {
+    .group > ul > li {
       width: 100%;
       border-bottom: 1px solid #ddd;
       padding: 0 0 15px;
-      list-style: none;
-      /*
-      &:last-child {
-        border-bottom: none;
-      }
-      */ }
-      .group > ul li .declaration-note {
+      list-style: none; }
+      .group > ul > li:last-child {
+        border-bottom: none; }
+      .group > ul > li .declaration-note {
         color: #808080;
         font-weight: normal;
         font-size: 16px; }
