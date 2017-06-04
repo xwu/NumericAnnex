@@ -16,6 +16,9 @@
 
 /// A type to represent a complex value in Cartesian form.
 ///
+/// - Note: `Complex64` is a type alias for `Complex<Float>` and `Complex128` is
+///   a type alias for `Complex<Double>`.
+///
 /// Create new instances of `Complex<T>` using integer or floating-point
 /// literals and the imaginary unit `Complex<T>.i`. For example:
 ///

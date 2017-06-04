@@ -6,18 +6,18 @@ library.
 
 ## Features
 
-- [x] `BinaryInteger` exponentiation, greatest common divisor, and least common
-      multiple functions.
-- [x] `Math`, a protocol for types providing square root, cube root, and
-      elementary transcendental functions.
-- [x] `FloatingPointMath`, a protocol for floating-point types providing certain
-      special functions.
-- [x] `PRNG`, a protocol for pseudo-random number generators (PRNGs).
-- [x] `Complex`, a value type to represent complex values in Cartesian form.
-- [x] `Rational`, a value type to represent rational values, which supports
-      division by zero.
-- [x] `Random` and `Random.Xoroshiro`, two reference types implementing
-      efficient non-cryptographically-secure PRNGs.
+- `BinaryInteger` exponentiation, greatest common divisor, and least common
+  multiple functions.
+- `Math`, a protocol for types providing square root, cube root, and elementary
+  transcendental functions.
+- `FloatingPointMath`, a protocol for floating-point types providing a selection
+  of special functions.
+- `PRNG`, a protocol for pseudo-random number generators.
+- `Complex`, a value type to represent complex values in Cartesian form.
+- `Rational`, a value type to represent rational values, which supports division
+  by zero.
+- `Random` and `Random.Xoroshiro`, two reference types implementing efficient
+  PRNGs.
 
 > Note: This project is in the early stages of development and is not
 > production-ready at this time.
