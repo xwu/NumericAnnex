@@ -112,7 +112,7 @@ pre code {
 body > .wrapper {
   display: flex;
   flex-direction: column; }
-  @media (min-width: 1008px) {
+  @media only screen and (min-width: 1008px), only screen and (orientation: landscape) and (min-height: 1008px) {
     body > .wrapper {
       flex-direction: row; } }
 
