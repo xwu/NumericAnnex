@@ -35,12 +35,22 @@ extension Random {
   ///
   /// - SeeAlso: `Random`, `PRNG`
   public final class Xoroshiro : PRNG {
+    /// The internal state of the pseudo-random number generator.
     public var state: (UInt64, UInt64)
 
+    /// Creates a pseudo-random number generator with the given internal state.
+    ///
+    /// - Parameters:
+    ///   - state: The value to be used as the generator's internal state.
     public init(state: (UInt64, UInt64)) {
       self.state = state
     }
 
+    /// Creates a pseudo-random number generator with an internal state seeded
+    /// using cryptographically secure random bytes.
+    ///
+    /// If cryptographically secure random bytes are unavailable, the result is
+    /// `nil`.
     public init?() {
       repeat {
         guard let entropy = Xoroshiro._entropy(UInt64.self, count: 2) else {
