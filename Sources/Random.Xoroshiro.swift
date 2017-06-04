@@ -9,9 +9,8 @@ extension Random {
   /// A pseudo-random number generator (PRNG) that implements `xoroshiro128+`, a
   /// successor to `xorshift128+` devised by S. Vigna and D. Blackman.
   ///
-  /// Create your own instance of `Random.Xoroshiro` with an internal state
-  /// seeded from cryptographically secure random bytes to generate random
-  /// numbers:
+  /// To generate random numbers, create your own instance of `Random.Xoroshiro`
+  /// with an internal state seeded from cryptographically secure random bytes:
   ///
   /// ```swift
   /// let random = Random.Xoroshiro()!

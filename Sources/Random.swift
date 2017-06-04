@@ -8,8 +8,8 @@
 /// A pseudo-random number generator (PRNG) that implements
 /// [`xorshift128+`][ref], an efficient linear-feedback shift register.
 ///
-/// Create your own instance of `Random` with an internal state seeded from
-/// cryptographically secure random bytes to generate random numbers:
+/// To generate random numbers, create your own instance of `Random` with an
+/// internal state seeded from cryptographically secure random bytes:
 ///
 /// ```swift
 /// let random = Random()!

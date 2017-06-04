@@ -17,7 +17,7 @@
 /// A type to represent a complex value in Cartesian form.
 ///
 /// Create new instances of `Complex<T>` using integer or floating-point
-/// literals and the imaginary unit `.i`. For example:
+/// literals and the imaginary unit `Complex<T>.i`. For example:
 ///
 /// ```swift
 /// let x = 2 + 4 * .i // `x` is of type `Complex<Double>`
