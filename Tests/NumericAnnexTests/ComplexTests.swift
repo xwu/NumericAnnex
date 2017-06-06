@@ -482,10 +482,6 @@ class ComplexTests: XCTestCase {
 
     // -------------------------------------------------------------------------
     // TODO: Test sinh, cosh, tanh.
-    //
-    // Per C11 DR 471:
-    // ctanh(0, +inf) = (0, NaN) and raises the invalid flag
-    // ctanh(0, NaN) = (0, NaN) and does not raise the invalid flag
     // -------------------------------------------------------------------------
 
     // Test special values.
@@ -705,6 +701,116 @@ class ComplexTests: XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
 
     result = Complex.sinh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.cosh(pzpz)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.cosh(pzpi)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+    // Invalid flag should be raised.
+
+    result = Complex.cosh(pzpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.cosh(pxpi)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.cosh(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.cosh(pipz)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.cosh(pipy)
+    expected = Complex(r: .infinity, theta: pipy.imaginary)
+    XCTAssertEqual(result.real, expected.real)
+    XCTAssertEqual(result.imaginary, expected.imaginary)
+
+    result = Complex.cosh(pipi)
+    XCTAssertTrue(result.real.isInfinite)
+    // The sign of the real part is unspecified.
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.cosh(pipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.cosh(pnpz)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.cosh(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.cosh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.tanh(pzpz)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.real.isZero)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.tanh(pzpn)
+    XCTAssertTrue(result.real.isZero) // See C11 DR 471.
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should *not* be raised.
+
+    result = Complex.tanh(pzpi)
+    XCTAssertTrue(result.real.isZero) // See C11 DR 471.
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.tanh(pxpi)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+    // Invalid flag should be raised.
+
+    result = Complex.tanh(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.tanh(pipy)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertEqual(result.imaginary, 0 * .sin(2 * pipy.imaginary))
+
+    result = Complex.tanh(pipi)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.tanh(pipn)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.tanh(pnpz)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.tanh(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.tanh(pnpn)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isNaN)
   }

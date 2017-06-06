@@ -806,6 +806,10 @@ extension Complex : Math {
         real: 1, imaginary: T(signOf: T.sin(2 * imaginary), magnitudeOf: 0)
       )
     }
+    if real == 0 {
+      // See C11 DR 471.
+      return Complex(real: real, imaginary: T.tan(imaginary))
+    }
     // See AMS55 4.5.51
     let twiceReal = 2 * real, twiceImaginary = 2 * imaginary
     let denominator = T.cosh(twiceReal) + T.cos(twiceImaginary)
