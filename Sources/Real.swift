@@ -1,5 +1,5 @@
 //
-//  FloatingPointMath.swift
+//  Real.swift
 //  NumericAnnex
 //
 //  Created by Xiaodi Wu on 4/1/17.
@@ -13,10 +13,9 @@ import Darwin.C
 
 /// A floating-point type that provides a selection of special functions.
 ///
-/// The `FloatingPointMath` protocol provides a suitable basis for writing
-/// functions that work on any floating-point type that provides the required
-/// functions.
-public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
+/// The `Real` protocol provides a suitable basis for writing functions that
+/// work on any floating-point type that provides the required functions.
+public protocol Real : Math, FloatingPoint {
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
   /// underflow. The return value is the square root of the sum of squares of
@@ -71,7 +70,7 @@ public protocol FloatingPointMath : Math, FloatingPoint /*, Hashable */ {
   // init?<U : SignedInteger>(exactly: Rational<U>).
 }
 
-extension FloatingPointMath {
+extension Real {
   public static func hypot(_ x: Self, _ y: Self) -> Self {
     var x = abs(x), y = abs(y)
     if x < y {
@@ -108,7 +107,7 @@ extension FloatingPointMath {
   }
 }
 
-extension FloatingPointMath {
+extension Real {
   /// Returns the inverse tangent of `y / x`, using the signs of `y` and `x` to
   /// determine the quadrant of the computed angle.
   ///
@@ -169,9 +168,9 @@ extension FloatingPointMath {
   }
 }
 
-extension Float : FloatingPointMath {
+extension Float : Real {
   // ---------------------------------------------------------------------------
-  // MARK: FloatingPointMath
+  // MARK: Real
   // ---------------------------------------------------------------------------
 
   @_transparent
@@ -329,9 +328,9 @@ extension Float : FloatingPointMath {
   }
 }
 
-extension Double : FloatingPointMath {
+extension Double : Real {
   // ---------------------------------------------------------------------------
-  // MARK: FloatingPointMath
+  // MARK: Real
   // ---------------------------------------------------------------------------
 
   @_transparent

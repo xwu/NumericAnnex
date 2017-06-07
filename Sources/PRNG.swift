@@ -52,7 +52,6 @@ import Security
 /// minimum and maximum values for the uniform distribution.
 public protocol PRNG : class, IteratorProtocol, Sequence
 where Element : FixedWidthInteger & UnsignedInteger, SubSequence : Sequence,
-  /* Element == Iterator.Element, Element == SubSequence.Iterator.Element, */
   Element == SubSequence.Element {
   /// A type that can represent the internal state of the pseudo-random number
   /// generator.
@@ -422,7 +421,7 @@ extension PRNG where Element == UInt64 {
     return bernoulli(p: 0.5, count: count)
   }
 
-  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func exponential<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self, lambda: T
   ) -> T {
     precondition(
@@ -437,14 +436,14 @@ extension PRNG where Element == UInt64 {
   }
 
   @_transparent // @_inlineable
-  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func exponential<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self
   ) -> T {
     return exponential(lambda: 1)
   }
 
   @_transparent // @_inlineable
-  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func exponential<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self, lambda: T, count: Int
   ) -> UnfoldSequence<T, Int> {
     precondition(count >= 0, "Element count should be non-negative")
@@ -455,13 +454,13 @@ extension PRNG where Element == UInt64 {
   }
 
   @_transparent // @_inlineable
-  /* public */ func exponential<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func exponential<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self, count: Int
   ) -> UnfoldSequence<T, Int> {
     return exponential(lambda: 1, count: count)
   }
   
-  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func weibull<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self, lambda: T, kappa: T
   ) -> T {
     precondition(
@@ -476,14 +475,14 @@ extension PRNG where Element == UInt64 {
   }
 
   @_transparent // @_inlineable
-  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func weibull<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self
   ) -> T {
     return weibull(lambda: 1, kappa: 1)
   }
 
   @_transparent // @_inlineable
-  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func weibull<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self, lambda: T, kappa: T, count: Int
   ) -> UnfoldSequence<T, Int> {
     precondition(count >= 0, "Element count should be non-negative")
@@ -494,7 +493,7 @@ extension PRNG where Element == UInt64 {
   }
 
   @_transparent // @_inlineable
-  /* public */ func weibull<T : BinaryFloatingPoint & FloatingPointMath>(
+  /* public */ func weibull<T : BinaryFloatingPoint & Real>(
     _: T.Type = T.self, count: Int
   ) -> UnfoldSequence<T, Int> {
     return weibull(lambda: 1, kappa: 1, count: count)
