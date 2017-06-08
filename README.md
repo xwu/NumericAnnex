@@ -8,16 +8,16 @@ library.
 
 - `BinaryInteger` exponentiation, greatest common divisor, and least common
   multiple functions.
-- `Math`, a protocol for types providing square root, cube root, and elementary
-  transcendental functions.
-- `FloatingPointMath`, a protocol for floating-point types providing a selection
-  of special functions.
-- `PRNG`, a protocol for pseudo-random number generators.
 - `Complex`, a value type to represent complex values in Cartesian form.
 - `Rational`, a value type to represent rational values, which supports division
   by zero.
 - `Random` and `Random.Xoroshiro`, two reference types implementing efficient
-  PRNGs.
+  pseudo-random number generators.
+- `Math`, a protocol for types providing square root, cube root, and elementary
+  transcendental functions.
+- `Real`, a protocol for floating-point types providing a selection of special
+  functions.
+- `PRNG`, a protocol for pseudo-random number generators.
 
 > Note: This project is in the early stages of development and is not
 > production-ready at this time.
