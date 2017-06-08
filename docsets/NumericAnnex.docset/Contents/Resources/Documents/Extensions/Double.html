@@ -62,7 +62,7 @@
             <p><a href="../Functions.html">Functions</a></p>
             <ul>
               <li>
-                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA4RealRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
               </li>
               <li>
                 <a href="../Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">abs(_:)</a>
@@ -77,7 +77,7 @@
                 <a href="../Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">round(_:)</a>
               </li>
               <li>
-                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
+                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA4RealRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
               </li>
               <li>
                 <a href="../Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">trunc(_:)</a>
@@ -88,13 +88,13 @@
             <p><a href="../Protocols.html">Protocols</a></p>
             <ul>
               <li>
-                <a href="../Protocols/FloatingPointMath.html">FloatingPointMath</a>
-              </li>
-              <li>
                 <a href="../Protocols/Math.html">Math</a>
               </li>
               <li>
                 <a href="../Protocols/PRNG.html">PRNG</a>
+              </li>
+              <li>
+                <a href="../Protocols/Real.html">Real</a>
               </li>
             </ul>
           </li>
@@ -141,7 +141,7 @@
           <details open>
             <summary>Contents</summary>
             <div class="wrapper">
-              <p><a href="#/FloatingPointMath">FloatingPointMath</a></p>
+              <p><a href="#/Real">Real</a></p>
               <ul>
                 <li><a href="#/s:12NumericAnnex4MathP1exvZ">e</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP3phixvZ">phi</a></li>
@@ -167,12 +167,12 @@
                 <li><a href="#/s:12NumericAnnex4MathP21inverseHyperbolicSinexyF">inverseHyperbolicSine()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP23inverseHyperbolicCosinexyF">inverseHyperbolicCosine()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP24inverseHyperbolicTangentxyF">inverseHyperbolicTangent()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP5hypotxx_xtFZ">hypot(_:_:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP14inverseTangentxx10dividingBy_tF">inverseTangent(dividingBy:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP5errorxyF">error()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP18complementaryErrorxyF">complementaryError()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP5gammaxyF">gamma()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP16logarithmicGammaxyF">logarithmicGamma()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP5hypotxx_xtFZ">hypot(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP14inverseTangentxx10dividingBy_tF">inverseTangent(dividingBy:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP5errorxyF">error()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP18complementaryErrorxyF">complementaryError()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP5gammaxyF">gamma()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP16logarithmicGammaxyF">logarithmicGamma()</a></li>
               </ul>
             </div>
           </details>
@@ -181,9 +181,9 @@
           <div class="wrapper">
             <div class="group">
               <div>
-                <a name="/FloatingPointMath"></a>
-                <a name="//apple_ref/swift/Section/FloatingPointMath" class="dashAnchor"></a>
-                <h3>FloatingPointMath</h3>
+                <a name="/Real"></a>
+                <a name="//apple_ref/swift/Section/Real" class="dashAnchor"></a>
+                <h3>Real</h3>
               </div>
               <ul>
                 <li>
@@ -668,7 +668,7 @@
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP5hypotxx_xtFZ"></a>
+                    <a name="/s:12NumericAnnex4RealP5hypotxx_xtFZ"></a>
                     <a name="//apple_ref/swift/Method/hypot(_:_:)" class="dashAnchor"></a>
                     <h4>
                       <code>hypot(_:_:)</code>
@@ -688,7 +688,7 @@
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP14inverseTangentxx10dividingBy_tF"></a>
+                    <a name="/s:12NumericAnnex4RealP14inverseTangentxx10dividingBy_tF"></a>
                     <a name="//apple_ref/swift/Method/inverseTangent(dividingBy:)" class="dashAnchor"></a>
                     <h4>
                       <code>inverseTangent(dividingBy:)</code>
@@ -708,7 +708,7 @@
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP5errorxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP5errorxyF"></a>
                     <a name="//apple_ref/swift/Method/error()" class="dashAnchor"></a>
                     <h4>
                       <code>error()</code>
@@ -728,7 +728,7 @@
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP18complementaryErrorxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP18complementaryErrorxyF"></a>
                     <a name="//apple_ref/swift/Method/complementaryError()" class="dashAnchor"></a>
                     <h4>
                       <code>complementaryError()</code>
@@ -748,7 +748,7 @@
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP5gammaxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP5gammaxyF"></a>
                     <a name="//apple_ref/swift/Method/gamma()" class="dashAnchor"></a>
                     <h4>
                       <code>gamma()</code>
@@ -768,7 +768,7 @@
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP16logarithmicGammaxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP16logarithmicGammaxyF"></a>
                     <a name="//apple_ref/swift/Method/logarithmicGamma()" class="dashAnchor"></a>
                     <h4>
                       <code>logarithmicGamma()</code>
@@ -793,7 +793,7 @@
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-04)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-07)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>

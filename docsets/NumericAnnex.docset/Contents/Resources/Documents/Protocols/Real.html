@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>FloatingPointMath Protocol Reference</title>
+    <title>Real Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/highlight.css">
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css">
     <script src="../js/jquery.min.js" defer></script>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/FloatingPointMath" class="dashAnchor"></a>
-    <a title="FloatingPointMath Protocol Reference"></a>
+    <a name="//apple_ref/swift/Protocol/Real" class="dashAnchor"></a>
+    <a title="Real Protocol Reference"></a>
     <header>
       <p class="primary">
         <a href="../index.html">NumericAnnex Reference</a>
@@ -62,7 +62,7 @@
             <p><a href="../Functions.html">Functions</a></p>
             <ul>
               <li>
-                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA4RealRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
               </li>
               <li>
                 <a href="../Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">abs(_:)</a>
@@ -77,7 +77,7 @@
                 <a href="../Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">round(_:)</a>
               </li>
               <li>
-                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA17FloatingPointMathRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
+                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA4RealRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
               </li>
               <li>
                 <a href="../Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">trunc(_:)</a>
@@ -88,13 +88,13 @@
             <p><a href="../Protocols.html">Protocols</a></p>
             <ul>
               <li>
-                <a href="../Protocols/FloatingPointMath.html">FloatingPointMath</a>
-              </li>
-              <li>
                 <a href="../Protocols/Math.html">Math</a>
               </li>
               <li>
                 <a href="../Protocols/PRNG.html">PRNG</a>
+              </li>
+              <li>
+                <a href="../Protocols/Real.html">Real</a>
               </li>
             </ul>
           </li>
@@ -126,18 +126,17 @@
         <section>
           <div class="wrapper">
             <div class="overview">
-              <h1>FloatingPointMath</h1>
+              <h1>Real</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">FloatingPointMath</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Math.html">Math</a></span><span class="p">,</span> <span class="kt">FloatingPoint</span> <span class="cm">/*, Hashable */</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Real</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Math.html">Math</a></span><span class="p">,</span> <span class="kt">FloatingPoint</span></code></pre>
 
                 </div>
               </div>
               <p>A floating-point type that provides a selection of special functions.</p>
 
-<p>The <code>FloatingPointMath</code> protocol provides a suitable basis for writing
-functions that work on any floating-point type that provides the required
-functions.</p>
+<p>The <code>Real</code> protocol provides a suitable basis for writing functions that
+work on any floating-point type that provides the required functions.</p>
 
             </div>
           </div>
@@ -147,19 +146,19 @@ functions.</p>
             <summary>Contents</summary>
             <div class="wrapper">
               <ul>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP5hypotxx_xtFZ">hypot(_:_:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP14inverseTangentxx10dividingBy_tF">inverseTangent(dividingBy:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP5errorxyF">error()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP18complementaryErrorxyF">complementaryError()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP5gammaxyF">gamma()</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathP16logarithmicGammaxyF">logarithmicGamma()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP5hypotxx_xtFZ">hypot(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP14inverseTangentxx10dividingBy_tF">inverseTangent(dividingBy:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP5errorxyF">error()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP18complementaryErrorxyF">complementaryError()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP5gammaxyF">gamma()</a></li>
+                <li><a href="#/s:12NumericAnnex4RealP16logarithmicGammaxyF">logarithmicGamma()</a></li>
               </ul>
               <ul>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathPAAE5atan2xx_xtFZ">atan2(_:_:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathPAAE3erfxxFZ">erf(_:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathPAAE4erfcxxFZ">erfc(_:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathPAAE6tgammaxxFZ">tgamma(_:)</a></li>
-                <li><a href="#/s:12NumericAnnex17FloatingPointMathPAAE6lgammaxxFZ">lgamma(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealPAAE5atan2xx_xtFZ">atan2(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealPAAE3erfxxFZ">erf(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealPAAE4erfcxxFZ">erfc(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealPAAE6tgammaxxFZ">tgamma(_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4RealPAAE6lgammaxxFZ">lgamma(_:)</a></li>
               </ul>
             </div>
           </details>
@@ -170,7 +169,7 @@ functions.</p>
               <ul>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP5hypotxx_xtFZ"></a>
+                    <a name="/s:12NumericAnnex4RealP5hypotxx_xtFZ"></a>
                     <a name="//apple_ref/swift/Method/hypot(_:_:)" class="dashAnchor"></a>
                     <h4>
                       <code>hypot(_:_:)</code>
@@ -195,7 +194,7 @@ the arguments.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP14inverseTangentxx10dividingBy_tF"></a>
+                    <a name="/s:12NumericAnnex4RealP14inverseTangentxx10dividingBy_tF"></a>
                     <a name="//apple_ref/swift/Method/inverseTangent(dividingBy:)" class="dashAnchor"></a>
                     <h4>
                       <code>inverseTangent(dividingBy:)</code>
@@ -209,7 +208,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
 <p>If <code>self == 0 &amp;&amp; other == 0</code>, the return value is still finite.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <p><code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathPAAE5atan2xx_xtFZ">atan2(_:_:)</a></code></p>
+    <p><code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealPAAE5atan2xx_xtFZ">atan2(_:_:)</a></code></p>
 
 </div>
 
@@ -225,7 +224,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP5errorxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP5errorxyF"></a>
                     <a name="//apple_ref/swift/Method/error()" class="dashAnchor"></a>
                     <h4>
                       <code>error()</code>
@@ -235,7 +234,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/Erf.html">error function</a> of <code>self</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathPAAE3erfxxFZ">erf(_:)</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealPAAE3erfxxFZ">erf(_:)</a></code>
 
 </div>
 
@@ -251,7 +250,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP18complementaryErrorxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP18complementaryErrorxyF"></a>
                     <a name="//apple_ref/swift/Method/complementaryError()" class="dashAnchor"></a>
                     <h4>
                       <code>complementaryError()</code>
@@ -261,7 +260,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/Erfc.html">complementary error function</a> of <code>self</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathPAAE4erfcxxFZ">erfc(_:)</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealPAAE4erfcxxFZ">erfc(_:)</a></code>
 
 </div>
 
@@ -277,7 +276,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP5gammaxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP5gammaxyF"></a>
                     <a name="//apple_ref/swift/Method/gamma()" class="dashAnchor"></a>
                     <h4>
                       <code>gamma()</code>
@@ -287,7 +286,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/GammaFunction.html">gamma function</a> of <code>self</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathPAAE6tgammaxxFZ">tgamma(_:)</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealPAAE6tgammaxxFZ">tgamma(_:)</a></code>
 
 </div>
 
@@ -303,7 +302,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathP16logarithmicGammaxyF"></a>
+                    <a name="/s:12NumericAnnex4RealP16logarithmicGammaxyF"></a>
                     <a name="//apple_ref/swift/Method/logarithmicGamma()" class="dashAnchor"></a>
                     <h4>
                       <code>logarithmicGamma()</code>
@@ -313,7 +312,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/LogGammaFunction.html">logarithmic gamma function</a> of <code>self</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathPAAE6lgammaxxFZ">lgamma(_:)</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealPAAE6lgammaxxFZ">lgamma(_:)</a></code>
 
 </div>
 
@@ -333,7 +332,7 @@ and <code>other</code> to determine the quadrant of the computed angle.</p>
               <ul>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathPAAE5atan2xx_xtFZ"></a>
+                    <a name="/s:12NumericAnnex4RealPAAE5atan2xx_xtFZ"></a>
                     <a name="//apple_ref/swift/Method/atan2(_:_:)" class="dashAnchor"></a>
                     <h4>
                       <code>atan2(_:_:)</code>
@@ -347,7 +346,7 @@ determine the quadrant of the computed angle.</p>
 <p>If <code>x == 0 &amp;&amp; y == 0</code>, the return value is still finite.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <p><code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathP14inverseTangentxx10dividingBy_tF">inverseTangent(dividingBy:)</a></code></p>
+    <p><code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealP14inverseTangentxx10dividingBy_tF">inverseTangent(dividingBy:)</a></code></p>
 
 </div>
 
@@ -363,7 +362,7 @@ determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathPAAE3erfxxFZ"></a>
+                    <a name="/s:12NumericAnnex4RealPAAE3erfxxFZ"></a>
                     <a name="//apple_ref/swift/Method/erf(_:)" class="dashAnchor"></a>
                     <h4>
                       <code>erf(_:)</code>
@@ -374,7 +373,7 @@ determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/Erf.html">error function</a> of <code>x</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathP5errorxyF">error()</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealP5errorxyF">error()</a></code>
 
 </div>
 
@@ -390,7 +389,7 @@ determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathPAAE4erfcxxFZ"></a>
+                    <a name="/s:12NumericAnnex4RealPAAE4erfcxxFZ"></a>
                     <a name="//apple_ref/swift/Method/erfc(_:)" class="dashAnchor"></a>
                     <h4>
                       <code>erfc(_:)</code>
@@ -401,7 +400,7 @@ determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/Erfc.html">complementary error function</a> of <code>x</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathP18complementaryErrorxyF">complementaryError()</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealP18complementaryErrorxyF">complementaryError()</a></code>
 
 </div>
 
@@ -417,7 +416,7 @@ determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathPAAE6tgammaxxFZ"></a>
+                    <a name="/s:12NumericAnnex4RealPAAE6tgammaxxFZ"></a>
                     <a name="//apple_ref/swift/Method/tgamma(_:)" class="dashAnchor"></a>
                     <h4>
                       <code>tgamma(_:)</code>
@@ -428,7 +427,7 @@ determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/GammaFunction.html">gamma function</a> of <code>x</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathP5gammaxyF">gamma()</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealP5gammaxyF">gamma()</a></code>
 
 </div>
 
@@ -444,7 +443,7 @@ determine the quadrant of the computed angle.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex17FloatingPointMathPAAE6lgammaxxFZ"></a>
+                    <a name="/s:12NumericAnnex4RealPAAE6lgammaxxFZ"></a>
                     <a name="//apple_ref/swift/Method/lgamma(_:)" class="dashAnchor"></a>
                     <h4>
                       <code>lgamma(_:)</code>
@@ -455,7 +454,7 @@ determine the quadrant of the computed angle.</p>
                     <p>Returns the value of the <a href="http://mathworld.wolfram.com/LogGammaFunction.html">logarithmic gamma function</a> of <code>x</code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Protocols/FloatingPointMath.html#/s:12NumericAnnex17FloatingPointMathP16logarithmicGammaxyF">logarithmicGamma()</a></code>
+    <code><a href="../Protocols/Real.html#/s:12NumericAnnex4RealP16logarithmicGammaxyF">logarithmicGamma()</a></code>
 
 </div>
 
@@ -476,7 +475,7 @@ determine the quadrant of the computed angle.</p>
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-04)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-07)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
