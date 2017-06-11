@@ -52,7 +52,8 @@
 /// [dfn]: http://mathworld.wolfram.com/BranchCut.html
 /// [std]: http://www.open-std.org/JTC1/SC22/WG14/www/standards.html#9899
 @_fixed_layout
-public struct Complex<T : Real> where T : _ExpressibleByBuiltinFloatLiteral {
+public struct Complex<T : Real> : Codable
+where T : Codable & _ExpressibleByBuiltinFloatLiteral {
   // ---------------------------------------------------------------------------
   // MARK: Stored Properties
   // ---------------------------------------------------------------------------

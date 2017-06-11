@@ -51,7 +51,8 @@ import Security
 /// numeric value is `uniform()`; that method is overloaded to permit custom
 /// minimum and maximum values for the uniform distribution.
 public protocol PRNG : class, IteratorProtocol, Sequence
-where Element : FixedWidthInteger & UnsignedInteger, SubSequence : Sequence,
+where Element : FixedWidthInteger & UnsignedInteger,
+  SubSequence : Sequence,
   Element == SubSequence.Element {
   /// A type that can represent the internal state of the pseudo-random number
   /// generator.

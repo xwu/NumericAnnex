@@ -89,7 +89,8 @@ extension BinaryInteger where Magnitude : UnsignedInteger {
 // is necessary to disambiguate calls to `Magnitude.lcmReportingOverflow(_:_:)`
 // and `Magnitude.lcmFullWidth(_:_:)`.
 extension BinaryInteger
-where Self : FixedWidthInteger, Magnitude : FixedWidthInteger & UnsignedInteger,
+where Self : FixedWidthInteger,
+  Magnitude : FixedWidthInteger & UnsignedInteger,
   Magnitude.Magnitude == Magnitude {
   // ---------------------------------------------------------------------------
   // MARK: Factoring (Fixed-Width)
