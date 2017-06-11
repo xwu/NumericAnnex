@@ -478,7 +478,7 @@ extension Complex : Hashable {
 
   // @_transparent // @_inlineable
   public var hashValue: Int {
-    return _fnv1a(real, imaginary)
+    return _Hash._combine(real, imaginary)
   }
 }
 extension Complex : Numeric {

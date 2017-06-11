@@ -525,7 +525,7 @@ extension Rational : Hashable {
   // @_transparent // @_inlineable
   public var hashValue: Int {
     let t = canonical
-    return _fnv1a(t.numerator, t.denominator)
+    return _Hash._combine(t.numerator, t.denominator)
   }
 }
 
