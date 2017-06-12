@@ -61,25 +61,25 @@
             <p><a href="Functions.html">Functions</a></p>
             <ul>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA4RealRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA4RealRzs9DecodableRzs9EncodableRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
               </li>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">abs(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">abs(_:)</a>
               </li>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex4ceilAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">ceil(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex4ceilAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">ceil(_:)</a>
               </li>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex5floorAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">floor(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex5floorAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">floor(_:)</a>
               </li>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">round(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">round(_:)</a>
               </li>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA4RealRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA4RealRzs9DecodableRzs9EncodableRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
               </li>
               <li>
-                <a href="Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs13SignedIntegerRzs021_ExpressibleByBuiltinF7LiteralRzs08UnsignedF09Magnitudes0A0PRpzAiK_AIQZALRSlF">trunc(_:)</a>
+                <a href="Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">trunc(_:)</a>
               </li>
             </ul>
           </li>
@@ -197,7 +197,8 @@ some complex functions may be unexpected. For example,
                     <h5>Declaration</h5>
                     <div class="language">
                       <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Complex</span><span class="o">&lt;</span><span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/Real.html">Real</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="n">_ExpressibleByBuiltinFloatLiteral</span></code></pre>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Complex</span><span class="o">&lt;</span><span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/Real.html">Real</a></span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Codable</span>
+<span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Codable</span> <span class="o">&amp;</span> <span class="n">_ExpressibleByBuiltinFloatLiteral</span></code></pre>
 
                     </div>
                   </div>
@@ -279,8 +280,9 @@ occurs when the division (<code>/</code>) operator is used to create a value of 
                     <h5>Declaration</h5>
                     <div class="language">
                       <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">T</span> <span class="p">:</span> <span class="kt">SignedInteger</span><span class="o">&gt;</span>
-<span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="n">_ExpressibleByBuiltinIntegerLiteral</span><span class="p">,</span> <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span> <span class="p">:</span> <span class="kt">UnsignedInteger</span><span class="p">,</span>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Rational</span><span class="o">&lt;</span><span class="kt">T</span> <span class="p">:</span> <span class="kt">SignedInteger</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Codable</span>
+<span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Codable</span> <span class="o">&amp;</span> <span class="n">_ExpressibleByBuiltinIntegerLiteral</span><span class="p">,</span>
+  <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span> <span class="p">:</span> <span class="kt">UnsignedInteger</span><span class="p">,</span>
   <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span><span class="o">.</span><span class="kt">Magnitude</span> <span class="o">==</span> <span class="kt">T</span><span class="o">.</span><span class="kt">Magnitude</span></code></pre>
 
                     </div>
@@ -293,7 +295,7 @@ occurs when the division (<code>/</code>) operator is used to create a value of 
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-07)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-11)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
