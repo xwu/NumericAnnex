@@ -198,17 +198,15 @@ public protocol Math : SignedNumeric {
 }
 
 extension Math {
-  // @_transparent
   /// The mathematical constant _e_, or Euler's number (default implementation).
   public static var e: Self {
     return Self.exp(1 as Self)
   }
 
-  // @_transparent
   /// The mathematical constant phi (_φ_), or golden ratio (default
   /// implementation).
   public static var phi: Self {
-    return Self.sqrt(((1 as Self) + Self.sqrt(5 as Self)) / (2 as Self))
+    return ((1 as Self) + Self.sqrt(5 as Self)) / (2 as Self)
   }
 
   public func binaryExponential() -> Self {
@@ -233,10 +231,6 @@ extension Math {
 
   public func naturalLogarithmOnePlus() -> Self {
     return Self.log(self + (1 as Self))
-  }
-
-  public func cubeRoot() -> Self {
-    return Self.pow(self, 1 / 3 as Self)
   }
 
   public func tangent() -> Self {

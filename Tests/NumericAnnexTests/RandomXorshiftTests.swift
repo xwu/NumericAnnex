@@ -1,7 +1,7 @@
 import XCTest
 @testable import NumericAnnex
 
-class RandomXorshiftTests: XCTestCase {
+class RandomXorshiftTests : XCTestCase {
   func test_1_2() {
     let rng = Random(state: (1, 2))
     // Values were generated using the reference implementation found at:
