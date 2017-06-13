@@ -1,7 +1,7 @@
 import XCTest
 @testable import NumericAnnex
 
-class RandomXoroshiroTests: XCTestCase {
+class RandomXoroshiroTests : XCTestCase {
   func test_1_2() {
     let rng = Random.Xoroshiro(state: (1, 2))
     // Values were generated using the reference implementation found at:

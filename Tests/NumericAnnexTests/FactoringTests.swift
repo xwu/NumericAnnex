@@ -1,7 +1,7 @@
 import XCTest
 @testable import NumericAnnex
 
-class FactoringTests: XCTestCase {
+class FactoringTests : XCTestCase {
   func testGCD() {
     XCTAssertEqual(UInt.gcd(18, 84), 6)
     XCTAssertEqual(UInt.gcd(24, 60), 12)

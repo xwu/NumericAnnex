@@ -1,7 +1,7 @@
 import XCTest
 @testable import NumericAnnex
 
-class ComplexTests: XCTestCase {
+class ComplexTests : XCTestCase {
   let pzpz = Complex(real: +0.0, imaginary: +0.0)
   let pznz = Complex(real: +0.0, imaginary: -0.0)
   let nzpz = Complex(real: -0.0, imaginary: +0.0)

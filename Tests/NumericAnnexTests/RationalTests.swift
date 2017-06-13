@@ -1,7 +1,7 @@
 import XCTest
 @testable import NumericAnnex
 
-class RationalTests: XCTestCase {
+class RationalTests : XCTestCase {
   func testRational() {
     let a = 6 / 4 as Rational<Int>
     XCTAssertEqual(a.description, "3/2")

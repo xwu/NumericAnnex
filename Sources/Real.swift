@@ -73,11 +73,16 @@ public protocol Real : Math, FloatingPoint {
 extension Real {
   public static func hypot(_ x: Self, _ y: Self) -> Self {
     var x = abs(x), y = abs(y)
-    if x < y {
-      swap(&x, &y)
-    }
+    if x.isInfinite { return x }
+    if y.isInfinite { return y }
+    if x == 0 { return y }
+    if x < y { swap(&x, &y) }
     let ratio = y / x
     return x * .sqrt(1 + ratio * ratio)
+  }
+
+  public func cubeRoot() -> Self {
+    return sign == .minus ? -.exp(.log(-self) / 3) : .exp(.log(self) / 3)
   }
 
   public func inverseTangent(dividingBy other: Self) -> Self {
