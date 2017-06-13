@@ -81,6 +81,13 @@ extension Real {
     return x * .sqrt(1 + ratio * ratio)
   }
 
+  /// Returns the cube root of `x`, rounded to a representable value (default
+  /// implementation).
+  ///
+  /// - Note: This method is required by the protocol `Math`; it is not an
+  ///   extension method of the protocol `Real`.
+  ///
+  /// - SeeAlso: `cubeRoot()`
   public func cubeRoot() -> Self {
     return sign == .minus ? -.exp(.log(-self) / 3) : .exp(.log(self) / 3)
   }
