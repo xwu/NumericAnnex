@@ -3,6 +3,7 @@ import XCTest
 
 XCTMain([
   testCase(ExponentiationTests.allTests),
+  testCase(RootExtractionTests.allTests),
   testCase(FactoringTests.allTests),
   testCase(RealTests.allTests),
   testCase(RationalTests.allTests),

@@ -33,9 +33,53 @@ extension BinaryInteger {
     }
     return x * y
   }
+
+  // ---------------------------------------------------------------------------
+  // MARK: Square Root
+  // ---------------------------------------------------------------------------
+
+  // @_transparent // @_inlineable
+  /// Returns the square root of `x`, rounding toward zero. If `x` is negative,
+  /// a runtime error may occur.
+  public static func sqrt(_ x: Self) -> Self {
+    precondition(!Self.isSigned || x >= 0)
+    var shift = x.bitWidth - 1
+    shift -= shift % 2
+    var result = 0 as Self
+    while shift >= 0 {
+      result *= 2
+      let candidate = result + 1
+      if candidate * candidate <= x &>> shift {
+        result = candidate
+      }
+      shift -= 2
+    }
+    return result
+  }
 }
 
 extension UnsignedInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Cube Root
+  // ---------------------------------------------------------------------------
+
+  // @_transparent // @_inlineable
+  /// Returns the cube root of `x`, rounding toward zero.
+  public static func cbrt(_ x: Self) -> Self {
+    var shift = x.bitWidth - 1
+    shift -= shift % 3
+    var result = 0 as Self
+    while shift >= 0 {
+      result *= 2
+      let candidate = result + 1
+      if candidate * candidate * candidate <= x &>> shift {
+        result = candidate
+      }
+      shift -= 3
+    }
+    return result
+  }
+
   // ---------------------------------------------------------------------------
   // MARK: Factoring
   // ---------------------------------------------------------------------------
@@ -98,6 +142,18 @@ extension UnsignedInteger where Self : FixedWidthInteger {
 }
 
 extension BinaryInteger where Magnitude : UnsignedInteger {
+  // ---------------------------------------------------------------------------
+  // MARK: Cube Root
+  // ---------------------------------------------------------------------------
+
+  /// Returns the cube root of `x`, rounding toward zero.
+  @_transparent // @_inlineable
+  public static func cbrt(_ x: Self) -> Self {
+    return x < 0
+      ? 0 - Self(Magnitude.cbrt(x.magnitude))
+      : Self(Magnitude.cbrt(x.magnitude))
+  }
+
   // ---------------------------------------------------------------------------
   // MARK: Factoring
   // ---------------------------------------------------------------------------
