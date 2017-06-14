@@ -171,6 +171,11 @@ nav {
           nav > ul > li > ul > li > a[href] {
             color: #808080; }
 
+@keyframes appear {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
 article {
   order: 1;
   border-bottom: 1px solid #ddd;
@@ -208,6 +213,8 @@ article {
       margin-bottom: 8px; }
       .toc details[open] > summary::after {
         content: ' \2212'; }
+      .toc details[open] > summary ~ * {
+        animation: appear .2s ease-in-out; }
     .toc details > summary {
       display: block;
       margin: 0;
@@ -216,9 +223,11 @@ article {
       font-size: 12px;
       letter-spacing: 0.25em;
       text-transform: uppercase;
+      user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
       outline: none; }
       .toc details > summary::-webkit-details-marker {
         display: none; }
@@ -283,6 +292,9 @@ article {
     font-size: 12px;
     letter-spacing: 0.25em;
     text-transform: uppercase;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     -webkit-user-select: none; }
   .aside p:last-child, .language p:last-child {
     margin-bottom: 0; }
