@@ -42,6 +42,14 @@ public protocol Math : SignedNumeric {
   ///   - rhs: The value by which to divide `lhs`.
   static func /= (lhs: inout Self, rhs: Self)
 
+  /// Returns the result of raising `base` to the power of `exponent`, rounded
+  /// to a representable value.
+  ///
+  /// - Parameters:
+  ///   - base: The base to be raised to the power of `exponent`.
+  ///   - exponent: The exponent by which to raise `base`.
+  static func pow(_ base: Self, _ exponent: Self) -> Self
+
   /// Returns the natural exponential of the value, rounded to a representable
   /// value.
   ///
@@ -112,17 +120,6 @@ public protocol Math : SignedNumeric {
   ///
   /// - SeeAlso: `cbrt(_:)`
   func cubeRoot() -> Self
-
-  /// Returns the result of raising `base` to the power of the value, rounded to
-  /// a representable value.
-  ///
-  /// - Note: The argument is the _base_ and the receiver is the _exponent_.
-  ///
-  /// - Parameters:
-  ///   - base: The base.
-  ///
-  /// - SeeAlso: `pow(_:_:)`
-  func power(of base: Self) -> Self
 
   /// Returns the sine of the value (given in radians), rounded to a
   /// representable value.
@@ -339,15 +336,6 @@ extension Math {
   @_transparent // @_inlineable
   public static func cbrt(_ x: Self) -> Self {
     return x.cubeRoot()
-  }
-
-  /// Returns the result of raising `base` to the power of `exponent`, rounded
-  /// to a representable value.
-  ///
-  /// - SeeAlso: `power(of:)`
-  @_transparent // @_inlineable
-  public static func pow(_ base: Self, _ exponent: Self) -> Self {
-    return exponent.power(of: base)
   }
 
   /// Returns the sine of `x` (given in radians), rounded to a representable

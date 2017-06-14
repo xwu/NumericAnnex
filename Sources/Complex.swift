@@ -603,6 +603,11 @@ extension Complex : Math {
     lhs = lhs / rhs
   }
 
+  @_transparent // @_inlineable
+  public static func pow(_ base: Complex, _ exponent: Complex) -> Complex {
+    return Complex.exp(exponent * Complex.log(base))
+  }
+
   // @_transparent // @_inlineable
   public func naturalExponential() -> Complex {
     if real.isNaN && imaginary == 0 { return self }
@@ -663,7 +668,6 @@ extension Complex : Math {
     }
     /* real < 0 */
     return Complex(real: y / (2 * w), imaginary: imaginary >= 0 ? w : -w)
-
     /*
     return Complex(r: T.sqrt(magnitude), theta: argument / 2)
     */
@@ -672,15 +676,9 @@ extension Complex : Math {
   @_transparent // @_inlineable
   public func cubeRoot() -> Complex {
     return Complex.exp(Complex.log(self) / 3)
-
     /*
     return Complex(r: T.cbrt(magnitude), theta: argument / 3)
     */
-  }
-
-  @_transparent // @_inlineable
-  public func power(of base: Complex) -> Complex {
-    return Complex.exp(self * Complex.log(base))
   }
 
   @_transparent // @_inlineable

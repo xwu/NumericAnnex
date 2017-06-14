@@ -196,6 +196,11 @@ extension Float : Real {
   }
 
   @_transparent
+  public static func pow(_ base: Float, _ exponent: Float) -> Float {
+    return powf(base, exponent)
+  }
+
+  @_transparent
   public func naturalExponential() -> Float {
     return expf(self)
   }
@@ -242,11 +247,6 @@ extension Float : Real {
   @_transparent
   public func cubeRoot() -> Float {
     return cbrtf(self)
-  }
-
-  @_transparent
-  public func power(of base: Float) -> Float {
-    return powf(base, self)
   }
 
   @_transparent
@@ -356,6 +356,15 @@ extension Double : Real {
   }
 
   @_transparent
+  public static func pow(_ base: Double, _ exponent: Double) -> Double {
+#if os(Linux)
+    return Glibc.pow(base, exponent)
+#else
+    return Darwin.pow(base, exponent)
+#endif
+  }
+
+  @_transparent
   public func naturalExponential() -> Double {
 #if os(Linux)
     return Glibc.exp(self)
@@ -433,15 +442,6 @@ extension Double : Real {
     return Glibc.cbrt(self)
 #else
     return Darwin.cbrt(self)
-#endif
-  }
-
-  @_transparent
-  public func power(of base: Double) -> Double {
-#if os(Linux)
-    return Glibc.pow(base, self)
-#else
-    return Darwin.pow(base, self)
 #endif
   }
 
