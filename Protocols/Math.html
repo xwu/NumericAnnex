@@ -153,6 +153,7 @@ functions.</p>
                 <li><a href="#/s:12NumericAnnex4MathP3phixvZ">phi</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP1doixx_xtFZ">/(_:_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP2deoiyxz_xtFZ">/=(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP3powxx_xtFZ">pow(_:_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP18naturalExponentialxyF">naturalExponential()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP17binaryExponentialxyF">binaryExponential()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP17commonExponentialxyF">commonExponential()</a></li>
@@ -163,7 +164,6 @@ functions.</p>
                 <li><a href="#/s:12NumericAnnex4MathP23naturalLogarithmOnePlusxyF">naturalLogarithmOnePlus()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP10squareRootxyF">squareRoot()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP8cubeRootxyF">cubeRoot()</a></li>
-                <li><a href="#/s:12NumericAnnex4MathP5powerxx2of_tF">power(of:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP4sinexyF">sine()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP6cosinexyF">cosine()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP7tangentxyF">tangent()</a></li>
@@ -188,7 +188,6 @@ functions.</p>
                 <li><a href="#/s:12NumericAnnex4MathPAAE5log1pxxFZ">log1p(_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE4sqrtxxFZ">sqrt(_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE4cbrtxxFZ">cbrt(_:)</a></li>
-                <li><a href="#/s:12NumericAnnex4MathPAAE3powxx_xtFZ">pow(_:_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE3sinxxFZ">sin(_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE3cosxxFZ">cos(_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE3tanxxFZ">tan(_:)</a></li>
@@ -319,6 +318,28 @@ in the left-hand side, rounded to a representable value.</p>
                     <div class="language">
                       <p class="aside-title">Swift</p>
                       <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">/=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP3powxx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>pow(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
+to a representable value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                     </div>
                   </div>
@@ -606,38 +627,6 @@ the value, rounded to a representable value.</p>
                     <div class="language">
                       <p class="aside-title">Swift</p>
                       <pre class="highlight"><code><span class="kd">func</span> <span class="nf">cubeRoot</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
-
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <a name="/s:12NumericAnnex4MathP5powerxx2of_tF"></a>
-                    <a name="//apple_ref/swift/Method/power(of:)" class="dashAnchor"></a>
-                    <h4>
-                      <code>power(of:)</code>
-                    </h4>
-                  </div>
-                  <div class="abstract">
-                    <p>Returns the result of raising <code>base</code> to the power of the value, rounded to
-a representable value.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    <p>The argument is the <em>base</em> and the receiver is the <em>exponent</em>.</p>
-
-</div>
-<div class="aside aside-see-also">
-    <p class="aside-title">See also</p>
-    <p><code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathPAAE3powxx_xtFZ">pow(_:_:)</a></code></p>
-
-</div>
-
-                  </div>
-                  <div class="declaration">
-                    <h5>Declaration</h5>
-                    <div class="language">
-                      <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">func</span> <span class="nf">power</span><span class="p">(</span><span class="n">of</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                     </div>
                   </div>
@@ -1262,34 +1251,6 @@ value.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex4MathPAAE3powxx_xtFZ"></a>
-                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
-                    <h4>
-                      <code>pow(_:_:)</code>
-                      <span class="declaration-note">Extension method</span>
-                    </h4>
-                  </div>
-                  <div class="abstract">
-                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
-to a representable value.</p>
-<div class="aside aside-see-also">
-    <p class="aside-title">See also</p>
-    <code><a href="../Protocols/Math.html#/s:12NumericAnnex4MathP5powerxx2of_tF">power(of:)</a></code>
-
-</div>
-
-                  </div>
-                  <div class="declaration">
-                    <h5>Declaration</h5>
-                    <div class="language">
-                      <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
-
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div>
                     <a name="/s:12NumericAnnex4MathPAAE3sinxxFZ"></a>
                     <a name="//apple_ref/swift/Method/sin(_:)" class="dashAnchor"></a>
                     <h4>
@@ -1628,7 +1589,7 @@ rounded to a representable value.</p>
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-12)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-14)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>

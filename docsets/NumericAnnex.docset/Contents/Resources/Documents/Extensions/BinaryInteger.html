@@ -141,6 +141,18 @@
           <details open>
             <summary>Contents</summary>
             <div class="wrapper">
+              <p><a href="#/Exponentiation">Exponentiation</a></p>
+              <ul>
+                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexE3powxx_xtFZ">pow(_:_:)</a></li>
+              </ul>
+              <p><a href="#/Square%20Root">Square Root</a></p>
+              <ul>
+                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexE4sqrtxxFZ">sqrt(_:)</a></li>
+              </ul>
+              <p><a href="#/Cube%20Root">Cube Root</a></p>
+              <ul>
+                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexsAARzs08UnsignedB09MagnitudeRpzlE4cbrtxxFZ">cbrt(_:)</a></li>
+              </ul>
               <p><a href="#/Factoring">Factoring</a></p>
               <ul>
                 <li><a href="#/s:s13BinaryIntegerP12NumericAnnexsAARzs08UnsignedB09MagnitudeRpzlE3gcdxx_xtFZ">gcd(_:_:)</a></li>
@@ -152,10 +164,6 @@
                 <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20lcmReportingOverflowx12partialValue_s010ArithmeticK0O8overflowtx_xtFZ">lcmReportingOverflow(_:_:)</a></li>
                 <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE07lcmFullF0x4high_AF3lowtx_xtFZ">lcmFullWidth(_:_:)</a></li>
               </ul>
-              <p><a href="#/Exponentiation">Exponentiation</a></p>
-              <ul>
-                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexE3powxx_xtFZ">pow(_:_:)</a></li>
-              </ul>
               <p><a href="#/Initializers">Initializers</a></p>
               <ul>
                 <li><a href="#/s:s13BinaryIntegerP12NumericAnnexExSgAC8RationalVyqd__G7exactly_tcs9DecodableRd__s9EncodableRd__s06SignedB0Rd__s021_ExpressibleByBuiltinB7LiteralRd__s08UnsignedB09Magnitudes0C0PRpd__AnP_ANQYd__AQRSlufc">init(exactly:)</a></li>
@@ -166,6 +174,98 @@
         </section>
         <section>
           <div class="wrapper">
+            <div class="group">
+              <div>
+                <a name="/Exponentiation"></a>
+                <a name="//apple_ref/swift/Section/Exponentiation" class="dashAnchor"></a>
+                <h3>Exponentiation</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s13BinaryIntegerP12NumericAnnexE3powxx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>pow(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
+to a representable value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Square%20Root"></a>
+                <a name="//apple_ref/swift/Section/Square Root" class="dashAnchor"></a>
+                <h3>Square Root</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s13BinaryIntegerP12NumericAnnexE4sqrtxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/sqrt(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>sqrt(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the square root of <code>x</code>, rounding toward zero. If <code>x</code> is negative,
+a runtime error may occur.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <div>
+                <a name="/Cube%20Root"></a>
+                <a name="//apple_ref/swift/Section/Cube Root" class="dashAnchor"></a>
+                <h3>Cube Root</h3>
+              </div>
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:s13BinaryIntegerP12NumericAnnexsAARzs08UnsignedB09MagnitudeRpzlE4cbrtxxFZ"></a>
+                    <a name="//apple_ref/swift/Method/cbrt(_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>cbrt(_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the cube root of <code>x</code>, rounding toward zero.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">cbrt</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <div class="group">
               <div>
                 <a name="/Factoring"></a>
@@ -297,37 +397,6 @@ computed using full-width arithmetic.</p>
             </div>
             <div class="group">
               <div>
-                <a name="/Exponentiation"></a>
-                <a name="//apple_ref/swift/Section/Exponentiation" class="dashAnchor"></a>
-                <h3>Exponentiation</h3>
-              </div>
-              <ul>
-                <li>
-                  <div>
-                    <a name="/s:s13BinaryIntegerP12NumericAnnexE3powxx_xtFZ"></a>
-                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
-                    <h4>
-                      <code>pow(_:_:)</code>
-                    </h4>
-                  </div>
-                  <div class="abstract">
-                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
-to a representable value.</p>
-
-                  </div>
-                  <div class="declaration">
-                    <h5>Declaration</h5>
-                    <div class="language">
-                      <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
-
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="group">
-              <div>
                 <a name="/Initializers"></a>
                 <a name="//apple_ref/swift/Section/Initializers" class="dashAnchor"></a>
                 <h3>Initializers</h3>
@@ -389,7 +458,7 @@ a runtime error may occur.</p>
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-12)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-06-14)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
