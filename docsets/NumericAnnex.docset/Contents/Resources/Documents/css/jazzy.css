@@ -223,8 +223,7 @@ article {
       .toc details > summary::-webkit-details-marker {
         display: none; }
       .toc details > summary::after {
-        content: ' +';
-        font-weight: bolder; }
+        content: ' +'; }
     .toc details > .wrapper {
       columns: 1; }
       @media only screen and (min-width: 1024px) {
