@@ -6,8 +6,8 @@ library.
 
 ## Features
 
-- `BinaryInteger` exponentiation, greatest common divisor, and least common
-  multiple functions.
+- `BinaryInteger` exponentiation, square root, cube root, greatest common
+  divisor, and least common multiple functions.
 - `Complex`, a value type to represent complex values in Cartesian form.
 - `Rational`, a value type to represent rational values, which supports division
   by zero.
