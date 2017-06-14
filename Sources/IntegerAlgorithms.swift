@@ -45,12 +45,15 @@ extension BinaryInteger {
     precondition(!Self.isSigned || x >= 0)
     var shift = x.bitWidth - 1
     shift -= shift % 2
+
+    var x = x
     var result = 0 as Self
     while shift >= 0 {
       result *= 2
-      let candidate = result + 1
-      if candidate * candidate <= x &>> shift {
-        result = candidate
+      let temporary = 2 * result + 1
+      if temporary <= x &>> shift {
+        x -= temporary &<< shift
+        result += 1
       }
       shift -= 2
     }
@@ -68,12 +71,15 @@ extension UnsignedInteger {
   public static func cbrt(_ x: Self) -> Self {
     var shift = x.bitWidth - 1
     shift -= shift % 3
+
+    var x = x
     var result = 0 as Self
     while shift >= 0 {
       result *= 2
-      let candidate = result + 1
-      if candidate * candidate * candidate <= x &>> shift {
-        result = candidate
+      let temporary = 3 * result * (result + 1) + 1
+      if temporary <= x &>> shift {
+        x -= temporary &<< shift
+        result += 1
       }
       shift -= 3
     }
