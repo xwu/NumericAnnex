@@ -237,7 +237,7 @@ class ComplexTests : XCTestCase {
     XCTAssertEqualWithAccuracy(b.real, 42, accuracy: 0.00000000000001)
 
     let i: Complex128 = .i
-    let actual = i.power(of: i)
+    let actual = Complex.pow(i, i)
     XCTAssertEqual(actual.real, Double.exp(-Double.pi / 2))
     XCTAssertEqual(actual.imaginary, 0)
 

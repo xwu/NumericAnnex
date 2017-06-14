@@ -241,16 +241,16 @@ extension MockReal : FloatingPoint {
 }
 
 extension MockReal : Real {
+  static func pow(_ base: MockReal, _ exponent: MockReal) -> MockReal {
+    return MockReal(Double.pow(base._value, exponent._value))
+  }
+
   func naturalExponential() -> MockReal {
     return MockReal(_value.naturalExponential())
   }
 
   func naturalLogarithm() -> MockReal {
     return MockReal(_value.naturalLogarithm())
-  }
-
-  func power(of base: MockReal) -> MockReal {
-    return MockReal(_value.power(of: base._value))
   }
 
   func sine() -> MockReal {
