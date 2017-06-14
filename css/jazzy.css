@@ -207,7 +207,7 @@ article {
     .toc details[open] > summary {
       margin-bottom: 8px; }
       .toc details[open] > summary::after {
-        content: ' (Click to Hide)'; }
+        content: ' \2212'; }
     .toc details > summary {
       display: block;
       margin: 0;
@@ -223,7 +223,8 @@ article {
       .toc details > summary::-webkit-details-marker {
         display: none; }
       .toc details > summary::after {
-        content: ' (Click to Show)'; }
+        content: ' +';
+        font-weight: bolder; }
     .toc details > .wrapper {
       columns: 1; }
       @media only screen and (min-width: 1024px) {
