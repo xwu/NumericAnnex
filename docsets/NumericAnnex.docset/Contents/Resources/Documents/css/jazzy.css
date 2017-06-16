@@ -171,11 +171,12 @@ nav {
           nav > ul > li > ul > li > a[href] {
             color: #808080; }
 
+/*
 @keyframes appear {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
+  0%   { opacity: 0 }
+  100% { opacity: 1 }
+}
+*/
 article {
   order: 1;
   border-bottom: 1px solid #ddd;
@@ -210,11 +211,14 @@ article {
     margin: 0 auto;
     padding: 15px 0; }
     .toc details[open] > summary {
-      margin-bottom: 8px; }
+      margin-bottom: 8px;
+      /*
+      & ~ * {
+        animation: appear .2s ease-in-out;
+      }
+      */ }
       .toc details[open] > summary::after {
         content: ' \2212'; }
-      .toc details[open] > summary ~ * {
-        animation: appear .2s ease-in-out; }
     .toc details > summary {
       display: block;
       margin: 0;
