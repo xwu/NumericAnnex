@@ -7,4 +7,4 @@ before_install:
   - tar xzf swift-4.0-DEVELOPMENT-SNAPSHOT-2017-06-12-a-ubuntu14.04.tar.gz
   - export PATH=${PWD}/swift-4.0-DEVELOPMENT-SNAPSHOT-2017-06-12-a-ubuntu14.04/usr/bin:"${PATH}"
 script:
-  - swift test
+  - swift test -Xcc -D_GNU_SOURCE=1
