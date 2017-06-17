@@ -30,16 +30,16 @@ library.
 NumericAnnex now requires a recent development snapshot of Swift 4.0 that
 includes the revised numeric protocols. It requires either `Darwin.C` or `Glibc`
 for transcendental functions provided by the C standard library and either
-`Security` (Apple platforms) or `Glibc` (Linux) for cryptographically secure
-random bytes.
+`Security` or `Glibc` for cryptographically secure random bytes.
 
 
 ## Installation
 
 After NumericAnnex has been cloned or downloaded locally, build the library with
-the command `swift build -Xcc -D_GNU_SOURCE=1` or run tests with the command
-`swift test -Xcc -D_GNU_SOURCE=1`. An Xcode project can be generated with the
-command `swift package generate-xcodeproj`.
+the command `swift build` (macOS) or `swift build -Xcc -D_GNU_SOURCE=1` (Linux).
+Tests can be run with the command `swift test` (macOS) or
+`swift test -Xcc -D_GNU_SOURCE=1` (Linux). An Xcode project can be generated
+with the command `swift package generate-xcodeproj`.
 
 [Swift Package Manager](https://swift.org/package-manager/) can also be used to
 add the package as a dependency for your own project. See Swift documentation
