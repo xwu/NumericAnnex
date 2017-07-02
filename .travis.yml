@@ -15,4 +15,4 @@ matrix:
       language: objective-c
       osx_image: xcode9
       script:
-        - swift package generate-xcodeproj && xcodebuild clean test -project NumericAnnex.xcodeproj -scheme NumericAnnex
+        - swift package generate-xcodeproj && xcodebuild clean test -project NumericAnnex.xcodeproj -scheme NumericAnnex-Package
