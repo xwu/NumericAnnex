@@ -619,7 +619,7 @@ class RealTests: XCTestCase {
 
     XCTAssertEqualWithAccuracy(
       Float.tgamma(10), Float((2...9).reduce(1, *)),
-      accuracy: 0.001
+      accuracy: 0.1
     )
     XCTAssertEqual(Float.tgamma(1), 1)
     XCTAssertEqual(Float.tgamma(.infinity), .infinity)
