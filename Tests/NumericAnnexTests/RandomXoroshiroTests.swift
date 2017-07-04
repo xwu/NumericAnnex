@@ -2,6 +2,14 @@ import XCTest
 @testable import NumericAnnex
 
 class RandomXoroshiroTests : XCTestCase {
+  func testEntropy() {
+    guard let rng = Random.Xoroshiro() else {
+      XCTFail()
+      return
+    }
+    XCTAssertTrue(rng.state != (0, 0))
+  }
+
   func test_1_2() {
     let rng = Random.Xoroshiro(state: (1, 2))
     // Values were generated using the reference implementation found at:
@@ -427,6 +435,7 @@ class RandomXoroshiroTests : XCTestCase {
   }
 
   static var allTests = [
+    ("testEntropy", testEntropy),
     ("test_1_2", test_1_2),
     ("test_42_42", test_42_42),
   ]
