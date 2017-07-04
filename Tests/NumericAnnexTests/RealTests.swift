@@ -617,7 +617,10 @@ class RealTests: XCTestCase {
     XCTAssertEqual(Float.erfc(.infinity), 0)
     XCTAssertEqual(Float.erfc(-.infinity), 2)
 
-    XCTAssertEqual(Float.tgamma(10), Float((2...9).reduce(1, *)))
+    XCTAssertEqualWithAccuracy(
+      Float.tgamma(10), Float((2...9).reduce(1, *)),
+      accuracy: 0.001
+    )
     XCTAssertEqual(Float.tgamma(1), 1)
     XCTAssertEqual(Float.tgamma(.infinity), .infinity)
   }
@@ -797,7 +800,10 @@ class RealTests: XCTestCase {
     XCTAssertEqual(Double.erfc(.infinity), 0)
     XCTAssertEqual(Double.erfc(-.infinity), 2)
 
-    XCTAssertEqual(Double.tgamma(10), Double((2...9).reduce(1, *)))
+    XCTAssertEqualWithAccuracy(
+      Double.tgamma(10), Double((2...9).reduce(1, *)),
+      accuracy: 0.000_001
+    )
     XCTAssertEqual(Double.tgamma(1), 1)
     XCTAssertEqual(Double.tgamma(.infinity), .infinity)
   }
