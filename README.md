@@ -1,6 +1,7 @@
 # NumericAnnex
 
 [![Build Status](https://travis-ci.org/xwu/NumericAnnex.svg?branch=master)](https://travis-ci.org/xwu/NumericAnnex)
+[![codecov](https://codecov.io/gh/xwu/NumericAnnex/branch/master/graph/badge.svg)](https://codecov.io/gh/xwu/NumericAnnex)
 
 NumericAnnex supplements the numeric facilities provided in the Swift standard
 library.
