@@ -65,6 +65,8 @@ public protocol Real : Math, FloatingPoint {
   /// - SeeAlso: `lgamma(_:)`
   func logarithmicGamma() -> Self
 
+  // FIXME: Design and implement `logarithmicGammaAndSignOfGamma()`.
+
   // FIXME: If corresponding requirements are added to FloatingPoint
   // add init<U : SignedInteger>(_: Rational<U>) as well as
   // init?<U : SignedInteger>(exactly: Rational<U>).

@@ -603,6 +603,23 @@ class RealTests: XCTestCase {
     XCTAssertTrue(Float.atanh(0).sign == .plus)
     XCTAssertTrue(Float.atanh(-0.0).isZero)
     XCTAssertTrue(Float.atanh(-0.0).sign == .minus)
+
+    XCTAssertEqualWithAccuracy(Float.erf(1), 0.842700793, accuracy: 0.000_001)
+    XCTAssertTrue(Float.erf(0).isZero)
+    XCTAssertTrue(Float.erf(0).sign == .plus)
+    XCTAssertTrue(Float.erf(-0.0).isZero)
+    XCTAssertTrue(Float.erf(-0.0).sign == .minus)
+    XCTAssertEqual(Float.erf(.infinity), 1)
+    XCTAssertEqual(Float.erf(-.infinity), -1)
+
+    XCTAssertEqualWithAccuracy(Float.erfc(1), 0.157299207, accuracy: 0.000_001)
+    XCTAssertEqual(Float.erfc(0), 1)
+    XCTAssertEqual(Float.erfc(.infinity), 0)
+    XCTAssertEqual(Float.erfc(-.infinity), 2)
+
+    XCTAssertEqual(Float.tgamma(10), Float((2...9).reduce(1, *)))
+    XCTAssertEqual(Float.tgamma(1), 1)
+    XCTAssertEqual(Float.tgamma(.infinity), .infinity)
   }
 
   func testDouble() {
@@ -760,6 +777,29 @@ class RealTests: XCTestCase {
     XCTAssertTrue(Double.atanh(0).sign == .plus)
     XCTAssertTrue(Double.atanh(-0.0).isZero)
     XCTAssertTrue(Double.atanh(-0.0).sign == .minus)
+
+    XCTAssertEqualWithAccuracy(
+      Double.erf(1), 0.842700792950,
+      accuracy: 0.000_000_000_001
+    )
+    XCTAssertTrue(Double.erf(0).isZero)
+    XCTAssertTrue(Double.erf(0).sign == .plus)
+    XCTAssertTrue(Double.erf(-0.0).isZero)
+    XCTAssertTrue(Double.erf(-0.0).sign == .minus)
+    XCTAssertEqual(Double.erf(.infinity), 1)
+    XCTAssertEqual(Double.erf(-.infinity), -1)
+
+    XCTAssertEqualWithAccuracy(
+      Double.erfc(1), 0.157299207050,
+      accuracy: 0.000_001
+    )
+    XCTAssertEqual(Double.erfc(0), 1)
+    XCTAssertEqual(Double.erfc(.infinity), 0)
+    XCTAssertEqual(Double.erfc(-.infinity), 2)
+
+    XCTAssertEqual(Double.tgamma(10), Double((2...9).reduce(1, *)))
+    XCTAssertEqual(Double.tgamma(1), 1)
+    XCTAssertEqual(Double.tgamma(.infinity), .infinity)
   }
 
   static var allTests = [
