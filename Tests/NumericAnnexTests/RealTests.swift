@@ -544,14 +544,14 @@ class RealTests: XCTestCase {
     XCTAssertTrue(Float.tan(-0.0).isZero)
     XCTAssertTrue(Float.tan(-0.0).sign == .minus)
 
-    XCTAssertEqual(Float.asin(1), .pi / 2)
+    XCTAssertEqualWithAccuracy(Float.asin(1), .pi / 2, accuracy: 0.000_001)
     XCTAssertTrue(Float.asin(0).isZero)
     XCTAssertTrue(Float.asin(0).sign == .plus)
     XCTAssertTrue(Float.asin(-0.0).isZero)
     XCTAssertTrue(Float.asin(-0.0).sign == .minus)
 
     XCTAssertEqual(Float.acos(1), 0)
-    XCTAssertEqual(Float.acos(-1), .pi)
+    XCTAssertEqualWithAccuracy(Float.acos(-1), .pi, accuracy: 0.000_001)
     XCTAssertEqualWithAccuracy(Float.acos(0), .pi / 2, accuracy: 0.000_001)
 
     XCTAssertEqualWithAccuracy(Float.atan(1), .pi / 4, accuracy: 0.000_001)
@@ -579,7 +579,10 @@ class RealTests: XCTestCase {
 
     XCTAssertEqual(Double.exp10(0), 1)
     XCTAssertEqual(Double.exp10(2), 100)
-    XCTAssertEqual(Double.exp10(4), 10000)
+    XCTAssertEqualWithAccuracy(
+      Double.exp10(4), 10000,
+      accuracy: 0.000_001
+    )
 
     XCTAssertEqual(Double.expm1(16), .exp(16) - 1)
     XCTAssertTrue(Double.expm1(0).isZero)
