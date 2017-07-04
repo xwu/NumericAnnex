@@ -335,10 +335,11 @@ extension Rational {
 
   /// A Boolean value indicating whether the instance is a proper fraction.
   ///
-  /// A fraction `p / q` is proper iff `p > 0`, `q > 0`, and `p < q`.
+  /// A fraction is proper iff the absolute value of the fraction is less than
+  /// 1.
   @_transparent // @_inlineable
   public var isProper: Bool {
-    return numerator > 0 && denominator > 0 && numerator < denominator
+    return denominator != 0 && numerator / denominator == 0
   }
 
   /// A Boolean value indicating whether the instance is equal to zero.

@@ -45,6 +45,104 @@ class ComplexTests : XCTestCase {
     let foo = Complex128(42 as Double)
     let bar = 42 as Complex128
     XCTAssertEqual(foo, bar)
+
+    var c128 = Complex128(42 as Float)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as Int8)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as Int16)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as Int32)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as Int64)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as Int)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as UInt8)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as UInt16)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as UInt32)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as UInt64)
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(42 as UInt)
+    XCTAssertEqual(c128, bar)
+    // `Double(exactly:)` is unimplemented in the standard library.
+    /*
+    c128 = Complex128(exactly: 42 as Int8)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as Int16)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as Int32)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as Int64)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as Int)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as UInt8)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as UInt16)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as UInt32)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as UInt64)!
+    XCTAssertEqual(c128, bar)
+    c128 = Complex128(exactly: 42 as UInt)!
+    XCTAssertEqual(c128, bar)
+    */
+
+    let baz = Complex64(42 as Float)
+    let boo = 42 as Complex64
+    XCTAssertEqual(baz, boo)
+
+    var c64 = Complex64(42 as Double)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as Int8)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as Int16)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as Int32)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as Int64)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as Int)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as UInt8)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as UInt16)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as UInt32)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as UInt64)
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(42 as UInt)
+    XCTAssertEqual(c64, boo)
+    // `Float(exactly:)` is unimplemented in the standard library.
+    /*
+    c64 = Complex64(exactly: 42 as Int8)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as Int16)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as Int32)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as Int64)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as Int)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as UInt8)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as UInt16)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as UInt32)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as UInt64)!
+    XCTAssertEqual(c64, boo)
+    c64 = Complex64(exactly: 42 as UInt)!
+    XCTAssertEqual(c64, boo)
+
+    XCTAssertNil(Complex64(exactly: Int32.max))
+    */
   }
 
   func testComplexAddition() {
@@ -52,14 +150,31 @@ class ComplexTests : XCTestCase {
     let bar: Complex128 = 2 + 4 * .i
     XCTAssertEqual(foo + bar, 3 + 6 * .i)
 
+    var c128 = foo
+    c128 += bar
+    XCTAssertEqual(c128, foo + bar)
+
     let baz: Complex64 = 1 + 2 * .i
     let boo: Complex64 = 2.0 + 4.0 * .i
     XCTAssertEqual((foo + bar).real, Double((baz + boo).real))
     XCTAssertEqual((foo + bar).imaginary, Double((baz + boo).imaginary))
 
+    var c64 = baz
+    c64 += boo
+    XCTAssertEqual(c64, baz + boo)
+
     let moo: Complex64 = .pi + .e * .i
     XCTAssertEqual(moo.real, .pi)
     XCTAssertEqual(moo.imaginary, .e)
+
+    c64 = .pi
+    c64 += .e * .i
+    XCTAssertEqual(c64, moo)
+
+    c64 = .e
+    c64 *= .i
+    c64 += .pi
+    XCTAssertEqual(c64, moo)
   }
 
   func testComplexDivision() {
@@ -68,6 +183,10 @@ class ComplexTests : XCTestCase {
     let c = a / b
     XCTAssertEqual(c.real, 6/25)
     XCTAssertEqual(c.imaginary, 17/25)
+
+    var c128 = a
+    c128 /= b
+    XCTAssertEqual(c128, c)
   }
 
   func testComplexLogarithm() {

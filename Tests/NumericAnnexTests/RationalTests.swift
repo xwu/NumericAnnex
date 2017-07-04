@@ -4,13 +4,21 @@ import XCTest
 class RationalTests : XCTestCase {
   func testRational() {
     let a = 6 / 4 as Rational<Int>
+    XCTAssertEqual(a.magnitude, a)
     XCTAssertEqual(a.description, "3/2")
     XCTAssertEqual(a, 3 / 2 as Rational<Int>)
+    XCTAssertTrue(a.isFinite)
+    XCTAssertFalse(a.isProper)
+    XCTAssertTrue(a.reciprocal().isProper)
 
     let b = 5 / 3 as Rational<Int>
+    XCTAssertEqual(b.magnitude, b)
     XCTAssertEqual(b.description, "5/3")
-    XCTAssertLessThan(a, b)
+    XCTAssertTrue(b.isFinite)
+    XCTAssertFalse(b.isProper)
+    XCTAssertTrue(b.reciprocal().isProper)
 
+    XCTAssertLessThan(a, b)
     XCTAssertEqual(a + b, 19 / 6 as Ratio)
     XCTAssertEqual(b + a, 19 / 6 as Ratio)
     XCTAssertEqual(a - b, -1 / 6 as Ratio)
@@ -20,13 +28,83 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(a / b, 9 / 10 as Ratio)
     XCTAssertEqual(b / a, 10 / 9 as Ratio)
 
+    var r = a
+    r += b
+    XCTAssertEqual(r, a + b)
+    r = a
+    r -= b
+    XCTAssertEqual(r, a - b)
+    r = b
+    r -= a
+    XCTAssertEqual(r, b - a)
+    r = a
+    r *= b
+    XCTAssertEqual(r, a * b)
+    r = a
+    r /= b
+    XCTAssertEqual(r, a / b)
+    r = b
+    r /= a
+    XCTAssertEqual(r, b / a)
+
+    let c = -6 / 4 as Rational<Int>
+    XCTAssertEqual(c.magnitude, a)
+    XCTAssertEqual(c.description, "-3/2")
+    XCTAssertEqual(c, -3 / 2 as Rational<Int>)
+    XCTAssertTrue(c.isFinite)
+    XCTAssertFalse(c.isProper)
+    XCTAssertTrue(c.reciprocal().isProper)
+
+    let d = -5 / 3 as Rational<Int>
+    XCTAssertEqual(d.magnitude, b)
+    XCTAssertEqual(d.description, "-5/3")
+    XCTAssertTrue(d.isFinite)
+    XCTAssertFalse(d.isProper)
+    XCTAssertTrue(d.reciprocal().isProper)
+
+    XCTAssertEqual(c + a, 0)
+    XCTAssertEqual(d + b, 0)
+    XCTAssertEqual(c + c, -3)
+    XCTAssertEqual(d + d, -10 / 3)
+
+    r = c
+    r.negate()
+    XCTAssertEqual(r, a)
+    XCTAssertEqual(r, c.magnitude)
+    r = d
+    r.negate()
+    XCTAssertEqual(r, b)
+    XCTAssertEqual(r, d.magnitude)
+
+    let e = 42 as Rational<Int>
+    XCTAssertEqual(e.description, "42")
+
     XCTAssertEqual((10 / 9 as Ratio).mixed.whole, 1)
     XCTAssertEqual((10 / 9 as Ratio).mixed.fractional, 1 / 9)
 
     // Test special values.
     let pn = Ratio.nan
+    XCTAssertEqual(pn.description, "nan")
+    XCTAssertTrue(pn.isCanonical)
+
     let pi = Ratio.infinity
+    XCTAssertEqual(pi.description, "inf")
+    XCTAssertTrue(pi.isCanonical)
+
+    XCTAssertTrue(Ratio(numerator: 2, denominator: 0).isInfinite)
+    XCTAssertFalse(Ratio(numerator: 2, denominator: 0).isCanonical)
+
     let ni = -Ratio.infinity
+    XCTAssertEqual(ni.description, "-inf")
+    XCTAssertTrue(ni.isCanonical)
+
+    XCTAssertTrue(Ratio(numerator: -2, denominator: 0).isInfinite)
+    XCTAssertFalse(Ratio(numerator: -2, denominator: 0).isCanonical)
+
+    let zero = 0 as Ratio
+    XCTAssertEqual(zero.description, "0")
+    XCTAssertTrue(zero.isCanonical)
+    XCTAssertTrue(zero.isZero)
 
     XCTAssertTrue((pn + pn).isNaN)
     XCTAssertTrue((pn - pn).isNaN)
@@ -41,6 +119,12 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(pi - 42, .infinity)
     XCTAssertEqual(ni + 42, -.infinity)
     XCTAssertEqual(ni - 42, -.infinity)
+    XCTAssertEqual(0 + pi, .infinity)
+    XCTAssertEqual(0 + ni, -.infinity)
+    XCTAssertEqual(42 + pi, .infinity)
+    XCTAssertEqual(42 - pi, -.infinity)
+    XCTAssertEqual(42 + ni, -.infinity)
+    XCTAssertEqual(42 - ni, .infinity)
 
     XCTAssertTrue((pi + ni).isNaN)
     XCTAssertTrue((ni + pi).isNaN)
@@ -69,37 +153,68 @@ class RationalTests : XCTestCase {
     XCTAssertTrue((pi * pn).isNaN)
     XCTAssertTrue((pn * ni).isNaN)
     XCTAssertTrue((ni * pn).isNaN)
+
+    XCTAssertTrue(pn.canonical.isNaN)
   }
 
   func testRationalConversion() {
-    var d: Double, r: Ratio
+    var d: Double, r: Ratio, r64: Rational<Int64>
 
     r = Ratio(42)
+    XCTAssertEqual(r, 42)
+    XCTAssertEqual(Int(r), 42)
+
+    r = Ratio(exactly: 42)!
+    XCTAssertEqual(r, 42)
+    XCTAssertEqual(Int(r), 42)
+
+    r = Ratio(42 as Double)
+    XCTAssertEqual(r, 42)
+    XCTAssertEqual(Int(r), 42)
+
+    r = Ratio(exactly: 42 as Double)!
     XCTAssertEqual(r, 42)
     XCTAssertEqual(Int(r), 42)
 
     r = Ratio(UInt8.max)
     XCTAssertEqual(UInt8(r), .max)
 
+    r = Ratio(exactly: UInt8.max)!
+    XCTAssertEqual(UInt8(r), .max)
+
     r = Ratio(Int16.min)
+    XCTAssertEqual(Int16(r), .min)
+    XCTAssertNil(UInt16(exactly: r))
+
+    r = Ratio(exactly: Int16.min)!
     XCTAssertEqual(Int16(r), .min)
     XCTAssertNil(UInt16(exactly: r))
 
     XCTAssertNil(Ratio(exactly: Int.min))
 
-    r = Ratio(Double.pi)
-    XCTAssertEqual(Double(r), .pi)
-    XCTAssertTrue(r.isCanonical)
+    r64 = Rational(Double.pi)
+    XCTAssertEqual(Double(r64), .pi)
+    XCTAssertTrue(r64.isCanonical)
 
-    r = Ratio(Double.e)
-    XCTAssertEqual(Double(r), .e)
-    XCTAssertTrue(r.isCanonical)
+    r64 = Rational(exactly: Double.pi)!
+    XCTAssertEqual(Double(r64), .pi)
+    XCTAssertTrue(r64.isCanonical)
 
-    r = Ratio(Double.phi)
-    XCTAssertEqual(Double(r), .phi)
-    XCTAssertTrue(r.isCanonical)
+    XCTAssertNil(Rational<Int32>(exactly: Double.pi))
+
+    r64 = Rational(Double.e)
+    XCTAssertEqual(Double(r64), .e)
+    XCTAssertTrue(r64.isCanonical)
+
+    r64 = Rational(Double.phi)
+    XCTAssertEqual(Double(r64), .phi)
+    XCTAssertTrue(r64.isCanonical)
 
     r = Ratio(Float.pi)
+    XCTAssertEqual(Float(r), .pi)
+    XCTAssertTrue(r.isCanonical)
+
+    r = Ratio(exactly: Float.pi)!
     XCTAssertEqual(Float(r), .pi)
     XCTAssertTrue(r.isCanonical)
 
@@ -113,6 +228,12 @@ class RationalTests : XCTestCase {
 
     d = 0
     XCTAssertEqual(Ratio(d), 0)
+    XCTAssertEqual(Ratio(exactly: d)!, 0)
+    XCTAssertEqual(Double(Ratio(d)), 0)
+
+    d = -0.0
+    XCTAssertEqual(Ratio(d), 0)
+    XCTAssertEqual(Ratio(exactly: d)!, 0)
     XCTAssertEqual(Double(Ratio(d)), 0)
 
     d = 0.ulp
@@ -123,15 +244,50 @@ class RationalTests : XCTestCase {
 
     d = .infinity
     XCTAssertEqual(Ratio(d), .infinity)
+    XCTAssertEqual(Ratio(exactly: d)!, .infinity)
     XCTAssertEqual(Double(Ratio(d)), .infinity)
 
     d = -.infinity
     XCTAssertEqual(Ratio(d), -.infinity)
+    XCTAssertEqual(Ratio(exactly: d)!, -.infinity)
     XCTAssertEqual(Double(Ratio(d)), -.infinity)
 
     d = .nan
     XCTAssertTrue(Ratio(d).isNaN)
+    XCTAssertTrue(Ratio(exactly: d)!.isNaN)
     XCTAssertTrue(Double(Ratio(d)).isNaN)
+
+    let a = Rational<Int8>(0.125)
+    XCTAssertEqual(Float(a), 0.125)
+    XCTAssertEqual(Double(a), 0.125)
+
+    let aa = Rational<Int8>(8)
+    XCTAssertEqual(Float(aa), 8)
+    XCTAssertEqual(Double(aa), 8)
+
+    let b = Rational<Int16>(0.0625)
+    XCTAssertEqual(Float(b), 0.0625)
+    XCTAssertEqual(Double(b), 0.0625)
+
+    let bb = Rational<Int16>(16)
+    XCTAssertEqual(Float(bb), 16)
+    XCTAssertEqual(Double(bb), 16)
+
+    let c = Rational<Int32>(0.03125)
+    XCTAssertEqual(Float(c), 0.03125)
+    XCTAssertEqual(Double(c), 0.03125)
+
+    let cc = Rational<Int32>(32)
+    XCTAssertEqual(Float(cc), 32)
+    XCTAssertEqual(Double(cc), 32)
+
+    r64 = Rational<Int64>(0.015625)
+    XCTAssertEqual(Float(r64), 0.015625)
+    XCTAssertEqual(Double(r64), 0.015625)
+
+    r64 = Rational<Int64>(64)
+    XCTAssertEqual(Float(r64), 64)
+    XCTAssertEqual(Double(r64), 64)
   }
 
   func testRationalComparison() {
@@ -139,19 +295,36 @@ class RationalTests : XCTestCase {
     let b = 1 / 4 as Ratio
     XCTAssert(a != b)
     XCTAssert(a == a)
-    XCTAssert(b == b)
-    XCTAssert(a > b)
-    XCTAssert(b < a)
+    XCTAssert(a <= a)
+    XCTAssert(a >= a)
     XCTAssert(!(a < a))
+    XCTAssert(b == b)
+    XCTAssert(b <= b)
+    XCTAssert(b >= b)
+    XCTAssert(a > b)
+    XCTAssert(a >= b)
+    XCTAssert(b < a)
+    XCTAssert(b <= a)
 
     let c = -1 / 2 as Ratio
     let d = -1 / 4 as Ratio
     XCTAssert(c != d)
     XCTAssert(c == c)
-    XCTAssert(d == d)
-    XCTAssert(c < d)
-    XCTAssert(d > c)
+    XCTAssert(c <= c)
+    XCTAssert(c >= c)
     XCTAssert(!(c < c))
+    XCTAssert(d == d)
+    XCTAssert(d <= d)
+    XCTAssert(d >= d)
+    XCTAssert(c < d)
+    XCTAssert(c <= d)
+    XCTAssert(d > c)
+    XCTAssert(d >= c)
+
+    XCTAssert(c < a)
+    XCTAssert(!(a < c))
+    XCTAssert(c <= a)
+    XCTAssert(!(a <= c))
 
     let e = Ratio(numerator: 0, denominator: 1)
     let f = Ratio(numerator: 0, denominator: 2)
@@ -178,13 +351,21 @@ class RationalTests : XCTestCase {
     XCTAssert(!(j < k))
     XCTAssert(j != l)
     XCTAssert(j > l)
+    XCTAssert(j > 42)
+    XCTAssert(j >= 42)
     XCTAssert(!(j < l))
+    XCTAssert(!(j < 42))
+    XCTAssert(!(j <= 42))
     XCTAssert(j != m)
     XCTAssert(j > m)
     XCTAssert(!(j < m))
     XCTAssert(l != j)
     XCTAssert(l < j)
+    XCTAssert(l < 42)
+    XCTAssert(l <= 42)
     XCTAssert(!(l > j))
+    XCTAssert(!(l > 42))
+    XCTAssert(!(l >= 42))
     XCTAssert(l != k)
     XCTAssert(l < k)
     XCTAssert(!(l > k))
@@ -218,6 +399,11 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(a.rounded(.toNearestOrEven), 3)
     XCTAssertEqual(a.rounded(.toNearestOrAwayFromZero), 3)
 
+    XCTAssertEqual(round(a), 3)
+    XCTAssertEqual(ceil(a), 4)
+    XCTAssertEqual(floor(a), 3)
+    XCTAssertEqual(trunc(a), 3)
+
     let b = -a
     XCTAssertEqual(b, -10 / 3)
     XCTAssertEqual(b.rounded(), -3)
@@ -228,6 +414,11 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(b.rounded(.toNearestOrEven), -3)
     XCTAssertEqual(b.rounded(.toNearestOrAwayFromZero), -3)
 
+    XCTAssertEqual(round(b), -3)
+    XCTAssertEqual(ceil(b), -3)
+    XCTAssertEqual(floor(b), -4)
+    XCTAssertEqual(trunc(b), -3)
+
     let c = 5 / 2 as Ratio
     XCTAssertEqual(c.rounded(), 3)
     XCTAssertEqual(c.rounded(.up), 3)
@@ -236,6 +427,11 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(c.rounded(.awayFromZero), 3)
     XCTAssertEqual(c.rounded(.toNearestOrEven), 2)
     XCTAssertEqual(c.rounded(.toNearestOrAwayFromZero), 3)
+
+    XCTAssertEqual(round(c), 3)
+    XCTAssertEqual(ceil(c), 3)
+    XCTAssertEqual(floor(c), 2)
+    XCTAssertEqual(trunc(c), 2)
 
     let d = -c
     XCTAssertEqual(d, -5 / 2)
@@ -247,6 +443,11 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(d.rounded(.toNearestOrEven), -2)
     XCTAssertEqual(d.rounded(.toNearestOrAwayFromZero), -3)
 
+    XCTAssertEqual(round(d), -3)
+    XCTAssertEqual(ceil(d), -2)
+    XCTAssertEqual(floor(d), -3)
+    XCTAssertEqual(trunc(d), -2)
+
     let e = 1 / 9 as Ratio
     XCTAssertEqual(e.rounded(), 0)
     XCTAssertEqual(e.rounded(.up), 1)
@@ -255,6 +456,20 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(e.rounded(.awayFromZero), 1)
     XCTAssertEqual(e.rounded(.toNearestOrEven), 0)
     XCTAssertEqual(e.rounded(.toNearestOrAwayFromZero), 0)
+
+    XCTAssertEqual(round(e), 0)
+    XCTAssertEqual(ceil(e), 1)
+    XCTAssertEqual(floor(e), 0)
+    XCTAssertEqual(trunc(e), 0)
+
+    let f = Ratio.infinity
+    XCTAssertEqual(f.rounded(), f)
+
+    let g = -Ratio.infinity
+    XCTAssertEqual(g.rounded(), g)
+
+    let h = Ratio.nan
+    XCTAssertTrue(h.rounded().isNaN)
   }
 
   static var allTests = [
