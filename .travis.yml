@@ -15,4 +15,6 @@ matrix:
       language: objective-c
       osx_image: xcode9
       script:
-        - swift package generate-xcodeproj && xcodebuild clean test -project NumericAnnex.xcodeproj -scheme NumericAnnex-Package
+        - swift package generate-xcodeproj && xcodebuild clean test -project NumericAnnex.xcodeproj -scheme NumericAnnex-Package -enableCodeCoverage YES
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -X xcodeplist
