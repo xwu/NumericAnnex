@@ -6,11 +6,17 @@ class RationalTests : XCTestCase {
     let a = 6 / 4 as Rational<Int>
     XCTAssertEqual(a.description, "3/2")
     XCTAssertEqual(a, 3 / 2 as Rational<Int>)
+    XCTAssertTrue(a.isFinite)
+    XCTAssertFalse(a.isProper)
+    XCTAssertTrue(a.reciprocal().isProper)
 
     let b = 5 / 3 as Rational<Int>
     XCTAssertEqual(b.description, "5/3")
-    XCTAssertLessThan(a, b)
+    XCTAssertTrue(b.isFinite)
+    XCTAssertFalse(b.isProper)
+    XCTAssertTrue(b.reciprocal().isProper)
 
+    XCTAssertLessThan(a, b)
     XCTAssertEqual(a + b, 19 / 6 as Ratio)
     XCTAssertEqual(b + a, 19 / 6 as Ratio)
     XCTAssertEqual(a - b, -1 / 6 as Ratio)
@@ -20,13 +26,37 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(a / b, 9 / 10 as Ratio)
     XCTAssertEqual(b / a, 10 / 9 as Ratio)
 
+    let c = -6 / 4 as Rational<Int>
+    XCTAssertEqual(c.magnitude, a)
+    XCTAssertEqual(c.description, "-3/2")
+    XCTAssertEqual(c, -3 / 2 as Rational<Int>)
+    XCTAssertTrue(c.isFinite)
+    XCTAssertFalse(c.isProper)
+    XCTAssertTrue(c.reciprocal().isProper)
+
+    let d = -5 / 3 as Rational<Int>
+    XCTAssertEqual(d.magnitude, b)
+    XCTAssertEqual(d.description, "-5/3")
+    XCTAssertTrue(d.isFinite)
+    XCTAssertFalse(d.isProper)
+    XCTAssertTrue(d.reciprocal().isProper)
+
+    let e = 42 as Rational<Int>
+    XCTAssertEqual(e.description, "42")
+
     XCTAssertEqual((10 / 9 as Ratio).mixed.whole, 1)
     XCTAssertEqual((10 / 9 as Ratio).mixed.fractional, 1 / 9)
 
     // Test special values.
     let pn = Ratio.nan
+    XCTAssertEqual(pn.description, "nan")
     let pi = Ratio.infinity
+    XCTAssertEqual(pi.description, "inf")
     let ni = -Ratio.infinity
+    XCTAssertEqual(ni.description, "-inf")
+    let zero = 0 as Ratio
+    XCTAssertEqual(zero.description, "0")
+    XCTAssertTrue(zero.isZero)
 
     XCTAssertTrue((pn + pn).isNaN)
     XCTAssertTrue((pn - pn).isNaN)
@@ -69,6 +99,8 @@ class RationalTests : XCTestCase {
     XCTAssertTrue((pi * pn).isNaN)
     XCTAssertTrue((pn * ni).isNaN)
     XCTAssertTrue((ni * pn).isNaN)
+
+    XCTAssertTrue(pn.canonical.isNaN)
   }
 
   func testRationalConversion() {
@@ -139,19 +171,36 @@ class RationalTests : XCTestCase {
     let b = 1 / 4 as Ratio
     XCTAssert(a != b)
     XCTAssert(a == a)
-    XCTAssert(b == b)
-    XCTAssert(a > b)
-    XCTAssert(b < a)
+    XCTAssert(a <= a)
+    XCTAssert(a >= a)
     XCTAssert(!(a < a))
+    XCTAssert(b == b)
+    XCTAssert(b <= b)
+    XCTAssert(b >= b)
+    XCTAssert(a > b)
+    XCTAssert(a >= b)
+    XCTAssert(b < a)
+    XCTAssert(b <= a)
 
     let c = -1 / 2 as Ratio
     let d = -1 / 4 as Ratio
     XCTAssert(c != d)
     XCTAssert(c == c)
-    XCTAssert(d == d)
-    XCTAssert(c < d)
-    XCTAssert(d > c)
+    XCTAssert(c <= c)
+    XCTAssert(c >= c)
     XCTAssert(!(c < c))
+    XCTAssert(d == d)
+    XCTAssert(d <= d)
+    XCTAssert(d >= d)
+    XCTAssert(c < d)
+    XCTAssert(c <= d)
+    XCTAssert(d > c)
+    XCTAssert(d >= c)
+
+    XCTAssert(c < a)
+    XCTAssert(!(a < c))
+    XCTAssert(c <= a)
+    XCTAssert(!(a <= c))
 
     let e = Ratio(numerator: 0, denominator: 1)
     let f = Ratio(numerator: 0, denominator: 2)
@@ -178,13 +227,17 @@ class RationalTests : XCTestCase {
     XCTAssert(!(j < k))
     XCTAssert(j != l)
     XCTAssert(j > l)
+    XCTAssert(j > 42)
     XCTAssert(!(j < l))
+    XCTAssert(!(j < 42))
     XCTAssert(j != m)
     XCTAssert(j > m)
     XCTAssert(!(j < m))
     XCTAssert(l != j)
     XCTAssert(l < j)
+    XCTAssert(l < 42)
     XCTAssert(!(l > j))
+    XCTAssert(!(l > 42))
     XCTAssert(l != k)
     XCTAssert(l < k)
     XCTAssert(!(l > k))
@@ -255,6 +308,15 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(e.rounded(.awayFromZero), 1)
     XCTAssertEqual(e.rounded(.toNearestOrEven), 0)
     XCTAssertEqual(e.rounded(.toNearestOrAwayFromZero), 0)
+
+    let f = Ratio.infinity
+    XCTAssertEqual(f.rounded(), f)
+
+    let g = -Ratio.infinity
+    XCTAssertEqual(g.rounded(), g)
+
+    let h = Ratio.nan
+    XCTAssertTrue(h.rounded().isNaN)
   }
 
   static var allTests = [
