@@ -335,8 +335,8 @@ extension Rational {
 
   /// A Boolean value indicating whether the instance is a proper fraction.
   ///
-  /// A fraction is proper iff the absolute value of the fraction is less than
-  /// 1.
+  /// A fraction is proper if and only if the absolute value of the fraction is
+  /// less than 1.
   @_transparent // @_inlineable
   public var isProper: Bool {
     return denominator != 0 && numerator / denominator == 0

@@ -118,8 +118,8 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(c64, boo)
     c64 = Complex64(42 as UInt)
     XCTAssertEqual(c64, boo)
+#if false
     // `Float(exactly:)` is unimplemented in the standard library.
-    /*
     c64 = Complex64(exactly: 42 as Int8)!
     XCTAssertEqual(c64, boo)
     c64 = Complex64(exactly: 42 as Int16)!
@@ -140,9 +140,40 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(c64, boo)
     c64 = Complex64(exactly: 42 as UInt)!
     XCTAssertEqual(c64, boo)
-
     XCTAssertNil(Complex64(exactly: Int32.max))
-    */
+#endif
+  }
+
+  func testComplexBooleanProperties() {
+    var c128: Complex128 = 42 + 42 * .i
+    XCTAssertTrue(c128.isFinite)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = 42 + Complex(imaginary: .infinity)
+    XCTAssertFalse(c128.isFinite)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = 42 + Complex(Double.infinity) * .i
+    XCTAssertFalse(c128.isFinite)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(imaginary: .infinity) + 42 * .i
+    XCTAssertFalse(c128.isFinite)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(Double.infinity) + 42 * .i
+    XCTAssertFalse(c128.isFinite)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
   }
 
   func testComplexAddition() {
@@ -187,6 +218,559 @@ class ComplexTests : XCTestCase {
     var c128 = a
     c128 /= b
     XCTAssertEqual(c128, c)
+  }
+
+  func testComplexInfinity() {
+    let a = Complex128(real: .infinity) * .i
+    XCTAssertTrue(a.real.isNaN)
+    XCTAssertTrue(a.imaginary.isInfinite)
+    XCTAssertTrue(a.isInfinite)
+    XCTAssertFalse(a.isNaN)
+
+    let b = 1 * Complex128(real: .infinity, imaginary: .infinity)
+    XCTAssertTrue(b.isInfinite)
+    XCTAssertFalse(b.isNaN)
+
+    let c = Complex128.exp(Complex(real: .infinity, imaginary: .nan))
+    XCTAssertTrue(c.isInfinite)
+    XCTAssertFalse(c.isNaN)
+
+    let d = Complex128.exp(Complex(real: -.infinity, imaginary: .nan))
+    XCTAssertTrue(d.isZero)
+    XCTAssertFalse(d.isNaN)
+
+    var c128: Complex128
+
+    // Test multiplication with infinity.
+    c128 = Complex(real: .infinity, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: 0) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -0.0) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .nan) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: 0) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -0.0) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .nan) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: -.infinity) * 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: 0)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: -0.0)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: .nan)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: 0)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: -0.0)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: .nan)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: 0, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -0.0, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .nan, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: 0, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: -0.0, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 * Complex(real: .nan, imaginary: -.infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: 0)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -0.0)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .nan)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: 0)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -0.0)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .nan)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: -.infinity)
+    c128 *= c128
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    let greatest = Complex128(
+      real: .greatestFiniteMagnitude,
+      imaginary: .greatestFiniteMagnitude
+    )
+
+    c128 = greatest * Complex(real: 2, imaginary: .nan)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 2, imaginary: .nan) * greatest
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = greatest * Complex(real: .nan, imaginary: 2)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 2) * greatest
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    
+    // Test division with infinity.
+    c128 = Complex(real: .infinity, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: 0) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -0.0) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .nan) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: 0) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -0.0) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .nan) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: -.infinity) / 42
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: 0)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: -0.0)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: .nan)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: 0)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: -0.0)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: .nan)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: 0, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -0.0, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .nan, imaginary: .infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: 0, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: -0.0, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / Complex(real: .nan, imaginary: -.infinity)
+    XCTAssertTrue(c128.isZero)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = 42 / -0.0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: 0) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -0.0) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .nan) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: 0) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -0.0) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .nan) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .infinity, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -.infinity, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: 0, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: -0.0, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: -.infinity) / 0
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
   }
 
   func testComplexLogarithm() {
@@ -939,8 +1523,10 @@ class ComplexTests : XCTestCase {
 
   static var allTests = [
     ("testComplexInitialization", testComplexInitialization),
+    ("testComplexBooleanProperties", testComplexBooleanProperties),
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
+    ("testComplexInfinity", testComplexInfinity),
     ("testComplexLogarithm", testComplexLogarithm),
     ("testComplexSquareRoot", testComplexSquareRoot),
     ("testComplexCubeRoot", testComplexCubeRoot),

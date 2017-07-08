@@ -281,7 +281,7 @@ extension Complex {
   // MARK: Static Properties
   // ---------------------------------------------------------------------------
 
-  /// The imaginary unit i.
+  /// The imaginary unit _i_.
   @_transparent // @_inlineable
   public static var i: Complex {
     return Complex(real: 0, imaginary: 1)
@@ -300,27 +300,35 @@ extension Complex {
     return T.atan2(imaginary, real)
   }
 
-  /// A Boolean value indicating whether the instance's real and imaginary
-  /// components are both in canonical form, as defined in the [IEEE 754
-  /// specification][spec]. Every `Float` or `Double` value is canonical.
+#if false
+  /// A Boolean value indicating whether the instance's representation is in
+  /// canonical form.
+  ///
+  /// A complex value is represented in canonical form if the its real and
+  /// imaginary components are both represented in canonical form, as defined in
+  /// the [IEEE 754 specification][spec]. Every `Float` or `Double` value is
+  /// canonical.
   ///
   /// [spec]: http://ieeexplore.ieee.org/servlet/opac?punumber=4610933
   @_transparent // @_inlineable
   public var isCanonical: Bool {
     return real.isCanonical && imaginary.isCanonical
   }
+#endif
 
-  /// A Boolean value indicating whether the instance's real and imaginary
-  /// components are both finite.
+  /// A Boolean value indicating whether the instance is finite.
   ///
-  /// All values other than NaN and infinity are considered finite.
+  /// A complex value is finite if its real and imaginary components are both
+  /// finite. A component is finite if it is not infinity or NaN.
   @_transparent // @_inlineable
   public var isFinite: Bool {
     return real.isFinite && imaginary.isFinite
   }
 
-  /// A Boolean value indicating whether the instance's real and/or imaginary
-  /// components are infinite.
+  /// A Boolean value indicating whether the instance is infinite.
+  ///
+  /// A complex value is infinite if at least one of its components (real or
+  /// imaginary) is infinite, even if the other component is NaN.
   ///
   /// Note that `isFinite` and `isInfinite` do not form a dichotomy because NaN
   /// is neither finite nor infinite.
@@ -329,8 +337,10 @@ extension Complex {
     return real.isInfinite || imaginary.isInfinite
   }
 
-  /// A Boolean value indicating whether the instance's real and/or imaginary
-  /// components are NaN ("not a number").
+  /// A Boolean value indicating whether the instance is NaN ("not a number").
+  ///
+  /// A complex value is NaN if at least one of its components (real or
+  /// imaginary) is NaN and the other component is not infinite.
   ///
   /// Because NaN is not equal to any value, including NaN, use this property
   /// instead of the equal-to operator (`==`) or not-equal-to operator (`!=`) to
@@ -339,23 +349,27 @@ extension Complex {
   /// This property is `true` for both quiet and signaling NaNs.
   @_transparent // @_inlineable
   public var isNaN: Bool {
-    return real.isNaN || imaginary.isNaN
+    return (real.isNaN && !imaginary.isInfinite) ||
+      (imaginary.isNaN && !real.isInfinite)
   }
 
-  /// A Boolean value indicating whether the instance's real and/or imaginary
-  /// components are signaling NaNs.
+  /// A Boolean value indicating whether the instance is a signaling NaN.
+  ///
+  /// A complex value is a signaling NaN if at least one of its components (real
+  /// or imaginary) is a signaling NaN and the other component is not infinite.
   ///
   /// Signaling NaNs typically raise the Invalid flag when used in general
   /// computing operations.
   @_transparent // @_inlineable
   public var isSignalingNaN: Bool {
-    return real.isSignalingNaN || imaginary.isSignalingNaN
+    return (real.isSignalingNaN && !imaginary.isInfinite) ||
+      (imaginary.isSignalingNaN && !real.isInfinite)
   }
 
   /// A Boolean value indicating whether the instance is equal to zero.
   ///
-  /// The `isZero` property of a value `z` is `true` when both real and
-  /// imaginary components represent either `-0.0` or `+0.0`.
+  /// A complex value is equal to zero if its real and imaginary components both
+  /// represent either `-0.0` or `+0.0`.
   @_transparent // @_inlineable
   public var isZero: Bool {
     return real.isZero && imaginary.isZero
@@ -521,10 +535,53 @@ extension Complex : Numeric {
 
   @_transparent // @_inlineable
   public static func * (lhs: Complex, rhs: Complex) -> Complex {
+    var a = lhs.real, b = lhs.imaginary, c = rhs.real, d = rhs.imaginary
+    let ac = a * c, bd = b * d, ad = a * d, bc = b * c
+    let x = ac - bd
+    let y = ad + bc
+    // Recover infinities that computed as NaN + iNaN.
+    // See C11 Annex G.
+    if x.isNaN && y.isNaN {
+      var recalculate = false
+      if a.isInfinite || b.isInfinite {
+        // "Box" the infinity and change NaNs in the other operand to 0.
+        a = T(signOf: a, magnitudeOf: a.isInfinite ? 1 : 0)
+        b = T(signOf: b, magnitudeOf: b.isInfinite ? 1 : 0)
+        if c.isNaN { c = T(signOf: c, magnitudeOf: 0) }
+        if d.isNaN { d = T(signOf: d, magnitudeOf: 0) }
+        recalculate = true
+      }
+      if c.isInfinite || d.isInfinite {
+        // "Box" the infinity and change NaNs in the other operand to 0.
+        if a.isNaN { a = T(signOf: a, magnitudeOf: 0) }
+        if b.isNaN { b = T(signOf: b, magnitudeOf: 0) }
+        c = T(signOf: c, magnitudeOf: c.isInfinite ? 1 : 0)
+        d = T(signOf: d, magnitudeOf: d.isInfinite ? 1 : 0)
+        recalculate = true
+      }
+      if !recalculate &&
+        (ac.isInfinite || bd.isInfinite || ad.isInfinite || bc.isInfinite) {
+        // Recover infinities from overflow by changing NaNs to 0.
+        if a.isNaN { a = T(signOf: a, magnitudeOf: 0) }
+        if b.isNaN { b = T(signOf: b, magnitudeOf: 0) }
+        if c.isNaN { c = T(signOf: c, magnitudeOf: 0) }
+        if d.isNaN { d = T(signOf: d, magnitudeOf: 0) }
+        recalculate = true
+      }
+      if recalculate {
+        return Complex(
+          real: .infinity * (a * c - b * d),
+          imaginary: .infinity * (a * d + b * c)
+        )
+      }
+    }
+    return Complex(real: x, imaginary: y)
+    /*
     return Complex(
       real: lhs.real * rhs.real - lhs.imaginary * rhs.imaginary,
       imaginary: lhs.real * rhs.imaginary + lhs.imaginary * rhs.real
     )
+    */
   }
 
   @_transparent // @_inlineable
@@ -572,21 +629,40 @@ extension Complex : Math {
 
   @_transparent // @_inlineable
   public static func / (lhs: Complex, rhs: Complex) -> Complex {
+    var a = lhs.real, b = lhs.imaginary, c = rhs.real, d = rhs.imaginary
+    var x: T
+    var y: T
     // Prevent avoidable overflow; see Numerical Recipes.
-    if rhs.real.magnitude >= rhs.imaginary.magnitude {
-      let ratio = rhs.imaginary / rhs.real
-      let denominator = rhs.real + rhs.imaginary * ratio
-      return Complex(
-        real: (lhs.real + lhs.imaginary * ratio) / denominator,
-        imaginary: (lhs.imaginary - lhs.real * ratio) / denominator
-      )
+    if c.magnitude >= d.magnitude {
+      let ratio = d / c
+      let denominator = c + d * ratio
+      x = (a + b * ratio) / denominator
+      y = (b - a * ratio) / denominator
+    } else {
+      let ratio = c / d
+      let denominator = c * ratio + d
+      x = (a * ratio + b) / denominator
+      y = (b * ratio - a) / denominator
     }
-    let ratio = rhs.real / rhs.imaginary
-    let denominator = rhs.real * ratio + rhs.imaginary
-    return Complex(
-      real: (lhs.real * ratio + lhs.imaginary) / denominator,
-      imaginary: (lhs.imaginary * ratio - lhs.real) / denominator
-    )
+    // Recover infinities and zeros that computed as NaN + iNaN.
+    // See C11 Annex G.
+    if x.isNaN && y.isNaN {
+      if c == 0 && d == 0 && (!a.isNaN || !b.isNaN) {
+        x = T(signOf: c, magnitudeOf: .infinity) * a
+        y = T(signOf: c /* sic */, magnitudeOf: .infinity) * b
+      } else if (a.isInfinite || b.isInfinite) && c.isFinite && d.isFinite {
+        a = T(signOf: a, magnitudeOf: a.isInfinite ? 1 : 0)
+        b = T(signOf: b, magnitudeOf: b.isInfinite ? 1 : 0)
+        x = .infinity * (a * c + b * d)
+        y = .infinity * (b * c - a * d)
+      } else if (c.isInfinite || d.isInfinite) && a.isFinite && b.isFinite {
+        c = T(signOf: c, magnitudeOf: c.isInfinite ? 1 : 0)
+        d = T(signOf: d, magnitudeOf: d.isInfinite ? 1 : 0)
+        x = 0 * (a * c + b * d)
+        y = 0 * (b * c - a * d)
+      }
+    }
+    return Complex(real: x, imaginary: y)
     /*
     let denominator = rhs.squaredMagnitude
     return Complex(
