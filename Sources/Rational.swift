@@ -106,7 +106,6 @@ where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
     self.denominator = denominator
   }
 
-  // @_transparent // @_inlineable
   /// Creates a new rational value from the given binary integer.
   ///
   /// If `source` or its magnitude is not representable as a numerator of type
@@ -114,6 +113,7 @@ where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
   ///
   /// - Parameters:
   ///   - source: A binary integer to convert to a rational value.
+  @_transparent // @_inlineable
   public init<Source : BinaryInteger>(_ source: Source) {
     let t = T(source)
     // Ensure that `t.magnitude` is representable as a `T`.
@@ -122,7 +122,6 @@ where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
     self.denominator = 1
   }
 
-  // @_transparent // @_inlineable
   /// Creates a new rational value from the given binary floating-point value.
   ///
   /// If `source` or its magnitude is not representable exactly as a ratio of
@@ -130,6 +129,7 @@ where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
   ///
   /// - Parameters:
   ///   - source: A binary floating-point value to convert to a rational value.
+  @_transparent // @_inlineable
   public init<Source : BinaryFloatingPoint>(_ source: Source) {
     if source.isNaN { self = .nan; return }
     if source == .infinity { self = .infinity; return }
@@ -160,7 +160,6 @@ extension Rational where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger 
   // MARK: Initializers (Constrained)
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Creates a new rational value from the given binary floating-point value,
   /// if it can be represented exactly.
   ///
@@ -172,6 +171,7 @@ extension Rational where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger 
   ///
   /// - Parameters:
   ///   - source: A floating-point value to convert to a rational value.
+  @_transparent // @_inlineable
   public init?<Source : BinaryFloatingPoint>(exactly source: Source) {
     // TODO: Document this initializer.
     if source.isNaN { self = .nan; return }
@@ -234,7 +234,7 @@ extension Rational {
   /// `lhs.magnitude` is less than `rhs.magnitude`, 0 if `lhs.magnitude` is
   /// equal to `rhs.magnitude`, or 1 if `lhs.magnitude` is greater than
   /// `rhs.magnitude`.
-  // @_versioned
+  @_versioned
   internal static func _compareFiniteMagnitude(
     _ lhs: Rational, _ rhs: Rational
   ) -> Int {
@@ -281,8 +281,8 @@ extension Rational {
   // MARK: Computed Properties
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// The canonical representation of this value.
+  @_transparent // @_inlineable
   public var canonical: Rational {
     let nm = numerator.magnitude, dm = denominator.magnitude
     // Note that if `T` is a signed fixed-width integer type, `gcd(nm, dm)`
@@ -505,7 +505,7 @@ extension Rational : Equatable {
   // MARK: Equatable
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func == (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.denominator == 0 {
       if lhs.numerator == 0 { return false }
@@ -535,7 +535,7 @@ extension Rational : Comparable {
   // MARK: Comparable
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func < (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.denominator == 0 {
       if lhs.numerator >= 0 { return false }
@@ -560,7 +560,7 @@ extension Rational : Comparable {
     return rhs < lhs
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func <= (lhs: Rational, rhs: Rational) -> Bool {
     if lhs.denominator == 0 {
       if lhs.numerator == 0 { return false }
@@ -608,7 +608,7 @@ extension Rational : Numeric {
   // MARK: Numeric
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public init?<U>(exactly source: U) where U : BinaryInteger {
     guard let t = T(exactly: source) else { return nil }
     // Ensure that `t.magnitude` is representable as a `T`.
@@ -617,7 +617,7 @@ extension Rational : Numeric {
     self.denominator = 1
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func + (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.denominator == 0 {
       if rhs.denominator != 0 || lhs.numerator == 0 { return lhs }
@@ -653,7 +653,7 @@ extension Rational : Numeric {
     lhs = lhs + (-rhs)
   }
   
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public static func * (lhs: Rational, rhs: Rational) -> Rational {
     if lhs.denominator == 0 {
       if rhs.numerator == 0 { return .nan }

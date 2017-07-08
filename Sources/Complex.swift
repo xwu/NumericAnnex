@@ -684,7 +684,7 @@ extension Complex : Math {
     return Complex.exp(exponent * Complex.log(base))
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func naturalExponential() -> Complex {
     if real.isNaN && imaginary == 0 { return self }
     var im = imaginary
@@ -709,7 +709,7 @@ extension Complex : Math {
     return Complex.log(self) / Complex.log(10 as Complex)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func squareRoot() -> Complex {
     if imaginary.isInfinite {
       return Complex(real: .infinity, imaginary: imaginary)
@@ -780,7 +780,7 @@ extension Complex : Math {
     return Complex(real: asinh.imaginary, imaginary: -asinh.real)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func inverseCosine() -> Complex {
     if real.isNaN {
       if imaginary.isInfinite {
@@ -822,7 +822,7 @@ extension Complex : Math {
     return Complex(real: atanh.imaginary, imaginary: -atanh.real)
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func hyperbolicSine() -> Complex {
     if (real.isInfinite || real == 0) && !imaginary.isFinite {
       return Complex(real: real, imaginary: .nan)
@@ -836,7 +836,7 @@ extension Complex : Math {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func hyperbolicCosine() -> Complex {
     if real.isInfinite && !imaginary.isFinite {
       return Complex(real: abs(real), imaginary: .nan)
@@ -856,7 +856,7 @@ extension Complex : Math {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func hyperbolicTangent() -> Complex {
     if real.isNaN && imaginary == 0 { return self }
     if real.isInfinite {
@@ -885,7 +885,7 @@ extension Complex : Math {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func inverseHyperbolicSine() -> Complex {
     if real.isNaN {
       if imaginary.isInfinite {
@@ -919,7 +919,7 @@ extension Complex : Math {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func inverseHyperbolicCosine() -> Complex {
     if real.isNaN {
       if imaginary.isInfinite {
@@ -974,7 +974,7 @@ extension Complex : Math {
     )
   }
 
-  // @_transparent // @_inlineable
+  @_transparent // @_inlineable
   public func inverseHyperbolicTangent() -> Complex {
     if imaginary.isNaN {
       if real.isInfinite || real == 0 {
