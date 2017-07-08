@@ -198,7 +198,7 @@ some complex functions may be unexpected. For example,
               <p><a href="#/Computed%20Properties">Computed Properties</a></p>
               <ul>
                 <li><a href="#/s:12NumericAnnex7ComplexV8argumentxv">argument</a></li>
-                <li><a href="#/s:12NumericAnnex7ComplexV11isCanonicalSbv">isCanonical</a></li>
+                <li><a href="#/">isCanonical</a></li>
                 <li><a href="#/s:12NumericAnnex7ComplexV8isFiniteSbv">isFinite</a></li>
                 <li><a href="#/s:12NumericAnnex7ComplexV10isInfiniteSbv">isInfinite</a></li>
                 <li><a href="#/s:12NumericAnnex7ComplexV5isNaNSbv">isNaN</a></li>
@@ -463,7 +463,7 @@ possible representation.</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>The imaginary unit i.</p>
+                    <p>The imaginary unit <em>i</em>.</p>
 
                   </div>
                   <div class="declaration">
@@ -510,23 +510,22 @@ result lies in the range [-π, π].</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex7ComplexV11isCanonicalSbv"></a>
+                    <a name="/"></a>
                     <a name="//apple_ref/swift/Property/isCanonical" class="dashAnchor"></a>
                     <h4>
                       <code>isCanonical</code>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>A Boolean value indicating whether the instance&rsquo;s real and imaginary
-components are both in canonical form, as defined in the <a href="http://ieeexplore.ieee.org/servlet/opac?punumber=4610933">IEEE 754
-specification</a>. Every <code>Float</code> or <code>Double</code> value is canonical.</p>
+                    <p>Undocumented</p>
 
                   </div>
                   <div class="declaration">
                     <h5>Declaration</h5>
                     <div class="language">
                       <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isCanonical</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Complex</span><span class="o">&lt;</span><span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Real.html">Real</a></span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Codable</span>
+<span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Codable</span> <span class="o">&amp;</span> <span class="n">_ExpressibleByBuiltinFloatLiteral</span></code></pre>
 
                     </div>
                   </div>
@@ -540,10 +539,10 @@ specification</a>. Every <code>Float</code> or <code>Double</code> value is cano
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>A Boolean value indicating whether the instance&rsquo;s real and imaginary
-components are both finite.</p>
+                    <p>A Boolean value indicating whether the instance is finite.</p>
 
-<p>All values other than NaN and infinity are considered finite.</p>
+<p>A complex value is finite if its real and imaginary components are both
+finite. A component is finite if it is not infinity or NaN.</p>
 
                   </div>
                   <div class="declaration">
@@ -564,8 +563,10 @@ components are both finite.</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>A Boolean value indicating whether the instance&rsquo;s real and/or imaginary
-components are infinite.</p>
+                    <p>A Boolean value indicating whether the instance is infinite.</p>
+
+<p>A complex value is infinite if at least one of its components (real or
+imaginary) is infinite, even if the other component is NaN.</p>
 
 <p>Note that <code><a href="../Structs/Complex.html#/s:12NumericAnnex7ComplexV8isFiniteSbv">isFinite</a></code> and <code>isInfinite</code> do not form a dichotomy because NaN
 is neither finite nor infinite.</p>
@@ -589,8 +590,10 @@ is neither finite nor infinite.</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>A Boolean value indicating whether the instance&rsquo;s real and/or imaginary
-components are NaN (<q>not a number</q>).</p>
+                    <p>A Boolean value indicating whether the instance is NaN (<q>not a number</q>).</p>
+
+<p>A complex value is NaN if at least one of its components (real or
+imaginary) is NaN and the other component is not infinite.</p>
 
 <p>Because NaN is not equal to any value, including NaN, use this property
 instead of the equal-to operator (<code>==</code>) or not-equal-to operator (<code>!=</code>) to
@@ -617,8 +620,10 @@ test whether a value is or is not NaN.</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>A Boolean value indicating whether the instance&rsquo;s real and/or imaginary
-components are signaling NaNs.</p>
+                    <p>A Boolean value indicating whether the instance is a signaling NaN.</p>
+
+<p>A complex value is a signaling NaN if at least one of its components (real
+or imaginary) is a signaling NaN and the other component is not infinite.</p>
 
 <p>Signaling NaNs typically raise the Invalid flag when used in general
 computing operations.</p>
@@ -644,8 +649,8 @@ computing operations.</p>
                   <div class="abstract">
                     <p>A Boolean value indicating whether the instance is equal to zero.</p>
 
-<p>The <code>isZero</code> property of a value <code>z</code> is <code>true</code> when both real and
-imaginary components represent either <code>-0.0</code> or <code>+0.0</code>.</p>
+<p>A complex value is equal to zero if its real and imaginary components both
+represent either <code>-0.0</code> or <code>+0.0</code>.</p>
 
                   </div>
                   <div class="declaration">
@@ -1624,7 +1629,7 @@ preserved in the sign of zero; that is,
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-07-04)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-07-08)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
