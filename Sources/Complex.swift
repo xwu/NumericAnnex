@@ -470,7 +470,16 @@ extension Complex : CustomStringConvertible {
 
   @_transparent // @_inlineable
   public var description: String {
-    return "\(real) + \(imaginary)i"
+    return real.isNaN && real.sign == .minus
+      // At present, -NaN is described as "nan", which is acceptable for real
+      // values. However, it is arguably misleading to describe -NaN - NaNi as
+      // "nan + nani" or "nan - nani". Therefore, handle this case separately.
+      ? imaginary.sign == .minus
+        ? "-\(-real) - \(-imaginary)i"
+        : "-\(-real) + \(imaginary)i"
+      : imaginary.sign == .minus
+        ? "\(real) - \(-imaginary)i"
+        : "\(real) + \(imaginary)i"
   }
 }
 
@@ -798,9 +807,9 @@ extension Complex : Math {
           imaginary: -imaginary
         )
       }
-      return real < 0 ?
-        Complex(real: .pi, imaginary: imaginary.sign == .minus ? -real : real) :
-        Complex(real: 0, imaginary: imaginary.sign == .minus ? real : -real)
+      return real < 0
+        ? Complex(real: .pi, imaginary: imaginary.sign == .minus ? -real : real)
+        : Complex(real: 0, imaginary: imaginary.sign == .minus ? real : -real)
     }
     if real == 0 && (imaginary.isNaN || imaginary == 0) {
       return Complex(real: .pi / 2, imaginary: -imaginary)

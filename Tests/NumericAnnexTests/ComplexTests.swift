@@ -174,6 +174,144 @@ class ComplexTests : XCTestCase {
     XCTAssertTrue(c128.isInfinite)
     XCTAssertFalse(c128.isNaN)
     XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(real: .nan, imaginary: 42)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(real: .nan, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(real: 42, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(real: .infinity, imaginary: .nan)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(real: .signalingNaN, imaginary: 42)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.isSignalingNaN)
+
+    c128 = Complex(real: .signalingNaN, imaginary: .infinity)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = Complex(real: 42, imaginary: .signalingNaN)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.isSignalingNaN)
+    
+    c128 = Complex(real: .infinity, imaginary: .signalingNaN)
+    XCTAssertTrue(c128.isInfinite)
+    XCTAssertFalse(c128.isNaN)
+    XCTAssertFalse(c128.isSignalingNaN)
+
+    c128 = 2 + Complex(Double.nan) * .i // NaN + iNaN
+    XCTAssertFalse(c128.isFinite)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertFalse(c128.real.isFinite)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = 2 + Complex(imaginary: .nan) // 2 + iNaN
+    XCTAssertFalse(c128.isFinite)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isFinite)
+    XCTAssertFalse(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+  }
+
+  func testComplexDescription() {
+    let a: Complex128 = 42 + 42 * .i
+    XCTAssertEqual(a.description, "42.0 + 42.0i")
+    let b: Complex128 = -42 + 42 * .i
+    XCTAssertEqual(b.description, "-42.0 + 42.0i")
+    let c: Complex128 = 42 - 42 * .i
+    XCTAssertEqual(c.description, "42.0 - 42.0i")
+    let d: Complex128 = -42 - 42 * .i
+    XCTAssertEqual(d.description, "-42.0 - 42.0i")
+    let e: Complex128 = Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertEqual(e.description, "inf + infi")
+    let f: Complex128 = Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertEqual(f.description, "-inf + infi")
+    let g: Complex128 = Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertEqual(g.description, "inf - infi")
+    let h: Complex128 = Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertEqual(h.description, "-inf - infi")
+    let j: Complex128 = Complex(real: 0.0, imaginary: 0.0)
+    XCTAssertEqual(j.description, "0.0 + 0.0i")
+    let k: Complex128 = Complex(real: -0.0, imaginary: 0.0)
+    XCTAssertEqual(k.description, "-0.0 + 0.0i")
+    let l: Complex128 = Complex(real: 0.0, imaginary: -0.0)
+    XCTAssertEqual(l.description, "0.0 - 0.0i")
+    let m: Complex128 = Complex(real: -0.0, imaginary: -0.0)
+    XCTAssertEqual(m.description, "-0.0 - 0.0i")
+    let n: Complex128 = Complex(real: .nan, imaginary: .nan)
+    XCTAssertEqual(n.description, "nan + nani")
+    let o = -n
+    XCTAssertEqual(o.description, "-nan - nani")
+  }
+
+  func testComplexNegation() {
+    let a: Complex128 = 2 + 4 * .i
+    let b = -a
+    let c = -b
+    XCTAssertEqual(a, c)
+
+    var c128 = a
+    c128.negate()
+    c128.negate()
+    XCTAssertEqual(a, c128)
+
+    let d: Complex128 = Complex(real: .infinity, imaginary: .infinity)
+    let e = -d
+    let f = -e
+    XCTAssertEqual(d, f)
+
+    c128 = d
+    c128.negate()
+    c128.negate()
+    XCTAssertEqual(d, c128)
+
+    let g: Complex128 = 0 + 0 * .i
+    XCTAssertTrue(g.isZero)
+    let h = -g
+    let i = -h
+    XCTAssertEqual(g, i)
+
+    c128 = g
+    c128.negate()
+    XCTAssertTrue(g == c128)
+    c128.negate()
+    XCTAssertEqual(g, c128)
+
+    let j: Complex128 = Complex(real: .nan, imaginary: .nan)
+    let k = -j
+    let l = -k
+    XCTAssertTrue(l.real.isNaN)
+    XCTAssertTrue(l.imaginary.isNaN)
+    XCTAssertTrue(l.isNaN)
+
+    c128 = j
+    c128.negate()
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+    c128.negate()
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
   }
 
   func testComplexAddition() {
@@ -1524,6 +1662,8 @@ class ComplexTests : XCTestCase {
   static var allTests = [
     ("testComplexInitialization", testComplexInitialization),
     ("testComplexBooleanProperties", testComplexBooleanProperties),
+    ("testComplexDescription", testComplexDescription),
+    ("testComplexNegation", testComplexNegation),
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
     ("testComplexInfinity", testComplexInfinity),
