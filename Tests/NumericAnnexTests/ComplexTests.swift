@@ -1235,10 +1235,19 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(result.real, .pi)
     XCTAssertEqual(result.imaginary, -.infinity)
 
+    var conjugate = Complex.acos(nipy.conjugate())
+    XCTAssertEqual(result.conjugate().real, conjugate.real)
+    XCTAssertEqual(result.conjugate().imaginary, conjugate.imaginary)
+
     result = Complex.acos(pipy)
     XCTAssertTrue(result.real.isZero)
     XCTAssertTrue(result.real.sign == .plus)
     XCTAssertEqual(result.imaginary, -.infinity)
+
+    conjugate = Complex.acos(pipy.conjugate())
+    XCTAssertEqual(result.conjugate().real, conjugate.real)
+    XCTAssertTrue(result.conjugate().real.sign == conjugate.real.sign)
+    XCTAssertEqual(result.conjugate().imaginary, conjugate.imaginary)
 
     result = Complex.acos(nipi)
     XCTAssertEqual(result.real, .pi * 3 / 4)
@@ -1402,18 +1411,35 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(result.real, .infinity)
     XCTAssertEqual(result.imaginary, .pi)
 
+    var conjugate = Complex.acosh(nipy.conjugate())
+    XCTAssertEqual(result.conjugate().real, conjugate.real)
+    XCTAssertEqual(result.conjugate().imaginary, conjugate.imaginary)
+
     result = Complex.acosh(pipy)
     XCTAssertEqual(result.real, .infinity)
     XCTAssertTrue(result.imaginary.sign == .plus)
     XCTAssertTrue(result.imaginary.isZero)
 
+    conjugate = Complex.acosh(pipy.conjugate())
+    XCTAssertEqual(result.conjugate().real, conjugate.real)
+    XCTAssertTrue(result.conjugate().imaginary.sign == conjugate.imaginary.sign)
+    XCTAssertEqual(result.conjugate().imaginary, conjugate.imaginary)
+
     result = Complex.acosh(nipi)
     XCTAssertEqual(result.real, .infinity)
     XCTAssertEqual(result.imaginary, .pi * 3 / 4)
 
+    conjugate = Complex.acosh(nipi.conjugate())
+    XCTAssertEqual(result.conjugate().real, conjugate.real)
+    XCTAssertEqual(result.conjugate().imaginary, conjugate.imaginary)
+
     result = Complex.acosh(pipi)
     XCTAssertEqual(result.real, .infinity)
     XCTAssertEqual(result.imaginary, .pi / 4)
+
+    conjugate = Complex.acosh(pipi.conjugate())
+    XCTAssertEqual(result.conjugate().real, conjugate.real)
+    XCTAssertEqual(result.conjugate().imaginary, conjugate.imaginary)
 
     result = Complex.acosh(pipn)
     XCTAssertEqual(result.real, .infinity)
