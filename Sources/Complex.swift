@@ -429,7 +429,8 @@ extension Complex {
     return self
   }
 
-  /// Returns the reciprocal (multiplicative inverse) of this value.
+  /// Returns the reciprocal (multiplicative inverse) of this value, or NaN
+  /// ("not a number") if this value is infinite, NaN, or zero.
   @_transparent // @_inlineable
   public func reciprocal() -> Complex {
     let denominator = squaredMagnitude

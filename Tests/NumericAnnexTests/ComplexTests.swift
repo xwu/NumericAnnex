@@ -144,6 +144,16 @@ class ComplexTests : XCTestCase {
 #endif
   }
 
+  func testComplexConstants() {
+    XCTAssertEqual(Complex128.pi, Complex(Double.pi))
+    XCTAssertEqual(Complex128.e, Complex(Double.e))
+    XCTAssertEqual(Complex128.phi, Complex(Double.phi))
+
+    XCTAssertEqual(Complex64.pi, Complex(Float.pi))
+    XCTAssertEqual(Complex64.e, Complex(Float.e))
+    XCTAssertEqual(Complex64.phi, Complex(Float.phi))
+  }
+
   func testComplexBooleanProperties() {
     var c128: Complex128 = 42 + 42 * .i
     XCTAssertTrue(c128.isFinite)
@@ -911,6 +921,95 @@ class ComplexTests : XCTestCase {
     XCTAssertFalse(c128.isNaN)
   }
 
+  func testComplexSquaredMagnitude() {
+    var c128: Complex128 = 42
+    XCTAssertEqual(c128.squaredMagnitude, c128.magnitude * c128.magnitude)
+
+    c128 = 42 * .i
+    XCTAssertEqual(c128.squaredMagnitude, c128.magnitude * c128.magnitude)
+
+    c128 = 42 + 42 * .i
+    XCTAssertEqual(c128.squaredMagnitude, c128.magnitude * c128.magnitude,
+                   accuracy: 0.000_000_000_001)
+
+    // Test special values.
+    let values: [Complex128] = [
+      Complex(real: 0, imaginary: 0),
+      Complex(real: 0, imaginary: -0.0),
+      Complex(real: -0.0, imaginary: 0),
+      Complex(real: -0.0, imaginary: -0.0),
+      Complex(real: .infinity, imaginary: 0),
+      Complex(real: 0, imaginary: .infinity),
+      Complex(real: .infinity, imaginary: -0.0),
+      Complex(real: -0.0, imaginary: .infinity),
+      Complex(real: .infinity, imaginary: .infinity),
+      Complex(real: -.infinity, imaginary: 0),
+      Complex(real: 0, imaginary: -.infinity),
+      Complex(real: -.infinity, imaginary: -0.0),
+      Complex(real: -0.0, imaginary: -.infinity),
+      Complex(real: -.infinity, imaginary: -.infinity),
+      Complex(real: 0, imaginary: .nan),
+      Complex(real: .nan, imaginary: 0),
+      Complex(real: -0.0, imaginary: .nan),
+      Complex(real: .nan, imaginary: -0.0),
+      Complex(real: .infinity, imaginary: .nan),
+      Complex(real: .nan, imaginary: .infinity),
+      Complex(real: -.infinity, imaginary: .nan),
+      Complex(real: .nan, imaginary: -.infinity),
+      Complex(real: .nan, imaginary: .nan),
+    ]
+    for v in values {
+      XCTAssertTrue(v.squaredMagnitude == v.magnitude * v.magnitude ||
+        (v.squaredMagnitude.isNaN && (v.magnitude * v.magnitude).isNaN))
+      XCTAssertTrue(v.squaredMagnitude.sign == .plus)
+    }
+  }
+
+  func testComplexReciprocal() {
+    var c128: Complex128 = 42
+    XCTAssertEqual(c128 * c128.reciprocal(), 1)
+    XCTAssertEqual(c128.reciprocal().real, 1 / 42)
+    XCTAssertTrue(c128.reciprocal().imaginary.isZero)
+
+    c128 = 42 * .i
+    XCTAssertTrue(c128.real.isZero)
+    XCTAssertEqual(c128 * c128.reciprocal(), 1)
+    XCTAssertTrue(c128.reciprocal().real.isZero)
+    XCTAssertEqual(c128.reciprocal().imaginary, -1 / 42)
+
+    c128 = 42 + 42 * .i
+    XCTAssertEqual(c128 * c128.reciprocal(), 1)
+
+    // Test special values.
+    XCTAssertTrue(Complex128(real: 0, imaginary: 0).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: -0.0, imaginary: 0).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: 0, imaginary: -0.0).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: -0.0, imaginary: -0.0).reciprocal().isNaN)
+    
+    XCTAssertTrue(Complex128(real: .infinity, imaginary: 0).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: 0, imaginary: .infinity).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: -.infinity, imaginary: 0).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: 0, imaginary: -.infinity).reciprocal().isNaN)
+
+    XCTAssertTrue(
+      Complex128(real: .infinity, imaginary: -.infinity).reciprocal().isNaN)
+    XCTAssertTrue(
+      Complex128(real: -.infinity, imaginary: .infinity).reciprocal().isNaN)
+
+    XCTAssertTrue(
+      Complex128(real: .infinity, imaginary: .nan).reciprocal().isNaN)
+    XCTAssertTrue(
+      Complex128(real: .nan, imaginary: .infinity).reciprocal().isNaN)
+    XCTAssertTrue(
+      Complex128(real: -.infinity, imaginary: .nan).reciprocal().isNaN)
+    XCTAssertTrue(
+      Complex128(real: .nan, imaginary: -.infinity).reciprocal().isNaN)
+
+    XCTAssertTrue(Complex128(real: 0, imaginary: .nan).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: .nan, imaginary: 0).reciprocal().isNaN)
+    XCTAssertTrue(Complex128(real: .nan, imaginary: .nan).reciprocal().isNaN)
+  }
+
   func testComplexLogarithm() {
     let a = Complex128(r: 1, theta: .pi / 4)
     XCTAssertEqual(Complex.log(a).real, 0)
@@ -993,8 +1092,10 @@ class ComplexTests : XCTestCase {
   func testComplexSquareRoot() {
     let a: Complex128 = -4
     XCTAssertEqual(Complex.sqrt(a), 2 * .i)
+    XCTAssertEqual(sqrt(a), 2 * .i)
     let b: Complex128 = 4
     XCTAssertEqual(Complex.sqrt(b), 2)
+    XCTAssertEqual(sqrt(b), 2)
 
     // Test special values.
     var result: Complex128
@@ -1044,6 +1145,56 @@ class ComplexTests : XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
 
     result = Complex.sqrt(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    // Test special values using free function.
+    result = sqrt(pzpz)
+    XCTAssertTrue(result.isZero)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = sqrt(nzpz)
+    XCTAssertTrue(result.isZero)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = sqrt(pxpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .infinity)
+
+    result = sqrt(pnpi)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, .infinity)
+
+    result = sqrt(pxpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = sqrt(nipy)
+    XCTAssertEqual(result.real, 0)
+    XCTAssertTrue(result.real.sign == .plus)
+    XCTAssertEqual(result.imaginary, .infinity)
+
+    result = sqrt(pipy)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertEqual(result.imaginary, 0)
+    XCTAssertTrue(result.imaginary.sign == .plus)
+
+    result = sqrt(nipn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isInfinite)
+    // The sign of the imaginary part is unspecified.
+
+    result = sqrt(pipn)
+    XCTAssertEqual(result.real, .infinity)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = sqrt(pnpy)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = sqrt(pnpn)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isNaN)
   }
@@ -1680,12 +1831,15 @@ class ComplexTests : XCTestCase {
 
   static var allTests = [
     ("testComplexInitialization", testComplexInitialization),
+    ("testComplexConstants", testComplexConstants),
     ("testComplexBooleanProperties", testComplexBooleanProperties),
     ("testComplexDescription", testComplexDescription),
     ("testComplexNegation", testComplexNegation),
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
     ("testComplexInfinity", testComplexInfinity),
+    ("testComplexSquaredMagnitude", testComplexSquaredMagnitude),
+    ("testComplexReciprocal", testComplexReciprocal),
     ("testComplexLogarithm", testComplexLogarithm),
     ("testComplexSquareRoot", testComplexSquareRoot),
     ("testComplexCubeRoot", testComplexCubeRoot),
