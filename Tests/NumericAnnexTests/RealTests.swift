@@ -313,24 +313,18 @@ extension MockReal : Real {
 class RealTests: XCTestCase {
   func testTranscendentalConstants() {
     XCTAssertEqual(Double.pi, MockReal.pi._value)
-    XCTAssertEqualWithAccuracy(
-      Double.e, MockReal.e._value,
-      accuracy: abs(Double.e * 0.000_000_000_001)
-    )
-    XCTAssertEqualWithAccuracy(
-      Double.phi, MockReal.phi._value,
-      accuracy: abs(Double.phi * 0.000_000_000_001)
-    )
+    XCTAssertEqual(Double.e, MockReal.e._value,
+                   accuracy: abs(Double.e * 0.000_000_000_001))
+    XCTAssertEqual(Double.phi, MockReal.phi._value,
+                   accuracy: abs(Double.phi * 0.000_000_000_001))
   }
 
   func testExp2() {
     for i in -42...42 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.exp2(d), MockReal.exp2(m)._value,
-        accuracy: abs(Double.exp2(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.exp2(d), MockReal.exp2(m)._value,
+                     accuracy: abs(Double.exp2(d) * 0.000_000_000_001))
     }
   }
 
@@ -338,10 +332,8 @@ class RealTests: XCTestCase {
     for i in -42...42 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.exp10(d), MockReal.exp10(m)._value,
-        accuracy: abs(Double.exp10(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.exp10(d), MockReal.exp10(m)._value,
+                     accuracy: abs(Double.exp10(d) * 0.000_000_000_001))
     }
   }
 
@@ -349,10 +341,8 @@ class RealTests: XCTestCase {
     for i in -42...42 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.expm1(d), MockReal.expm1(m)._value,
-        accuracy: abs(Double.expm1(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.expm1(d), MockReal.expm1(m)._value,
+                     accuracy: abs(Double.expm1(d) * 0.000_000_000_001))
     }
   }
 
@@ -360,10 +350,8 @@ class RealTests: XCTestCase {
     for i in 1...85 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.log2(d), MockReal.log2(m)._value,
-        accuracy: abs(Double.log2(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.log2(d), MockReal.log2(m)._value,
+                     accuracy: abs(Double.log2(d) * 0.000_000_000_001))
     }
   }
 
@@ -371,10 +359,8 @@ class RealTests: XCTestCase {
     for i in 1...85 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.log10(d), MockReal.log10(m)._value,
-        accuracy: abs(Double.log10(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.log10(d), MockReal.log10(m)._value,
+                     accuracy: abs(Double.log10(d) * 0.000_000_000_001))
     }
   }
 
@@ -382,10 +368,8 @@ class RealTests: XCTestCase {
     for i in 1...85 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.log1p(d), MockReal.log1p(m)._value,
-        accuracy: abs(Double.log1p(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.log1p(d), MockReal.log1p(m)._value,
+                     accuracy: abs(Double.log1p(d) * 0.000_000_000_001))
     }
   }
 
@@ -393,10 +377,8 @@ class RealTests: XCTestCase {
     for i in -42...42 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.cbrt(d), MockReal.cbrt(m)._value,
-        accuracy: abs(Double.cbrt(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.cbrt(d), MockReal.cbrt(m)._value,
+                     accuracy: abs(Double.cbrt(d) * 0.000_000_000_001))
     }
   }
 
@@ -404,10 +386,8 @@ class RealTests: XCTestCase {
     for i in -42...42 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.tan(d), MockReal.tan(m)._value,
-        accuracy: abs(Double.tan(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.tan(d), MockReal.tan(m)._value,
+                     accuracy: abs(Double.tan(d) * 0.000_000_000_001))
     }
   }
 
@@ -415,10 +395,8 @@ class RealTests: XCTestCase {
     for i in -42...42 {
       let d = Double(i)
       let m = MockReal(d)
-      XCTAssertEqualWithAccuracy(
-        Double.tanh(d), MockReal.tanh(m)._value,
-        accuracy: abs(Double.tanh(d) * 0.000_000_000_001)
-      )
+      XCTAssertEqual(Double.tanh(d), MockReal.tanh(m)._value,
+                     accuracy: abs(Double.tanh(d) * 0.000_000_000_001))
     }
   }
 
@@ -429,11 +407,8 @@ class RealTests: XCTestCase {
       for j in -42...42 {
         let dy = Double(j)
         let my = MockReal(dy)
-        XCTAssertEqualWithAccuracy(
-          Double.hypot(dx, dy),
-          MockReal.hypot(mx, my)._value,
-          accuracy: abs(Double.hypot(dx, dy) * 0.000_000_000_001)
-        )
+        XCTAssertEqual(Double.hypot(dx, dy), MockReal.hypot(mx, my)._value,
+                       accuracy: abs(Double.hypot(dx, dy) * 0.000_000_000_001))
       }
     }
     // Test special values.
@@ -455,11 +430,8 @@ class RealTests: XCTestCase {
       for j in -42...42 {
         let dy = Double(j)
         let my = MockReal(dy)
-        XCTAssertEqualWithAccuracy(
-          Double.atan2(dy, dx),
-          MockReal.atan2(my, mx)._value,
-          accuracy: abs(Double.atan2(dy, dx) * 0.000_000_000_001)
-        )
+        XCTAssertEqual(Double.atan2(dy, dx), MockReal.atan2(my, mx)._value,
+                       accuracy: abs(Double.atan2(dy, dx) * 0.000_000_000_001))
       }
     }
     // Test special values.
@@ -544,67 +516,67 @@ class RealTests: XCTestCase {
     XCTAssertTrue(Float.sin(-0.0).isZero)
     XCTAssertTrue(Float.sin(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.cos(.pi / 2), 0, accuracy: 0.000_001)
+    XCTAssertEqual(Float.cos(.pi / 2), 0, accuracy: 0.000_001)
     XCTAssertEqual(Float.cos(0), 1)
     XCTAssertEqual(Float.cos(-0.0), 1)
 
-    XCTAssertEqualWithAccuracy(Float.tan(.pi / 4), 1, accuracy: 0.000_001)
-    XCTAssertEqualWithAccuracy(Float.tan(3 * .pi / 4), -1, accuracy: 0.000_001)
+    XCTAssertEqual(Float.tan(.pi / 4), 1, accuracy: 0.000_001)
+    XCTAssertEqual(Float.tan(3 * .pi / 4), -1, accuracy: 0.000_001)
     XCTAssertTrue(Float.tan(0).isZero)
     XCTAssertTrue(Float.tan(0).sign == .plus)
     XCTAssertTrue(Float.tan(-0.0).isZero)
     XCTAssertTrue(Float.tan(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.asin(1), .pi / 2, accuracy: 0.000_001)
+    XCTAssertEqual(Float.asin(1), .pi / 2, accuracy: 0.000_001)
     XCTAssertTrue(Float.asin(0).isZero)
     XCTAssertTrue(Float.asin(0).sign == .plus)
     XCTAssertTrue(Float.asin(-0.0).isZero)
     XCTAssertTrue(Float.asin(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.acos(0), .pi / 2, accuracy: 0.000_001)
+    XCTAssertEqual(Float.acos(0), .pi / 2, accuracy: 0.000_001)
     XCTAssertEqual(Float.acos(1), 0)
-    XCTAssertEqualWithAccuracy(Float.acos(-1), .pi, accuracy: 0.000_001)
+    XCTAssertEqual(Float.acos(-1), .pi, accuracy: 0.000_001)
 
-    XCTAssertEqualWithAccuracy(Float.atan(1), .pi / 4, accuracy: 0.000_001)
-    XCTAssertEqualWithAccuracy(Float.atan(-1), -.pi / 4, accuracy: 0.000_001)
+    XCTAssertEqual(Float.atan(1), .pi / 4, accuracy: 0.000_001)
+    XCTAssertEqual(Float.atan(-1), -.pi / 4, accuracy: 0.000_001)
     XCTAssertTrue(Float.atan(0).isZero)
     XCTAssertTrue(Float.atan(0).sign == .plus)
     XCTAssertTrue(Float.atan(-0.0).isZero)
     XCTAssertTrue(Float.atan(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.sinh(1), 1.175201194, accuracy: 0.000_001)
+    XCTAssertEqual(Float.sinh(1), 1.175201194, accuracy: 0.000_001)
     XCTAssertTrue(Float.sinh(0).isZero)
     XCTAssertTrue(Float.sinh(0).sign == .plus)
     XCTAssertTrue(Float.sinh(-0.0).isZero)
     XCTAssertTrue(Float.sinh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.cosh(1), 1.543080635, accuracy: 0.000_001)
+    XCTAssertEqual(Float.cosh(1), 1.543080635, accuracy: 0.000_001)
     XCTAssertEqual(Float.cosh(0), 1)
     XCTAssertEqual(Float.cosh(-0.0), 1)
 
-    XCTAssertEqualWithAccuracy(Float.tanh(1), 0.761594156, accuracy: 0.000_001)
+    XCTAssertEqual(Float.tanh(1), 0.761594156, accuracy: 0.000_001)
     XCTAssertTrue(Float.tanh(0).isZero)
     XCTAssertTrue(Float.tanh(0).sign == .plus)
     XCTAssertTrue(Float.tanh(-0.0).isZero)
     XCTAssertTrue(Float.tanh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.asinh(1), 0.881373587, accuracy: 0.000_001)
+    XCTAssertEqual(Float.asinh(1), 0.881373587, accuracy: 0.000_001)
     XCTAssertTrue(Float.asinh(0).isZero)
     XCTAssertTrue(Float.asinh(0).sign == .plus)
     XCTAssertTrue(Float.asinh(-0.0).isZero)
     XCTAssertTrue(Float.asinh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.acosh(2), 1.316957897, accuracy: 0.000_001)
+    XCTAssertEqual(Float.acosh(2), 1.316957897, accuracy: 0.000_001)
     XCTAssertEqual(Float.acosh(1), 0)
     XCTAssertEqual(Float.acosh(.infinity), .infinity)
 
-    XCTAssertEqualWithAccuracy(Float.atanh(0.5), 0.549306144, accuracy: 0.000_001)
+    XCTAssertEqual(Float.atanh(0.5), 0.549306144, accuracy: 0.000_001)
     XCTAssertTrue(Float.atanh(0).isZero)
     XCTAssertTrue(Float.atanh(0).sign == .plus)
     XCTAssertTrue(Float.atanh(-0.0).isZero)
     XCTAssertTrue(Float.atanh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(Float.erf(1), 0.842700793, accuracy: 0.000_001)
+    XCTAssertEqual(Float.erf(1), 0.842700793, accuracy: 0.000_001)
     XCTAssertTrue(Float.erf(0).isZero)
     XCTAssertTrue(Float.erf(0).sign == .plus)
     XCTAssertTrue(Float.erf(-0.0).isZero)
@@ -612,15 +584,12 @@ class RealTests: XCTestCase {
     XCTAssertEqual(Float.erf(.infinity), 1)
     XCTAssertEqual(Float.erf(-.infinity), -1)
 
-    XCTAssertEqualWithAccuracy(Float.erfc(1), 0.157299207, accuracy: 0.000_001)
+    XCTAssertEqual(Float.erfc(1), 0.157299207, accuracy: 0.000_001)
     XCTAssertEqual(Float.erfc(0), 1)
     XCTAssertEqual(Float.erfc(.infinity), 0)
     XCTAssertEqual(Float.erfc(-.infinity), 2)
 
-    XCTAssertEqualWithAccuracy(
-      Float.tgamma(10), Float((2...9).reduce(1, *)),
-      accuracy: 0.1
-    )
+    XCTAssertEqual(Float.tgamma(10), Float((2...9).reduce(1, *)), accuracy: 0.1)
     XCTAssertEqual(Float.tgamma(1), 1)
     XCTAssertEqual(Float.tgamma(.infinity), .infinity)
   }
@@ -638,14 +607,14 @@ class RealTests: XCTestCase {
 
     XCTAssertEqual(Double.cbrt(64), 4)
     XCTAssertEqual(Double.cbrt(-64), -4)
-    XCTAssertEqualWithAccuracy(Double.cbrt(27), 3, accuracy: 0.000_001)
-    XCTAssertEqualWithAccuracy(Double.cbrt(-27), -3, accuracy: 0.000_001)
+    XCTAssertEqual(Double.cbrt(27), 3, accuracy: 0.000_001)
+    XCTAssertEqual(Double.cbrt(-27), -3, accuracy: 0.000_001)
     XCTAssertEqual(Double.cbrt(8), 2)
     XCTAssertEqual(Double.cbrt(-8), -2)
-    XCTAssertEqualWithAccuracy(Double.cbrt(-0.125), -0.5, accuracy: 0.000_001)
-    XCTAssertEqualWithAccuracy(Double.cbrt(0.125), 0.5, accuracy: 0.000_001)
-    XCTAssertEqualWithAccuracy(Double.cbrt(-0.015625), -0.25, accuracy: 0.000_001)
-    XCTAssertEqualWithAccuracy(Double.cbrt(0.015625), 0.25, accuracy: 0.000_001)
+    XCTAssertEqual(Double.cbrt(-0.125), -0.5, accuracy: 0.000_001)
+    XCTAssertEqual(Double.cbrt(0.125), 0.5, accuracy: 0.000_001)
+    XCTAssertEqual(Double.cbrt(-0.015625), -0.25, accuracy: 0.000_001)
+    XCTAssertEqual(Double.cbrt(0.015625), 0.25, accuracy: 0.000_001)
 
     XCTAssertEqual(Double.exp2(0), 1)
     XCTAssertEqual(Double.exp2(2), 4)
@@ -653,10 +622,7 @@ class RealTests: XCTestCase {
 
     XCTAssertEqual(Double.exp10(0), 1)
     XCTAssertEqual(Double.exp10(2), 100)
-    XCTAssertEqualWithAccuracy(
-      Double.exp10(4), 10000,
-      accuracy: 0.000_001
-    )
+    XCTAssertEqual(Double.exp10(4), 10000, accuracy: 0.000_001)
 
     XCTAssertEqual(Double.expm1(16), .exp(16) - 1)
     XCTAssertTrue(Double.expm1(0).isZero)
@@ -671,10 +637,7 @@ class RealTests: XCTestCase {
     XCTAssertEqual(Double.log10(100), 2)
     XCTAssertEqual(Double.log10(1), 0)
 
-    XCTAssertEqualWithAccuracy(
-      Double.log1p(16777216), .log(16777215),
-      accuracy: 0.000_001
-    )
+    XCTAssertEqual(Double.log1p(16777216), .log(16777215), accuracy: 0.000_001)
     XCTAssertTrue(Double.log1p(0).isZero)
     XCTAssertEqual(Double.log1p(-1), -.infinity)
     XCTAssertEqual(Double.log1p(.infinity), .infinity)
@@ -685,21 +648,12 @@ class RealTests: XCTestCase {
     XCTAssertTrue(Double.sin(-0.0).isZero)
     XCTAssertTrue(Double.sin(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.cos(.pi / 2), 0,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.cos(.pi / 2), 0, accuracy: 0.000_000_000_001)
     XCTAssertEqual(Double.cos(0), 1)
     XCTAssertEqual(Double.cos(-0.0), 1)
 
-    XCTAssertEqualWithAccuracy(
-      Double.tan(.pi / 4), 1,
-      accuracy: 0.000_000_000_001
-    )
-    XCTAssertEqualWithAccuracy(
-      Double.tan(3 * .pi / 4), -1,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.tan(.pi / 4), 1, accuracy: 0.000_000_000_001)
+    XCTAssertEqual(Double.tan(3 * .pi / 4), -1, accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.tan(0).isZero)
     XCTAssertTrue(Double.tan(0).sign == .plus)
     XCTAssertTrue(Double.tan(-0.0).isZero)
@@ -711,80 +665,51 @@ class RealTests: XCTestCase {
     XCTAssertTrue(Double.asin(-0.0).isZero)
     XCTAssertTrue(Double.asin(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.acos(0), .pi / 2,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.acos(0), .pi / 2, accuracy: 0.000_000_000_001)
     XCTAssertEqual(Double.acos(1), 0)
     XCTAssertEqual(Double.acos(-1), .pi)
 
-    XCTAssertEqualWithAccuracy(
-      Double.atan(1), .pi / 4,
-      accuracy: 0.000_000_000_001
-    )
-    XCTAssertEqualWithAccuracy(
-      Double.atan(-1), -.pi / 4,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.atan(1), .pi / 4, accuracy: 0.000_000_000_001)
+    XCTAssertEqual(Double.atan(-1), -.pi / 4, accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.atan(0).isZero)
     XCTAssertTrue(Double.atan(0).sign == .plus)
     XCTAssertTrue(Double.atan(-0.0).isZero)
     XCTAssertTrue(Double.atan(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.sinh(1), 1.175201193644,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.sinh(1), 1.175201193644, accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.sinh(0).isZero)
     XCTAssertTrue(Double.sinh(0).sign == .plus)
     XCTAssertTrue(Double.sinh(-0.0).isZero)
     XCTAssertTrue(Double.sinh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.cosh(1), 1.543080634815,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.cosh(1), 1.543080634815, accuracy: 0.000_000_000_001)
     XCTAssertEqual(Double.cosh(0), 1)
     XCTAssertEqual(Double.cosh(-0.0), 1)
 
-    XCTAssertEqualWithAccuracy(
-      Double.tanh(1), 0.761594155956,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.tanh(1), 0.761594155956, accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.tanh(0).isZero)
     XCTAssertTrue(Double.tanh(0).sign == .plus)
     XCTAssertTrue(Double.tanh(-0.0).isZero)
     XCTAssertTrue(Double.tanh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.asinh(1), 0.881373587020,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.asinh(1), 0.881373587020, accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.asinh(0).isZero)
     XCTAssertTrue(Double.asinh(0).sign == .plus)
     XCTAssertTrue(Double.asinh(-0.0).isZero)
     XCTAssertTrue(Double.asinh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.acosh(2), 1.316957896925,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.acosh(2), 1.316957896925, accuracy: 0.000_000_000_001)
     XCTAssertEqual(Double.acosh(1), 0)
     XCTAssertEqual(Double.acosh(.infinity), .infinity)
 
-    XCTAssertEqualWithAccuracy(
-      Double.atanh(0.5), 0.549306144334,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.atanh(0.5), 0.549306144334,
+                   accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.atanh(0).isZero)
     XCTAssertTrue(Double.atanh(0).sign == .plus)
     XCTAssertTrue(Double.atanh(-0.0).isZero)
     XCTAssertTrue(Double.atanh(-0.0).sign == .minus)
 
-    XCTAssertEqualWithAccuracy(
-      Double.erf(1), 0.842700792950,
-      accuracy: 0.000_000_000_001
-    )
+    XCTAssertEqual(Double.erf(1), 0.842700792950, accuracy: 0.000_000_000_001)
     XCTAssertTrue(Double.erf(0).isZero)
     XCTAssertTrue(Double.erf(0).sign == .plus)
     XCTAssertTrue(Double.erf(-0.0).isZero)
@@ -792,18 +717,13 @@ class RealTests: XCTestCase {
     XCTAssertEqual(Double.erf(.infinity), 1)
     XCTAssertEqual(Double.erf(-.infinity), -1)
 
-    XCTAssertEqualWithAccuracy(
-      Double.erfc(1), 0.157299207050,
-      accuracy: 0.000_001
-    )
+    XCTAssertEqual(Double.erfc(1), 0.157299207050, accuracy: 0.000_001)
     XCTAssertEqual(Double.erfc(0), 1)
     XCTAssertEqual(Double.erfc(.infinity), 0)
     XCTAssertEqual(Double.erfc(-.infinity), 2)
 
-    XCTAssertEqualWithAccuracy(
-      Double.tgamma(10), Double((2...9).reduce(1, *)),
-      accuracy: 0.000_001
-    )
+    XCTAssertEqual(Double.tgamma(10), Double((2...9).reduce(1, *)),
+                   accuracy: 0.000_001)
     XCTAssertEqual(Double.tgamma(1), 1)
     XCTAssertEqual(Double.tgamma(.infinity), .infinity)
   }

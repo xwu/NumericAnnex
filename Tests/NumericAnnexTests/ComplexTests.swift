@@ -1052,18 +1052,17 @@ class ComplexTests : XCTestCase {
     // Note that the principal cube root is not necessarily the real-valued
     // cube root.
     let a: Complex64 = -8
-    XCTAssertEqualWithAccuracy(Complex.cbrt(a).real, 1, accuracy: 0.000001)
-    XCTAssertEqualWithAccuracy(Complex.cbrt(a).imaginary,
-                               2 * Float.sin(.pi / 3), accuracy: 0.000001)
+    XCTAssertEqual(Complex.cbrt(a).real, 1, accuracy: 0.000001)
+    XCTAssertEqual(Complex.cbrt(a).imaginary, 2 * Float.sin(.pi / 3),
+                   accuracy: 0.000001)
 
     let b: Complex64 = 8
     XCTAssertEqual(Complex.cbrt(b), 2)
 
     let c: Complex64 = -27 * .i
-    XCTAssertEqualWithAccuracy(Complex.cbrt(c).real,
-                               3 * Float.cos(-.pi / 6), accuracy: 0.000001)
-    XCTAssertEqualWithAccuracy(Complex.cbrt(c).imaginary,
-                               -1.5, accuracy: 0.000001)
+    XCTAssertEqual(Complex.cbrt(c).real, 3 * Float.cos(-.pi / 6),
+                   accuracy: 0.000001)
+    XCTAssertEqual(Complex.cbrt(c).imaginary, -1.5, accuracy: 0.000001)
 
     let d: Complex64 = 27 * .i
     XCTAssertEqual(Complex.cbrt(d), Complex.cbrt(c).conjugate())
@@ -1075,7 +1074,7 @@ class ComplexTests : XCTestCase {
   func testComplexExponentiation() {
     let a = Complex(real: Double.log(42))
     let b = Complex.exp(a)
-    XCTAssertEqualWithAccuracy(b.real, 42, accuracy: 0.00000000000001)
+    XCTAssertEqual(b.real, 42, accuracy: 0.00000000000001)
 
     let i: Complex128 = .i
     let actual = Complex.pow(i, i)
@@ -1166,26 +1165,26 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(Complex.cos(b).real, Double.cosh(1))
     XCTAssertTrue(Complex.cos(b).imaginary.isZero)
     XCTAssertTrue(Complex.tan(b).real.isZero)
-    XCTAssertEqualWithAccuracy(Complex.tan(b).imaginary, Double.tanh(1),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.tan(b).imaginary, Double.tanh(1),
+                   accuracy: 0.00000000000001)
 
     let c: Complex128 = -2
     let d: Complex128 = .pi + .i * Complex.log(2 - Complex.sqrt(3))
     let e: Complex128 = .pi / 2 - .i * Complex.log(2 + Complex.sqrt(3))
 
     XCTAssertTrue(Complex.acos(c).real.sign == .plus)
-    XCTAssertEqualWithAccuracy(abs(Complex.acos(c).real), abs(d.real),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(abs(Complex.acos(c).real), abs(d.real),
+                   accuracy: 0.00000000000001)
     XCTAssertTrue(Complex.acos(c).imaginary.sign == .minus)
-    XCTAssertEqualWithAccuracy(abs(Complex.acos(c).imaginary), abs(d.imaginary),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(abs(Complex.acos(c).imaginary), abs(d.imaginary),
+                   accuracy: 0.00000000000001)
 
     XCTAssertTrue(Complex.asin(c).real.sign == .minus)
-    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).real), abs(e.real),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(abs(Complex.asin(c).real), abs(e.real),
+                   accuracy: 0.00000000000001)
     XCTAssertTrue(Complex.asin(c).imaginary.sign == .plus)
-    XCTAssertEqualWithAccuracy(abs(Complex.asin(c).imaginary), abs(e.imaginary),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(abs(Complex.asin(c).imaginary), abs(e.imaginary),
+                   accuracy: 0.00000000000001)
 
     let f: Complex128 = c.conjugate()
     XCTAssertEqual(Complex.acos(f), Complex.acos(c).conjugate())
@@ -1196,11 +1195,11 @@ class ComplexTests : XCTestCase {
     let i: Complex128 = .pi / 2 + .i * Complex.log(3) / 2
 
     XCTAssertTrue(Complex.atan(g).real.sign == .plus)
-    XCTAssertEqualWithAccuracy(abs(Complex.atan(g).real), abs(i.real),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(abs(Complex.atan(g).real), abs(i.real),
+                   accuracy: 0.00000000000001)
     XCTAssertTrue(Complex.atan(g).imaginary.sign == .plus)
-    XCTAssertEqualWithAccuracy(abs(Complex.atan(g).imaginary), abs(i.imaginary),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(abs(Complex.atan(g).imaginary), abs(i.imaginary),
+                   accuracy: 0.00000000000001)
     XCTAssertEqual(.i * Complex.atan(h), (.i * Complex.atan(g)).conjugate())
 
     // Test special values.
@@ -1282,38 +1281,32 @@ class ComplexTests : XCTestCase {
 
   func testComplexHyperbolicFunctions() {
     let a: Complex128 = Complex(real: 0.0, imaginary: -2.0)
-    XCTAssertEqualWithAccuracy(Complex.asinh(a).real,
-                               Double.log(2 + Double.sqrt(3)),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.asinh(a).real, Double.log(2 + Double.sqrt(3)),
+                   accuracy: 0.00000000000001)
     XCTAssertEqual(Complex.asinh(a).imaginary, -.pi / 2)
 
     let b: Complex128 = Complex(real: -0.0, imaginary: -2.0)
-    XCTAssertEqualWithAccuracy(Complex.asinh(b).real,
-                               -Double.log(2 + Double.sqrt(3)),
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.asinh(b).real, -Double.log(2 + Double.sqrt(3)),
+                   accuracy: 0.00000000000001)
     XCTAssertEqual(Complex.asinh(b).imaginary, -.pi / 2)
 
     let c: Complex128 = 1 + 2 * .i
     let d: Complex128 = Complex.log(c + Complex.sqrt(-2 + 4 * .i))
-    XCTAssertEqualWithAccuracy(Complex.asinh(c).real, d.real,
-                               accuracy: 0.00000000000001)
-    XCTAssertEqualWithAccuracy(Complex.asinh(c).imaginary, d.imaginary,
-                               accuracy: 0.00000000000001)
-    XCTAssertEqualWithAccuracy(Complex.atanh(c).real,
-                               Double.log(8) / 4 - Double.log(2) / 2,
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.asinh(c).real, d.real, accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.asinh(c).imaginary, d.imaginary,
+                   accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.atanh(c).real, Double.log(8) / 4 - Double.log(2) / 2,
+                   accuracy: 0.00000000000001)
     XCTAssertEqual(Complex.atanh(c).imaginary, .pi * 3 / 8)
 
     let e: Complex128 = 0.5
-    XCTAssertEqualWithAccuracy(Complex.acosh(e).real, 0,
-                               accuracy: 0.00000000000001)
-    XCTAssertEqualWithAccuracy(Complex.acosh(e).imaginary, 1.047197551196597746,
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.acosh(e).real, 0, accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.acosh(e).imaginary, 1.047197551196597746,
+                   accuracy: 0.00000000000001)
 
     let f: Complex128 = e.conjugate()
     XCTAssertTrue(Complex.acosh(f).real.sign == Complex.acosh(e).real.sign)
-    XCTAssertEqualWithAccuracy(Complex.acosh(f).real, 0,
-                               accuracy: 0.00000000000001)
+    XCTAssertEqual(Complex.acosh(f).real, 0, accuracy: 0.00000000000001)
     XCTAssertEqual(Complex.acosh(f).imaginary, -Complex.acosh(e).imaginary)
 
     let g: Complex128 = 1 + .i
