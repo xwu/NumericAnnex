@@ -435,6 +435,12 @@ class RealTests: XCTestCase {
       }
     }
     // Test special values.
+    XCTAssertTrue(MockReal.atan2(0, 0).isZero)
+    XCTAssertTrue(MockReal.atan2(0, 0).sign == .plus)
+    XCTAssertTrue(MockReal.atan2(MockReal(-0.0), 0).isZero)
+    XCTAssertTrue(MockReal.atan2(MockReal(-0.0), 0).sign == .minus)
+    XCTAssertEqual(MockReal.atan2(0, MockReal(-0.0)), .pi)
+    XCTAssertEqual(MockReal.atan2(MockReal(-0.0), MockReal(-0.0)), -.pi)
     XCTAssertEqual(MockReal.atan2(0, -42), .pi)
     XCTAssertEqual(MockReal.atan2(MockReal(-0.0), -42), -.pi)
     XCTAssertTrue(MockReal.atan2(0, 42).isZero)
@@ -592,6 +598,11 @@ class RealTests: XCTestCase {
     XCTAssertEqual(Float.tgamma(10), Float((2...9).reduce(1, *)), accuracy: 0.1)
     XCTAssertEqual(Float.tgamma(1), 1)
     XCTAssertEqual(Float.tgamma(.infinity), .infinity)
+
+    XCTAssertEqual(Float.lgamma(10), Float.log(Float((2...9).reduce(1, *))),
+                   accuracy: 0.000_001)
+    XCTAssertEqual(Float.lgamma(1), 0)
+    XCTAssertEqual(Float.lgamma(.infinity), .infinity)
   }
 
   func testDouble() {
@@ -726,6 +737,11 @@ class RealTests: XCTestCase {
                    accuracy: 0.000_001)
     XCTAssertEqual(Double.tgamma(1), 1)
     XCTAssertEqual(Double.tgamma(.infinity), .infinity)
+
+    XCTAssertEqual(Double.lgamma(10), Double.log(Double((2...9).reduce(1, *))),
+                   accuracy: 0.000_000_000_001)
+    XCTAssertEqual(Double.lgamma(1), 0)
+    XCTAssertEqual(Double.lgamma(.infinity), .infinity)
   }
 
   static var allTests = [
