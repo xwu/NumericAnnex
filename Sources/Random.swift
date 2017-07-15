@@ -51,11 +51,18 @@ public final class Random : PRNG {
   ///
   /// If cryptographically secure random bytes are unavailable, the result is
   /// `nil`.
-  public init?() {
+  public convenience init?() {
+    self.init(_entropy: Random._entropy(UInt64.self, count: 2))
+  }
+
+  /// Creates a pseudo-random number generator with an internal state seeded
+  /// using cryptographically secure random bytes.
+  ///
+  /// If cryptographically secure random bytes are unavailable, the result is
+  /// `nil`.
+  internal init?(_entropy: @autoclosure () -> [UInt64]?) {
     repeat {
-      guard let entropy = Random._entropy(UInt64.self, count: 2) else {
-        return nil
-      }
+      guard let entropy = _entropy() else { return nil }
       self.state = (entropy[0], entropy[1])
     } while self.state == (0, 0)
   }

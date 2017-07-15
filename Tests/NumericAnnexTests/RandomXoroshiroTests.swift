@@ -8,6 +8,11 @@ class RandomXoroshiroTests : XCTestCase {
       return
     }
     XCTAssertTrue(rng.state != (0, 0))
+
+    let mock = {
+      return nil as [UInt64]?
+    }
+    XCTAssertNil(Random.Xoroshiro(_entropy: mock()))
   }
 
   func test_1_2() {
