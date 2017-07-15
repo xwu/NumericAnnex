@@ -138,17 +138,25 @@ where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
 
     let exponent = source.exponent
     let significandWidth = source.significandWidth
-    if significandWidth <= exponent {
+    let shift = Source.Exponent(significandWidth) - exponent
+
+    if shift <= 0 {
       self.numerator = T(source)
       self.denominator = 1
       return
     }
-    let shift = significandWidth - Int(exponent)
-    let numerator = T(source * Source(1 &<< shift))
-    // Ensure that `numerator.magnitude` is representable as a `T`.
+
+    let numerator = T(
+      Source(
+        sign: source.sign,
+        exponent: exponent + shift,
+        significand: source.significand
+      )
+    )
+    let denominator = T(Source(sign: .plus, exponent: shift, significand: 1))
+    // Ensure that `numerator.magnitude` and `denominator.magnitude` are each
+    // representable as a `T`.
     _ = T(numerator.magnitude)
-    let denominator = T(1 &<< shift)
-    // Ensure that `denominator.magnitude` is representable as a `T`.
     _ = T(denominator.magnitude)
     self.numerator = numerator
     self.denominator = denominator
@@ -181,25 +189,27 @@ extension Rational where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger 
 
     let exponent = source.exponent
     let significandWidth = source.significandWidth
+    let shift = Source.Exponent(significandWidth) - exponent
     let bitWidth = T.bitWidth
-    if significandWidth <= exponent {
+
+    if shift <= 0 {
       guard exponent + 1 < bitWidth else { return nil }
       self.numerator = T(source)
       self.denominator = 1
       return
     }
-    let shift = significandWidth - Int(exponent)
-    guard significandWidth + 1 < bitWidth && shift < bitWidth else {
+
+    guard significandWidth + 1 < bitWidth && shift + 1 < bitWidth else {
       return nil
     }
-    let numerator = T(source * Source(1 &<< shift))
-    // Ensure that `numerator.magnitude` is representable as a `T`.
-    guard let _ = T(exactly: numerator.magnitude) else { return nil }
-    let denominator = T(1 &<< shift)
-    // Ensure that `denominator.magnitude` is representable as a `T`.
-    guard let _ = T(exactly: denominator.magnitude) else { return nil }
-    self.numerator = numerator
-    self.denominator = denominator
+    self.numerator = T(
+      Source(
+        sign: source.sign,
+        exponent: exponent + shift,
+        significand: source.significand
+      )
+    )
+    self.denominator = T(Source(sign: .plus, exponent: shift, significand: 1))
   }
 }
 
@@ -587,7 +597,7 @@ extension Rational : Comparable {
   }
 }
 
-extension Rational : Strideable, _Strideable {
+extension Rational : Strideable {
   // ---------------------------------------------------------------------------
   // MARK: Strideable
   // ---------------------------------------------------------------------------
