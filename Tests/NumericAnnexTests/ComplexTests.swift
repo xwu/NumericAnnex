@@ -921,6 +921,40 @@ class ComplexTests : XCTestCase {
     XCTAssertFalse(c128.isNaN)
   }
 
+  func testComplexMagnitude() {
+    var c128: Complex128 = 42
+    XCTAssertEqual(c128.magnitude, Double.hypot(42, 0))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(42, 0)))
+
+    c128 = -42
+    XCTAssertEqual(c128.magnitude, Double.hypot(-42, 0))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(-42, 0)))
+
+    c128 = 42 * .i
+    XCTAssertEqual(c128.magnitude, Double.hypot(0, 42))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(0, 42)))
+
+    c128 = -42 * .i
+    XCTAssertEqual(c128.magnitude, Double.hypot(0, -42))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(0, -42)))
+
+    c128 = 42 + 42 * .i
+    XCTAssertEqual(c128.magnitude, Double.hypot(42, 42))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(42, 42)))
+
+    c128 = 42 - 42 * .i
+    XCTAssertEqual(c128.magnitude, Double.hypot(42, -42))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(42, -42)))
+
+    c128 = -42 + 42 * .i
+    XCTAssertEqual(c128.magnitude, Double.hypot(-42, 42))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(-42, 42)))
+
+    c128 = -42 - 42 * .i
+    XCTAssertEqual(c128.magnitude, Double.hypot(-42, -42))
+    XCTAssertEqual(abs(c128), Complex(Double.hypot(-42, -42)))
+  }
+
   func testComplexSquaredMagnitude() {
     var c128: Complex128 = 42
     XCTAssertEqual(c128.squaredMagnitude, c128.magnitude * c128.magnitude)
@@ -962,6 +996,54 @@ class ComplexTests : XCTestCase {
       XCTAssertTrue(v.squaredMagnitude == v.magnitude * v.magnitude ||
         (v.squaredMagnitude.isNaN && (v.magnitude * v.magnitude).isNaN))
       XCTAssertTrue(v.squaredMagnitude.sign == .plus)
+    }
+  }
+
+  func testComplexProjection() {
+    var c128: Complex128 = 42
+    XCTAssertEqual(c128.projection(), c128)
+    c128 = 42 * .i
+    XCTAssertEqual(c128.projection(), c128)
+    c128 = 42 + 42 * .i
+    XCTAssertEqual(c128.projection(), c128)
+
+    // Test special values.
+    let values: [Complex128] = [
+      Complex(real: 0, imaginary: 0),
+      Complex(real: 0, imaginary: -0.0),
+      Complex(real: -0.0, imaginary: 0),
+      Complex(real: -0.0, imaginary: -0.0),
+      Complex(real: .infinity, imaginary: 0),
+      Complex(real: 0, imaginary: .infinity),
+      Complex(real: .infinity, imaginary: -0.0),
+      Complex(real: -0.0, imaginary: .infinity),
+      Complex(real: .infinity, imaginary: .infinity),
+      Complex(real: -.infinity, imaginary: 0),
+      Complex(real: 0, imaginary: -.infinity),
+      Complex(real: -.infinity, imaginary: -0.0),
+      Complex(real: -0.0, imaginary: -.infinity),
+      Complex(real: -.infinity, imaginary: -.infinity),
+      Complex(real: 0, imaginary: .nan),
+      Complex(real: .nan, imaginary: 0),
+      Complex(real: -0.0, imaginary: .nan),
+      Complex(real: .nan, imaginary: -0.0),
+      Complex(real: .infinity, imaginary: .nan),
+      Complex(real: .nan, imaginary: .infinity),
+      Complex(real: -.infinity, imaginary: .nan),
+      Complex(real: .nan, imaginary: -.infinity),
+      Complex(real: .nan, imaginary: .nan),
+    ]
+    for v in values {
+      if v.isInfinite {
+        XCTAssertTrue(v.projection().isInfinite &&
+          v.projection().real.sign == .plus &&
+          v.projection().imaginary.isZero &&
+          v.projection().imaginary.sign == v.imaginary.sign)
+      } else if v.isNaN {
+        XCTAssertTrue(v.projection().isNaN)
+      } else {
+        XCTAssertEqual(v.projection(), v)
+      }
     }
   }
 
@@ -1029,6 +1111,23 @@ class ComplexTests : XCTestCase {
 
     let e = d.conjugate()
     XCTAssertEqual(Complex.log(e), Complex.log(d).conjugate())
+
+    let f = Complex128(r: 1, theta: .pi / 2)
+    XCTAssertEqual(Complex.log10(f).real, 0)
+    XCTAssertEqual(Complex.log10(f).imaginary, .pi / 2 / log(10))
+
+    let g = Complex128(r: 1, theta: .pi / 4)
+    XCTAssertEqual(Complex.log10(g).real, 0)
+    XCTAssertEqual(Complex.log10(g).imaginary, .pi / 4 / log(10),
+                   accuracy: 0.000_000_000_001)
+
+    let h = Complex128(r: 1, theta: .pi)
+    XCTAssertEqual(Complex.log10(h).real, 0)
+    XCTAssertEqual(Complex.log10(h).imaginary, .pi / log(10))
+
+    let i = h.conjugate()
+    XCTAssertEqual(Complex.log10(i).real, 0)
+    XCTAssertEqual(Complex.log10(i).imaginary, -.pi / log(10))
 
     // Test special values.
     var result: Complex128
@@ -1838,7 +1937,9 @@ class ComplexTests : XCTestCase {
     ("testComplexAddition", testComplexAddition),
     ("testComplexDivision", testComplexDivision),
     ("testComplexInfinity", testComplexInfinity),
+    ("testComplexMagnitude", testComplexMagnitude),
     ("testComplexSquaredMagnitude", testComplexSquaredMagnitude),
+    ("testComplexProjection", testComplexProjection),
     ("testComplexReciprocal", testComplexReciprocal),
     ("testComplexLogarithm", testComplexLogarithm),
     ("testComplexSquareRoot", testComplexSquareRoot),
