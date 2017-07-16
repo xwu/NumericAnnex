@@ -870,9 +870,12 @@ extension Complex : Math {
   public func hyperbolicTangent() -> Complex {
     if real.isNaN && imaginary == 0 { return self }
     if real.isInfinite {
-      if !imaginary.isFinite { return 1 }
+      if !imaginary.isFinite {
+        return Complex(real: T(signOf: real, magnitudeOf: 1), imaginary: 0)
+      }
       return Complex(
-        real: 1, imaginary: T(signOf: T.sin(2 * imaginary), magnitudeOf: 0)
+        real: T(signOf: real, magnitudeOf: 1),
+        imaginary: T(signOf: T.sin(2 * imaginary), magnitudeOf: 0)
       )
     }
     if real == 0 {
@@ -880,18 +883,27 @@ extension Complex : Math {
       // http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1892.htm#dr_471
       return Complex(real: real, imaginary: T.tan(imaginary))
     }
-    // See AMS55 4.5.51
+    // See AMS55 4.5.51.
     let twiceReal = 2 * real, twiceImaginary = 2 * imaginary
+    let sinhTwiceReal = T.sinh(twiceReal)
     let denominator = T.cosh(twiceReal) + T.cos(twiceImaginary)
-    let sinh = T.sinh(twiceReal)
-    if sinh.isInfinite && denominator.isInfinite {
+    // If `sinh(2 * real)` is infinite, then `cosh(2 * real)` is infinite.
+    //
+    // Thus, `denominator` is either:
+    // - infinite, if `cos(2 * imaginary)` is not NaN; or
+    // - NaN, if `cos(2 * imaginary)` is NaN (i.e., if `2 * imaginary` is
+    //   infinite or NaN).
+    //
+    // In either case, if `imaginary` is finite, the complex hyperbolic tangent
+    // should be 1 or -1.
+    if sinhTwiceReal.isInfinite && imaginary.isFinite {
       return Complex(
-        real: sinh > 0 ? (1 as T) : -(1 as T),
-        imaginary: twiceImaginary > 0 ? (0 as T) : -(0 as T)
+        real: T(signOf: sinhTwiceReal, magnitudeOf: 1),
+        imaginary: T(signOf: T.sin(twiceImaginary), magnitudeOf: 0)
       )
     }
     return Complex(
-      real: sinh / denominator,
+      real: sinhTwiceReal / denominator,
       imaginary: T.sin(twiceImaginary) / denominator
     )
   }

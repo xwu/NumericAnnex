@@ -650,6 +650,258 @@ class ComplexTests : XCTestCase {
     XCTAssertTrue(c128.isInfinite)
     XCTAssertFalse(c128.isNaN)
 
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: .infinity, imaginary: 0)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: 0)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: 0, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: 0, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: -.infinity, imaginary: 0)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: 0)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: 0, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: 0, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: 0)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: 0)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: 0, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: 0, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: .infinity, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: .nan, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: .nan, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: -.infinity, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: .nan, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: .nan, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: .nan)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: .nan, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: .nan, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: 0)
+    c128 *= Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: 0, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: .infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: .infinity, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
+    c128 = Complex(real: .nan, imaginary: .nan)
+    c128 *= Complex(real: -.infinity, imaginary: -.infinity)
+    XCTAssertFalse(c128.isInfinite)
+    XCTAssertTrue(c128.isNaN)
+    XCTAssertTrue(c128.real.isNaN)
+    XCTAssertTrue(c128.imaginary.isNaN)
+
     let greatest = Complex128(
       real: .greatestFiniteMagnitude,
       imaginary: .greatestFiniteMagnitude
@@ -1903,6 +2155,17 @@ class ComplexTests : XCTestCase {
     result = Complex.tanh(pipy)
     XCTAssertEqual(result.real, 1)
     XCTAssertEqual(result.imaginary, 0 * .sin(2 * pipy.imaginary))
+    XCTAssertTrue(result.imaginary.sign == (0 * .sin(2 * pipy.imaginary)).sign)
+
+    conjugate = Complex.tanh(pipy.conjugate())
+    XCTAssertEqual(conjugate.real, result.conjugate().real)
+    XCTAssertEqual(conjugate.imaginary, result.conjugate().imaginary)
+    XCTAssertTrue(conjugate.imaginary.sign == result.conjugate().imaginary.sign)
+
+    let negated = Complex.tanh(-pipy)
+    XCTAssertEqual(negated.real, (-result).real)
+    XCTAssertEqual(negated.imaginary, (-result).imaginary)
+    XCTAssertTrue(negated.imaginary.sign == (-result).imaginary.sign)
 
     result = Complex.tanh(pipi)
     XCTAssertEqual(result.real, 1)
@@ -1911,6 +2174,16 @@ class ComplexTests : XCTestCase {
 
     result = Complex.tanh(pipn)
     XCTAssertEqual(result.real, 1)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.tanh(-pipi)
+    XCTAssertEqual(result.real, -1)
+    XCTAssertTrue(result.imaginary.isZero)
+    // The sign of the imaginary part is unspecified.
+
+    result = Complex.tanh(-pipn)
+    XCTAssertEqual(result.real, -1)
     XCTAssertTrue(result.imaginary.isZero)
     // The sign of the imaginary part is unspecified.
 
@@ -1924,6 +2197,49 @@ class ComplexTests : XCTestCase {
     XCTAssertTrue(result.imaginary.isNaN)
 
     result = Complex.tanh(pnpn)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    let w = Complex128(real: .greatestFiniteMagnitude)
+
+    result = Complex.tanh(w)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.tanh(-w)
+    XCTAssertEqual(result.real, -1)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    let x = Complex128(
+      real: .greatestFiniteMagnitude,
+      imaginary: .greatestFiniteMagnitude
+    )
+
+    result = Complex.tanh(x)
+    XCTAssertEqual(result.real, 1)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    result = Complex.tanh(-x)
+    XCTAssertEqual(result.real, -1)
+    XCTAssertTrue(result.imaginary.isZero)
+
+    let y = Complex128(real: .greatestFiniteMagnitude, imaginary: .infinity)
+
+    result = Complex.tanh(y)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.tanh(-y)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    let z = Complex128(real: .greatestFiniteMagnitude, imaginary: .nan)
+
+    result = Complex.tanh(z)
+    XCTAssertTrue(result.real.isNaN)
+    XCTAssertTrue(result.imaginary.isNaN)
+
+    result = Complex.tanh(-z)
     XCTAssertTrue(result.real.isNaN)
     XCTAssertTrue(result.imaginary.isNaN)
   }
