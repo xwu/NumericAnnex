@@ -498,6 +498,7 @@ extension Complex : Hashable {
     return _Hash._combine(real, imaginary)
   }
 }
+
 extension Complex : Numeric {
   // ---------------------------------------------------------------------------
   // MARK: Numeric
