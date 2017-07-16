@@ -503,7 +503,7 @@ extension Complex : Numeric {
   // MARK: Numeric
   // ---------------------------------------------------------------------------
 
-  @_transparent // @_inlineable
+  // @_transparent // @_inlineable
   public init?<U>(exactly source: U) where U : BinaryInteger {
     guard let t = T(exactly: source) else { return nil }
     self.real = t
