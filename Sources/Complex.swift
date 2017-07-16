@@ -383,13 +383,6 @@ extension Complex {
     return T.hypot(real, imaginary)
   }
 
-  /// The polar coordinates representing this value, equivalent to
-  /// `(r: magnitude, theta: argument)`.
-  @_transparent // @_inlineable
-  public var polar: (r: T, theta: T) {
-    return (r: magnitude, theta: argument)
-  }
-
   /// The squared magnitude (field norm, absolute square) of this value.
   ///
   /// This is less costly to compute than `magnitude` and, in some cases, can be
