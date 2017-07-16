@@ -877,6 +877,7 @@ extension Complex : Math {
     }
     if real == 0 {
       // See C11 DR 471.
+      // http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1892.htm#dr_471
       return Complex(real: real, imaginary: T.tan(imaginary))
     }
     // See AMS55 4.5.51
@@ -965,11 +966,12 @@ extension Complex : Math {
       }
     }
     if imaginary.isNaN {
-      // See C11 DR 471.
-      return Complex(
-        real: imaginary,
-        imaginary: real == 0 ? .pi / 2 : imaginary
-      )
+      if real == 0 {
+        // See C11 DR 471.
+        // http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1892.htm#dr_471
+        return Complex(real: imaginary, imaginary: .pi / 2)
+      }
+      return Complex(real: imaginary, imaginary: imaginary)
     }
     if imaginary.isInfinite {
       return Complex(
