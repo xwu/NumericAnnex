@@ -55,7 +55,7 @@
 /// a value is NaN. `Rational<T>` arithmetic operations are intended to
 /// propagate NaN in the same manner as analogous floating-point operations.
 ///
-/// ### Fixed-Width Binary Parts
+/// ### Numerical Limits
 ///
 /// When a value of type `Rational<T>` is in canonical form, the sign of the
 /// numerator is the sign of the value; that is, in canonical form, the sign of
