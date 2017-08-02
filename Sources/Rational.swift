@@ -28,8 +28,8 @@
 /// print(a) // Prints "3/3"
 /// ```
 ///
-/// All arithmetic operations with values in canonical form (i.e. reduced to
-/// lowest terms) return results in canonical form. However, operations with
+/// All arithmetic operations on values in canonical form (i.e. reduced to
+/// lowest terms) return results in canonical form. However, operations on
 /// values not in canonical form may or may not return results that are
 /// themselves in canonical form. The property `canonicalized` is the canonical
 /// form of any value.
