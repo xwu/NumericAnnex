@@ -169,7 +169,7 @@ extension PRNG {
       bitCount == T.bitWidth {
       // It is an awkward way of spelling `next()`, but it is necessary.
       guard let next = first(where: { _ in true }) else { fatalError() }
-      return T(extendingOrTruncating: next)
+      return T(truncatingIfNeeded: next)
     }
 
     let (quotient, remainder) =
@@ -179,15 +179,14 @@ extension PRNG {
     // Call `next()` at least `quotient` times.
     for i in 0..<quotient {
       guard let next = first(where: { $0 <= max }) else { fatalError() }
-      temporary +=
-        T(extendingOrTruncating: next) &<< (randomBitWidth * i)
+      temporary += T(truncatingIfNeeded: next) &<< (randomBitWidth * i)
     }
     // If `remainder != 0`, call `next()` at least one more time.
     if remainder != 0 {
       guard let next = first(where: { $0 <= max }) else { fatalError() }
       let mask = Element.max &>> (Element.bitWidth - remainder)
       temporary +=
-        T(extendingOrTruncating: next & mask) &<< (randomBitWidth * quotient)
+        T(truncatingIfNeeded: next & mask) &<< (randomBitWidth * quotient)
     }
     return temporary
   }
