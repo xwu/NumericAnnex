@@ -104,6 +104,8 @@ code {
   font-size: 16px;
   line-height: 16px;
   font-family: "Source Code Pro", Menlo, Consolas, "Liberation Mono", Courier, monospace; }
+  code a {
+    color: inherit; }
 
 pre code {
   padding: 0;
