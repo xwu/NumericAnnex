@@ -288,7 +288,7 @@ article {
 .aside, .language {
   overflow-y: hidden;
   margin: 16px 0;
-  border-left: 6px solid #dddddd;
+  border-left: 6px solid #d0d0d0;
   border-radius: 4px;
   padding: 8px 12px;
   background-color: #f7f7f7; }
@@ -307,14 +307,14 @@ article {
     margin-bottom: 0; }
 
 .language {
-  border-left: 6px solid #8fb6dc;
-  background-color: #dde9f4; }
+  border-left: 6px solid #a2c2e2;
+  background-color: white; }
   .language .aside-title {
     color: #4183c4; }
 
 .aside-warning {
-  border-left: 6px solid #ffd666;
-  background-color: #fff1cc; }
+  border-left: 6px solid #ffdd80;
+  background-color: white; }
   .aside-warning .aside-title {
     color: #fb0; }
 
