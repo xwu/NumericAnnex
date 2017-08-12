@@ -307,14 +307,14 @@ article {
     margin-bottom: 0; }
 
 .language {
-  border-left: 6px solid #a2c2e2;
-  background-color: white; }
+  border-left: 6px solid #99bcdf;
+  background-color: #f0f5fa; }
   .language .aside-title {
     color: #4183c4; }
 
 .aside-warning {
-  border-left: 6px solid #ffdd80;
-  background-color: white; }
+  border-left: 6px solid #ffda73;
+  background-color: #fff8e6; }
   .aside-warning .aside-title {
     color: #fb0; }
 
