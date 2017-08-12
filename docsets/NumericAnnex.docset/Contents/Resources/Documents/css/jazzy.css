@@ -89,7 +89,7 @@ pre {
   margin: 0 0 16px;
   border: 1px solid #e6e6e6;
   border-radius: 4px;
-  padding: calc(12px - pre_border_width) calc(16px - pre_border_width);
+  padding: calc(12px - 1px) calc(16px - 1px);
   background: #f9f9f9;
   font-size: inherit;
   line-height: inherit;
