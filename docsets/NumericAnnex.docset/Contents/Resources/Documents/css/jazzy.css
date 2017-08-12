@@ -200,7 +200,7 @@ article {
   margin: 0;
   border: none;
   border-radius: 0;
-  padding: 8px 0;
+  padding: 0;
   background-color: transparent; }
 
 .toc {
@@ -307,14 +307,14 @@ article {
     margin-bottom: 0; }
 
 .language {
-  border-left: 6px solid #cde9f4;
-  background-color: transparent; }
+  border-left: 6px solid #8fb6dc;
+  background-color: #dde9f4; }
   .language .aside-title {
     color: #4183c4; }
 
 .aside-warning {
   border-left: 6px solid #ffd666;
-  background-color: #ffe499; }
+  background-color: #fff1cc; }
   .aside-warning .aside-title {
     color: #fb0; }
 
