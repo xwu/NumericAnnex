@@ -57,9 +57,11 @@ blockquote {
   margin: 0 0 16px;
   border-left: 6px solid #e6e6e6;
   border-radius: 4px;
-  padding: 0 16px;
+  padding: 16px;
   background-color: #fafafa;
   color: #858585; }
+  blockquote > p:last-child {
+    margin-bottom: 0; }
 
 img {
   max-width: 100%; }

@@ -136,6 +136,13 @@
               </div>
               <p>A pseudo-random number generator (PRNG) that implements <code>xoroshiro128+</code>, a
 successor to <code>xorshift128+</code> devised by S. Vigna and D. Blackman.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Once seeded from cryptographically secure random bytes, an
+instance of <code>Random.Xoroshiro</code> generates high-quality random numbers but
+is <em>not</em> a cryptographically secure PRNG.
+
+</div>
 
 <p>To generate random numbers, create your own instance of <code>Random.Xoroshiro</code>
 with an internal state seeded from cryptographically secure random bytes:</p>
@@ -153,16 +160,9 @@ with an internal state seeded from cryptographically secure random bytes:</p>
   <span class="nf">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre>
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    <p>Once seeded from cryptographically secure random bytes,
-<code>Random.Xoroshiro</code> generates high-quality random numbers but is <em>not</em> a
-cryptographically secure PRNG.</p>
-
-</div>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <p><code><a href="../../Classes/Random.html">Random</a></code>, <code><a href="../../Protocols/PRNG.html">PRNG</a></code></p>
+    <code><a href="../../Classes/Random.html">Random</a></code>, <code><a href="../../Protocols/PRNG.html">PRNG</a></code>
 
 </div>
 
