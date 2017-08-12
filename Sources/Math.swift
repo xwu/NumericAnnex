@@ -315,7 +315,7 @@ extension Math {
   /// Returns the natural (base _e_) logarithm of the result of adding one to
   /// `x`, rounded to a representable value.
   ///
-  /// - SeeAlso: `naturalLogarithmOfOnePlus()`
+  /// - SeeAlso: `naturalLogarithmOnePlus()`
   @_transparent // @_inlineable
   public static func log1p(_ x: Self) -> Self {
     return x.naturalLogarithmOnePlus()
