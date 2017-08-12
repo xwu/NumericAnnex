@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Random Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css">
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Random" class="dashAnchor"></a>
+    <a title="Random Class Reference"></a>
+    <header>
+      <p class="primary">
+        <a href="../index.html">NumericAnnex Reference</a>
+        (100% documented)
+      </p>
+      <p>
+        <a href="https://github.com/xwu/NumericAnnex">View on GitHub</a>
+      </p>
+      <p>
+        <a href="dash-feed://https%3A%2F%2Fxwu%2Egithub%2Eio%2FNumericAnnex%2Fdocsets%2FNumericAnnex%2Exml">Install in Dash</a>
+      </p>
+    </header>
+    <div class="wrapper">
+      <nav>
+        <ul>
+          <li>
+            <p><a href="../Classes.html">Classes</a></p>
+            <ul>
+              <li>
+                <a href="../Classes/Random.html">Random</a>
+              </li>
+              <li>
+                <a href="../Classes/Random/Xoroshiro.html">– Xoroshiro</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Extensions.html">Extensions</a></p>
+            <ul>
+              <li>
+                <a href="../Extensions/BinaryInteger.html">BinaryInteger</a>
+              </li>
+              <li>
+                <a href="../Extensions/Double.html">Double</a>
+              </li>
+              <li>
+                <a href="../Extensions/Float.html">Float</a>
+              </li>
+              <li>
+                <a href="../Extensions/FloatingPoint.html">FloatingPoint</a>
+              </li>
+              <li>
+                <a href="../Extensions/UnsignedInteger.html">UnsignedInteger</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Functions.html">Functions</a></p>
+            <ul>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA7ComplexVyxGAeA4RealRzs9DecodableRzs9EncodableRzs33_ExpressibleByBuiltinFloatLiteralRzlF">abs(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex3absAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">abs(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex4ceilAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">ceil(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5floorAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">floor(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5roundAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">round(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex4sqrtAA7ComplexVyxGAeA4RealRzs9DecodableRzs9EncodableRzs33_ExpressibleByBuiltinFloatLiteralRzlF">sqrt(_:)</a>
+              </li>
+              <li>
+                <a href="../Functions.html#/s:12NumericAnnex5truncAA8RationalVyxGAEs9DecodableRzs9EncodableRzs13SignedIntegerRzs021_ExpressibleByBuiltinH7LiteralRzs08UnsignedH09Magnitudes0A0PRpzAkM_AKQZANRSlF">trunc(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Protocols.html">Protocols</a></p>
+            <ul>
+              <li>
+                <a href="../Protocols/Math.html">Math</a>
+              </li>
+              <li>
+                <a href="../Protocols/PRNG.html">PRNG</a>
+              </li>
+              <li>
+                <a href="../Protocols/Real.html">Real</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Structs.html">Structs</a></p>
+            <ul>
+              <li>
+                <a href="../Structs/Complex.html">Complex</a>
+              </li>
+              <li>
+                <a href="../Structs/Rational.html">Rational</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><a href="../Typealiases.html">Typealiases</a></p>
+            <ul>
+              <li>
+                <a href="../Typealiases.html#/s:12NumericAnnex12RoundingRulea">RoundingRule</a>
+              </li>
+              <li>
+                <a href="../Typealiases.html#/s:12NumericAnnex4Signa">Sign</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article>
+        <section>
+          <div class="wrapper">
+            <div class="overview">
+              <h1>Random</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Random</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/PRNG.html">PRNG</a></span></code></pre>
+
+                </div>
+              </div>
+              <p>A pseudo-random number generator (PRNG) that implements
+<a href="http://vigna.di.unimi.it/ftp/papers/xorshiftplus.pdf"><code>xorshift128+</code></a>, an efficient linear-feedback shift register.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Once seeded from cryptographically secure random bytes, an
+instance of <code>Random</code> generates high-quality random numbers but is <em>not</em> a
+cryptographically secure PRNG.
+
+</div>
+
+<p>To generate random numbers, create your own instance of <code>Random</code> with an
+internal state seeded from cryptographically secure random bytes:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="kt">Random</span><span class="p">()</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">()</span> <span class="k">as</span> <span class="kt">Int</span>
+
+<span class="c1">// You can also pass the desired result type as an argument.</span>
+<span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="s">"Here's a random value between 0 and 42 (inclusive):"</span><span class="p">)</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="mi">42</span><span class="p">))</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="s">"Here's a random value between -42 and 0 (inclusive):"</span><span class="p">)</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Random/Xoroshiro.html">Random.Xoroshiro</a></code>, <code><a href="../Protocols/PRNG.html">PRNG</a></code>
+
+</div>
+
+            </div>
+          </div>
+        </section>
+        <section class="toc">
+          <details open>
+            <summary>Topics</summary>
+            <div class="wrapper">
+              <ul>
+                <li><a href="#/s:12NumericAnnex6RandomC5states6UInt64V_AFtv">state</a></li>
+                <li><a href="#/s:12NumericAnnex6RandomCACs6UInt64V_AEt5state_tcfc">init(state:)</a></li>
+                <li><a href="#/s:12NumericAnnex6RandomCACSgycfc">init()</a></li>
+                <li><a href="#/s:s16IteratorProtocolP4next7ElementQzSgyF">next()</a></li>
+              </ul>
+              <ul>
+                <li><a href="#/s:12NumericAnnex6RandomC9XoroshiroC">Xoroshiro</a></li>
+              </ul>
+            </div>
+          </details>
+        </section>
+        <section>
+          <div class="wrapper">
+            <div class="group">
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex6RandomC5states6UInt64V_AFtv"></a>
+                    <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
+                    <h4>
+                      <code>state</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>The internal state of the pseudo-random number generator.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="p">(</span><span class="kt">UInt64</span><span class="p">,</span> <span class="kt">UInt64</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex6RandomCACs6UInt64V_AEt5state_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(state:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>init(state:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Creates a pseudo-random number generator with the given internal state.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="p">(</span><span class="kt">UInt64</span><span class="p">,</span> <span class="kt">UInt64</span><span class="p">))</span></code></pre>
+
+                    </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <dl>
+                      <dt><code>state</code></dt>
+                      <dd>
+                        <p>The value to be used as the generator&rsquo;s internal state.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex6RandomCACSgycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <h4>
+                      <code>init()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Creates a pseudo-random number generator with an internal state seeded
+using cryptographically secure random bytes.</p>
+
+<p>If cryptographically secure random bytes are unavailable, the result is
+<code>nil</code>.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?()</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:s16IteratorProtocolP4next7ElementQzSgyF"></a>
+                    <a name="//apple_ref/swift/Method/next()" class="dashAnchor"></a>
+                    <h4>
+                      <code>next()</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">next</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt64</span><span class="p">?</span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="group">
+              <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex6RandomC9XoroshiroC"></a>
+                    <a name="//apple_ref/swift/Class/Xoroshiro" class="dashAnchor"></a>
+                    <h4>
+                      <code>Xoroshiro</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>A pseudo-random number generator (PRNG) that implements <code>xoroshiro128+</code>, a
+successor to <code>xorshift128+</code> devised by S. Vigna and D. Blackman.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Once seeded from cryptographically secure random bytes, an
+instance of <code>Random.Xoroshiro</code> generates high-quality random numbers but
+is <em>not</em> a cryptographically secure PRNG.
+
+</div>
+
+<p>To generate random numbers, create your own instance of <code>Random.Xoroshiro</code>
+with an internal state seeded from cryptographically secure random bytes:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="kt">Random</span><span class="o">.</span><span class="kt">Xoroshiro</span><span class="p">()</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">()</span> <span class="k">as</span> <span class="kt">Int</span>
+
+<span class="c1">// You can also pass the desired result type as an argument.</span>
+<span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="s">"Here's a random value between 0 and 42 (inclusive):"</span><span class="p">)</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="mi">42</span><span class="p">))</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="s">"Here's a random value between -42 and 0 (inclusive):"</span><span class="p">)</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="nf">uniform</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Random.html">Random</a></code>, <code><a href="../Protocols/PRNG.html">PRNG</a></code>
+
+</div>
+
+                    <a href="../Classes/Random/Xoroshiro.html">See more…</a>
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Xoroshiro</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/PRNG.html">PRNG</a></span></code></pre>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+    <footer>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-08-12)</p>
+      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.3, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </footer>
+  </body>
+</div>
+</html>
