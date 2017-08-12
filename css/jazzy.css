@@ -87,7 +87,9 @@ th, td {
 pre {
   overflow: auto;
   margin: 0 0 16px;
-  padding: 12px 16px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  padding: calc(12px - pre_border_width) calc(16px - pre_border_width);
   background: #f9f9f9;
   font-size: inherit;
   line-height: inherit;
@@ -99,9 +101,7 @@ code {
   font-family: Menlo, Consolas, "Liberation Mono", Courier, monospace; }
 
 p > code, li > code {
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
-  padding: calc(0.125em - 4px);
+  padding: 0.125em;
   background: #f9f9f9; }
   p > code::before, p > code::after, li > code::before, li > code::after {
     letter-spacing: -0.25em;
