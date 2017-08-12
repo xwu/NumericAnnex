@@ -24,10 +24,10 @@
 ///
 /// if x > y {
 ///   print("Here's a random value between 0 and 42 (inclusive):")
-///   print(random.uniform(0, 42))
+///   print(random.uniform(a: 0, b: 42))
 /// } else {
 ///   print("Here's a random value between -42 and 0 (inclusive):")
-///   print(random.uniform(-42, 0))
+///   print(random.uniform(a: -42, b: 0))
 /// }
 /// ```
 ///
