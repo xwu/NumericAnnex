@@ -160,14 +160,13 @@ production-ready at this time.</p>
 <p>NumericAnnex now requires Xcode 9 beta 5 or a recent development snapshot of
 Swift 4.0 that includes the revised numeric protocols.</p>
 
-<p>It requires either <code>Darwin.C</code> (macOS) or <code>Glibc</code> (Linux) for transcendental
-functions provided by the C standard library and either <code>Security</code> (macOS) or
-<code>Glibc</code> (Linux) for cryptographically secure random bytes.</p>
+<p>On Apple platforms, it requires the Security framework for cryptographically
+secure random bytes.</p>
 <h2 id='installation' class='heading'>Installation</h2>
 
-<p>After NumericAnnex has been cloned or downloaded locally, build the library with
-the command <code>swift build</code> (macOS) or <code>swift build -Xcc -D_GNU_SOURCE</code> (Linux).
-Tests can be run with the command <code>swift test</code> (macOS) or
+<p>After NumericAnnex has been cloned or downloaded locally, build the library
+using the command <code>swift build</code> (macOS) or <code>swift build -Xcc -D_GNU_SOURCE</code>
+(Linux). Run tests with the command <code>swift test</code> (macOS) or
 <code>swift test -Xcc -D_GNU_SOURCE</code> (Linux). An Xcode project can be generated with
 the command <code>swift package generate-xcodeproj</code>.</p>
 
@@ -220,9 +219,8 @@ counterpart (e.g., <code>Complex128.cbrt(-8) != -2</code>).</p>
 <h2 id='future-directions' class='heading'>Future Directions</h2>
 
 <ul>
-<li>[ ] Add more tests, including performance tests</li>
-<li>[ ] Design and implement additional methods on <code>PRNG</code></li>
-<li>[ ] Design and implement <code>BigInt</code></li>
+<li>Add more tests, including performance tests</li>
+<li>Design and implement additional methods on <code>PRNG</code></li>
 </ul>
 <h2 id='license' class='heading'>License</h2>
 

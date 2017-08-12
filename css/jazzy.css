@@ -242,7 +242,7 @@ article {
       color: #666666;
       font-weight: 500;
       font-size: 12px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       user-select: none;
       -moz-user-select: none;
@@ -314,7 +314,7 @@ article {
     color: #aaa;
     font-weight: 500;
     font-size: 12px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     user-select: none;
     -moz-user-select: none;
