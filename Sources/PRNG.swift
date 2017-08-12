@@ -43,8 +43,8 @@ import Security
 /// floating-point values in the half-open range [0, 1) with a precision of
 /// either `bitCount` or the significand bit count of the floating-point type,
 /// whichever is less. Additionally, this method generates uniformly distributed
-/// unsigned integers in the half-open range [0, `2 ** x`), where `**` is the
-/// exponentiation operator and `x` is the lesser of `bitCount` and the bit
+/// unsigned integers in the half-open range [0, 2 ** _x_), where ** is the
+/// exponentiation operator and _x_ is the lesser of `bitCount` and the bit
 /// width of the integer type.
 ///
 /// For end users, however, the recommended spelling for a uniformly distributed

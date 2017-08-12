@@ -9,6 +9,10 @@ extension Random {
   /// A pseudo-random number generator (PRNG) that implements `xoroshiro128+`, a
   /// successor to `xorshift128+` devised by S. Vigna and D. Blackman.
   ///
+  /// - Warning: Once seeded from cryptographically secure random bytes, an
+  ///   instance of `Random.Xoroshiro` generates high-quality random numbers but
+  ///   is _not_ a cryptographically secure PRNG.
+  ///
   /// To generate random numbers, create your own instance of `Random.Xoroshiro`
   /// with an internal state seeded from cryptographically secure random bytes:
   ///
@@ -27,10 +31,6 @@ extension Random {
   ///   print(random.uniform(-42, 0))
   /// }
   /// ```
-  ///
-  /// - Warning: Once seeded from cryptographically secure random bytes,
-  ///   `Random.Xoroshiro` generates high-quality random numbers but is _not_ a
-  ///   cryptographically secure PRNG.
   ///
   /// - SeeAlso: `Random`, `PRNG`
   public final class Xoroshiro : PRNG {

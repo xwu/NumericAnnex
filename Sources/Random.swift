@@ -8,6 +8,10 @@
 /// A pseudo-random number generator (PRNG) that implements
 /// [`xorshift128+`][ref], an efficient linear-feedback shift register.
 ///
+/// - Warning: Once seeded from cryptographically secure random bytes, an
+///   instance of `Random` generates high-quality random numbers but is _not_ a
+///   cryptographically secure PRNG.
+///
 /// To generate random numbers, create your own instance of `Random` with an
 /// internal state seeded from cryptographically secure random bytes:
 ///
@@ -26,10 +30,6 @@
 ///   print(random.uniform(-42, 0))
 /// }
 /// ```
-///
-/// - Warning: Once seeded from cryptographically secure random bytes, `Random`
-///   generates high-quality random numbers but is _not_ a cryptographically
-///   secure PRNG.
 ///
 /// - SeeAlso: `Random.Xoroshiro`, `PRNG`
 ///
