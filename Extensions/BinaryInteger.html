@@ -161,8 +161,8 @@
               </ul>
               <p><a href="#/Factoring%20(Fixed-Width)">Factoring (Fixed-Width)</a></p>
               <ul>
-                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20gcdReportingOverflowx12partialValue_s010ArithmeticK0O8overflowtx_xtFZ">gcdReportingOverflow(_:_:)</a></li>
-                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20lcmReportingOverflowx12partialValue_s010ArithmeticK0O8overflowtx_xtFZ">lcmReportingOverflow(_:_:)</a></li>
+                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20gcdReportingOverflowx12partialValue_Sb8overflowtx_xtFZ">gcdReportingOverflow(_:_:)</a></li>
+                <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20lcmReportingOverflowx12partialValue_Sb8overflowtx_xtFZ">lcmReportingOverflow(_:_:)</a></li>
                 <li><a href="#/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE07lcmFullF0x4high_AF3lowtx_xtFZ">lcmFullWidth(_:_:)</a></li>
               </ul>
               <p><a href="#/Initializers">Initializers</a></p>
@@ -327,7 +327,7 @@ a runtime error may occur.</p>
               <ul>
                 <li>
                   <div>
-                    <a name="/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20gcdReportingOverflowx12partialValue_s010ArithmeticK0O8overflowtx_xtFZ"></a>
+                    <a name="/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20gcdReportingOverflowx12partialValue_Sb8overflowtx_xtFZ"></a>
                     <a name="//apple_ref/swift/Method/gcdReportingOverflow(_:_:)" class="dashAnchor"></a>
                     <h4>
                       <code>gcdReportingOverflow(_:_:)</code>
@@ -343,14 +343,14 @@ whether overflow occurred during the operation.</p>
                     <div class="language">
                       <p class="aside-title">Swift</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">gcdReportingOverflow</span><span class="p">(</span><span class="n">_</span> <span class="nv">a</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span>
-    <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">partialValue</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">overflow</span><span class="p">:</span> <span class="kt">ArithmeticOverflow</span><span class="p">)</span></code></pre>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">partialValue</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">overflow</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                     </div>
                   </div>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20lcmReportingOverflowx12partialValue_s010ArithmeticK0O8overflowtx_xtFZ"></a>
+                    <a name="/s:s13BinaryIntegerP12NumericAnnexs010FixedWidthB0RzsAD9MagnitudeRpzs08UnsignedB0AFRQAE_AEs0C0PQZAFRSlE20lcmReportingOverflowx12partialValue_Sb8overflowtx_xtFZ"></a>
                     <a name="//apple_ref/swift/Method/lcmReportingOverflow(_:_:)" class="dashAnchor"></a>
                     <h4>
                       <code>lcmReportingOverflow(_:_:)</code>
@@ -366,7 +366,7 @@ whether overflow occurred during the operation.</p>
                     <div class="language">
                       <p class="aside-title">Swift</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">lcmReportingOverflow</span><span class="p">(</span><span class="n">_</span> <span class="nv">a</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span>
-    <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">partialValue</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">overflow</span><span class="p">:</span> <span class="kt">ArithmeticOverflow</span><span class="p">)</span></code></pre>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">partialValue</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">overflow</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                     </div>
                   </div>
@@ -459,7 +459,7 @@ a runtime error may occur.</p>
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-07-16)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-08-11)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
