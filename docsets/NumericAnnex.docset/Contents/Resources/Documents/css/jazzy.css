@@ -101,7 +101,7 @@ code {
 p > code, li > code {
   border: 1px solid #e6e6e6;
   border-radius: 4px;
-  padding: calc(0.125em - $unit);
+  padding: calc(0.125em - 4px);
   background: #f9f9f9; }
   p > code::before, p > code::after, li > code::before, li > code::after {
     letter-spacing: -0.25em;
