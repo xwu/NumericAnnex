@@ -29,10 +29,11 @@ library.
 ## Requirements
 
 NumericAnnex now requires Xcode 9 beta 5 or a recent development snapshot of
-Swift 4.0 that includes the revised numeric protocols. It requires either
-`Darwin.C` (macOS) or `Glibc` (Linux) for transcendental functions provided by
-the C standard library and either `Security` (macOS) or `Glibc` (Linux) for
-cryptographically secure random bytes.
+Swift 4.0 that includes the revised numeric protocols.
+
+It requires either `Darwin.C` (macOS) or `Glibc` (Linux) for transcendental
+functions provided by the C standard library and either `Security` (macOS) or
+`Glibc` (Linux) for cryptographically secure random bytes.
 
 
 ## Installation
