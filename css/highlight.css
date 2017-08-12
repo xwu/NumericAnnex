@@ -113,11 +113,13 @@
   .highlight .kr {
     color: #00f; }
   .highlight .kt {
-    color: #00f; }
+    color: #2b839f; }
   .highlight .m {
     color: #000; }
   .highlight .s {
     color: #a31515; }
+  .highlight .n {
+    color: #2b839f; }
   .highlight .na {
     color: #000; }
   .highlight .nb {
@@ -137,7 +139,7 @@
   .highlight .nt {
     color: #2b839f; }
   .highlight .nv {
-    color: #2b839f; }
+    color: #000; }
   .highlight .ow {
     color: #000; }
   .highlight .w {
