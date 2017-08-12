@@ -31,16 +31,15 @@ library.
 NumericAnnex now requires Xcode 9 beta 5 or a recent development snapshot of
 Swift 4.0 that includes the revised numeric protocols.
 
-It requires either `Darwin.C` (macOS) or `Glibc` (Linux) for transcendental
-functions provided by the C standard library and either `Security` (macOS) or
-`Glibc` (Linux) for cryptographically secure random bytes.
+On Apple platforms, it requires the Security framework for cryptographically
+secure random bytes.
 
 
 ## Installation
 
-After NumericAnnex has been cloned or downloaded locally, build the library with
-the command `swift build` (macOS) or `swift build -Xcc -D_GNU_SOURCE` (Linux).
-Tests can be run with the command `swift test` (macOS) or
+After NumericAnnex has been cloned or downloaded locally, build the library
+using the command `swift build` (macOS) or `swift build -Xcc -D_GNU_SOURCE`
+(Linux). Run tests with the command `swift test` (macOS) or
 `swift test -Xcc -D_GNU_SOURCE` (Linux). An Xcode project can be generated with
 the command `swift package generate-xcodeproj`.
 
@@ -100,9 +99,8 @@ counterpart (e.g., `Complex128.cbrt(-8) != -2`).
 
 ## Future Directions
 
-- [ ] Add more tests, including performance tests
-- [ ] Design and implement additional methods on `PRNG`
-- [ ] Design and implement `BigInt`
+- Add more tests, including performance tests
+- Design and implement additional methods on `PRNG`
 
 
 ## License
