@@ -59,6 +59,8 @@
   /* Name.Variable.Global */
   /* Name.Variable.Instance */
   /* Literal.Number.Integer.Long */ }
+  .highlight a {
+    color: inherit; }
   .highlight .c {
     color: #007400; }
   .highlight .err {

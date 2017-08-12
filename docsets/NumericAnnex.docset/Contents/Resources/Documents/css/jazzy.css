@@ -104,8 +104,6 @@ code {
   font-size: 16px;
   line-height: 16px;
   font-family: "Source Code Pro", Menlo, Consolas, "Liberation Mono", Courier, monospace; }
-  code a {
-    color: inherit; }
 
 pre code {
   padding: 0;
@@ -315,10 +313,10 @@ article {
     color: #4183c4; }
 
 .aside-warning {
-  border-left: 6px solid #ff6666;
-  background-color: #ffcccc; }
+  border-left: 6px solid #ffd666;
+  background-color: #ffe499; }
   .aside-warning .aside-title {
-    color: #f00; }
+    color: #fb0; }
 
 footer {
   padding: 16px;
