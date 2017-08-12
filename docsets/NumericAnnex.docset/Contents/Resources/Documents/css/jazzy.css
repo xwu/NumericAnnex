@@ -196,6 +196,7 @@ article {
   overflow-x: initial;
   margin: 0;
   border: none;
+  border-radius: 0;
   padding: 8px 0;
   background-color: transparent; }
 
