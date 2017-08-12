@@ -357,6 +357,11 @@ some complex functions may be unexpected. For example,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>real</em></code>: <p>The new value&rsquo;s real component.</p></p>
+                    <p><code><em>imaginary</em></code>: <p>The new value&rsquo;s imaginary component.</p></p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -377,6 +382,11 @@ some complex functions may be unexpected. For example,
                       <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">r</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">theta</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>r</em></code>: <p>The new value&rsquo;s radial coordinate.</p></p>
+                    <p><code><em>theta</em></code>: <p>The new value&rsquo;s angular coordinate.</p></p>
                   </div>
                 </li>
               </ul>
@@ -415,6 +425,10 @@ possible representation.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>real</em></code>: <p>The value to convert to a real component of type <code>T</code>.</p></p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -442,6 +456,10 @@ possible representation.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">real</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>real</em></code>: <p>The value to convert to a real component of type <code>T</code>.</p></p>
                   </div>
                 </li>
               </ul>
@@ -516,7 +534,13 @@ result lies in the range [-π, π].</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>Undocumented</p>
+                    <p>A Boolean value indicating whether the instance&rsquo;s representation is in
+canonical form.</p>
+
+<p>A complex value is represented in canonical form if the its real and
+imaginary components are both represented in canonical form, as defined in
+the <a href="http://ieeexplore.ieee.org/servlet/opac?punumber=4610933">IEEE 754 specification</a>. Every <code>Float</code> or <code>Double</code> value is
+canonical.</p>
 
                   </div>
                   <div class="declaration">
@@ -816,6 +840,10 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>value</em></code>: </p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -844,6 +872,10 @@ preserved in the sign of zero; that is,
                       <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">integerLiteral</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>value</em></code>: </p>
                   </div>
                 </li>
               </ul>
@@ -903,6 +935,11 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -961,6 +998,10 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>source</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -980,6 +1021,11 @@ preserved in the sign of zero; that is,
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">+</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Complex</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
                 <li>
@@ -1001,6 +1047,11 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1020,6 +1071,11 @@ preserved in the sign of zero; that is,
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">-</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Complex</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
                 <li>
@@ -1041,6 +1097,11 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1061,6 +1122,11 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1080,6 +1146,11 @@ preserved in the sign of zero; that is,
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">*=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Complex</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
               </ul>
@@ -1219,6 +1290,11 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1239,6 +1315,11 @@ preserved in the sign of zero; that is,
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1258,6 +1339,11 @@ preserved in the sign of zero; that is,
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="kt">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Complex</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>base</em></code>: </p>
+                    <p><code><em>exponent</em></code>: </p>
                   </div>
                 </li>
                 <li>
@@ -1608,7 +1694,7 @@ preserved in the sign of zero; that is,
     </div>
     <footer>
       <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-08-11)</p>
-      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.3, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
 </div>

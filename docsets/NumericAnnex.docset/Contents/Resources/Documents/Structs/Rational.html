@@ -379,6 +379,11 @@ operator. For example:</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>numerator</em></code>: <p>The new value&rsquo;s numerator.</p></p>
+                    <p><code><em>denominator</em></code>: <p>The new value&rsquo;s denominator.</p></p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -403,6 +408,10 @@ operator. For example:</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>source</em></code>: <p>A binary integer to convert to a rational value.</p></p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -426,6 +435,10 @@ two signed integers of type <code>T</code>, a runtime error may occur.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">Source</span> <span class="p">:</span> <span class="kt">BinaryFloatingPoint</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">Source</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>source</em></code>: <p>A binary floating-point value to convert to a rational value.</p></p>
                   </div>
                 </li>
               </ul>
@@ -466,6 +479,10 @@ two signed integers of type <code>T</code>, the result is <code>nil</code>.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="p">?</span><span class="o">&lt;</span><span class="kt">Source</span> <span class="p">:</span> <span class="kt">BinaryFloatingPoint</span><span class="o">&gt;</span><span class="p">(</span><span class="n">exactly</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">Source</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>source</em></code>: <p>A floating-point value to convert to a rational value.</p></p>
                   </div>
                 </li>
               </ul>
@@ -555,6 +572,11 @@ trapping in case of arithmetic overflow.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: <p>The value to divide.</p></p>
+                    <p><code><em>rhs</em></code>: <p>The value by which to divide <code>lhs</code>.</p></p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -576,6 +598,11 @@ in the left-hand side, trapping in case of arithmetic overflow.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">/=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: <p>The value to divide.</p></p>
+                    <p><code><em>rhs</em></code>: <p>The value by which to divide <code>lhs</code>.</p></p>
                   </div>
                 </li>
               </ul>
@@ -880,6 +907,10 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>rule</em></code>: <p>The rounding rule to use.</p></p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -921,6 +952,10 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>rule</em></code>: <p>The rounding rule to use.</p></p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -949,6 +984,10 @@ the available rounding rules.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">integerLiteral</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>value</em></code>: </p>
                   </div>
                 </li>
               </ul>
@@ -1008,6 +1047,11 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -1066,6 +1110,11 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1085,6 +1134,11 @@ the available rounding rules.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
                 <li>
@@ -1106,6 +1160,11 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1125,6 +1184,11 @@ the available rounding rules.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
               </ul>
@@ -1204,6 +1268,10 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>source</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1223,6 +1291,11 @@ the available rounding rules.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">+</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
                 <li>
@@ -1244,6 +1317,11 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1263,6 +1341,11 @@ the available rounding rules.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">-</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Rational</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
                 <li>
@@ -1284,6 +1367,11 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1304,6 +1392,11 @@ the available rounding rules.</p>
 
                     </div>
                   </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
+                  </div>
                 </li>
                 <li>
                   <div>
@@ -1323,6 +1416,11 @@ the available rounding rules.</p>
                       <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">*=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Rational</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Rational</span><span class="p">)</span></code></pre>
 
                     </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <p><code><em>lhs</em></code>: </p>
+                    <p><code><em>rhs</em></code>: </p>
                   </div>
                 </li>
               </ul>
@@ -1382,7 +1480,7 @@ the available rounding rules.</p>
     </div>
     <footer>
       <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-08-11)</p>
-      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.2, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.3, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
 </div>
