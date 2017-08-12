@@ -39,10 +39,10 @@ functions provided by the C standard library and either `Security` (macOS) or
 ## Installation
 
 After NumericAnnex has been cloned or downloaded locally, build the library with
-the command `swift build` (macOS) or `swift build -Xcc -D_GNU_SOURCE=1` (Linux).
+the command `swift build` (macOS) or `swift build -Xcc -D_GNU_SOURCE` (Linux).
 Tests can be run with the command `swift test` (macOS) or
-`swift test -Xcc -D_GNU_SOURCE=1` (Linux). An Xcode project can be generated
-with the command `swift package generate-xcodeproj`.
+`swift test -Xcc -D_GNU_SOURCE` (Linux). An Xcode project can be generated with
+the command `swift package generate-xcodeproj`.
 
 [Swift Package Manager](https://swift.org/package-manager/) can also be used to
 add the package as a dependency for your own project. See Swift documentation

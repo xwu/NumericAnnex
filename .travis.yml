@@ -10,7 +10,7 @@ matrix:
         - tar xzf swift-4.0-DEVELOPMENT-SNAPSHOT-2017-08-04-a-ubuntu14.04.tar.gz
         - export PATH=${PWD}/swift-4.0-DEVELOPMENT-SNAPSHOT-2017-08-04-a-ubuntu14.04/usr/bin:"${PATH}"
       script:
-        - swift test -Xcc -D_GNU_SOURCE=1
+        - swift test -Xcc -D_GNU_SOURCE
     - os: osx
       language: objective-c
       osx_image: xcode9
