@@ -5,11 +5,10 @@
 //  Created by Xiaodi Wu on 3/31/17.
 //
 
-/// A signed numeric type that provides square root, cube root, and elementary
-/// transcendental functions.
+/// A signed numeric type that supports elementary functions.
 ///
 /// The `Math` protocol provides a suitable basis for writing functions that
-/// work on any real or complex floating-point type which provides the required
+/// work on any real or complex floating-point type that supports the required
 /// functions.
 public protocol Math : SignedNumeric {
   /// The mathematical constant pi (_π_).

@@ -11,10 +11,11 @@ import Glibc
 import Darwin.C
 #endif
 
-/// A floating-point type that provides a selection of special functions.
+/// A floating-point type that supports elementary functions and a selection of
+/// special functions.
 ///
 /// The `Real` protocol provides a suitable basis for writing functions that
-/// work on any floating-point type that provides the required functions.
+/// work on any floating-point type that supports the required functions.
 public protocol Real : Math, FloatingPoint {
   /// Returns the hypotenuse of a right-angle triangle with legs (catheti) of
   /// length `x` and `y`, preventing avoidable arithmetic overflow and
