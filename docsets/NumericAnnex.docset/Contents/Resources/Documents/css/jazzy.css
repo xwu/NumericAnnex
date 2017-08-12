@@ -288,7 +288,7 @@ article {
   border-left: 6px solid #dddddd;
   border-radius: 4px;
   padding: 8px 12px;
-  background-color: #fefefe; }
+  background-color: #f7f7f7; }
   .aside .aside-title, .language .aside-title {
     margin: 0;
     padding-bottom: 0;
@@ -311,7 +311,7 @@ article {
 
 .aside-warning {
   border-left: 6px solid #ff6666;
-  background-color: #ffa8a8; }
+  background-color: #ffcccc; }
   .aside-warning .aside-title {
     color: #f00; }
 
