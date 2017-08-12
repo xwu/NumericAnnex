@@ -10,38 +10,38 @@ body {
 
 h1 {
   margin: 32px 0 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 28px;
   line-height: 32px; }
 
 h2 {
   margin: 32px 0 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 24px;
   line-height: 32px; }
 
 h3 {
   margin: 24px 0 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 20px;
   line-height: 24px; }
 
 h4 {
   margin: 24px 0 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px; }
 
 h5 {
   margin: 24px 0 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   color: #777; }
 
 h6 {
   margin: 24px 0 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   color: #aaaaaa; }
@@ -55,8 +55,10 @@ ul, ol {
 
 blockquote {
   margin: 0 0 16px;
-  border-left: 4px solid #e5e5e5;
+  border-left: 6px solid #e6e6e6;
+  border-radius: 4px;
   padding: 0 16px;
+  background-color: #fafafa;
   color: #858585; }
 
 img {
@@ -99,13 +101,6 @@ code {
   font-size: 16px;
   line-height: 16px;
   font-family: Menlo, Consolas, "Liberation Mono", Courier, monospace; }
-
-p > code, li > code {
-  padding: 0.125em;
-  background: #f9f9f9; }
-  p > code::before, p > code::after, li > code::before, li > code::after {
-    letter-spacing: -0.25em;
-    content: "\00a0"; }
 
 pre code {
   padding: 0;
@@ -227,7 +222,7 @@ article {
       padding-bottom: 0;
       color: #666666;
       font-size: 12px;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       user-select: none;
       -moz-user-select: none;
@@ -248,7 +243,7 @@ article {
       .toc details > .wrapper p {
         margin: 0;
         color: #333;
-        font-weight: 600;
+        font-weight: 500;
         break-after: avoid-column;
         -webkit-column-break-after: avoid; }
         .toc details > .wrapper p a[href] {
@@ -289,14 +284,16 @@ article {
 .aside, .language {
   overflow-y: hidden;
   margin: 16px 0;
-  border-left: 4px solid #dddddd;
-  padding: 8px 12px; }
+  border-left: 6px solid #dddddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background-color: white; }
   .aside .aside-title, .language .aside-title {
     margin: 0;
     padding-bottom: 0;
     color: #aaa;
     font-size: 12px;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     user-select: none;
     -moz-user-select: none;
@@ -306,12 +303,14 @@ article {
     margin-bottom: 0; }
 
 .language {
-  border-left: 4px solid #cde9f4; }
+  border-left: 6px solid #cde9f4;
+  background-color: transparent; }
   .language .aside-title {
     color: #4183c4; }
 
 .aside-warning {
-  border-left: 4px solid #ff6666; }
+  border-left: 6px solid #ff6666;
+  background-color: white; }
   .aside-warning .aside-title {
     color: #f00; }
 
