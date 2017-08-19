@@ -118,9 +118,8 @@ extension PRNG {
 #else
     // Sandboxing can make `urandom` unavailable.
     let result = withUnsafeMutableBytes(of: &value) { ptr -> Int32 in
-      let bytes = ptr.baseAddress!.bindMemory(to: UInt8.self, capacity: size)
+      let bytes = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
       let result = SecRandomCopyBytes(nil, size, bytes)
-      ptr.baseAddress!.bindMemory(to: T.self, capacity: 1)
       return result
     }
     guard result == errSecSuccess else { return nil }
@@ -143,10 +142,8 @@ extension PRNG {
     guard read == count else { return nil }
 #else
     let result = value.withUnsafeMutableBytes { ptr -> Int32 in
-      let n = stride * count
-      let bytes = ptr.baseAddress!.bindMemory(to: UInt8.self, capacity: n)
-      let result = SecRandomCopyBytes(nil, n, bytes)
-      ptr.baseAddress!.bindMemory(to: T.self, capacity: count)
+      let bytes = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+      let result = SecRandomCopyBytes(nil, stride * count, bytes)
       return result
     }
     guard result == errSecSuccess else { return nil }
