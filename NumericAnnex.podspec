@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name                  = "NumericAnnex"
   s.summary               = "A supplement to the numeric facilities provided in the Swift standard library."
-  s.version               = "0.1.16"
+  s.version               = "0.1.17"
   s.license               = "MIT"
   s.homepage              = "https://github.com/xwu/NumericAnnex"
   s.author                = "Xiaodi Wu"
