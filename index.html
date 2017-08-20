@@ -170,9 +170,13 @@ using the command <code>swift build</code> (macOS) or <code>swift build -Xcc -D_
 <code>swift test -Xcc -D_GNU_SOURCE</code> (Linux). An Xcode project can be generated with
 the command <code>swift package generate-xcodeproj</code>.</p>
 
+<p>To add the package as a dependency using <a href="https://cocoapods.org">CocoaPods</a>,
+insert the following line in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'NumericAnnex'</span><span class="p">,</span> <span class="s1">'~&gt; 0.1.17'</span>
+</code></pre>
+
 <p><a href="https://swift.org/package-manager/">Swift Package Manager</a> can also be used to
-add the package as a dependency for your own project. See Swift documentation
-for details.</p>
+add the package as a dependency. See Swift documentation for details.</p>
 <h2 id='basic-usage' class='heading'>Basic Usage</h2>
 <pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">NumericAnnex</span>
 
