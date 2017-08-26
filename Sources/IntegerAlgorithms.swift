@@ -10,9 +10,9 @@ extension BinaryInteger {
   // MARK: Exponentiation
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Returns the result of raising `base` to the power of `exponent`, rounded
   /// to a representable value.
+  @_transparent // @_inlineable
   public static func pow(_ base: Self, _ exponent: Self) -> Self {
     var x = base, n = exponent
     if Self.isSigned && n < 0 {
@@ -38,9 +38,9 @@ extension BinaryInteger {
   // MARK: Square Root
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Returns the square root of `x`, rounding toward zero. If `x` is negative,
   /// a runtime error may occur.
+  @_transparent // @_inlineable
   public static func sqrt(_ x: Self) -> Self {
     precondition(!Self.isSigned || x >= 0)
     var shift = x.bitWidth - 1
@@ -66,8 +66,8 @@ extension UnsignedInteger {
   // MARK: Cube Root
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Returns the cube root of `x`, rounding toward zero.
+  @_transparent // @_inlineable
   public static func cbrt(_ x: Self) -> Self {
     var shift = x.bitWidth - 1
     shift -= shift % 3
@@ -90,8 +90,8 @@ extension UnsignedInteger {
   // MARK: Factoring
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Returns the greatest common divisor of `a` and `b`.
+  @_transparent // @_inlineable
   public static func gcd(_ a: Self, _ b: Self) -> Self {
     // An iterative version of Stein's algorithm.
     if a == 0 { return b } // gcd(0, b) == b
@@ -128,18 +128,18 @@ extension UnsignedInteger where Self : FixedWidthInteger {
   // MARK: Factoring (Fixed-Width)
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Returns the least common multiple of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
+  @_transparent // @_inlineable
   public static func lcmReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: Bool) {
     if a == 0 || b == 0 { return (0, false) }
     return (a / .gcd(a, b)).multipliedReportingOverflow(by: b)
   }
 
-  // @_transparent // @_inlineable
   /// Returns the high and low parts of the least common multiple of `a` and `b`
   /// computed using full-width arithmetic.
+  @_transparent // @_inlineable
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {
     if a == 0 || b == 0 { return (0, 0) }
@@ -188,18 +188,18 @@ where Self : FixedWidthInteger,
   // MARK: Factoring (Fixed-Width)
   // ---------------------------------------------------------------------------
 
-  // @_transparent // @_inlineable
   /// Returns the greatest common divisor of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
+  @_transparent // @_inlineable
   public static func gcdReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: Bool) {
     let t = Self(truncatingIfNeeded: Magnitude.gcd(a.magnitude, b.magnitude))
     return (t, t < 0)
   }
 
-  // @_transparent // @_inlineable
   /// Returns the least common multiple of `a` and `b` and a flag to indicate
   /// whether overflow occurred during the operation.
+  @_transparent // @_inlineable
   public static func lcmReportingOverflow(_ a: Self, _ b: Self)
     -> (partialValue: Self, overflow: Bool) {
     let (t, overflow) = Magnitude.lcmReportingOverflow(a.magnitude, b.magnitude)
@@ -207,9 +207,9 @@ where Self : FixedWidthInteger,
     return (u, overflow || u < 0)
   }
 
-  // @_transparent // @_inlineable
   /// Returns the high and low parts of the least common multiple of `a` and `b`
   /// computed using full-width arithmetic.
+  @_transparent // @_inlineable
   public static func lcmFullWidth(_ a: Self, _ b: Self)
     -> (high: Self, low: Self.Magnitude) {
     let t = Magnitude.lcmFullWidth(a.magnitude, b.magnitude)
