@@ -11,7 +11,7 @@
 /// work on any real or complex floating-point type that supports the required
 /// functions.
 public protocol Math : SignedNumeric {
-  /// The mathematical constant pi (_π_).
+  /// The mathematical constant pi (π).
   ///
   /// This value should be rounded toward zero to keep user computations with
   /// angles from inadvertently ending up in the wrong quadrant. A type that
@@ -22,7 +22,7 @@ public protocol Math : SignedNumeric {
   /// The mathematical constant _e_, or Euler's number.
   static var e: Self { get }
 
-  /// The mathematical constant phi (_φ_), or golden ratio.
+  /// The mathematical constant phi (φ), or golden ratio.
   static var phi: Self { get }
 
   /// Returns the quotient obtained by dividing the first value by the second,
