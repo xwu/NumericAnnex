@@ -1579,7 +1579,7 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(b.real, 42, accuracy: 0.00000000000001)
 
     let i: Complex128 = .i
-    let actual = Complex.pow(i, i)
+    let actual = i ** i
     XCTAssertEqual(actual.real, Double.exp(-Double.pi / 2))
     XCTAssertEqual(actual.imaginary, 0)
 
@@ -1813,7 +1813,7 @@ class ComplexTests : XCTestCase {
 
     let g: Complex128 = 1 + .i
     let h: Complex128 =
-      Complex.log(g + Complex.pow(-1, 1 / 4) * Complex.sqrt(2 + .i))
+      Complex.log(g + (-1 ** (1 / 4)) * Complex.sqrt(2 + .i))
     XCTAssertEqual(Complex.acosh(g).real, h.real)
     XCTAssertEqual(Complex.acosh(g).imaginary, h.imaginary)
 

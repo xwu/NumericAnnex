@@ -241,8 +241,12 @@ extension MockReal : FloatingPoint {
 }
 
 extension MockReal : Real {
-  static func pow(_ base: MockReal, _ exponent: MockReal) -> MockReal {
-    return MockReal(Double.pow(base._value, exponent._value))
+  static func ** (lhs: MockReal, rhs: MockReal) -> MockReal {
+    return MockReal(lhs._value ** rhs._value)
+  }
+
+  static func **= (lhs: inout MockReal, rhs: MockReal) {
+    lhs = lhs ** rhs
   }
 
   func naturalExponential() -> MockReal {
@@ -469,15 +473,15 @@ class RealTests: XCTestCase {
   }
 
   func testFloat() {
-    XCTAssertEqual(Float.pow(-2, -3), -0.125)
-    XCTAssertTrue(Float.pow(0, 42).isZero)
-    XCTAssertTrue(Float.pow(0, 42).sign == .plus)
-    XCTAssertTrue(Float.pow(-0.0, 42).isZero)
-    XCTAssertTrue(Float.pow(-0.0, 42).sign == .plus)
-    XCTAssertTrue(Float.pow(0, 43).isZero)
-    XCTAssertTrue(Float.pow(0, 43).sign == .plus)
-    XCTAssertTrue(Float.pow(-0.0, 43).isZero)
-    XCTAssertTrue(Float.pow(-0.0, 43).sign == .minus)
+    XCTAssertEqual(((-2 as Float) ** -3), -0.125)
+    XCTAssertTrue(((0 as Float) ** 42).isZero)
+    XCTAssertTrue(((0 as Float) ** 42).sign == .plus)
+    XCTAssertTrue(((-0.0 as Float) ** 42).isZero)
+    XCTAssertTrue(((-0.0 as Float) ** 42).sign == .plus)
+    XCTAssertTrue(((0 as Float) ** 43).isZero)
+    XCTAssertTrue(((0 as Float) ** 43).sign == .plus)
+    XCTAssertTrue(((-0.0 as Float) ** 43).isZero)
+    XCTAssertTrue(((-0.0 as Float) ** 43).sign == .minus)
 
     XCTAssertEqual(Float.cbrt(64), 4)
     XCTAssertEqual(Float.cbrt(-64), -4)
@@ -606,15 +610,15 @@ class RealTests: XCTestCase {
   }
 
   func testDouble() {
-    XCTAssertEqual(Double.pow(-2, -3), -0.125)
-    XCTAssertTrue(Double.pow(0, 42).isZero)
-    XCTAssertTrue(Double.pow(0, 42).sign == .plus)
-    XCTAssertTrue(Double.pow(-0.0, 42).isZero)
-    XCTAssertTrue(Double.pow(-0.0, 42).sign == .plus)
-    XCTAssertTrue(Double.pow(0, 43).isZero)
-    XCTAssertTrue(Double.pow(0, 43).sign == .plus)
-    XCTAssertTrue(Double.pow(-0.0, 43).isZero)
-    XCTAssertTrue(Double.pow(-0.0, 43).sign == .minus)
+    XCTAssertEqual(((-2 as Double) ** -3), -0.125)
+    XCTAssertTrue(((0 as Double) ** 42).isZero)
+    XCTAssertTrue(((0 as Double) ** 42).sign == .plus)
+    XCTAssertTrue(((-0.0 as Double) ** 42).isZero)
+    XCTAssertTrue(((-0.0 as Double) ** 42).sign == .plus)
+    XCTAssertTrue(((0 as Double) ** 43).isZero)
+    XCTAssertTrue(((0 as Double) ** 43).sign == .plus)
+    XCTAssertTrue(((-0.0 as Double) ** 43).isZero)
+    XCTAssertTrue(((-0.0 as Double) ** 43).sign == .minus)
 
     XCTAssertEqual(Double.cbrt(64), 4)
     XCTAssertEqual(Double.cbrt(-64), -4)
