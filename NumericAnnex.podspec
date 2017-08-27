@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                  = "NumericAnnex"
-  s.version               = "0.1.17"
+  s.version               = "0.1.18"
   s.author                = "Xiaodi Wu"
   s.social_media_url      = "https://twitter.com/xwu"
   s.license               = "MIT"
