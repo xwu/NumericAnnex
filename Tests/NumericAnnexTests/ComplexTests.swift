@@ -1812,8 +1812,7 @@ class ComplexTests : XCTestCase {
     XCTAssertEqual(Complex.acosh(f).imaginary, -Complex.acosh(e).imaginary)
 
     let g: Complex128 = 1 + .i
-    let h: Complex128 =
-      Complex.log(g + (-1 ** (1 / 4)) * Complex.sqrt(2 + .i))
+    let h: Complex128 = Complex.log(g + -1 ** (1 / 4) * Complex.sqrt(2 + .i))
     XCTAssertEqual(Complex.acosh(g).real, h.real)
     XCTAssertEqual(Complex.acosh(g).imaginary, h.imaginary)
 
