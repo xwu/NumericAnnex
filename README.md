@@ -59,6 +59,18 @@ add the package as a dependency. See Swift documentation for details.
 ```swift
 import NumericAnnex
 
+print(2 ** 3)
+// Prints "8".
+
+print(4.0 ** 5.0)
+// Prints "1024.0".
+
+print(Int.cbrt(8))
+// Prints "2".
+
+print(Double.cbrt(27.0))
+// Prints "3.0".
+
 var x: Ratio = 1 / 4
 // Ratio is a type alias for Rational<Int>.
 

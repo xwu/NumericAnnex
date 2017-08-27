@@ -2,6 +2,7 @@ import XCTest
 @testable import NumericAnnexTests
 
 XCTMain([
+  testCase(DocumentationExampleTests.allTests),
   testCase(ExponentiationTests.allTests),
   testCase(RootExtractionTests.allTests),
   testCase(FactoringTests.allTests),

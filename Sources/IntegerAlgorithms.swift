@@ -10,10 +10,10 @@ extension BinaryInteger {
   // MARK: Exponentiation
   // ---------------------------------------------------------------------------
 
-  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
-  /// representable value.
-  @_transparent // @_inlineable
-  public static func ** (lhs: Self, rhs: Self) -> Self {
+  // We need to factor out the implementation of `**` so that the tie-breaking
+  // operators implemented in extensions to concrete integer types can call it.
+  @_versioned
+  internal static func _pow(_ lhs: Self, _ rhs: Self) -> Self {
     var x = lhs, n = rhs
     if Self.isSigned && n < 0 {
       x = 1 / x
@@ -32,6 +32,13 @@ extension BinaryInteger {
       n /= 2
     }
     return x * y
+  }
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: Self, rhs: Self) -> Self {
+    return _pow(lhs, rhs)
   }
 
   /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
@@ -230,3 +237,233 @@ where Self : FixedWidthInteger,
     return (Self(t.high), t.low)
   }
 }
+
+// =============================================================================
+// TIE-BREAKING OPERATORS
+//
+// The following extensions are required so that an expression such as `2 ** 3`
+// is unambiguous as long as `IntegerLiteralType` is one of the standard library
+// types below.
+// =============================================================================
+
+extension Int {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: Int, rhs: Int) -> Int {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Int, rhs: Int) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension Int8 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: Int8, rhs: Int8) -> Int8 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Int8, rhs: Int8) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension Int16 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: Int16, rhs: Int16) -> Int16 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Int16, rhs: Int16) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension Int32 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: Int32, rhs: Int32) -> Int32 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Int32, rhs: Int32) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension Int64 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: Int64, rhs: Int64) -> Int64 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Int64, rhs: Int64) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension UInt {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: UInt, rhs: UInt) -> UInt {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout UInt, rhs: UInt) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension UInt8 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: UInt8, rhs: UInt8) -> UInt8 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout UInt8, rhs: UInt8) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension UInt16 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: UInt16, rhs: UInt16) -> UInt16 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout UInt16, rhs: UInt16) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension UInt32 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: UInt32, rhs: UInt32) -> UInt32 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout UInt32, rhs: UInt32) {
+    lhs = lhs ** rhs
+  }
+}
+
+extension UInt64 {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: UInt64, rhs: UInt64) -> UInt64 {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout UInt64, rhs: UInt64) {
+    lhs = lhs ** rhs
+  }
+}
+
+#if false
+extension DoubleWidth {
+  // ---------------------------------------------------------------------------
+  // MARK: Exponentiation
+  // ---------------------------------------------------------------------------
+
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
+  @_transparent // @_inlineable
+  public static func ** (lhs: DoubleWidth, rhs: DoubleWidth) -> DoubleWidth {
+    return _pow(lhs, rhs)
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout DoubleWidth, rhs: DoubleWidth) {
+    lhs = lhs ** rhs
+  }
+}
+#endif
