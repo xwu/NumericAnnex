@@ -9,7 +9,7 @@ library.
 
 ## Features
 
-- The exponentiation operator `**` and the assignment operator `**=`.
+- The exponentiation operator `**` and the compound assignment operator `**=`.
 - Extension methods for `BinaryInteger` exponentiation, square root, cube root,
   greatest common divisor, and least common multiple.
 - `Math`, a protocol for signed numeric types that support elementary functions.
