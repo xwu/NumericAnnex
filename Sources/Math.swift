@@ -239,7 +239,7 @@ extension Math {
     lhs **= rhs
     return lhs
   }
-  #endif
+#endif
 
   public func binaryExponential() -> Self {
     return Self.exp(self * Self.log(2 as Self))
