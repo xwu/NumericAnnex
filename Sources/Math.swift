@@ -41,13 +41,21 @@ public protocol Math : SignedNumeric {
   ///   - rhs: The value by which to divide `lhs`.
   static func /= (lhs: inout Self, rhs: Self)
 
-  /// Returns the result of raising `base` to the power of `exponent`, rounded
-  /// to a representable value.
+  /// Returns the result of raising the first value to the power of the second,
+  /// rounded to a representable value.
   ///
   /// - Parameters:
-  ///   - base: The base to be raised to the power of `exponent`.
-  ///   - exponent: The exponent by which to raise `base`.
-  static func pow(_ base: Self, _ exponent: Self) -> Self
+  ///   - lhs: The value to be raised to the power of `rhs`.
+  ///   - rhs: The value by which to raise `lhs`.
+  static func ** (lhs: Self, rhs: Self) -> Self
+
+  /// Raises the left-hand side to the power of the right-hand side and stores
+  /// the result in the left-hand side, rounded to a representable value.
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to be raised to the power of `rhs`.
+  ///   - rhs: The value by which to raise `lhs`.
+  static func **= (lhs: inout Self, rhs: Self)
 
   /// Returns the natural exponential of the value, rounded to a representable
   /// value.
@@ -239,6 +247,17 @@ extension Math {
 }
 
 extension Math {
+  /// Returns the result of raising `base` to the power of `exponent`, rounded
+  /// to a representable value.
+  ///
+  /// - Parameters:
+  ///   - base: The base to be raised to the power of `exponent`.
+  ///   - exponent: The exponent by which to raise `base`.
+  @available(*, deprecated, message: "Use ** instead")
+  public static func pow(_ base: Self, _ exponent: Self) -> Self {
+    return base ** exponent
+  }
+
   /// Returns the natural exponential of `x`, rounded to a representable value.
   ///
   /// The natural exponential of a value `x` is _e_ (2.7182818...) raised to the

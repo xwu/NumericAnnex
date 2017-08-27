@@ -199,8 +199,13 @@ extension Float : Real {
   }
 
   @_transparent
-  public static func pow(_ base: Float, _ exponent: Float) -> Float {
-    return powf(base, exponent)
+  public static func ** (lhs: Float, rhs: Float) -> Float {
+    return powf(lhs, rhs)
+  }
+
+  @_transparent
+  public static func **= (lhs: inout Float, rhs: Float) {
+    lhs = lhs ** rhs
   }
 
   @_transparent
@@ -359,12 +364,17 @@ extension Double : Real {
   }
 
   @_transparent
-  public static func pow(_ base: Double, _ exponent: Double) -> Double {
+  public static func ** (lhs: Double, rhs: Double) -> Double {
 #if os(Linux)
-    return Glibc.pow(base, exponent)
+    return Glibc.pow(lhs, rhs)
 #else
-    return Darwin.pow(base, exponent)
+    return Darwin.pow(lhs, rhs)
 #endif
+  }
+
+  @_transparent
+  public static func **= (lhs: inout Double, rhs: Double) {
+    lhs = lhs ** rhs
   }
 
   @_transparent

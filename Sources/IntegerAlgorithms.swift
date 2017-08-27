@@ -10,11 +10,11 @@ extension BinaryInteger {
   // MARK: Exponentiation
   // ---------------------------------------------------------------------------
 
-  /// Returns the result of raising `base` to the power of `exponent`, rounded
-  /// to a representable value.
+  /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
+  /// representable value.
   @_transparent // @_inlineable
-  public static func pow(_ base: Self, _ exponent: Self) -> Self {
-    var x = base, n = exponent
+  public static func ** (lhs: Self, rhs: Self) -> Self {
+    var x = lhs, n = rhs
     if Self.isSigned && n < 0 {
       x = 1 / x
       n = 0 - n
@@ -32,6 +32,20 @@ extension BinaryInteger {
       n /= 2
     }
     return x * y
+  }
+
+  /// Raises `lhs` to the power of `rhs` and stores the result in `lhs`, rounded
+  /// to a representable value.
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Self, rhs: Self) {
+    lhs = lhs ** rhs
+  }
+
+  /// Returns the result of raising `base` to the power of `exponent`, rounded
+  /// to a representable value.
+  @available(*, deprecated, message: "Use ** instead")
+  public static func pow(_ base: Self, _ exponent: Self) -> Self {
+    return base ** exponent
   }
 
   // ---------------------------------------------------------------------------

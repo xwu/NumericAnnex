@@ -684,8 +684,13 @@ extension Complex : Math {
   }
 
   @_transparent // @_inlineable
-  public static func pow(_ base: Complex, _ exponent: Complex) -> Complex {
-    return Complex.exp(exponent * Complex.log(base))
+  public static func ** (lhs: Complex, rhs: Complex) -> Complex {
+    return Complex.exp(rhs * Complex.log(lhs))
+  }
+
+  @_transparent // @_inlineable
+  public static func **= (lhs: inout Complex, rhs: Complex) {
+    lhs = lhs ** rhs
   }
 
   @_transparent // @_inlineable
@@ -812,7 +817,7 @@ extension Complex : Math {
     if imaginary.isInfinite {
       return Complex(real: .pi / 2, imaginary: -imaginary)
     }
-    let a = Complex.pow(self, 2) - 1
+    let a = self ** 2 - 1
     let b = Complex.log(self + Complex.sqrt(a))
     return Complex(
       real: abs(b.imaginary),
@@ -928,7 +933,7 @@ extension Complex : Math {
         imaginary: T(signOf: imaginary, magnitudeOf: .pi / 2)
       )
     }
-    let a = Complex.pow(self, 2) + 1
+    let a = self ** 2 + 1
     let b = Complex.log(self + Complex.sqrt(a))
     return Complex(
       real: T(signOf: real, magnitudeOf: b.real),
@@ -984,7 +989,7 @@ extension Complex : Math {
         real: .infinity, imaginary: T(signOf: imaginary, magnitudeOf: .pi / 2)
       )
     }
-    let a = Complex.pow(self, 2) - 1
+    let a = self ** 2 - 1
     let b = Complex.log(self + Complex.sqrt(a))
     return Complex(
       real: T(signOf: 0, magnitudeOf: b.real),
