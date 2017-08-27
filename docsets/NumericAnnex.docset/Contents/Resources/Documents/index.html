@@ -48,10 +48,43 @@
                 <a href="Extensions/Double.html">Double</a>
               </li>
               <li>
+                <a href="Extensions/DoubleWidth.html">DoubleWidth</a>
+              </li>
+              <li>
                 <a href="Extensions/Float.html">Float</a>
               </li>
               <li>
                 <a href="Extensions/FloatingPoint.html">FloatingPoint</a>
+              </li>
+              <li>
+                <a href="Extensions/Int.html">Int</a>
+              </li>
+              <li>
+                <a href="Extensions/Int16.html">Int16</a>
+              </li>
+              <li>
+                <a href="Extensions/Int32.html">Int32</a>
+              </li>
+              <li>
+                <a href="Extensions/Int64.html">Int64</a>
+              </li>
+              <li>
+                <a href="Extensions/Int8.html">Int8</a>
+              </li>
+              <li>
+                <a href="Extensions/UInt.html">UInt</a>
+              </li>
+              <li>
+                <a href="Extensions/UInt16.html">UInt16</a>
+              </li>
+              <li>
+                <a href="Extensions/UInt32.html">UInt32</a>
+              </li>
+              <li>
+                <a href="Extensions/UInt64.html">UInt64</a>
+              </li>
+              <li>
+                <a href="Extensions/UInt8.html">UInt8</a>
               </li>
               <li>
                 <a href="Extensions/UnsignedInteger.html">UnsignedInteger</a>
@@ -179,6 +212,18 @@ insert the following line in your <code>Podfile</code>:</p>
 add the package as a dependency. See Swift documentation for details.</p>
 <h2 id='basic-usage' class='heading'>Basic Usage</h2>
 <pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">NumericAnnex</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+<span class="c1">// Prints "8".</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">**</span> <span class="mf">5.0</span><span class="p">)</span>
+<span class="c1">// Prints "1024.0".</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">cbrt</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="c1">// Prints "2".</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="kt">Double</span><span class="o">.</span><span class="nf">cbrt</span><span class="p">(</span><span class="mf">27.0</span><span class="p">))</span>
+<span class="c1">// Prints "3.0".</span>
 
 <span class="k">var</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">Ratio</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span>
 <span class="c1">// Ratio is a type alias for Rational&lt;Int&gt;.</span>
