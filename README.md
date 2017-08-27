@@ -9,18 +9,18 @@ library.
 
 ## Features
 
-- `BinaryInteger` exponentiation, square root, cube root, greatest common
-  divisor, and least common multiple functions.
-- `Complex`, a value type to represent complex values in Cartesian form.
-- `Rational`, a value type to represent rational values, which supports division
+- The exponentiation operator `**` and the assignment operator `**=`.
+- Extension methods for `BinaryInteger` exponentiation, square root, cube root,
+  greatest common divisor, and least common multiple.
+- `Math`, a protocol for signed numeric types that support elementary functions.
+- `Real`, a protocol for floating-point types that support elementary functions
+  and a selection of special functions.
+- `PRNG`, a protocol for pseudo-random number generators.
+- `Rational`, a value type to represent rational values which supports division
   by zero.
+- `Complex`, a value type to represent complex values in Cartesian form.
 - `Random` and `Random.Xoroshiro`, two reference types implementing efficient
   pseudo-random number generators.
-- `Math`, a protocol for types providing square root, cube root, and elementary
-  transcendental functions.
-- `Real`, a protocol for floating-point types providing a selection of special
-  functions.
-- `PRNG`, a protocol for pseudo-random number generators.
 
 > Note: This project is in the early stages of development and is not
 > production-ready at this time.
@@ -28,8 +28,8 @@ library.
 
 ## Requirements
 
-NumericAnnex now requires Xcode 9 beta 5 or a recent development snapshot of
-Swift 4.0 that includes the revised numeric protocols.
+NumericAnnex now requires Xcode 9 beta 5 or later, or a recent development
+snapshot of Swift 4.0 that includes the revised numeric protocols.
 
 On Apple platforms, it requires the Security framework for cryptographically
 secure random bytes.

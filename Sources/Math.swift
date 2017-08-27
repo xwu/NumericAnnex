@@ -207,11 +207,39 @@ extension Math {
     return Self.exp(1 as Self)
   }
 
-  /// The mathematical constant phi (_φ_), or golden ratio (default
+  /// The mathematical constant phi (φ), or golden ratio (default
   /// implementation).
   public static var phi: Self {
     return ((1 as Self) + Self.sqrt(5 as Self)) / (2 as Self)
   }
+
+#if false
+  /// Returns the quotient obtained by dividing the first value by the second,
+  /// rounded to a representable value (default implementation).
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to divide.
+  ///   - rhs: The value by which to divide `lhs`.
+  @_transparent
+  public static func / (lhs: Self, rhs: Self) -> Self {
+    var lhs = lhs
+    lhs /= rhs
+    return lhs
+  }
+
+  /// Returns the result of raising the first value to the power of the second,
+  /// rounded to a representable value (default implementation).
+  ///
+  /// - Parameters:
+  ///   - lhs: The value to be raised to the power of `rhs`.
+  ///   - rhs: The value by which to raise `lhs`.
+  @_transparent
+  public static func ** (lhs: Self, rhs: Self) -> Self {
+    var lhs = lhs
+    lhs **= rhs
+    return lhs
+  }
+  #endif
 
   public func binaryExponential() -> Self {
     return Self.exp(self * Self.log(2 as Self))
@@ -253,7 +281,7 @@ extension Math {
   /// - Parameters:
   ///   - base: The base to be raised to the power of `exponent`.
   ///   - exponent: The exponent by which to raise `base`.
-  @available(*, deprecated, message: "Use ** instead")
+  @available(*, deprecated, message: "Use operator instead")
   public static func pow(_ base: Self, _ exponent: Self) -> Self {
     return base ** exponent
   }
