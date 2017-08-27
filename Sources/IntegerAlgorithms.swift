@@ -247,10 +247,6 @@ where Self : FixedWidthInteger,
 // =============================================================================
 
 extension Int {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -267,10 +263,6 @@ extension Int {
 }
 
 extension Int8 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -287,10 +279,6 @@ extension Int8 {
 }
 
 extension Int16 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -307,10 +295,6 @@ extension Int16 {
 }
 
 extension Int32 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -327,10 +311,6 @@ extension Int32 {
 }
 
 extension Int64 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -347,10 +327,6 @@ extension Int64 {
 }
 
 extension UInt {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -367,10 +343,6 @@ extension UInt {
 }
 
 extension UInt8 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -387,10 +359,6 @@ extension UInt8 {
 }
 
 extension UInt16 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -407,10 +375,6 @@ extension UInt16 {
 }
 
 extension UInt32 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -427,10 +391,6 @@ extension UInt32 {
 }
 
 extension UInt64 {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable
@@ -448,10 +408,6 @@ extension UInt64 {
 
 #if false
 extension DoubleWidth {
-  // ---------------------------------------------------------------------------
-  // MARK: Exponentiation
-  // ---------------------------------------------------------------------------
-
   /// Returns the result of raising `lhs` to the power of `rhs`, rounded to a
   /// representable value.
   @_transparent // @_inlineable

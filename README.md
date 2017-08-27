@@ -1,4 +1,4 @@
-# NumericAnnex
+<img src="https://xwu.github.io/NumericAnnex/img/NumericAnnex.svg" alt="NumericAnnex" height="90">
 
 [![Build Status](https://travis-ci.org/xwu/NumericAnnex.svg?branch=master)](https://travis-ci.org/xwu/NumericAnnex)
 [![codecov](https://codecov.io/gh/xwu/NumericAnnex/branch/master/graph/badge.svg)](https://codecov.io/gh/xwu/NumericAnnex)
