@@ -153,7 +153,8 @@ functions.</p>
                 <li><a href="#/s:12NumericAnnex4MathP3phixvZ">phi</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP1doixx_xtFZ">/(_:_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP2deoiyxz_xtFZ">/=(_:_:)</a></li>
-                <li><a href="#/s:12NumericAnnex4MathP3powxx_xtFZ">pow(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP2mmoixx_xtFZ">**(_:_:)</a></li>
+                <li><a href="#/s:12NumericAnnex4MathP3mmeoiyxz_xtFZ">**=(_:_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP18naturalExponentialxyF">naturalExponential()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP17binaryExponentialxyF">binaryExponential()</a></li>
                 <li><a href="#/s:12NumericAnnex4MathP17commonExponentialxyF">commonExponential()</a></li>
@@ -178,6 +179,7 @@ functions.</p>
                 <li><a href="#/s:12NumericAnnex4MathP24inverseHyperbolicTangentxyF">inverseHyperbolicTangent()</a></li>
               </ul>
               <ul>
+                <li><a href="#/s:12NumericAnnex4MathPAAE3powxx_xtFZ">pow(_:_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE3expxxFZ">exp(_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE4exp2xxFZ">exp2(_:)</a></li>
                 <li><a href="#/s:12NumericAnnex4MathPAAE5exp10xxFZ">exp10(_:)</a></li>
@@ -217,7 +219,7 @@ functions.</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>The mathematical constant pi (<em>π</em>).</p>
+                    <p>The mathematical constant pi (π).</p>
 
 <p>This value should be rounded toward zero to keep user computations with
 angles from inadvertently ending up in the wrong quadrant. A type that
@@ -266,7 +268,7 @@ possible precision.</p>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>The mathematical constant phi (<em>φ</em>), or golden ratio.</p>
+                    <p>The mathematical constant phi (φ), or golden ratio.</p>
 
                   </div>
                   <div class="declaration">
@@ -284,6 +286,7 @@ possible precision.</p>
                     <a name="//apple_ref/swift/Method//(_:_:)" class="dashAnchor"></a>
                     <h4>
                       <code>/(_:_:)</code>
+                      <span class="declaration-note">Default implementation</span>
                     </h4>
                   </div>
                   <div class="abstract">
@@ -350,35 +353,71 @@ in the left-hand side, rounded to a representable value.</p>
                 </li>
                 <li>
                   <div>
-                    <a name="/s:12NumericAnnex4MathP3powxx_xtFZ"></a>
-                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
+                    <a name="/s:12NumericAnnex4MathP2mmoixx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/**(_:_:)" class="dashAnchor"></a>
                     <h4>
-                      <code>pow(_:_:)</code>
+                      <code>**(_:_:)</code>
+                      <span class="declaration-note">Default implementation</span>
                     </h4>
                   </div>
                   <div class="abstract">
-                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
-to a representable value.</p>
+                    <p>Returns the result of raising the first value to the power of the second,
+rounded to a representable value.</p>
 
                   </div>
                   <div class="declaration">
                     <h5>Declaration</h5>
                     <div class="language">
                       <p class="aside-title">Swift</p>
-                      <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">**</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                     </div>
                   </div>
                   <div class="parameters">
                     <h5>Parameters</h5>
                     <dl>
-                      <dt><code>base</code></dt>
+                      <dt><code>lhs</code></dt>
                       <dd>
-                        <p>The base to be raised to the power of <code>exponent</code>.</p>
+                        <p>The value to be raised to the power of <code>rhs</code>.</p>
                       </dd>
-                      <dt><code>exponent</code></dt>
+                      <dt><code>rhs</code></dt>
                       <dd>
-                        <p>The exponent by which to raise <code>base</code>.</p>
+                        <p>The value by which to raise <code>lhs</code>.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathP3mmeoiyxz_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/**=(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>**=(_:_:)</code>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Raises the left-hand side to the power of the right-hand side and stores
+the result in the left-hand side, rounded to a representable value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">**=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="k">inout</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span></code></pre>
+
+                    </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <dl>
+                      <dt><code>lhs</code></dt>
+                      <dd>
+                        <p>The value to be raised to the power of <code>rhs</code>.</p>
+                      </dd>
+                      <dt><code>rhs</code></dt>
+                      <dd>
+                        <p>The value by which to raise <code>lhs</code>.</p>
                       </dd>
                     </dl>
                   </div>
@@ -1000,6 +1039,42 @@ value, rounded to a representable value.</p>
             </div>
             <div class="group">
               <ul>
+                <li>
+                  <div>
+                    <a name="/s:12NumericAnnex4MathPAAE3powxx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/pow(_:_:)" class="dashAnchor"></a>
+                    <h4>
+                      <code>pow(_:_:)</code>
+                      <span class="declaration-note">Extension method</span>
+                    </h4>
+                  </div>
+                  <div class="abstract">
+                    <p>Returns the result of raising <code>base</code> to the power of <code>exponent</code>, rounded
+to a representable value.</p>
+
+                  </div>
+                  <div class="declaration">
+                    <h5>Declaration</h5>
+                    <div class="language">
+                      <p class="aside-title">Swift</p>
+                      <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">pow</span><span class="p">(</span><span class="n">_</span> <span class="nv">base</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                    </div>
+                  </div>
+                  <div class="parameters">
+                    <h5>Parameters</h5>
+                    <dl>
+                      <dt><code>base</code></dt>
+                      <dd>
+                        <p>The base to be raised to the power of <code>exponent</code>.</p>
+                      </dd>
+                      <dt><code>exponent</code></dt>
+                      <dd>
+                        <p>The exponent by which to raise <code>base</code>.</p>
+                      </dd>
+                    </dl>
+                  </div>
+                </li>
                 <li>
                   <div>
                     <a name="/s:12NumericAnnex4MathPAAE3expxxFZ"></a>
@@ -1628,7 +1703,7 @@ rounded to a representable value.</p>
       </article>
     </div>
     <footer>
-      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-08-19)</p>
+      <p>&copy; 2017 <a class="link" href="https://diploid.ca" target="_blank" rel="external">Xiaodi Wu</a>. All rights reserved. (Last updated: 2017-08-27)</p>
       <p>Generated by <a href="https://github.com/realm/jazzy" target="_blank" rel="external">Jazzy</a> v0.8.3, a <a href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </footer>
   </body>
