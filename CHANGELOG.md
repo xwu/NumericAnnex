@@ -1,3 +1,7 @@
+## 0.1.19: Bug fixes
+
+Added tie-breaking exponentiation operator implementations for concrete integer types in the standard library.
+
 ## 0.1.18: Exponentiation operators
 
 * Added the exponentiation operator `**` and the compound assignment operator `**=`.

@@ -47,7 +47,7 @@ To add the package as a dependency using [CocoaPods](https://cocoapods.org),
 insert the following line in your `Podfile`:
 
 ```ruby
-pod 'NumericAnnex', '~> 0.1.18'
+pod 'NumericAnnex', '~> 0.1.19'
 ```
 
 [Swift Package Manager](https://swift.org/package-manager/) can also be used to
