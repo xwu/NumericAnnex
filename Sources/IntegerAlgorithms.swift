@@ -49,7 +49,7 @@ extension BinaryInteger {
   }
 
   /// Returns the result of raising `base` to the power of `exponent`, rounded
-  /// to a representable value.
+  /// to a representable value (deprecated).
   @available(*, deprecated, message: "Use operator instead")
   public static func pow(_ base: Self, _ exponent: Self) -> Self {
     return base ** exponent

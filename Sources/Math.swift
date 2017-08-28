@@ -276,7 +276,7 @@ extension Math {
 
 extension Math {
   /// Returns the result of raising `base` to the power of `exponent`, rounded
-  /// to a representable value.
+  /// to a representable value (deprecated).
   ///
   /// - Parameters:
   ///   - base: The base to be raised to the power of `exponent`.
