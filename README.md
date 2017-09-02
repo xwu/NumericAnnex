@@ -1,4 +1,4 @@
-# <img src="https://xwu.github.io/NumericAnnex/img/NumericAnnex.svg" alt="NumericAnnex" height="72"><br>NumericAnnex
+# <img src="https://xwu.github.io/NumericAnnex/img/NumericAnnex-2017-09-02.svg" alt="NumericAnnex" height="72"><br>NumericAnnex
 
 NumericAnnex supplements the numeric facilities provided in the Swift standard
 library.
