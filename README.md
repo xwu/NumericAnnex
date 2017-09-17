@@ -28,11 +28,8 @@ library.
 
 ## Requirements
 
-NumericAnnex now requires Xcode 9 beta 5 or later, or a recent development
-snapshot of Swift 4.0 that includes the revised numeric protocols.
-
-On Apple platforms, it requires the Security framework for cryptographically
-secure random bytes.
+NumericAnnex requires Swift 4.0. On Apple platforms, it also requires the
+Security framework for cryptographically secure random bytes.
 
 
 ## Installation
