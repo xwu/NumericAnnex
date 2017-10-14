@@ -26,7 +26,6 @@ extension BinaryInteger {
     while n > 1 {
       if n % 2 == 1 {
         y *= x
-        n -= 1
       }
       x *= x
       n /= 2
