@@ -611,6 +611,26 @@ extension Rational : Strideable {
   public func advanced(by amount: Rational) -> Rational {
     return self + amount
   }
+
+  @_transparent // @_inlineable
+  public func _steps(to other: Rational, by amount: Rational) -> Int {
+    let distance = self.distance(to: other)
+    precondition(amount != 0 && distance != 0)
+    guard (amount < 0) == (distance < 0) else { return 0 }
+
+    guard
+      let result = Int(exactly: ((distance - 1) / amount).mixed.whole),
+      result < Int.max
+    else {
+      fatalError("Steps from \(self) to \(other) exceed Int.max - 1")
+    }
+    return result
+  }
+
+  @_transparent // @_inlineable
+  public func _advanced(by amount: Rational, count: Int) -> Rational {
+    return advanced(by: Rational(count) * amount)
+  }
 }
 
 extension Rational : Numeric {
