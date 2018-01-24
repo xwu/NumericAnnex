@@ -97,15 +97,19 @@ class RationalTests : XCTestCase {
     XCTAssertEqual(pi.description, "inf")
     XCTAssertTrue(pi.isCanonical)
 
+#if !swift(>=4.1)
     XCTAssertTrue(Ratio(numerator: 2, denominator: 0).isInfinite)
     XCTAssertFalse(Ratio(numerator: 2, denominator: 0).isCanonical)
+#endif
 
     let ni = -Ratio.infinity
     XCTAssertEqual(ni.description, "-inf")
     XCTAssertTrue(ni.isCanonical)
 
+#if !swift(>=4.1)
     XCTAssertTrue(Ratio(numerator: -2, denominator: 0).isInfinite)
     XCTAssertFalse(Ratio(numerator: -2, denominator: 0).isCanonical)
+#endif
 
     let zero = 0 as Ratio
     XCTAssertEqual(zero.description, "0")
@@ -119,14 +123,18 @@ class RationalTests : XCTestCase {
 
     XCTAssertEqual(pi + pi, .infinity)
     XCTAssertEqual(ni + ni, -.infinity)
+#if !swift(>=4.1)
     XCTAssertEqual(pi + 0, .infinity)
     XCTAssertEqual(ni + 0, -.infinity)
+#endif
     XCTAssertEqual(pi + 42, .infinity)
     XCTAssertEqual(pi - 42, .infinity)
     XCTAssertEqual(ni + 42, -.infinity)
     XCTAssertEqual(ni - 42, -.infinity)
+#if !swift(>=4.1)
     XCTAssertEqual(0 + pi, .infinity)
     XCTAssertEqual(0 + ni, -.infinity)
+#endif
     XCTAssertEqual(42 + pi, .infinity)
     XCTAssertEqual(42 - pi, -.infinity)
     XCTAssertEqual(42 + ni, -.infinity)
@@ -137,6 +145,7 @@ class RationalTests : XCTestCase {
     XCTAssertTrue((pi - pi).isNaN)
     XCTAssertTrue((-pi + pi).isNaN)
 
+#if !swift(>=4.1)
     XCTAssertTrue((0 / 0 as Ratio).isNaN)
     XCTAssert((0 / 0 as Ratio) != .nan) // NaN compares unequal to everything.
     XCTAssertTrue((42 / 0 as Ratio).isInfinite)
@@ -145,16 +154,19 @@ class RationalTests : XCTestCase {
     XCTAssert(-42 / 0 as Ratio == -.infinity)
     XCTAssertEqual((42 / 0 as Ratio).description, "inf")
     XCTAssertEqual((-42 / 0 as Ratio).description, "-inf")
+#endif
 
     XCTAssertEqual(pi * pi, .infinity)
     XCTAssertEqual(pi * ni, -.infinity)
     XCTAssertEqual(ni * pi, -.infinity)
     XCTAssertEqual(ni * ni, .infinity)
 
+#if !swift(>=4.1)
     XCTAssertTrue((pi * 0).isNaN)
     XCTAssertTrue((ni * 0).isNaN)
     XCTAssertTrue((0 * pi).isNaN)
     XCTAssertTrue((0 * ni).isNaN)
+#endif
     XCTAssertTrue((pn * pi).isNaN)
     XCTAssertTrue((pi * pn).isNaN)
     XCTAssertTrue((pn * ni).isNaN)

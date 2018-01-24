@@ -41,6 +41,7 @@ class FactoringTests : XCTestCase {
     XCTAssertEqual(UInt.lcm(42, 0), 0)
     XCTAssertEqual(UInt.lcm(0, 0), 0)
 
+#if !swift(>=4.1)
     XCTAssertEqual(Int8.lcmFullWidth(0, 42).high, 0)
     XCTAssertEqual(Int8.lcmFullWidth(0, 42).low, 0)
     XCTAssertEqual(Int8.lcmReportingOverflow(0, 42).partialValue, 0)
@@ -55,6 +56,7 @@ class FactoringTests : XCTestCase {
     XCTAssertEqual(Int8.lcmFullWidth(0, 0).low, 0)
     XCTAssertEqual(Int8.lcmReportingOverflow(0, 0).partialValue, 0)
     XCTAssertFalse(Int8.lcmReportingOverflow(0, 0).overflow)
+#endif
 
     XCTAssertEqual(UInt8.lcmFullWidth(0, 42).high, 0)
     XCTAssertEqual(UInt8.lcmFullWidth(0, 42).low, 0)

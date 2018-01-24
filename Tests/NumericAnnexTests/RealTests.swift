@@ -23,7 +23,7 @@ extension MockReal : Hashable {
   }
 }
 
-extension MockReal : Strideable, _Strideable {
+extension MockReal : Strideable {
   func distance(to other: MockReal) -> MockReal {
     return MockReal(_value.distance(to: other._value))
   }
@@ -32,6 +32,10 @@ extension MockReal : Strideable, _Strideable {
     return MockReal(_value.advanced(by: n._value))
   }
 }
+
+#if !swift(>=4.1)
+extension MockReal : _Strideable { }
+#endif
 
 extension MockReal : Numeric {
   var magnitude: MockReal {
@@ -69,6 +73,12 @@ extension MockReal : Numeric {
 }
 
 extension MockReal : FloatingPoint {
+#if swift(>=4.1)
+  init<T : BinaryInteger>(_ value: T) {
+    self = MockReal(Double(value))
+  }
+#endif
+
   init(_ value: Int) {
     self = MockReal(Double(value))
   }
