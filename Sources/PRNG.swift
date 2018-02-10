@@ -51,9 +51,7 @@ import Security
 /// numeric value is `uniform()`; that method is overloaded to permit custom
 /// minimum and maximum values for the uniform distribution.
 public protocol PRNG : class, IteratorProtocol, Sequence
-where Element : FixedWidthInteger & UnsignedInteger,
-  SubSequence : Sequence,
-  Element == SubSequence.Element {
+where Element : FixedWidthInteger & UnsignedInteger {
   /// A type that can represent the internal state of the pseudo-random number
   /// generator.
   associatedtype State
@@ -247,7 +245,7 @@ extension PRNG {
   /// through `b` (inclusive) from the discrete uniform distribution.
   public func uniform<T : FixedWidthInteger & SignedInteger>(
     _: T.Type = T.self, a: T, b: T
-  ) -> T where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+  ) -> T where T.Magnitude : UnsignedInteger {
     precondition(
       b >= a,
       "Discrete uniform distribution parameter b should not be less than a"
@@ -275,7 +273,7 @@ extension PRNG {
   @_transparent // @_inlineable
   public func uniform<T : FixedWidthInteger & SignedInteger>(
     _: T.Type = T.self
-  ) -> T where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+  ) -> T where T.Magnitude : UnsignedInteger {
     return uniform(a: T.min, b: T.max)
   }
 
@@ -286,7 +284,7 @@ extension PRNG {
   public func uniform<T : FixedWidthInteger & SignedInteger>(
     _: T.Type = T.self, a: T, b: T, count: Int
   ) -> UnfoldSequence<T, Int>
-  where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+  where T.Magnitude : UnsignedInteger {
     precondition(count >= 0, "Element count should be non-negative")
     return sequence(state: 0) { (state: inout Int) -> T? in
       state += 1
@@ -301,7 +299,7 @@ extension PRNG {
   public func uniform<T : FixedWidthInteger & SignedInteger>(
     _: T.Type = T.self, count: Int
   ) -> UnfoldSequence<T, Int>
-  where T.Magnitude : FixedWidthInteger & UnsignedInteger {
+  where T.Magnitude : UnsignedInteger {
     return uniform(a: T.min, b: T.max, count: count)
   }
 }

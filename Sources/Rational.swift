@@ -70,8 +70,7 @@
 @_fixed_layout
 public struct Rational<T : SignedInteger> : Codable
 where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
-  T.Magnitude : UnsignedInteger,
-  T.Magnitude.Magnitude == T.Magnitude {
+  T.Magnitude : UnsignedInteger {
   // ---------------------------------------------------------------------------
   // MARK: Stored Properties
   // ---------------------------------------------------------------------------
@@ -163,7 +162,7 @@ where T : Codable & _ExpressibleByBuiltinIntegerLiteral,
   }
 }
 
-extension Rational where T : FixedWidthInteger, T.Magnitude : FixedWidthInteger {
+extension Rational where T : FixedWidthInteger {
   // ---------------------------------------------------------------------------
   // MARK: Initializers (Constrained)
   // ---------------------------------------------------------------------------
