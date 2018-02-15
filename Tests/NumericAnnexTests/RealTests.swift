@@ -73,11 +73,12 @@ extension MockReal : Numeric {
 }
 
 extension MockReal : FloatingPoint {
-#if swift(>=4.1)
   init<T : BinaryInteger>(_ value: T) {
+#if false
     self = MockReal(Double(value))
-  }
 #endif
+    fatalError()
+  }
 
   init(_ value: Int) {
     self = MockReal(Double(value))
