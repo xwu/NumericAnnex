@@ -210,12 +210,12 @@ extension Float : Real {
 
   @_transparent
   public func naturalExponential() -> Float {
-    return expf(self)
+    return _exp(self)
   }
 
   @_transparent
   public func binaryExponential() -> Float {
-    return exp2f(self)
+    return _exp2(self)
   }
 
   @_transparent
@@ -234,17 +234,17 @@ extension Float : Real {
 
   @_transparent
   public func naturalLogarithm() -> Float {
-    return logf(self)
+    return _log(self)
   }
 
   @_transparent
   public func binaryLogarithm() -> Float {
-    return log2f(self)
+    return _log2(self)
   }
 
   @_transparent
   public func commonLogarithm() -> Float {
-    return log10f(self)
+    return _log10(self)
   }
 
   @_transparent
@@ -259,12 +259,12 @@ extension Float : Real {
 
   @_transparent
   public func sine() -> Float {
-    return sinf(self)
+    return _sin(self)
   }
 
   @_transparent
   public func cosine() -> Float {
-    return cosf(self)
+    return _cos(self)
   }
 
   @_transparent
@@ -379,20 +379,12 @@ extension Double : Real {
 
   @_transparent
   public func naturalExponential() -> Double {
-#if os(Linux)
-    return Glibc.exp(self)
-#else
-    return Darwin.exp(self)
-#endif
+    return _exp(self)
   }
 
   @_transparent
   public func binaryExponential() -> Double {
-#if os(Linux)
-    return Glibc.exp2(self)
-#else
-    return Darwin.exp2(self)
-#endif
+    return _exp2(self)
   }
 
   @_transparent
@@ -415,29 +407,17 @@ extension Double : Real {
 
   @_transparent
   public func naturalLogarithm() -> Double {
-#if os(Linux)
-    return Glibc.log(self)
-#else
-    return Darwin.log(self)
-#endif
+    return _log(self)
   }
 
   @_transparent
   public func binaryLogarithm() -> Double {
-#if os(Linux)
-    return Glibc.log2(self)
-#else
-    return Darwin.log2(self)
-#endif
+    return _log2(self)
   }
 
   @_transparent
   public func commonLogarithm() -> Double {
-#if os(Linux)
-    return Glibc.log10(self)
-#else
-    return Darwin.log10(self)
-#endif
+    return _log10(self)
   }
 
   @_transparent
@@ -460,20 +440,12 @@ extension Double : Real {
 
   @_transparent
   public func sine() -> Double {
-#if os(Linux)
-    return Glibc.sin(self)
-#else
-    return Darwin.sin(self)
-#endif
+    return _sin(self)
   }
 
   @_transparent
   public func cosine() -> Double {
-#if os(Linux)
-    return Glibc.cos(self)
-#else
-    return Darwin.cos(self)
-#endif
+    return _cos(self)
   }
 
   @_transparent
